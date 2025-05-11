@@ -1,0 +1,181 @@
+---
+description: Folder Naming Conventions
+globs:
+alwaysApply: false
+---
+# Folder Naming Conventions
+
+This document provides clear examples of good and bad folder naming practices in our project.
+
+## General Rules
+
+1. Use kebab-case (lowercase with hyphens)
+2. Use descriptive, meaningful names
+3. Keep names concise but clear
+4. Use lowercase letters only
+5. Avoid special characters except hyphens
+
+## Examples by Category
+
+### Component Folders
+
+✅ Good Examples:
+```
+components/
+├── user-profile/
+├── navigation-bar/
+├── form-elements/
+└── data-table/
+```
+
+❌ Bad Examples:
+```
+components/
+├── UserProfile/
+├── navigationBar/
+├── form_elements/
+└── DataTable/
+```
+
+### Feature Folders
+
+- Use kebab-case
+- Represent major features or modules
+- Use singular instead of plurals
+
+✅ Good Examples:
+```
+features/
+├── authentication/
+├── user-management/
+├── payment-processing/
+└── dashboard/
+```
+
+❌ Bad Examples:
+```
+features/
+├── Authentication/
+├── userManagement/
+├── payment_processing/
+└── Dashboard/
+```
+
+### Utility Folders
+
+- Use kebab-case
+- Group related utilities
+
+✅ Good Examples:
+```
+utils/
+├── formatters/
+├── validators/
+├── api-helpers/
+└── constants/
+```
+
+❌ Bad Examples:
+```
+utils/
+├── Formatters/
+├── apiHelpers/
+├── validators_utils/
+└── Constants/
+```
+
+### Asset Folders
+
+✅ Good Examples:
+```
+assets/
+├── images/
+├── icons/
+├── fonts/
+└── styles/
+```
+
+❌ Bad Examples:
+```
+assets/
+├── Images/
+├── Icons/
+├── Fonts/
+└── Styles/
+```
+
+## Common Mistakes to Avoid
+
+1. ❌ Using PascalCase: `UserProfile/` instead of `user-profile/`
+2. ❌ Using camelCase: `userProfile/` instead of `user-profile/`
+3. ❌ Using snake_case: `user_profile/` instead of `user-profile/`
+4. ❌ Using uppercase: `COMPONENTS/` instead of `components/`
+5. ❌ Using spaces: `user profile/` instead of `user-profile/`
+6. ❌ Using special characters: `user@profile/` or `user.profile/` instead of `user-profile/`
+
+## Best Practices
+
+1. ✅ Keep folder names short but descriptive
+2. ✅ Use consistent naming patterns within the same category
+3. ✅ Group related folders together
+4. ✅ Use plural form for container folders (e.g., `components/`, `utils/`)
+5. ✅ Use singular form for specific feature folders (e.g., `user-profile/`, `payment-processing/`)
+
+
+## Examples
+
+✅ Good Examples:
+```
+src/
+├── components/
+│   ├── user-profile/
+│   │   ├── UserProfile.tsx
+│   │   ├── user-profile.scss
+│   │   └── user-profile.test.tsx
+│   └── button/
+│       ├── Button.tsx
+│       └── button.scss
+├── services/
+│   ├── api-client.ts
+│   └── api-client.test.ts
+└── utils/
+    ├── formatters.ts
+    └── validators.ts
+```
+
+❌ Bad Examples:
+```
+src/
+├── Components/
+│   ├── UserProfile/
+│   │   ├── userProfile.tsx
+│   │   ├── UserProfile.scss
+│   │   └── tepst.tsx
+│   └── Button/
+│       ├── button.tsx
+│       └── Button.scss
+├── Services/
+│   ├── ApiClient.ts
+│   └── ApiClient.test.ts
+└── Utils/
+    ├── Formatters.ts
+    └── Validators.ts
+```
+
+## Special Cases
+
+1. **Index Files**
+   - Use `index.ts` or `index.tsx` for barrel exports
+   - Place in the root of feature/module folder
+
+2. **Type Definition Files**
+   - Use `.d.ts` extension
+   - Match the name of the file they extend
+   - Example: `api-client.d.ts`
+
+3. **Asset Files**
+   - Use kebab-case
+   - Include size/resolution in the name if relevant
+   - Example: `logo-dark.svg`, `hero-image-2x.png`
+
+Remember: Consistency is key. When in doubt, follow the established patterns in the codebase.

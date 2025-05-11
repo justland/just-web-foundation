@@ -1,0 +1,8 @@
+{
+	"name": "@tools/typescript",
+	"private": true,
+	"devDependencies": {
+		"@repobuddy/typescript": "^2.1.0",
+		"typescript": "^5.8.3"
+	}
+}

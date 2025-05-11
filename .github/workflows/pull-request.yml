@@ -1,0 +1,11 @@
+name: pull-request
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  code:
+    uses: justland/.github/.github/workflows/pnpm-verify.yml@main
+    with:
+      node-version: '[18, 20]'

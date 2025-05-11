@@ -1,0 +1,4 @@
+ignores:
+  - .changeset
+  - .cursor/rules/**
+  - '**/LICENSE'

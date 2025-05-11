@@ -1,0 +1,22 @@
+name: release
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  code:
+    uses: justland/.github/.github/workflows/pnpm-verify.yml@main
+    with:
+      node-version: '[18, 20]'
+
+  release:
+    uses: justland/.github/.github/workflows/pnpm-release-changeset.yml@main
+    needs: code
+    secrets: inherit
+
+  # docgen:
+  #   permissions:
+  #     contents: write
+  #   uses: justland/.github/.github/workflows/pnpm-docs.yml@main
+  #   needs: release
