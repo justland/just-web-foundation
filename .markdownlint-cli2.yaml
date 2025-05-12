@@ -1,4 +1,4 @@
 ignores:
-  - .changeset
+  - .changeset/**
   - .cursor/rules/**
   - '**/LICENSE'
