@@ -20,6 +20,7 @@
 		"release": "changeset publish",
 		"size": "turbo run size",
 		"test": "turbo run test",
+		"types": "pnpm --filter ./libs/types",
 		"verify": "turbo run check coverage depcheck size",
 		"version": "changeset version",
 		"w": "vitest"

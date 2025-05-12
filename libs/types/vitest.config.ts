@@ -1,0 +1,23 @@
+import { browserTestPreset } from '@repobuddy/vitest/config'
+import storybookTest from '@storybook/experimental-addon-test/vitest-plugin'
+import { join } from 'node:path'
+import { storybookVis } from 'storybook-addon-vis/vitest-plugin'
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+	plugins: [
+		storybookTest({
+			configDir: join(import.meta.dirname, '.storybook'),
+		}),
+		storybookVis(),
+		browserTestPreset({ includeGeneralTests: true }),
+	],
+	esbuild: { jsx: 'automatic' },
+	optimizeDeps: {
+		include: ['react/jsx-dev-runtime'],
+	},
+	test: {
+		name: 'types',
+		setupFiles: ['./vitest.setup.ts'],
+	},
+})
