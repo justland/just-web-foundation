@@ -60,8 +60,8 @@ importers:
   apps/docs:
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.1
+        version: 0.6.1
       '@repobuddy/vitest':
         specifier: ^1.2.2
         version: 1.2.2
@@ -136,10 +136,14 @@ importers:
         version: 3.1.3(@types/node@22.15.17)(@vitest/browser@3.1.3)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1)
 
   libs/css:
+    dependencies:
+      csstype:
+        specifier: ^3.1.3
+        version: 3.1.3
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.1
+        version: 0.6.1
       '@repobuddy/vitest':
         specifier: ^1.2.2
         version: 1.2.2
@@ -147,9 +151,6 @@ importers:
         specifier: ^8.6.12
         version: 8.6.12(@types/react@19.1.3)(storybook@8.6.12(prettier@3.5.3))
       '@storybook/addon-storysource':
-        specifier: ^8.6.12
-        version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
-      '@storybook/addon-themes':
         specifier: ^8.6.12
         version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
       '@storybook/blocks':
@@ -176,6 +177,9 @@ importers:
       '@storybook/theming':
         specifier: ^8.6.12
         version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@tailwindcss/vite':
+        specifier: ^4.1.6
+        version: 4.1.6(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))
       '@tools/typescript':
         specifier: workspace:^
         version: link:../../tools/ts
@@ -185,6 +189,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^3.1.3
         version: 3.1.3(@vitest/browser@3.1.3)(vitest@3.1.3)
+      dedent:
+        specifier: ^1.6.0
+        version: 1.6.0
       playwright:
         specifier: ^1.52.0
         version: 1.52.0
@@ -200,6 +207,12 @@ importers:
       storybook:
         specifier: ^8.6.12
         version: 8.6.12(prettier@3.5.3)
+      storybook-addon-code-editor:
+        specifier: ^4.1.1
+        version: 4.1.1(@types/react@19.1.3)(react@18.3.1)(storybook@8.6.12(prettier@3.5.3))
+      storybook-addon-tag-badges:
+        specifier: ^1.4.0
+        version: 1.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.12(prettier@3.5.3))
       storybook-addon-vis:
         specifier: ^0.19.4
         version: 0.19.4(@types/pixelmatch@5.2.6)(@vitest/browser@3.1.3)(storybook@8.6.12(prettier@3.5.3))(vitest@3.1.3)
@@ -223,14 +236,10 @@ importers:
         version: 0.1.1(@types/react@19.1.3)(@vitest/browser@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vitest@3.1.3)
 
   libs/types:
-    dependencies:
-      csstype:
-        specifier: ^3.1.3
-        version: 3.1.3
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.6.1
+        version: 0.6.1
       '@repobuddy/vitest':
         specifier: ^1.2.2
         version: 1.2.2
@@ -264,6 +273,9 @@ importers:
       '@storybook/test':
         specifier: ^8.6.12
         version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@tailwindcss/vite':
+        specifier: ^4.1.6
+        version: 4.1.6(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))
       '@tools/typescript':
         specifier: workspace:^
         version: link:../../tools/ts
@@ -273,6 +285,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^3.1.3
         version: 3.1.3(@vitest/browser@3.1.3)(vitest@3.1.3)
+      dedent:
+        specifier: ^1.6.0
+        version: 1.6.0
       playwright:
         specifier: ^1.52.0
         version: 1.52.0
@@ -288,6 +303,12 @@ importers:
       storybook:
         specifier: ^8.6.12
         version: 8.6.12(prettier@3.5.3)
+      storybook-addon-code-editor:
+        specifier: ^4.1.1
+        version: 4.1.1(@types/react@19.1.3)(react@19.1.0)(storybook@8.6.12(prettier@3.5.3))
+      storybook-addon-tag-badges:
+        specifier: ^1.4.0
+        version: 1.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(storybook@8.6.12(prettier@3.5.3))
       storybook-addon-vis:
         specifier: ^0.19.4
         version: 0.19.4(@types/pixelmatch@5.2.6)(@vitest/browser@3.1.3)(storybook@8.6.12(prettier@3.5.3))(vitest@3.1.3)
@@ -879,6 +900,10 @@ packages:
 
   '@babel/runtime@7.27.1':
     resolution: {integrity: sha512-1x3D2xEk2fRo3PAhwQwu5UubzgiVWSXTBfWpVd2Mx2AzRqJuDJCsgaDVZ7HB5iGzDW1Hl1sWN2mFyKjmR9uAog==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/standalone@7.27.2':
+    resolution: {integrity: sha512-fO5toB6PVy7WFfAtXScY1xzwbTOgzxNw+eIiYpjPy9dNeTVscu59fX68JBz+iOZ/ZHsVBjQa4y7yent7eTDgXg==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -1867,8 +1892,8 @@ packages:
     peerDependencies:
       '@biomejs/biome': '>= 1.8.0'
 
-  '@repobuddy/storybook@0.5.0':
-    resolution: {integrity: sha512-g5vRLfb1FTlV4GB8NGX3S9iHvST15VWXTyZ+ylvhpMC/79zXWs1hGADMU4896X9ltkCsizwJAza32uDO8MWTtw==}
+  '@repobuddy/storybook@0.6.1':
+    resolution: {integrity: sha512-y2aHvhDEbFskr9f2/omfh7jSQSdEO42YhivuinwbeYS/0Fdqnd11OZr8Od7GAo0qUSbg6tT3q5i/C2cXFVX8XA==}
 
   '@repobuddy/test@1.0.0':
     resolution: {integrity: sha512-sXIAH4qO6qN/cIpYK6ZYcQrfmUT5QrALgd8YZZ7e2KiteaWgkRUv5NP++5AlaS6L7GQ6AYT+QXXlTwl+FPq9og==}
@@ -2214,6 +2239,11 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
+  '@storybook/types@8.6.12':
+    resolution: {integrity: sha512-G/nR+js7KV1qKH3nAcOfwceERBic5e03dpkeA6PDmqBiQ8XeM9B6N4NTMhXi/2gM5ZAGJ+NxJMaW6zLnc32DjA==}
+    peerDependencies:
+      storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
     engines: {node: '>=14'}
@@ -2379,6 +2409,11 @@ packages:
 
   '@tailwindcss/postcss@4.1.6':
     resolution: {integrity: sha512-ELq+gDMBuRXPJlpE3PEen+1MhnHAQQrh2zF0dI1NXOlEWfr2qWf2CQdr5jl9yANv8RErQaQ2l6nIFO9OSCVq/g==}
+
+  '@tailwindcss/vite@4.1.6':
+    resolution: {integrity: sha512-zjtqjDeY1w3g2beYQtrMAf51n5G7o+UwmyOjtsDMP7t6XyoRMOidcoKP32ps7AkNOHIXEOK0bhIC05dj8oJp4w==}
+    peerDependencies:
+      vite: ^5.2.0 || ^6
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -4641,6 +4676,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  monaco-editor@0.52.2:
+    resolution: {integrity: sha512-GEQWEZmfkOGLdd3XK8ryrfWz3AIP8YymVXiPHEdewrUq7mh0qrKrfHLNCXcbB6sTnMLnOZ3ztSiKcciFUkIJwQ==}
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -5821,6 +5859,21 @@ packages:
   stdin-discarder@0.2.2:
     resolution: {integrity: sha512-UhDfHmA92YAlNnCfhmq0VeNL5bDbiZGg7sZ2IvPsXubGkiNa9EC+tUTsjBRsYUAz87btI6/1wf4XoVvQ3uRnmQ==}
     engines: {node: '>=18'}
+
+  storybook-addon-code-editor@4.1.1:
+    resolution: {integrity: sha512-9sv7vd6aS47p2lDmaffxN36xlVnC1uq93UWSluyjoyRMcukzRUbGul6VIqMQ9WXCmeHsKlBuAR6lDabstr68/w==}
+    peerDependencies:
+      '@types/react': 17.x.x || 18.x.x || 19.x.x
+      react: 17.x.x || 18.x.x || 19.x.x
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  storybook-addon-tag-badges@1.4.0:
+    resolution: {integrity: sha512-ecVwNVT4zIpnB14ltXCTHsWqykW2lgiHrDJW1VeblI3+aU9uMaSZG0zuey+r3vehMeODADnRNrcdk6sN9MAmBA==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      storybook: ^8.4.0
 
   storybook-addon-vis@0.19.4:
     resolution: {integrity: sha512-/ainppythn+wsAA+uNXbGRV98aK0BvWgODdzi8FsprNciR+tkwLT2GqEBiat/cCAgVyRkzxmTHMUNRRaDiTcNQ==}
@@ -7268,6 +7321,8 @@ snapshots:
 
   '@babel/runtime@7.27.1': {}
 
+  '@babel/standalone@7.27.2': {}
+
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
@@ -8411,7 +8466,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 1.9.4
 
-  '@repobuddy/storybook@0.5.0':
+  '@repobuddy/storybook@0.6.1':
     dependencies:
       '@repobuddy/test': 1.0.0
 
@@ -8859,6 +8914,10 @@ snapshots:
     dependencies:
       storybook: 8.6.12(prettier@3.5.3)
 
+  '@storybook/types@8.6.12(storybook@8.6.12(prettier@3.5.3))':
+    dependencies:
+      storybook: 8.6.12(prettier@3.5.3)
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.27.1)':
     dependencies:
       '@babel/core': 7.27.1
@@ -9023,6 +9082,13 @@ snapshots:
       '@tailwindcss/oxide': 4.1.6
       postcss: 8.5.3
       tailwindcss: 4.1.6
+
+  '@tailwindcss/vite@4.1.6(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))':
+    dependencies:
+      '@tailwindcss/node': 4.1.6
+      '@tailwindcss/oxide': 4.1.6
+      tailwindcss: 4.1.6
+      vite: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(less@4.3.0)(lightningcss@1.29.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1)
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -11298,6 +11364,8 @@ snapshots:
 
   mkdirp@3.0.1: {}
 
+  monaco-editor@0.52.2: {}
+
   mri@1.2.0: {}
 
   mrmime@2.0.1: {}
@@ -12598,6 +12666,48 @@ snapshots:
   std-env@3.9.0: {}
 
   stdin-discarder@0.2.2: {}
+
+  storybook-addon-code-editor@4.1.1(@types/react@19.1.3)(react@18.3.1)(storybook@8.6.12(prettier@3.5.3)):
+    dependencies:
+      '@babel/standalone': 7.27.2
+      '@storybook/components': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@storybook/manager-api': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@storybook/types': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      monaco-editor: 0.52.2
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 19.1.3
+    transitivePeerDependencies:
+      - storybook
+
+  storybook-addon-code-editor@4.1.1(@types/react@19.1.3)(react@19.1.0)(storybook@8.6.12(prettier@3.5.3)):
+    dependencies:
+      '@babel/standalone': 7.27.2
+      '@storybook/components': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@storybook/manager-api': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@storybook/types': 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      monaco-editor: 0.52.2
+      react: 19.1.0
+    optionalDependencies:
+      '@types/react': 19.1.3
+    transitivePeerDependencies:
+      - storybook
+
+  storybook-addon-tag-badges@1.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.12(prettier@3.5.3)):
+    dependencies:
+      '@storybook/icons': 1.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      storybook: 8.6.12(prettier@3.5.3)
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
+  storybook-addon-tag-badges@1.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(storybook@8.6.12(prettier@3.5.3)):
+    dependencies:
+      '@storybook/icons': 1.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      storybook: 8.6.12(prettier@3.5.3)
+    transitivePeerDependencies:
+      - react
+      - react-dom
 
   storybook-addon-vis@0.19.4(@types/pixelmatch@5.2.6)(@vitest/browser@3.1.3)(storybook@8.6.12(prettier@3.5.3))(vitest@3.1.3):
     dependencies:

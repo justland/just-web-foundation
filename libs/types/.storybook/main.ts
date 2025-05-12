@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { dirname, join } from 'node:path'
+import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -10,10 +11,12 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+	staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
 		getAbsolutePath('@storybook/addon-essentials'),
-		// getAbsolutePath('@storybook/theming'),
+		getAbsolutePath('storybook-addon-code-editor'),
 		getAbsolutePath('@storybook/experimental-addon-test'),
+		getAbsolutePath('storybook-addon-tag-badges'),
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-vite'),

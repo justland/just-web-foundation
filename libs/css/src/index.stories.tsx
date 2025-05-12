@@ -1,15 +1,33 @@
+import * as css from '@just-web/css'
+import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react'
+import dedent from 'dedent'
+import { makeLiveEditStory } from 'storybook-addon-code-editor'
 
-const meta = {
-	title: 'Example/HelloWorld',
-	parameters: {
-		layout: 'centered',
-	},
-	render: () => <div>Hello World!</div>,
+export default {
+	title: 'Playground',
+	tags: ['code-only'],
+	render: () => <></>,
 } satisfies Meta
 
-export default meta
+export const ClassNameProps: StoryObj = {
+	tags: ['editor'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'The className property accepts a string value for CSS class names.',
+		},
+	}),
+}
 
-type Story = StoryObj<typeof meta>
+makeLiveEditStory(ClassNameProps, {
+	availableImports: {
+		'@just-web/css': css,
+	},
+	code: dedent`import type { ClassNameProps } from '@just-web/css'
 
-export const Basic: Story = {}
+	const Component = ({ className }: ClassNameProps) => {
+		return <div className={className}>Try it out in the Live code editor panel</div>
+	}
+
+	export default () => <Component className="text-blue-800" />`,
+})

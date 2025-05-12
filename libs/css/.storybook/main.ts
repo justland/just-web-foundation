@@ -12,11 +12,12 @@ const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	addons: [
 		getAbsolutePath('@storybook/addon-essentials'),
-		// '@storybook/addon-storysource',
+		getAbsolutePath('storybook-addon-code-editor'),
 		getAbsolutePath('@storybook/theming'),
-		getAbsolutePath('@storybook/addon-themes'),
+		getAbsolutePath('@storybook/addon-storysource'),
 		getAbsolutePath('@storybook/experimental-addon-test'),
-		// 'storybook-dark-mode',
+		getAbsolutePath('storybook-addon-tag-badges'),
+		getAbsolutePath('storybook-dark-mode'),
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-vite'),
