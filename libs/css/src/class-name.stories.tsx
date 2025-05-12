@@ -9,7 +9,7 @@ export default {
 } satisfies Meta
 
 export const TypicalUsage: StoryObj = {
-	tags: ['!test'],
+	// tags: ['!test'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'The className property accepts a string value for CSS class names.',
