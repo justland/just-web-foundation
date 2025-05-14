@@ -1,0 +1,13 @@
+# @just-web/css
+
+## 0.1.0
+
+### Minor Changes
+
+- 7056524: Support `className`, `data-*` and `prefers-color-scheme` for theming.
+  Add utilities
+
+  - `getAttribute` and `observeAttributes`
+  - `getDataAttribute` and `observeDataAttribute`
+
+- 4c1b218: Move `ClassNameProps`, `CSSProperties`, and `StyleProps` to `@just-web/css`
