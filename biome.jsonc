@@ -19,8 +19,8 @@
 	},
 	"overrides": [
 		{
-			// Disable rules that are not applicable to storybook files
-			"include": ["*.stories.tsx"],
+			// Disable rules that are not applicable to storybook and testing files
+			"include": ["*.stories.tsx", "testing/*.tsx"],
 			"linter": {
 				"rules": {
 					"a11y": {
@@ -29,8 +29,11 @@
 					},
 					"correctness": {
 						// No need to ensure access to items by key in story
-						// @see: https://react.dev/learn/rendering-lists#why-does-react-need-keys
 						"useJsxKeyInIterable": "off"
+					},
+					"suspicious": {
+						// @see: https://react.dev/learn/rendering-lists#why-does-react-need-keys
+						"noArrayIndexKey": "off"
 					}
 				}
 			}

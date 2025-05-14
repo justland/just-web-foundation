@@ -1,4 +1,5 @@
-import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
+import { defineDocsParam } from '@repobuddy/storybook'
+import { showDocSource } from '@repobuddy/storybook/react'
 import type { Meta, StoryObj } from '@storybook/react'
 import dedent from 'dedent'
 
