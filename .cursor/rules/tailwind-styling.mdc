@@ -1,0 +1,111 @@
+---
+description:
+globs: *.tsx
+alwaysApply: false
+---
+# Tailwind CSS Styling Guidelines
+
+## Core Principles
+- Use Tailwind utility classes for styling instead of custom CSS whenever possible
+- Maintain consistent spacing and sizing using Tailwind's scale
+
+## Class Organization
+1. Typography (text, font)
+2. Layout classes first (display, position, container)
+3. Spacing and sizing (margin, padding, width, height)
+4. Visual styles (colors, backgrounds, borders)
+5. Interactive states (hover, focus)
+
+Example:
+```jsx
+<div className="
+  text-lg font-medium               /* Typography */
+  flex items-center justify-between  /* Layout */
+  p-4 my-2 w-full                   /* Spacing/Sizing */
+  bg-white border rounded-lg        /* Visual */
+  hover:bg-gray-50                  /* Interactive */
+">
+```
+
+## Responsive Design
+Use Tailwind's responsive prefixes in this order:
+- Default (mobile)
+- sm: (640px)
+- md: (768px)
+- lg: (1024px)
+- xl: (1280px)
+- 2xl: (1536px)
+
+Example:
+```jsx
+<div className="w-full md:w-1/2 lg:w-1/3">
+```
+
+## Custom Components
+1. Create reusable components for common patterns
+2. Use composition with Tailwind classes
+3. Accept className prop for flexibility
+
+Example:
+```jsx
+const Button = ({ className = "", children, ...props }) => (
+  <button
+    className={`
+      font-medium text-white
+      px-4 py-2
+      bg-blue-600 rounded-lg
+      hover:bg-blue-700
+      ${className}
+    `}
+    {...props}
+  >
+    {children}
+  </button>
+);
+```
+
+## Dark Mode
+- Use the `dark:` prefix for dark mode styles
+- Ensure sufficient contrast in both modes
+
+Example:
+```jsx
+<div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+```
+
+## Best Practices
+1. Use semantic HTML elements
+2. Maintain accessibility with proper ARIA attributes
+3. Extract common patterns into component classes using @apply when needed
+4. Use arbitrary values sparingly and document when used
+
+## Common Patterns
+### Flex Container
+```jsx
+<div className="flex items-center justify-between gap-4">
+```
+
+### Grid Layout
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+```
+
+### Card Component
+```jsx
+<div className="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
+```
+
+### Interactive Button
+```jsx
+<button className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+```
+
+## Avoid
+- Inline styles
+- !important
+- Complex nested selectors
+- Large numbers of arbitrary values
+
+## Resources
+- [Tailwind CSS Documentation](mdc:https:/tailwindcss.com/docs)
+- [Tailwind CSS Cheat Sheet](mdc:https:/nerdcave.com/tailwind-cheat-sheet)
