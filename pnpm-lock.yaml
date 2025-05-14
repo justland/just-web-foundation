@@ -140,10 +140,13 @@ importers:
       csstype:
         specifier: ^3.1.3
         version: 3.1.3
+      type-plus:
+        specifier: 8.0.0-beta.7
+        version: 8.0.0-beta.7
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^0.6.1
-        version: 0.6.1
+        specifier: ^0.9.1
+        version: 0.9.1
       '@repobuddy/vitest':
         specifier: ^1.2.2
         version: 1.2.2
@@ -238,8 +241,8 @@ importers:
   libs/types:
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^0.6.1
-        version: 0.6.1
+        specifier: ^0.9.1
+        version: 0.9.1
       '@repobuddy/vitest':
         specifier: ^1.2.2
         version: 1.2.2
@@ -1894,6 +1897,9 @@ packages:
 
   '@repobuddy/storybook@0.6.1':
     resolution: {integrity: sha512-y2aHvhDEbFskr9f2/omfh7jSQSdEO42YhivuinwbeYS/0Fdqnd11OZr8Od7GAo0qUSbg6tT3q5i/C2cXFVX8XA==}
+
+  '@repobuddy/storybook@0.9.1':
+    resolution: {integrity: sha512-B0qJgfJDkGH818GW0vptApKLDKFwKjzzpPB3vMgLiGLkCoMP590A1z4ujY0WRC2Guuv2yUVMogkiMbefPtNRMA==}
 
   '@repobuddy/test@1.0.0':
     resolution: {integrity: sha512-sXIAH4qO6qN/cIpYK6ZYcQrfmUT5QrALgd8YZZ7e2KiteaWgkRUv5NP++5AlaS6L7GQ6AYT+QXXlTwl+FPq9og==}
@@ -8467,6 +8473,10 @@ snapshots:
       '@biomejs/biome': 1.9.4
 
   '@repobuddy/storybook@0.6.1':
+    dependencies:
+      '@repobuddy/test': 1.0.0
+
+  '@repobuddy/storybook@0.9.1':
     dependencies:
       '@repobuddy/test': 1.0.0
 
