@@ -9,7 +9,7 @@
 		},
 		"build-doc": {
 			"dependsOn": ["^build"],
-			"inputs": ["*.ts", "*.tsx", "*.css", "*.md", "*.mdx", "package.json", "tsconfig*json"],
+			"inputs": ["*.ts", "*.tsx", "*.css", "*.md", "*.mdx", "package.json", "tsconfig*json", ".storybook"],
 			"outputs": ["docs", "storybook-static"]
 		},
 		"clean": {
@@ -27,6 +27,11 @@
 		},
 		"nuke": {
 			"cache": false
+		},
+		"sb": {
+			"cache": false,
+			"env": ["NODE_ENV=development"],
+			"persistent": true
 		},
 		"size": {
 			"dependsOn": ["build"]

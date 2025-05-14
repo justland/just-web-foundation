@@ -18,6 +18,7 @@
 		"nuke:root": "rimraf node_modules",
 		"prepare": "husky",
 		"release": "changeset publish",
+		"sb": "turbo run sb",
 		"size": "turbo run size",
 		"test": "turbo run test",
 		"types": "pnpm --filter ./libs/types",

@@ -3,9 +3,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build-doc": "storybook build",
+		"build-doc": "storybook build -o ../../docs",
 		"nuke": "rimraf node_modules",
-		"sb": "storybook dev -p 6006",
+		"start": "storybook dev -p 6006",
 		"test": "vitest run"
 	},
 	"devDependencies": {

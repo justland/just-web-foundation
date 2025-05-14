@@ -25,5 +25,29 @@ const config: StorybookConfig = {
 	features: {
 		backgroundsStoryGlobals: true,
 	},
+	refs: (_config, { configType }) => {
+		if (configType === 'PRODUCTION') {
+			return {
+				'@just-web/css': {
+					title: '@just-web/css',
+					url: 'https://justland.github.io/just-web-foundation/css',
+				},
+				'@just-web/types': {
+					title: '@just-web/types',
+					url: 'https://justland.github.io/just-web-foundation/types',
+				},
+			}
+		}
+		return {
+			'@just-web/css': {
+				title: '@just-web/css',
+				url: 'http://localhost:6206',
+			},
+			'@just-web/types': {
+				title: '@just-web/types',
+				url: 'http://localhost:6208',
+			},
+		}
+	},
 }
 export default config
