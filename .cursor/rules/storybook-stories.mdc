@@ -190,7 +190,7 @@ import { CopyButton } from './copy-button.tsx'
 
 const meta = {
   title: 'components/CopyButton/isDisabled',
-  component: Button,
+  component: CopyButton,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -198,7 +198,7 @@ const meta = {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} satisfies Meta<typeof Button>
+} satisfies Meta<typeof CopyButton>
 
 export default meta
 
