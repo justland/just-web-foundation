@@ -1,8 +1,8 @@
-import * as types from '@just-web/types'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react'
 import dedent from 'dedent'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
+import * as types from './index.js'
 
 export default {
 	title: 'Playground',
