@@ -4,5 +4,8 @@ import { themes } from '@storybook/theming'
 
 addons.setConfig({
 	tagBadges,
-	theme: themes.dark,
+	theme: {
+		...themes.dark,
+		brandTitle: '@just-web/css',
+	},
 })
