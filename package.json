@@ -44,5 +44,11 @@
 		"typescript": "^5.8.3",
 		"vitest": "^3.1.3"
 	},
+	"pnpm": {
+		"overrides": {
+			"react-dom": "catalog:",
+			"react": "catalog:"
+		}
+	},
 	"packageManager": "pnpm@10.10.0"
 }
