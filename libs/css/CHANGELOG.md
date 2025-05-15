@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.2.0
+
+### Minor Changes
+
+- ba555ea: Added `getCSSPropValues` and `defineCSSProperties`
+
 ## 0.1.0
 
 ### Minor Changes
