@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.3.0
+
+### Minor Changes
+
+- fb4c174: Add CJS support.
+
 ## 0.2.0
 
 ### Minor Changes
