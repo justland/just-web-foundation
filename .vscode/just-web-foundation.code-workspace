@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "../"
+		},
+		{
+			"path": "../../.github"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.css": "tailwindcss"
+		},
+		"material-icon-theme.files.associations": {
+			"tsconfig.react.json": "tsconfig"
+		},
+		"tailwindCSS.classFunctions": [
+			"cva",
+			"cx"
+		],
+		"tailwindCSS.experimental.configFile": {
+			"libs/css/src/tailwind.css": "libs/css/src/**"
+		},
+		"typescript.preferences.includePackageJsonAutoImports": "on",
+		"typescript.tsdk": "node_modules/typescript/lib"
+	}
+}
