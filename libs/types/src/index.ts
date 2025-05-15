@@ -1,1 +1,1 @@
-export * from './data-attributes.ts'
+export * from './data-attributes.js'
