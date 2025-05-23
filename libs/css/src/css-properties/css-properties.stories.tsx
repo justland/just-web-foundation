@@ -7,7 +7,7 @@ import { defineCSSProperties } from '../index.ts'
 
 export default {
 	title: 'CSS Properties/CSSProperties',
-	tags: ['autodocs', 'code-only', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'code-only', 'new', 'version:1.0'],
 	decorators: [showDocSource()],
 	render: () => <></>,
 } satisfies Meta

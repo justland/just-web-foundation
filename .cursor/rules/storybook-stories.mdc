@@ -162,6 +162,7 @@ This document outlines the standards and best practices for creating Storybook s
 		  render: RadioGroupDemo
 	 }
 	 ```
+3. Prefer Tailwind CSS over direct CSS style.
 
 ## Testing and Documentation
 

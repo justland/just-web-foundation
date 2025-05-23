@@ -1,4 +1,5 @@
 export * from './css-properties/css-properties.ts'
+export * from './css-properties/to_dom_style.ts'
 export * from './props/class-name.ts'
 export * from './props/style.ts'
 export * from './theme/class-name.ts'
