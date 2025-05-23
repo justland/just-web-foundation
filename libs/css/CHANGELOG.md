@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.4.0
+
+### Minor Changes
+
+- 1773699: Add `toDOMStyle()`
+
 ## 0.3.0
 
 ### Minor Changes
