@@ -1,5 +1,13 @@
 # @just-web/css
 
+## 0.5.0
+
+### Minor Changes
+
+- f73df8d: Add `allowCustom` option to `getThemeByDataAttribute` and `observeThemeByDataAttributes` to allow custom themes.
+
+  Fix `getAttribute` return type.
+
 ## 0.4.0
 
 ### Minor Changes
