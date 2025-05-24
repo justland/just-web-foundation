@@ -11,7 +11,13 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
 	esbuild: { jsx: 'automatic' },
 	optimizeDeps: {
-		include: ['react/jsx-dev-runtime', '@repobuddy/storybook', 'dedent', 'storybook-addon-code-editor'],
+		include: [
+			'react/jsx-dev-runtime',
+			'@repobuddy/storybook',
+			'@repobuddy/storybook/storybook-dark-mode',
+			'dedent',
+			'storybook-addon-code-editor',
+		],
 	},
 	plugins: [
 		tailwindcss(),
