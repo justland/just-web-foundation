@@ -37,7 +37,7 @@
 		"type-plus": "8.0.0-beta.7"
 	},
 	"devDependencies": {
-		"@repobuddy/storybook": "^0.9.4",
+		"@repobuddy/storybook": "^0.12.0",
 		"@repobuddy/vitest": "^1.2.2",
 		"@storybook/addon-essentials": "^8.6.12",
 		"@storybook/addon-storysource": "^8.6.12",
