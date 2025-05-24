@@ -1,1 +1,1 @@
-{"v":5,"entries":{"example-helloworld--basic":{"type":"story","id":"example-helloworld--basic","name":"Basic","title":"Example/HelloWorld","importPath":"./src/index.stories.tsx","tags":["dev","test"]}}}
+{"v":5,"entries":{"overview--docs":{"id":"overview--docs","title":"Overview","name":"Docs","importPath":"./src/overview.mdx","storiesImports":[],"type":"docs","tags":["dev","test","unattached-mdx"]}}}
