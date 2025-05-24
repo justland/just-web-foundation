@@ -8,6 +8,7 @@ import { getDataAttribute, observeDataAttributes } from '../utils/data-attribute
  * @param options.themes - Record mapping theme keys to their data attribute values
  * @param options.defaultTheme - Fallback theme key if attribute value doesn't match any theme
  * @param options.attributeName - Name of the data attribute to check (must start with 'data-')
+ * @param options.allowCustom - Whether to allow custom themes value
  * @returns The matching theme key, or defaultTheme if no match found
  *
  * @example
@@ -27,16 +28,29 @@ import { getDataAttribute, observeDataAttributes } from '../utils/data-attribute
  * ```
  */
 export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
-	themes: Themes
-	defaultTheme?: keyof Themes | undefined
 	attributeName: `data-${string}`
+	defaultTheme?: keyof Themes | undefined
+	themes: Themes
+	element?: Element | undefined
+}): keyof Themes | undefined
+export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
+	attributeName: `data-${string}`
+	allowCustom: true | undefined
+	defaultTheme?: keyof Themes | undefined
+	themes: Themes
+	element?: Element | undefined
+}): string | undefined
+export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
+	attributeName: `data-${string}`
+	allowCustom?: boolean | undefined
+	defaultTheme?: keyof Themes | undefined
+	themes: Themes
 	element?: Element | undefined
 }): keyof Themes | undefined {
-	const value = getDataAttribute(options.attributeName, options.element)
-
+	const value = getDataAttribute(options.attributeName, options.element) ?? undefined
 	const theme = findKey(options.themes, (theme) => options.themes[theme] === value)
 
-	return theme ?? options.defaultTheme
+	return theme ?? options.defaultTheme ?? (options.allowCustom ? value : undefined)
 }
 
 /**
@@ -74,7 +88,23 @@ export function observeThemeByDataAttributes<Themes extends Record<string, strin
 	handler: (value: string | null) => void
 	defaultTheme?: keyof Themes | undefined
 	element?: Element | undefined
-}) {
+}): MutationObserver
+export function observeThemeByDataAttributes<Themes extends Record<string, string>>(options: {
+	attributeName: `data-${string}`
+	themes: Themes
+	handler: (value: string | null) => void
+	allowCustom: true | undefined
+	defaultTheme?: keyof Themes | undefined
+	element?: Element | undefined
+}): MutationObserver
+export function observeThemeByDataAttributes<Themes extends Record<string, string>>(options: {
+	attributeName: `data-${string}`
+	themes: Themes
+	handler: (value: string | null) => void
+	allowCustom?: boolean | undefined
+	defaultTheme?: keyof Themes | undefined
+	element?: Element | undefined
+}): MutationObserver {
 	return observeDataAttributes(
 		{
 			[options.attributeName]: (value: string | null) => {
@@ -86,8 +116,12 @@ export function observeThemeByDataAttributes<Themes extends Record<string, strin
 				for (const name in options.themes) {
 					if (options.themes[name] === value) {
 						options.handler(name)
-						break
+						return
 					}
+				}
+
+				if (options.allowCustom) {
+					options.handler(value)
 				}
 			},
 		},

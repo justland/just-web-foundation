@@ -20,7 +20,7 @@ export function getAttribute<T extends string>(
 	qualifiedName: T,
 	element: Element | undefined = ctx.getDocumentElement(),
 ) {
-	return element?.getAttribute(qualifiedName) as T | null
+	return element?.getAttribute(qualifiedName)
 }
 
 /**
