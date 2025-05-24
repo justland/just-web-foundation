@@ -18,6 +18,15 @@ const themes = {
 	system: 'system-theme',
 } as const
 
+function ShowResult({ theme, value }: { theme: string | undefined; value: string | null }) {
+	return (
+		<div className="font-sans">
+			<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
+			<p>Data attribute value: {value === null ? '(null)' : value}</p>
+		</div>
+	)
+}
+
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
@@ -37,12 +46,7 @@ export const BasicUsage: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return (
-			<div className="font-sans">
-				<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
-				<p>Data attribute value: {value === null ? '(null)' : value}</p>
-			</div>
-		)
+		return <ShowResult theme={theme} value={value} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('dark')
@@ -68,19 +72,15 @@ export const UndefinedWhenNotSet: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-not-exist')
-		return (
-			<div className="font-sans">
-				<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
-				<p>Data attribute value: {value === null ? '(null)' : value}</p>
-			</div>
-		)
+		return <ShowResult theme={theme} value={value} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBeUndefined()
 	},
 }
 
-export const DefaultTheme: Story = {
+export const WithDefaultTheme: Story = {
+	name: 'With defaultTheme',
 	parameters: defineDocsParam({
 		description: {
 			story: 'Falls back to default theme when data attribute value is not a valid theme.',
@@ -99,19 +99,15 @@ export const DefaultTheme: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return (
-			<div className="font-sans">
-				<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
-				<p>Data attribute value: {value === null ? '(null)' : value}</p>
-			</div>
-		)
+		return <ShowResult theme={theme} value={value} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('system')
 	},
 }
 
-export const InvalidTheme: Story = {
+export const InvalidThemeWithDefaultTheme: Story = {
+	name: 'Invalid theme with defaultTheme',
 	parameters: defineDocsParam({
 		description: {
 			story: 'Falls back to default theme when data attribute value is not a valid theme.',
@@ -126,12 +122,7 @@ export const InvalidTheme: Story = {
 			attributeName: 'data-theme',
 		})
 
-		return (
-			<div className="font-sans">
-				<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
-				<p>Data attribute value: {value === null ? '(null)' : value}</p>
-			</div>
-		)
+		return <ShowResult theme={theme} value={value} />
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -140,5 +131,58 @@ export const InvalidTheme: Story = {
 			attributeName: 'data-theme',
 		})
 		await expect(theme).toBe('system')
+	},
+}
+
+export const InvalidTheme: Story = {
+	parameters: defineDocsParam({
+		description: {
+			story: 'Returns undefined when data attribute value is not a valid theme.',
+		},
+	}),
+	render: () => {
+		document.documentElement.setAttribute('data-theme', 'invalid-theme')
+		const value = document.documentElement.getAttribute('data-theme')
+		const theme = getThemeByDataAttribute({
+			themes,
+			attributeName: 'data-theme',
+		})
+
+		return <ShowResult theme={theme} value={value} />
+	},
+	play: async () => {
+		const theme = getThemeByDataAttribute({
+			themes,
+			attributeName: 'data-theme',
+		})
+		await expect(theme).toBeUndefined()
+	},
+}
+
+export const AllowCustom: Story = {
+	name: 'allowCustom',
+	parameters: defineDocsParam({
+		description: {
+			story: 'Falls back to default theme when data attribute value is not a valid theme.',
+		},
+	}),
+	render: () => {
+		document.documentElement.setAttribute('data-theme', 'custom')
+		const value = document.documentElement.getAttribute('data-theme')
+		const theme = getThemeByDataAttribute({
+			themes,
+			attributeName: 'data-theme',
+			allowCustom: true,
+		})
+
+		return <ShowResult theme={theme} value={value} />
+	},
+	play: async () => {
+		const theme = getThemeByDataAttribute({
+			themes,
+			attributeName: 'data-theme',
+			allowCustom: true,
+		})
+		await expect(theme).toBe('custom')
 	},
 }
