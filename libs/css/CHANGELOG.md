@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.6.1
+
+### Patch Changes
+
+- 29f32cc: The return type of `px2rem` and `rem2px` should be `number` instead of `string`.
+
 ## 0.6.0
 
 ### Minor Changes
