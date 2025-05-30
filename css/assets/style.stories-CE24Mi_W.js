@@ -1,4 +1,4 @@
-import{j as o}from"./jsx-runtime-Cf8x2fCZ.js";import{d as m}from"./define_docs_param-lmgaBKCF.js";import{d}from"./css-properties-CxNOGp8B.js";import{m as c,c as a}from"./index-C8hpSHHN.js";import"./index-yBjzXJbu.js";import"./to_dom_style-DZVOeG1x.js";import"./class-name-k9bs-u1H.js";import"./globals.ctx-DOXvZQDb.js";import"./attribute-BU07dUZA.js";import"./findKey-D_Zca1Sl.js";import"./data-attribute-Ciz_tloe.js";import"./data-attribute-CxYa4EAQ.js";import"./get-css-prop-values-MM-2vHZ3.js";import"./prefers-color-scheme-CjDR31Hv.js";import"./index-tvICUrOf.js";const b={title:"props/StyleProps",tags:["autodocs","new","version:1.0.0"],render:()=>o.jsx(o.Fragment,{})},e={tags:["!test","editor"],parameters:m({description:{story:"`style` prop with extended `CSSProperties` type to support custom properties. This is useful when composing component props"},source:{code:d`
+import{j as o}from"./jsx-runtime-Cf8x2fCZ.js";import{d as m}from"./define_docs_param-lmgaBKCF.js";import{d}from"./dedent-CN-vuQb3.js";import{m as c,c as a}from"./index-B-sRsjxx.js";import"./index-yBjzXJbu.js";import"./px_2_rem-C6d5ANPP.js";import"./rem_2_px-CCwqIIsL.js";import"./to_dom_style-DZVOeG1x.js";import"./class-name-k9bs-u1H.js";import"./globals.ctx-DOXvZQDb.js";import"./attribute-BU07dUZA.js";import"./findKey-D_Zca1Sl.js";import"./data-attribute-Ciz_tloe.js";import"./data-attribute-CxYa4EAQ.js";import"./get-css-prop-values-MM-2vHZ3.js";import"./prefers-color-scheme-CjDR31Hv.js";import"./index-tvICUrOf.js";const _={title:"props/StyleProps",tags:["autodocs","new","version:1.0.0"],render:()=>o.jsx(o.Fragment,{})},e={tags:["!test","editor"],parameters:m({description:{story:"`style` prop with extended `CSSProperties` type to support custom properties. This is useful when composing component props"},source:{code:d`
             import type { StyleProps } from '@just-web/css'
 
             type MyCompProps = PropsWithChildren<StyleProps & OtherProps>
@@ -28,4 +28,4 @@ import{j as o}from"./jsx-runtime-Cf8x2fCZ.js";import{d as m}from"./define_docs_p
             \`
     }
   })
-}`,...(i=(n=e.parameters)==null?void 0:n.docs)==null?void 0:i.source}}};const O=["Example"];export{e as Example,O as __namedExportsOrder,b as default};
+}`,...(i=(n=e.parameters)==null?void 0:n.docs)==null?void 0:i.source}}};const D=["Example"];export{e as Example,D as __namedExportsOrder,_ as default};
