@@ -15,7 +15,10 @@
  * px2rem(13, { precision: 2 }) // '0.81'
  * ```
  */
-export function px2rem(px: number | string, options?: { base?: number | undefined; precision?: number | undefined }) {
+export function px2rem(
+	px: number | string,
+	options?: { base?: number | undefined; precision?: number | undefined },
+): number {
 	const { base = 16, precision = 4 } = options ?? {}
 
 	if (typeof px === 'string') {
@@ -23,5 +26,5 @@ export function px2rem(px: number | string, options?: { base?: number | undefine
 		px = Number.parseFloat(px)
 	}
 
-	return (px / base).toFixed(precision)
+	return Number((px / base).toFixed(precision))
 }

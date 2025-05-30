@@ -15,7 +15,10 @@
  * rem2px(0.8125, { precision: 2 }) // '13.00'
  * ```
  */
-export function rem2px(rem: number | string, options?: { base?: number | undefined; precision?: number | undefined }) {
+export function rem2px(
+	rem: number | string,
+	options?: { base?: number | undefined; precision?: number | undefined },
+): number {
 	const { base = 16, precision = 4 } = options ?? {}
 
 	if (typeof rem === 'string') {
@@ -23,5 +26,5 @@ export function rem2px(rem: number | string, options?: { base?: number | undefin
 		rem = Number.parseFloat(rem)
 	}
 
-	return (rem * base).toFixed(precision)
+	return Number((rem * base).toFixed(precision))
 }
