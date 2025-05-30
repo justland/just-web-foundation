@@ -1,5 +1,12 @@
 # @just-web/css
 
+## 0.6.0
+
+### Minor Changes
+
+- 4a5ac34: Add `px2rem` convertor.
+- fe03e6d: Add `rem2px` convertor.
+
 ## 0.5.0
 
 ### Minor Changes
