@@ -1,4 +1,5 @@
 export * from './convertors/px_2_rem.ts'
+export * from './convertors/rem_2_px.ts'
 export * from './css-properties/css-properties.ts'
 export * from './css-properties/to_dom_style.ts'
 export * from './props/class-name.ts'
