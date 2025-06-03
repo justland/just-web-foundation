@@ -13,17 +13,18 @@ const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
-		getAbsolutePath('@storybook/addon-essentials'),
 		getAbsolutePath('storybook-addon-code-editor'),
-		getAbsolutePath('@storybook/experimental-addon-test'),
+		getAbsolutePath('@storybook/addon-vitest'),
 		getAbsolutePath('storybook-addon-tag-badges'),
+		getAbsolutePath('storybook-dark-mode2'),
+		getAbsolutePath('@storybook/addon-docs'),
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-vite'),
 		options: {},
 	},
 	features: {
-		backgroundsStoryGlobals: true,
+		backgrounds: true,
 	},
 }
 export default config

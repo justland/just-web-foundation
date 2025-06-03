@@ -4,7 +4,7 @@ import {
 	defineDarkModeParam,
 	withDarkMode,
 } from '@repobuddy/storybook/storybook-dark-mode'
-import type { Preview } from '@storybook/react'
+import type { Preview } from '@storybook/react-vite'
 
 import '../src/tailwind.css'
 
@@ -19,6 +19,7 @@ const preview: Preview = {
 				},
 			},
 			docs: {
+				codePanel: true,
 				container: createDarkModeDocsContainer(),
 			},
 		},

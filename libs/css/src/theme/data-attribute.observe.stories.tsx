@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent } from 'storybook/test'
 import { useEffect, useState } from 'react'
 import { observeThemeByDataAttributes } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.js'

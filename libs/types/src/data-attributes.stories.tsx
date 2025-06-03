@@ -1,5 +1,5 @@
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 
 const meta = {
