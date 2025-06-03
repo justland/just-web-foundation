@@ -1,5 +1,5 @@
 import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
 import { getPrefersColorTheme, observePrefersColorScheme } from '../index.ts'
 

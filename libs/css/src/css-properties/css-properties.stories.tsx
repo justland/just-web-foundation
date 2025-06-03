@@ -1,6 +1,6 @@
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react'
-import { expect } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 import dedent from 'dedent'
 import { defineCSSProperties } from '../index.ts'
 

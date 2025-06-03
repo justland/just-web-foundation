@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { useEffect, useRef } from 'react'
 import type { CSSProperties } from '../index.ts'
 import { toDOMStyle } from '../index.ts'
 
@@ -14,22 +15,40 @@ type Story = StoryObj<typeof meta>
 const DemoComponent = ({ style, title }: { style: CSSProperties | undefined; title: string }) => {
 	const domStyle = toDOMStyle(style)
 
+	const element = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		if (element.current && domStyle) {
+			requestAnimationFrame(() => {
+				if (element.current) {
+					for (const [key, value] of Object.entries(domStyle)) {
+						element.current.style.setProperty(key, value as any)
+					}
+				}
+			})
+		}
+	}, [domStyle])
+
 	return (
 		<div className="m-4 p-4 border border-gray-300 rounded">
 			<h3 className="m-0 mb-4">{title}</h3>
 			<div className="flex gap-4 items-start">
 				<div className="flex-1">
 					<h4 className="m-0 mb-2 text-sm">Input (React-style):</h4>
-					<pre className="bg-gray-100 p-2 rounded text-xs m-0 overflow-auto">{JSON.stringify(style, null, 2)}</pre>
+					<pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs m-0 overflow-auto">
+						{JSON.stringify(style, null, 2)}
+					</pre>
 				</div>
 				<div className="flex-1">
 					<h4 className="m-0 mb-2 text-sm">Output (DOM-style):</h4>
-					<pre className="bg-gray-100 p-2 rounded text-xs m-0 overflow-auto">{JSON.stringify(domStyle, null, 2)}</pre>
+					<pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs m-0 overflow-auto">
+						{JSON.stringify(domStyle, null, 2)}
+					</pre>
 				</div>
 			</div>
 			<div className="flex-1">
 				<h4 className="m-0 mb-2 text-sm">Visual Result:</h4>
-				<div style={domStyle as any} className="demo-element">
+				<div ref={element} className="demo-element">
 					Sample Element
 				</div>
 			</div>

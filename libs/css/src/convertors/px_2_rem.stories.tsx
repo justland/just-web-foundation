@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { px2rem } from '../index.ts'
 
 const meta = {
@@ -14,6 +14,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
+	tags: ['snapshot'],
 	render() {
 		const examples = [
 			{ input: 16, expected: '1.0000' },
@@ -54,7 +55,7 @@ export const StringInput: Story = {
 				<h3 className="text-lg font-semibold">String Input</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, expected }) => (
-						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 rounded">
+						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
 							<code className="text-sm">px2rem('{input}')</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{px2rem(input)}rem</code>
@@ -130,7 +131,10 @@ export const AllOptions: Story = {
 				<h3 className="text-lg font-semibold">Custom Base and Precision</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, base, precision }) => (
-						<div key={`${input}-${base}-${precision}`} className="flex items-center space-x-4 p-2 bg-gray-50 rounded">
+						<div
+							key={`${input}-${base}-${precision}`}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">
 								{`px2rem(${typeof input === 'string' ? `'${input}'` : input}, { base: ${base}, precision: ${precision} })`}
 							</code>

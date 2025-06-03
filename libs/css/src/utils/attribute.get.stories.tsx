@@ -1,5 +1,5 @@
 import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { getAttribute } from '../index.ts'
 
 interface StoryArgs {

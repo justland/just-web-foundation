@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { rem2px } from '../index.ts'
 
 const meta = {
@@ -104,7 +104,7 @@ export const CustomPrecision: Story = {
 				<h3 className="text-lg font-semibold">Custom Precision (0.8125rem × 16px)</h3>
 				<div className="space-y-2">
 					{precisions.map((precision) => (
-						<div key={precision} className="flex items-center space-x-4 p-2 bg-gray-50 rounded">
+						<div key={precision} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
 							<code className="text-sm">{`rem2px(${input}, { precision: ${precision} })`}</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{rem2px(input, { precision })}px</code>
@@ -130,7 +130,10 @@ export const AllOptions: Story = {
 				<h3 className="text-lg font-semibold">Custom Base and Precision</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, base, precision }) => (
-						<div key={`${input}-${base}-${precision}`} className="flex items-center space-x-4 p-2 bg-gray-50 rounded">
+						<div
+							key={`${input}-${base}-${precision}`}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">
 								{`rem2px(${typeof input === 'string' ? `'${input}'` : input}, { base: ${base}, precision: ${precision} })`}
 							</code>

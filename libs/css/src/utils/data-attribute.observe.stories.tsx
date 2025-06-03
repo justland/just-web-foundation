@@ -1,6 +1,6 @@
 import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent } from 'storybook/test'
 import { useEffect, useRef, useState } from 'react'
 import { observeAttributes } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.tsx'
