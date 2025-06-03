@@ -8,4 +8,4 @@ jobs:
   code:
     uses: justland/.github/.github/workflows/pnpm-verify.yml@main
     with:
-      node-version: '[18, 20]'
+      node-version: '[20, 22]'
