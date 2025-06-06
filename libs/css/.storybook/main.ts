@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { dirname, join } from 'node:path'
 import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
+import { defineStorybookVisOptions } from 'storybook-addon-vis'
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -20,7 +21,7 @@ const config: StorybookConfig = {
 		getAbsolutePath('@storybook/addon-docs'),
 		{
 			name: getAbsolutePath('storybook-addon-vis'),
-			options: {
+			options: defineStorybookVisOptions({
 				visProjects: [
 					{
 						snapshotRootDir: '__vis__/linux',
@@ -29,7 +30,7 @@ const config: StorybookConfig = {
 						snapshotRootDir: '__vis__/local',
 					},
 				],
-			},
+			}),
 		},
 	],
 	framework: {
