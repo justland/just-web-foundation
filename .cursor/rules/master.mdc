@@ -1,0 +1,78 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Cursor Rules Master Reference
+
+This file serves as the central reference for all Cursor rules in the repository.
+
+## Table of Contents
+
+- [Available Rules](mdc:#available-rules)
+- [Rule Categories](mdc:#rule-categories)
+- [How to Use Rules](mdc:#how-to-use-rules)
+- [Rule Organization](mdc:#rule-organization)
+
+## Available Rules
+
+All rules should be located under folders `.cursor/rules`.
+They can be placed at the root of the repository (i.e. `<REPOSITORY_ROOT>/.cursor/rules`),
+or under the root of a project in a monorepo (e.g. `<REPOSITORY_ROOT>/packages/<PROJECT_ROOT>/.cursor/rules`).
+
+Other `*.mdc` files should not be treated as rule files unless referenced explicitly.
+
+## Rule Categories
+
+### Agents
+
+Rules for AI agent behavior and management:
+
+- [Commit Summary](mdc:.cursor/rules/agents/commit-summary.mdc) - Add a "Commit Message" section in agent response
+- [Cursor Rules](mdc:.cursor/rules/agents/cursor-rules.mdc) - Rule for managing cursor rules
+- [Cursor Rules Management](mdc:.cursor/rules/agents/cursor-rules-management.mdc) - How to add or edit Cursor rules
+- [Rule Usage](mdc:.cursor/rules/agents/rule-usage.mdc) - Add a "Rules Applied" section in agent response
+
+### Guidelines
+
+Opinionated best practices:
+
+- [Commit Message](mdc:.cursor/rules/guidelines/commit-message.mdc) - Generate commit messages
+- [Import Node Modules](mdc:.cursor/rules/guidelines/import-node-modules.mdc) - How to import modules from NodeJS
+- [JSX Guidelines](mdc:.cursor/rules/guidelines/jsx-guidelines.mdc) - Best practices for JSX development
+- [Markdown](mdc:.cursor/rules/guidelines/markdown.mdc) - Markdown content guidelines
+- [Naming](mdc:.cursor/rules/guidelines/naming.mdc) - File and folder naming conventions
+- [Storybook Stories](mdc:.cursor/rules/guidelines/storybook-stories.mdc) - How to write Storybook stories
+- [Tailwind Styling](mdc:.cursor/rules/guidelines/tailwind-styling.mdc) - Tailwind CSS styling guidelines
+
+### Workflows
+
+Step-by-step guides for AI tasks:
+
+- [Extract Frontmatter from Markdown](mdc:.cursor/rules/workflows/extract-frontmatter-from-markdown.mdc) - Extract frontmatter from .mdc or .mdx files
+
+## How to Use Rules
+
+### When to Apply Rules
+
+- **Always**: Apply relevant rules when creating or modifying files
+- **During Code Review**: Verify compliance with applicable rules
+- **When Writing Documentation**: Follow markdown and naming guidelines
+- **When Creating Components**: Follow JSX and Storybook guidelines
+
+### Rule Application Process
+
+1. **Identify Applicable Rules**: Determine which rules apply to your task
+2. **Follow Guidelines**: Apply the specific guidance from each rule
+3. **Validate Compliance**: Ensure your work meets all rule requirements
+4. **Document Usage**: Mention which rules were applied in your response
+
+## Rule Organization
+
+Rules are organized into three main categories:
+
+- **Agents**: Control AI agent behavior and response formatting
+- **Guidelines**: Establish best practices and coding standards
+- **Workflows**: Provide step-by-step processes for specific tasks
+
+Each rule file follows a consistent structure with frontmatter, clear sections, and integration references.

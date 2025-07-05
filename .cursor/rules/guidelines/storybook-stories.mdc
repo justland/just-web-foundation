@@ -10,12 +10,12 @@ This document outlines the standards and best practices for creating Storybook s
 ## Basic Story Structure
 
 1. Use the new Component Story Format (CSF) with TypeScript:
-   ```typescript
+   ```tsx
    import type { Meta, StoryObj } from '@storybook/react'
 
    const meta: Meta<typeof YourComponent> {
 		 title: 'components/YourComponent',
-		 tags: ['version:1.0.0'],
+		 tags: ['version:1.0'],
      component: YourComponent,
      // Add parameters if needed
    } satisfies Meta
