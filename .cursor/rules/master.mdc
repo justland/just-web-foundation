@@ -3,9 +3,9 @@ description:
 globs:
 alwaysApply: true
 ---
-# Cursor Rules Master Reference
+# AI Rules Master Reference
 
-This file serves as the central reference for all Cursor rules in the repository.
+This file serves as the central reference for all AI rules in the repository.
 
 ## Table of Contents
 
@@ -15,19 +15,8 @@ This file serves as the central reference for all Cursor rules in the repository
 
 ## How to Use
 
-### When to Apply Rules
-
-- **Always**: Apply relevant rules when creating or modifying files
-- **During Code Review**: Verify compliance with applicable rules
-- **When Writing Documentation**: Follow markdown and naming guidelines
-- **When Creating Components**: Follow React JS and Storybook guidelines
-
-### Rule Application Process
-
-1. **Identify Applicable Rules**: Determine which rules apply to your task
-2. **Follow Guidelines**: Apply the specific guidance from each rule
-3. **Validate Compliance**: Ensure your work meets all rule requirements
-4. **Document Usage**: Mention which rules were applied in your response
+Each rule may contain a section about related rules.
+You should read the related rules before applying the rule.
 
 ## Locations
 
