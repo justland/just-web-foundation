@@ -125,18 +125,34 @@ Reference: [`.markdownlint-cli2.jsonc`](mdc:.markdownlint-cli2.jsonc)
 
 ### Code Blocks
 
-Key requirements:
-- Always specify the language for syntax highlighting
-- Prefer shorter language identifiers for consistency
-- Use appropriate identifiers for different file types
+**Requirements:**
+- **Always include the language identifier** in code blocks for proper syntax highlighting
+- **Prefer shorter language identifiers** over longer ones for consistency and brevity
+- Use appropriate language identifiers for different file types and commands
 
-Example:
+**Examples of Correct Usage:**
+
+```sh
+pnpm add package
+```
 
 ```tsx
 export const Component = () => {
   return <div>Hello World</div>
 }
 ```
+
+```ts
+function example() {
+  return 'hello world'
+}
+```
+
+**Guidelines:**
+1. Always specify the language identifier after the opening triple backticks
+2. Use the shortest appropriate identifier when multiple options exist
+3. Ensure the language identifier accurately represents the content
+4. Apply this rule to all code blocks in documentation, comments, and any markdown content
 
 ### Blockquotes
 
