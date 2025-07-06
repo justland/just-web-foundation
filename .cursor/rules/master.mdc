@@ -59,3 +59,4 @@ Opinionated best practices:
 Step-by-step guides for AI tasks:
 
 - [Extract Frontmatter from Markdown](mdc:.cursor/rules/workflows/extract-frontmatter-from-markdown.mdc) - Extract frontmatter from `.mdc` or `.mdx` files
+- [Generate Changeset](mdc:.cursor/rules/workflows/generate_changeset.mdc) - Generate changeset files for package versioning and changelog generation
