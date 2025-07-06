@@ -1,0 +1,111 @@
+---
+description:
+globs: *.tsx
+alwaysApply: false
+---
+# React JS Guidelines
+
+Best practices for React development with TypeScript.
+
+## Component Structure
+
+### Functional Components
+
+Use functional components with TypeScript and `function` statements:
+
+```tsx
+// ✅ Good
+interface ButtonProps {
+  children: React.ReactNode
+  onClick?: () => void
+  variant?: 'primary' | 'secondary'
+}
+
+export function Button({ children, onClick, variant = 'primary' }: ButtonProps) {
+  return (
+    <button className={`btn btn-${variant}`} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+
+// ❌ Avoid
+const Button = (props: any) => <button>{props.children}</button>
+```
+
+### String Props
+
+Use simple strings instead of curly braces for string props:
+
+```tsx
+// ✅ Good
+<Component className="flex gap-4" title="Component title" />
+
+// ❌ Avoid
+<Component className={"flex gap-4"} title={"Component title"} />
+```
+
+## State Management
+
+Use typed hooks for state:
+
+```tsx
+import { useState } from 'react'
+
+const [count, setCount] = useState<number>(0)
+const [user, setUser] = useState<User | null>(null)
+```
+
+## Performance
+
+Use `memo` for expensive components and hooks for optimization:
+
+```tsx
+import { memo, useMemo, useCallback } from 'react'
+
+// Component memoization
+export const ExpensiveComponent = memo(({ data }: Props) => {
+  return <div>{/* expensive rendering */}</div>
+})
+
+// Hook optimization
+const memoizedValue = useMemo(() => computeValue(a, b), [a, b])
+const memoizedCallback = useCallback(() => handleAction(a, b), [a, b])
+```
+
+## Testing
+
+Write Storybook stories for all components:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof Button> = {
+  title: 'components/Button',
+  component: Button,
+}
+
+export default meta
+type Story = StoryObj<typeof Button>
+
+export const Primary: Story = {
+  args: { children: 'Click me', variant: 'primary' },
+}
+```
+
+## Code Organization
+
+- Keep components small and focused
+- Group related components in feature folders
+- Extract business logic to custom hooks
+- Avoid barrel exports (`index.ts`)
+
+## Quality Checklist
+
+- [ ] Functional components with TypeScript
+- [ ] Properly typed props interfaces
+- [ ] Simple strings for string props
+- [ ] Performance optimizations applied
+- [ ] Storybook stories written
+- [ ] Components organized in feature folders
+- [ ] Business logic in custom hooks
