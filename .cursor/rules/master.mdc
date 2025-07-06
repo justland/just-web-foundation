@@ -52,7 +52,7 @@ Opinionated best practices:
 - [Markdown](mdc:.cursor/rules/guidelines/markdown.mdc) - Markdown content guidelines
 - [Naming](mdc:.cursor/rules/guidelines/naming.mdc) - File and folder naming conventions
 - [Storybook Stories](mdc:.cursor/rules/guidelines/storybook-stories.mdc) - How to write Storybook stories
-- [Tailwind Styling](mdc:.cursor/rules/guidelines/tailwind-styling.mdc) - Tailwind CSS styling guidelines
+- [Tailwind CSS](mdc:.cursor/rules/guidelines/tailwind.mdc) - Tailwind CSS guidelines
 
 ### Workflows
 
