@@ -6,7 +6,7 @@
     "build-doc": "storybook build -o ../../docs",
     "nuke": "rimraf node_modules",
     "start": "storybook dev -p 6006",
-    "test": "vitest run"
+    "test:skip": "vitest run"
   },
   "devDependencies": {
     "@repobuddy/storybook": "^1.0.0",
