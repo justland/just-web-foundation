@@ -1,3 +1,4 @@
+export * from './convertors/px_2_num.ts'
 export * from './convertors/px_2_rem.ts'
 export * from './convertors/rem_2_px.ts'
 export * from './css-properties/css-properties.ts'
