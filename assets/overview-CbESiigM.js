@@ -1,3 +1,0 @@
-import{j as t,M as i}from"./index-BOID5mV_.js";import{useMDXComponents as s}from"./index-BqIVwv1J.js";import"./iframe-BXDxr7W-.js";import"./index-D4H_InIO.js";import"./index-vYCkCKEW.js";import"./index-CXQShRbs.js";import"./index-DrFu-skq.js";function o(n){const e={h1:"h1",p:"p",...s(),...n.components};return t.jsxs(t.Fragment,{children:[t.jsx(i,{title:"Overview"}),`
-`,t.jsx(e.h1,{id:"just-webfundations",children:"@just-web/fundations"}),`
-`,t.jsx(e.p,{children:"@just-web/fundations is a collection of CSS classes that are used to style the web."})]})}function j(n={}){const{wrapper:e}={...s(),...n.components};return e?t.jsx(e,{...n,children:t.jsx(o,{...n})}):o(n)}export{j as default};
