@@ -1,5 +1,17 @@
 # @just-web/css
 
+## 0.7.0
+
+### Minor Changes
+
+- c411967: Add `px2num` converter utility.
+
+### Patch Changes
+
+- 1d4c1db: Convert interface to type.
+  Atomic, composable, and not extendable types are better defined as type.
+  It allows tools like `docgen` to generate documentation for the types.
+
 ## 0.6.1
 
 ### Patch Changes
