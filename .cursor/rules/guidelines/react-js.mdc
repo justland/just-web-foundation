@@ -16,9 +16,9 @@ Use functional components with TypeScript and `function` statements:
 ```tsx
 // ✅ Good
 interface ButtonProps {
-  children: React.ReactNode
-  onClick?: () => void
-  variant?: 'primary' | 'secondary'
+  children: ReactNode
+  onClick?: (() => void) | undefined
+  variant?: 'primary' | 'secondary' | undefined
 }
 
 export function Button({ children, onClick, variant = 'primary' }: ButtonProps) {
@@ -75,7 +75,7 @@ const memoizedCallback = useCallback(() => handleAction(a, b), [a, b])
 
 ## Testing
 
-Write Storybook stories for all components:
+Write Storybook stories as tests:
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/react'

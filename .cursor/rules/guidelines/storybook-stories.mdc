@@ -9,25 +9,26 @@ This document outlines the standards and best practices for creating Storybook s
 
 ## Basic Story Structure
 
-1. Use the new Component Story Format (CSF) with TypeScript:
-   ```tsx
-   import type { Meta, StoryObj } from '@storybook/react'
+We use the Component Story Format (CSF) to write stories.
 
-   const meta: Meta<typeof YourComponent> {
-		 title: 'components/YourComponent',
-		 tags: ['version:1.0'],
-     component: YourComponent,
-     // Add parameters if needed
-   } satisfies Meta
+```tsx
+import type { Meta, StoryObj } from '#my-package/storybook'
 
-   export default meta
+const meta: Meta<typeof YourComponent> = {
+  title: 'components/YourComponent',
+  tags: ['version:1.0'],
+  component: YourComponent,
+  // Add parameters if needed
+} satisfies Meta
 
-   type Story = StoryObj<typeof meta>
+export default meta
 
-   export const BasicUsage: Story = {
-     // Story implementation
-   }
-   ```
+type Story = StoryObj<typeof meta>
+
+export const BasicUsage: Story = {
+  // Story implementation
+}
+```
 
 ## Story Organization
 
@@ -40,128 +41,130 @@ This document outlines the standards and best practices for creating Storybook s
    - Default/primary story should be named `BasicUsage`
    - Additional stories should be named descriptively: `WithError`, `Loading`, etc.
    - Use `name` property if the story is about a particular props or value that the PascalCase story name is confusing
-	 ```ts
-	 export const Red100: Story = {
-		name: 'red-100'
-	 }
-	 ```
-   - Use Add additional description to the story:
    ```ts
-	 import { defineDocsParam } from '@repobuddy/storybook'
+   export const Red100: Story = {
+     name: 'red-100'
+   }
+   ```
+   - Use additional description to the story:
+   ```ts
+   import { defineDocsParam } from '@repobuddy/storybook'
 
-	 export const SomeStory: Story = {
-		parameters: defineDocsParam({
-			description: {
-				story: 'Additional message goes here'
-			}
-		})
-	 }
-	 ```
-
+   export const SomeStory: Story = {
+     parameters: defineDocsParam({
+       description: {
+         story: 'Additional message goes here'
+       }
+     })
+   }
+   ```
 
 ## Story Implementation Patterns
 
 1. The properties in the story should follow consistent order. Some of these tests are optional:
    ```tsx
-	 export const SomeStory: Story = {
-		 name: ...,
-		 tags: ...,
-		 parameters: ...,
-		 args: ...,
-		 loaders: ...,
-		 decorators: ...,
-		 render: ...,
-		 play: ...,
-		 experimental_afterEach: ...
-	 }
-	 ```
+  export const SomeStory: Story = {
+    name: ...,
+    tags: ...,
+    parameters: ...,
+    args: ...,
+    loaders: ...,
+    decorators: ...,
+    render: ...,
+    play: ...,
+    afterEach: ...
+  }
+  ```
 2. Use the render function to emphasize the testing subject.
    For example, when creating a story to test the `onChange` handler of the `RadioGroup` component:
-	 ```tsx
-	 // ✅ Good example
-	 export const OnChange: Story = {
-		  render() {
-			  const [logs, setLogs] = useState<string[]>([])
+   ```tsx
+   import { useState } from 'react'
+   import type { Meta, StoryObj } from '@storybook/react'
 
-				return (
-					<div>
-					  <RadioGroup onChange={(value) => {
-							setLogs(logs => [...logs, `selection changed: ${value}`])
-						}}>
-						  <Radio value="apple">Apple</Radio>
-							<Radio value="banana">Banana</Radio>
-						</RadioGroup>
-						<LogPanel logs={logs}>
-					<div>
-				)
-			}
-	 }
+   // ✅ Good example
+   export const OnChange: Story = {
+     render() {
+       const [logs, setLogs] = useState<string[]>([])
 
-	 // ❌ Bad example - the div showing log messages is noise and should be extracted as a `LogPanel` component.
-	 export const OnChange: Story = {
-		  render() {
-			  const [logs, setLogs] = useState<string[]>([])
+       return (
+         <div>
+           <RadioGroup onChange={(value) => {
+             setLogs(logs => [...logs, `selection changed: ${value}`])
+           }}>
+             <Radio value="apple">Apple</Radio>
+             <Radio value="banana">Banana</Radio>
+           </RadioGroup>
+           <LogPanel logs={logs} />
+         </div>
+       )
+     }
+   }
 
-				return (
-					<div>
-					  <RadioGroup onChange={value => {
-							setLogs(logs => [...logs, `selection changed: ${value}`])
-						}}>
-						  <Radio value="apple">Apple</Radio>
-							<Radio value="banana">Banana</Radio>
-						</RadioGroup>
-						<div
-								style={{
-									backgroundColor: '#f5f5f5',
-									padding: '1rem',
-									borderRadius: '4px',
-									maxHeight: '200px',
-									overflowY: 'auto',
-								}}>
-							<h4 style={{ margin: '0 0 0.5rem' }}>Log Panel</h4>
-								{log.map((entry) => (
-									<pre style={{ fontFamily: 'monospace' }}>{entry}</pre>
-								))}
-						</div>
-					<div>
-				)
-			}
-	 }
+   // ❌ Bad example - the div showing log messages is noise and should be extracted as a `LogPanel` component.
+   export const OnChange: Story = {
+     render() {
+       const [logs, setLogs] = useState<string[]>([])
 
-	 // ❌ Bad example - `RadioGroupDemo` removes all details,
-	 // making the story hard to understand
-	 const RadioGroupDemo: (args) => {
-			  const [logs, setLogs] = useState<string[]>([])
+       return (
+         <div>
+           <RadioGroup onChange={value => {
+             setLogs(logs => [...logs, `selection changed: ${value}`])
+           }}>
+             <Radio value="apple">Apple</Radio>
+             <Radio value="banana">Banana</Radio>
+           </RadioGroup>
+           <div
+             style={{
+               backgroundColor: '#f5f5f5',
+               padding: '1rem',
+               borderRadius: '4px',
+               maxHeight: '200px',
+               overflowY: 'auto',
+             }}>
+             <h4 style={{ margin: '0 0 0.5rem' }}>Log Panel</h4>
+             {logs.map((entry) => (
+               <pre style={{ fontFamily: 'monospace' }}>{entry}</pre>
+             ))}
+           </div>
+         </div>
+       )
+     }
+   }
 
-				return (
-					<div>
-					  <RadioGroup onChange={value => {
-							setLogs(logs => [...logs, `selection changed: ${value}`])
-						}}>
-						  <Radio value="apple">Apple</Radio>
-							<Radio value="banana">Banana</Radio>
-						</RadioGroup>
-						<div
-								style={{
-									backgroundColor: '#f5f5f5',
-									padding: '1rem',
-									borderRadius: '4px',
-									maxHeight: '200px',
-									overflowY: 'auto',
-								}}>
-							<h4 style={{ margin: '0 0 0.5rem' }}>Log Panel</h4>
-								{log.map((entry) => (
-									<pre style={{ fontFamily: 'monospace' }}>{entry}</pre>
-								))}
-						</div>
-					<div>
-				)
-	 }
+   // ❌ Bad example - `RadioGroupDemo` removes all details,
+   // making the story hard to understand
+   const RadioGroupDemo = (args: any) => {
+     const [logs, setLogs] = useState<string[]>([])
 
-	 export const OnChange: Story = {
-		  render: RadioGroupDemo
-	 }
-	 ```
+     return (
+       <div>
+         <RadioGroup onChange={value => {
+           setLogs(logs => [...logs, `selection changed: ${value}`])
+         }}>
+           <Radio value="apple">Apple</Radio>
+           <Radio value="banana">Banana</Radio>
+         </RadioGroup>
+         <div
+           style={{
+             backgroundColor: '#f5f5f5',
+             padding: '1rem',
+             borderRadius: '4px',
+             maxHeight: '200px',
+             overflowY: 'auto',
+           }}>
+           <h4 style={{ margin: '0 0 0.5rem' }}>Log Panel</h4>
+           {logs.map((entry) => (
+             <pre style={{ fontFamily: 'monospace' }}>{entry}</pre>
+           ))}
+         </div>
+       </div>
+     )
+   }
+
+   export const OnChange: Story = {
+     render: RadioGroupDemo
+   }
+   ```
 3. Prefer Tailwind CSS over direct CSS style.
 
 ## Testing and Documentation
@@ -171,15 +174,15 @@ This document outlines the standards and best practices for creating Storybook s
 3. Document component props and usage in the story file
 4. Use story parameters to add documentation:
    ```ts
-	 import { defineDocsParam } from '@repobuddy/storybook'
+   import { defineDocsParam } from '@repobuddy/storybook'
 
-	 export const SomeStory: Story = {
-		parameters: defineDocsParam({
-			description: {
-				story: 'Additional message goes here'
-			}
-		})
-	 }
+   export const SomeStory: Story = {
+     parameters: defineDocsParam({
+       description: {
+         story: 'Additional message goes here'
+       }
+     })
+   }
    ```
 5. Use the `play` function to interact and validate the behavior.
 
@@ -206,18 +209,18 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Enabled: Story = {
-	name: 'isDisabled: false',
+  name: 'isDisabled: false',
   args: {
     label: 'Copy Button',
-		isDisabled: false
+    isDisabled: false
   },
 }
 
 export const Disabled: Story = {
-	name: 'isDisabled: true',
+  name: 'isDisabled: true',
   args: {
     label: 'Copy Button',
-		isDisabled: true
+    isDisabled: true
   },
 }
 ```
@@ -229,5 +232,18 @@ export const Disabled: Story = {
 3. Include interactive examples where relevant
 4. Use TypeScript for type safety
 5. Follow the project's component guidelines
+
+## AI Agent Checklist
+
+When creating Storybook stories, verify:
+- [ ] File uses `.stories.tsx` extension
+- [ ] File is placed next to the component file
+- [ ] Uses CSF format with TypeScript
+- [ ] Has proper imports (including React hooks if used)
+- [ ] Default story is named `BasicUsage`
+- [ ] Story properties follow the recommended order
+- [ ] Code examples are complete and runnable
+- [ ] Uses Tailwind CSS instead of inline styles
+- [ ] Includes necessary documentation with `defineDocsParam`
 
 Remember to follow these guidelines when creating new Storybook stories.
