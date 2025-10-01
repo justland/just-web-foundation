@@ -7,3 +7,4 @@ monorepo
 Frontmatter
 frontmatter
 Changelog
+addon-docs
