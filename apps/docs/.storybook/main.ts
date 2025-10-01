@@ -14,14 +14,11 @@ const config: StorybookConfig = {
 		getAbsolutePath('@storybook/addon-docs'),
 		getAbsolutePath('@storybook/addon-themes'),
 		getAbsolutePath('@storybook/addon-vitest'),
-		getAbsolutePath('storybook-dark-mode2'),
+		getAbsolutePath('@storybook-community/storybook-dark-mode'),
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-vite'),
 		options: {},
-	},
-	features: {
-		backgroundsStoryGlobals: true,
 	},
 	refs: (_config, { configType }) => {
 		if (configType === 'PRODUCTION') {

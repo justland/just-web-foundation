@@ -17,7 +17,7 @@ const config: StorybookConfig = {
 		getAbsolutePath('storybook-addon-code-editor'),
 		getAbsolutePath('@storybook/addon-vitest'),
 		getAbsolutePath('storybook-addon-tag-badges'),
-		getAbsolutePath('storybook-dark-mode2'),
+		getAbsolutePath('@storybook-community/storybook-dark-mode'),
 		getAbsolutePath('@storybook/addon-docs'),
 		{
 			name: getAbsolutePath('storybook-addon-vis'),
