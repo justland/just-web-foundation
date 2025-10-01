@@ -27,8 +27,11 @@ function RenderTestCases({
 		<div className="space-y-4">
 			<h3 className="text-lg font-semibold">{title}</h3>
 			<div className="space-y-2">
-				{testcases.map(({ input, expected, description }) => (
-					<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+				{testcases.map(({ input, expected, description }, index) => (
+					<div
+						key={`${index}-${input}`}
+						className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+					>
 						<code className="text-sm">px2num({input})</code>
 						<span>→</span>
 						<code className="text-sm font-mono">{px2num(input)}</code>
