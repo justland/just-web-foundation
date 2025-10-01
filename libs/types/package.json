@@ -2,6 +2,14 @@
 	"name": "@just-web/types",
 	"version": "0.1.1",
 	"description": "Common types for web applications",
+	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/types",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/justland/just-web-foundation.git",
+		"directory": "libs/types"
+	},
+	"license": "MIT",
+	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
