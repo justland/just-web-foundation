@@ -11,6 +11,7 @@
 		"coverage": "turbo run coverage",
 		"cs": "changeset",
 		"css": "pnpm --filter ./libs/css",
+		"preinstall": "playwright install --with-deps chromium",
 		"depcheck": "turbo run depcheck",
 		"docs": "pnpm --filter ./apps/docs",
 		"nuke": "run-s nuke:pkgs nuke:root",
