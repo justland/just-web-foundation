@@ -1,5 +1,11 @@
 # @just-web/types
 
+## 0.2.0
+
+### Minor Changes
+
+- e46cb69: Add new `DataTestIdProps` and `DataMetricsProps` types for more granular data attribute type definitions.
+
 ## 0.1.1
 
 ### Patch Changes
