@@ -1,6 +1,6 @@
 {
 	"name": "@just-web/types",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Common types for web applications",
 	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/types",
 	"repository": {
