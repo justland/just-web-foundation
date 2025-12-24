@@ -1,12 +1,12 @@
 {
-  "extends": "@tools/typescript/tsconfig.react.json",
-  "compilerOptions": {
-    // currently this package publishes the source TypeScript files.
-    // We set the `outDir` to esm just to avoid confusion.
-    "outDir": "esm",
-    // `rewriteRelativeImportExtensions` and exporting src directly requires consumer to use the same setting.
-    "rewriteRelativeImportExtensions": false,
-    "rootDir": "src"
-  },
-  "include": ["src", "types"]
+	"extends": "@tools/typescript/tsconfig.react.json",
+	"compilerOptions": {
+		// currently this package publishes the source TypeScript files.
+		// We set the `outDir` to esm just to avoid confusion.
+		"outDir": "esm",
+		// `rewriteRelativeImportExtensions` and exporting src directly requires consumer to use the same setting.
+		"rewriteRelativeImportExtensions": false,
+		"rootDir": "src"
+	},
+	"include": ["src", "types"]
 }

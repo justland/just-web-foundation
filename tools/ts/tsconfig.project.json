@@ -1,12 +1,12 @@
 {
-  "extends": "@repobuddy/typescript/tsconfig/monorepo.json",
-  "compilerOptions": {
-    "composite": true,
-    "jsx": "react-jsxdev",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "verbatimModuleSyntax": true
-  }
+	"extends": "@repobuddy/typescript/tsconfig/monorepo.json",
+	"compilerOptions": {
+		"composite": true,
+		"jsx": "react-jsxdev",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"verbatimModuleSyntax": true
+	}
 }

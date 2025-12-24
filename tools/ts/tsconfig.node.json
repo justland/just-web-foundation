@@ -1,9 +1,9 @@
 {
-  "extends": "@repobuddy/typescript/tsconfig/monorepo.json",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "skipLibCheck": true,
-    "rewriteRelativeImportExtensions": true,
-    "verbatimModuleSyntax": true
-  }
+	"extends": "@repobuddy/typescript/tsconfig/monorepo.json",
+	"compilerOptions": {
+		"module": "NodeNext",
+		"skipLibCheck": true,
+		"rewriteRelativeImportExtensions": true,
+		"verbatimModuleSyntax": true
+	}
 }
