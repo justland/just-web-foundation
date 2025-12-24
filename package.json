@@ -34,9 +34,9 @@
 		"@commitlint/config-conventional": "^19.8.1",
 		"@locofy/cli": "^0.0.81",
 		"@repobuddy/biome": "^2.2.0",
-		"@repobuddy/vitest": "^1.2.2",
+		"@repobuddy/vitest": "^2.1.1",
 		"@types/react": "^19.1.2",
-		"@vitest/coverage-v8": "^3.2.4",
+		"@vitest/coverage-v8": "^4.0.16",
 		"husky": "^9.1.7",
 		"npm-run-all2": "^7.0.2",
 		"pathe": "^2.0.3",
@@ -44,7 +44,7 @@
 		"rimraf": "~6.0.1",
 		"turbo": "^2.5.1",
 		"typescript": "^5.8.3",
-		"vitest": "^3.2.4"
+		"vitest": "^4.0.16"
 	},
 	"pnpm": {
 		"overrides": {
