@@ -5,7 +5,7 @@ import { themes } from 'storybook/theming'
 addons.setConfig({
 	tagBadges,
 	theme: {
-		...themes.dark,
+		...themes.normal,
 		brandTitle: '@just-web/fundation',
 	},
 })

@@ -1,8 +1,8 @@
 {
-  "extends": "@tools/typescript/tsconfig.react.json",
-  "compilerOptions": {
-    "outDir": "./esm",
-    "rootDir": "./src"
-  },
-  "include": ["src", "types"]
+	"extends": "@tools/typescript/tsconfig.react.json",
+	"compilerOptions": {
+		"outDir": "./esm",
+		"rootDir": "./src"
+	},
+	"include": ["src", "types"]
 }

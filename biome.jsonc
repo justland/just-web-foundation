@@ -11,7 +11,6 @@
 			"!**/cjs",
 			"!**/coverage",
 			"!**/dist",
-			"!**/docs",
 			"!**/esm",
 			"!**/node_modules",
 			"!**/storybook-static",

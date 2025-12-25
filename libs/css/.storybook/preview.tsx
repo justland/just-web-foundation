@@ -1,9 +1,5 @@
 import { defineParameters } from '@repobuddy/storybook'
-import {
-	createDarkModeDocsContainer,
-	defineDarkModeParam,
-	withDarkMode,
-} from '@repobuddy/storybook/storybook-dark-mode'
+import { defineDarkModeParam } from '@repobuddy/storybook/storybook-dark-mode'
 import type { Preview } from '@storybook/react-vite'
 
 import '../src/tailwind.css'
@@ -20,18 +16,14 @@ const preview: Preview = {
 			},
 			docs: {
 				codePanel: true,
-				container: createDarkModeDocsContainer(),
 			},
 		},
 		defineDarkModeParam({
 			classTarget: 'html',
 			stylePreview: true,
-			darkClass: 'dark',
+			darkClass: ['dark', 'bg-black', 'text-white'],
 		}),
 	),
-	decorators: withDarkMode({
-		bodyClass: 'bg-white text-black dark:bg-black dark:text-white',
-	}),
 }
 
 export default preview

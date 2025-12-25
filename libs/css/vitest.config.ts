@@ -4,11 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 import path, { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { storybookVis } from 'storybook-addon-vis/vitest-plugin'
-import { defineConfig } from 'vitest/config'
+import { mergeConfig } from 'vitest/config'
+import config from './vite.config.js'
 
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
 
-export default defineConfig({
+export default mergeConfig(config, {
 	esbuild: { jsx: 'automatic' },
 	optimizeDeps: {
 		include: [
