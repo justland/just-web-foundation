@@ -1,6 +1,12 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
 import type { StorybookConfig } from '@storybook/react-vite'
 import { dirname, join } from 'node:path'
 import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
+
+const __filename = fileURLToPath(import.meta.url)
+const require = createRequire(import.meta.url)
 
 /**
  * This function is used to resolve the absolute path of a package.

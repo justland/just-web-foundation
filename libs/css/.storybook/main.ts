@@ -1,7 +1,11 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
 import type { StorybookConfig } from '@storybook/react-vite'
+import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
-import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
-import { defineStorybookVisOptions } from 'storybook-addon-vis'
+import { fileURLToPath } from 'node:url'
+
+const __filename = fileURLToPath(import.meta.url)
+const require = createRequire(import.meta.url)
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -12,29 +16,30 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-	staticDirs: [...getCodeEditorStaticDirs(__filename)],
+	// staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
-		getAbsolutePath('storybook-addon-code-editor'),
-		getAbsolutePath('@storybook/addon-vitest'),
-		getAbsolutePath('storybook-addon-tag-badges'),
-		getAbsolutePath('@storybook-community/storybook-dark-mode'),
-		getAbsolutePath('@storybook/addon-docs'),
-		{
-			name: getAbsolutePath('storybook-addon-vis'),
-			options: defineStorybookVisOptions({
-				visProjects: [
-					{
-						snapshotRootDir: '__vis__/linux',
-					},
-					{
-						snapshotRootDir: '__vis__/local',
-					},
-				],
-			}),
-		},
+		// getAbsolutePath('@storybook/addon-vitest'),
+		// getAbsolutePath('storybook-addon-tag-badges'),
+		// getAbsolutePath('@storybook-community/storybook-dark-mode'),
+		// getAbsolutePath('@storybook/addon-docs'),
+		// getAbsolutePath('storybook-addon-code-editor'),
+		getAbsolutePath('storybook-addon-vis'),
+		// {
+		// 	name: getAbsolutePath('storybook-addon-vis'),
+		// 	options: defineStorybookVisOptions({
+		// 		visProjects: [
+		// 			{
+		// 				snapshotRootDir: '__vis__/linux',
+		// 			},
+		// 			{
+		// 				snapshotRootDir: '__vis__/local',
+		// 			},
+		// 		],
+		// 	}),
+		// },
 	],
 	framework: {
-		name: getAbsolutePath('@storybook/react-vite'),
+		name: '@storybook/react-vite',
 		options: {},
 	},
 	features: {
