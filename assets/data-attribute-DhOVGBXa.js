@@ -1,0 +1,1 @@
+import{c as r}from"./globals.ctx-DOXvZQDb.js";import{g as o,o as a}from"./attribute-jmTmRs65.js";function i(t,e=r.getDocumentElement()){return o(t,e)}function n(t,e){return a(t,e)}export{i as g,n as o};

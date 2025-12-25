@@ -1,0 +1,1 @@
+import{c as u}from"./globals.ctx-DOXvZQDb.js";function c(t,e=u.getDocumentElement()){return e?.getAttribute(t)}function a(t,e=u.getDocumentElement()){const r=new MutationObserver(n=>{for(const i of n){const o=i.attributeName,b=e.getAttribute(o);t[o]?.(b)}});return r.observe(e,{attributes:!0,attributeFilter:Object.keys(t)}),r}export{c as g,a as o};

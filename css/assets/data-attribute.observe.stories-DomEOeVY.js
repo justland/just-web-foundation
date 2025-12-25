@@ -1,0 +1,128 @@
+import{d as g,r as l,j as s}from"./iframe-D5rBLWIn.js";import{o as b}from"./attribute-jmTmRs65.js";import{L as h}from"./log-panel-C1Wm59IB.js";import{T as d}from"./toggle-attribute-button-BnC1pBpf.js";import"./preload-helper-PPVm8Dsz.js";import"./globals.ctx-DOXvZQDb.js";const{expect:o,userEvent:c}=__STORYBOOK_MODULE_TEST__,w={title:"utils/observeDataAttribute",tags:["autodocs","new","version:1.0.0"]},m={parameters:g({description:{story:"Observes a single data-* attribute change on the document root element."}}),render:()=>{const[e,t]=l.useState([]);return l.useEffect(()=>{const a=b({"data-theme":r=>{t(n=>[...n,`data-theme: ${r}`])}});return()=>a.disconnect()},[]),s.jsxs("div",{className:"font-sans",children:[s.jsx("div",{className:"flex flex-wrap gap-2 mb-4",children:s.jsx(d,{attribute:"data-theme"})}),s.jsx(h,{title:"Attribute Changes:",log:e})]})},play:async({canvas:e})=>{const t=e.getByRole("button",{name:"Toggle data-theme"});await c.click(t),await c.click(t),await o(e.getByText("data-theme: test-value")).toBeInTheDocument(),await o(e.getByText("data-theme: null")).toBeInTheDocument()}},i={parameters:g({description:{story:"Observes multiple attributes simultaneously."}}),render:()=>{const[e,t]=l.useState([]);return l.useEffect(()=>{const a=b({"data-theme":r=>{t(n=>[...n,`data-theme: ${r}`])},"data-color-scheme":r=>{t(n=>[...n,`data-color-scheme: ${r}`])}});return()=>a.disconnect()},[]),s.jsxs("div",{className:"font-sans",children:[s.jsxs("div",{className:"flex flex-wrap gap-2 mb-4",children:[s.jsx(d,{attribute:"data-theme"}),s.jsx(d,{attribute:"data-color-scheme"})]}),s.jsx(h,{title:"Attribute Changes:",log:e})]})},play:async({canvas:e})=>{const t=e.getByRole("button",{name:"Toggle data-theme"});await c.click(t),await c.click(t),await o(e.getByText("data-theme: test-value")).toBeInTheDocument(),await o(e.getByText("data-theme: null")).toBeInTheDocument();const a=e.getByRole("button",{name:"Toggle data-color-scheme"});await c.click(a),await c.click(a),await o(e.getByText("data-color-scheme: test-value")).toBeInTheDocument(),await o(e.getByText("data-color-scheme: null")).toBeInTheDocument()}},u={args:{attributes:["data-theme"],element:"custom"},parameters:g({description:{story:"Observes attribute changes on a custom element instead of the document root."}}),render:()=>{const[e,t]=l.useState([]),a=l.useRef(null);return l.useEffect(()=>{if(!a.current)return;const r=b({"data-theme":n=>{t(v=>[...v,`data-theme: ${n}`])}},a.current);return()=>r.disconnect()},[a]),s.jsxs("div",{className:"font-sans",children:[s.jsx("div",{className:"flex flex-wrap gap-2 mb-4",children:s.jsx(d,{attribute:"data-theme",ref:a})}),s.jsx("div",{ref:a,className:"p-4 border border-gray-300 mb-4",children:"Custom Element to observe"}),s.jsx(h,{title:"Attribute Changes:",log:e})]})},play:async({canvas:e})=>{const t=e.getByRole("button",{name:"Toggle data-theme"}),a=e.getByText("Custom Element to observe");await c.click(t),await o(e.getByText("data-theme: test-value")).toBeInTheDocument();const r=a.getAttribute("data-theme");await o(r).toBe("test-value"),await c.click(t),await o(e.getByText("data-theme: null")).toBeInTheDocument();const n=a.getAttribute("data-theme");await o(n).toBeNull()}};m.parameters={...m.parameters,docs:{...m.parameters?.docs,source:{originalSource:`{
+  parameters: defineDocsParam({
+    description: {
+      story: 'Observes a single data-* attribute change on the document root element.'
+    }
+  }),
+  render: () => {
+    const [log, setLog] = useState<string[]>([]);
+    useEffect(() => {
+      const observer = observeAttributes({
+        'data-theme': value => {
+          setLog(prev => [...prev, \`data-theme: \${value}\`]);
+        }
+      });
+      return () => observer.disconnect();
+    }, []);
+    return <div className="font-sans">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <ToggleAttributeButton attribute="data-theme" />
+                </div>
+                <LogPanel title="Attribute Changes:" log={log} />
+            </div>;
+  },
+  play: async ({
+    canvas
+  }) => {
+    const btn = canvas.getByRole('button', {
+      name: 'Toggle data-theme'
+    });
+    await userEvent.click(btn);
+    await userEvent.click(btn);
+    await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument();
+    await expect(canvas.getByText('data-theme: null')).toBeInTheDocument();
+  }
+}`,...m.parameters?.docs?.source}}};i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  parameters: defineDocsParam({
+    description: {
+      story: 'Observes multiple attributes simultaneously.'
+    }
+  }),
+  render: () => {
+    const [log, setLog] = useState<string[]>([]);
+    useEffect(() => {
+      const observer = observeAttributes({
+        'data-theme': value => {
+          setLog(prev => [...prev, \`data-theme: \${value}\`]);
+        },
+        'data-color-scheme': value => {
+          setLog(prev => [...prev, \`data-color-scheme: \${value}\`]);
+        }
+      });
+      return () => observer.disconnect();
+    }, []);
+    return <div className="font-sans">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <ToggleAttributeButton attribute="data-theme" />
+                    <ToggleAttributeButton attribute="data-color-scheme" />
+                </div>
+                <LogPanel title="Attribute Changes:" log={log} />
+            </div>;
+  },
+  play: async ({
+    canvas
+  }) => {
+    const btn = canvas.getByRole('button', {
+      name: 'Toggle data-theme'
+    });
+    await userEvent.click(btn);
+    await userEvent.click(btn);
+    await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument();
+    await expect(canvas.getByText('data-theme: null')).toBeInTheDocument();
+    const btn2 = canvas.getByRole('button', {
+      name: 'Toggle data-color-scheme'
+    });
+    await userEvent.click(btn2);
+    await userEvent.click(btn2);
+    await expect(canvas.getByText('data-color-scheme: test-value')).toBeInTheDocument();
+    await expect(canvas.getByText('data-color-scheme: null')).toBeInTheDocument();
+  }
+}`,...i.parameters?.docs?.source}}};u.parameters={...u.parameters,docs:{...u.parameters?.docs,source:{originalSource:`{
+  args: {
+    attributes: ['data-theme'],
+    element: 'custom'
+  },
+  parameters: defineDocsParam({
+    description: {
+      story: 'Observes attribute changes on a custom element instead of the document root.'
+    }
+  }),
+  render: () => {
+    const [log, setLog] = useState<string[]>([]);
+    const customElementRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (!customElementRef.current) return;
+      const observer = observeAttributes({
+        'data-theme': value => {
+          setLog(prev => [...prev, \`data-theme: \${value}\`]);
+        }
+      }, customElementRef.current);
+      return () => observer.disconnect();
+    }, [customElementRef]);
+    return <div className="font-sans">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <ToggleAttributeButton attribute="data-theme" ref={customElementRef} />
+                </div>
+                <div ref={customElementRef} className="p-4 border border-gray-300 mb-4">
+                    Custom Element to observe
+                </div>
+                <LogPanel title="Attribute Changes:" log={log} />
+            </div>;
+  },
+  play: async ({
+    canvas
+  }) => {
+    const btn = canvas.getByRole('button', {
+      name: 'Toggle data-theme'
+    });
+    const element = canvas.getByText('Custom Element to observe');
+    await userEvent.click(btn);
+    await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument();
+    const dataTheme = element.getAttribute('data-theme');
+    await expect(dataTheme).toBe('test-value');
+    await userEvent.click(btn);
+    await expect(canvas.getByText('data-theme: null')).toBeInTheDocument();
+    const dataTheme2 = element.getAttribute('data-theme');
+    await expect(dataTheme2).toBeNull();
+  }
+}`,...u.parameters?.docs?.source}}};const E=["BasicUsage","MultipleAttributes","CustomElement"];export{m as BasicUsage,u as CustomElement,i as MultipleAttributes,E as __namedExportsOrder,w as default};
