@@ -18,10 +18,10 @@ const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	// staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
-		// getAbsolutePath('@storybook/addon-vitest'),
 		// getAbsolutePath('storybook-addon-tag-badges'),
+		getAbsolutePath('@storybook/addon-docs'),
+		getAbsolutePath('@storybook/addon-vitest'),
 		// getAbsolutePath('@storybook-community/storybook-dark-mode'),
-		// getAbsolutePath('@storybook/addon-docs'),
 		// getAbsolutePath('storybook-addon-code-editor'),
 		getAbsolutePath('storybook-addon-vis'),
 		// {
