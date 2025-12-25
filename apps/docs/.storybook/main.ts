@@ -1,52 +1,29 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
-import { createRequire } from "node:module";
 import type { StorybookConfig } from '@storybook/react-vite'
-import { dirname, join } from 'node:path'
 
-const require = createRequire(import.meta.url);
-
-/**
- * This function is used to resolve the absolute path of a package.
- * It is needed in projects that use Yarn PnP or are set up within a monorepo.
- */
-function getAbsolutePath(value: string): any {
-	return dirname(require.resolve(join(value, 'package.json')))
-}
 const config: StorybookConfig = {
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+	stories: [
+		'../src/**/*.@(mdx|stories.tsx)',
+		{
+			titlePrefix: '@just-web/css',
+			directory: '../../../libs/css',
+			files: 'src/**/*.@(mdx|stories.tsx)',
+		},
+		{
+			titlePrefix: '@just-web/types',
+			directory: '../../../libs/types',
+			files: 'src/**/*.@(mdx|stories.tsx)',
+		},
+	],
 	addons: [
-		getAbsolutePath('@storybook/addon-docs'),
-		getAbsolutePath('@storybook/addon-themes'),
-		getAbsolutePath('@storybook/addon-vitest'),
-		getAbsolutePath('@storybook-community/storybook-dark-mode'),
+		'@storybook/addon-docs',
+		'@storybook/addon-themes',
+		'@storybook-community/storybook-dark-mode',
+		'@storybook/addon-vitest',
 	],
 	framework: {
-		name: getAbsolutePath('@storybook/react-vite'),
+		name: '@storybook/react-vite',
 		options: {},
-	},
-	refs: (_config, { configType }) => {
-		if (configType === 'PRODUCTION') {
-			return {
-				'@just-web/css': {
-					title: '@just-web/css',
-					url: 'https://justland.github.io/just-web-foundation/css',
-				},
-				'@just-web/types': {
-					title: '@just-web/types',
-					url: 'https://justland.github.io/just-web-foundation/types',
-				},
-			}
-		}
-		return {
-			'@just-web/css': {
-				title: '@just-web/css',
-				url: 'http://localhost:6206',
-			},
-			'@just-web/types': {
-				title: '@just-web/types',
-				url: 'http://localhost:6208',
-			},
-		}
 	},
 }
 export default config
