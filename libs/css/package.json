@@ -13,13 +13,13 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./esm/index.d.ts",
-			"default": "./esm/index.js"
+			"types": "./esm/index.d.mts",
+			"default": "./esm/index.mjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./cjs/index.js",
-	"types": "./cjs/index.d.ts",
+	"main": "./cjs/index.cjs",
+	"types": "./cjs/index.d.cts",
 	"files": [
 		"cjs",
 		"esm",
@@ -28,11 +28,9 @@
 		"!**/*.mdx"
 	],
 	"scripts": {
-		"build": "run-p build:*",
+		"build": "tsdown",
 		"build-doc": "storybook build -o ../../docs/css",
-		"build:cjs": "unbuild && ncp ../../tools/ts/package.cjs.json ./cjs/package.json",
-		"build:esm": "tsc -p tsconfig.esm.json",
-		"clean": "rimraf .turbo esm *.tsbuildinfo",
+		"clean": "rimraf .turbo cjs esm *.tsbuildinfo dist",
 		"cov": "vitest run --coverage",
 		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
@@ -58,7 +56,6 @@
 		"@vitest/browser-playwright": "^4.0.16",
 		"@vitest/coverage-v8": "^4.0.16",
 		"dedent": "^1.6.0",
-		"ncp": "^2.0.0",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"rimraf": "^6.0.1",
@@ -67,8 +64,8 @@
 		"storybook-addon-tag-badges": "^3.0.4",
 		"storybook-addon-vis": "^3.1.2",
 		"tailwindcss": "^4.1.18",
+		"tsdown": "^0.18.3",
 		"typescript": "^5.8.3",
-		"unbuild": "^3.5.0",
 		"vite": "^7.3.0",
 		"vitest": "^4.0.16",
 		"vitest-browser-react": "^2.0.2"

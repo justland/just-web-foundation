@@ -1,4 +1,0 @@
-{
-	"extends": "@tools/typescript/tsconfig.project.json",
-	"include": [".storybook/*", "*.ts", ".turbo/preview.tsx"]
-}

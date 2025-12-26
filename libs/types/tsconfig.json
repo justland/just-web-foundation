@@ -1,4 +1,8 @@
 {
-	"extends": "./tsconfig.esm.json",
-	"references": [{ "path": "./tsconfig.project.json" }]
+	"extends": "@tools/typescript/tsconfig.json",
+	"compilerOptions": {
+		// `rewriteRelativeImportExtensions` and exporting src directly requires consumer to use the same setting.
+		"rewriteRelativeImportExtensions": false
+	},
+	"include": [".storybook/*", "src", "*.ts"]
 }
