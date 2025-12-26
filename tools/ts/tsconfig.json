@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"composite": true,
 		"jsx": "react-jsxdev",
-		"module": "ESNext",
+		"module": "preserve",
 		"moduleResolution": "bundler",
 		"noFallthroughCasesInSwitch": true,
 		"skipLibCheck": true,

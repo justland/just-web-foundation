@@ -1,4 +1,7 @@
 {
-	"extends": "./tsconfig.esm.json",
-	"references": [{ "path": "./tsconfig.project.json" }]
+	"extends": "@tools/typescript/tsconfig.json",
+	"compilerOptions": {
+		"rewriteRelativeImportExtensions": true
+	},
+	"include": [".storybook/*", "src", "*.ts"]
 }

@@ -32,7 +32,7 @@
 		"build-doc": "storybook build -o ../../docs/css",
 		"build:cjs": "unbuild && ncp ../../tools/ts/package.cjs.json ./cjs/package.json",
 		"build:esm": "tsc -p tsconfig.esm.json",
-		"clean": "rimraf .turbo esm *.tsbuildinfo",
+		"clean": "rimraf .turbo cjs esm *.tsbuildinfo",
 		"cov": "vitest run --coverage",
 		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
