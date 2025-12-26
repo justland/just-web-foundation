@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.8.0
+
+### Minor Changes
+
+- 3b79e92: Build with `tsdown`
+
 ## 0.7.0
 
 ### Minor Changes
