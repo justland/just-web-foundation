@@ -1,13 +1,13 @@
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent } from 'storybook/test'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { expect, userEvent } from 'storybook/test'
 import { getThemeByClassName } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.tsx'
 
 const meta = {
 	title: 'theme/getThemeByClassName',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'new', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function that determines the current theme based on element class name.',

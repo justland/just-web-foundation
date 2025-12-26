@@ -1,13 +1,13 @@
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent } from 'storybook/test'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
+import { expect, userEvent } from 'storybook/test'
 import { observeAttributes } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.tsx'
 
 const meta = {
 	title: 'utils/observeAttributes',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.5'],
 } satisfies Meta
 
 export default meta

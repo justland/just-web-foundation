@@ -6,7 +6,7 @@ import * as css from '../index.ts'
 
 export default {
 	title: 'props/StyleProps',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'new', 'version:0.1'],
 	render: () => <></>,
 } satisfies Meta
 

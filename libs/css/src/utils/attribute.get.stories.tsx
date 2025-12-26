@@ -10,7 +10,7 @@ interface StoryArgs {
 const meta = {
 	title: 'utils/getAttribute',
 	component: getAttribute,
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.5'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get attribute values from DOM element',

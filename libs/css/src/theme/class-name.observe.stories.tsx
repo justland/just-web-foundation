@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent } from 'storybook/test'
 import { useEffect, useState } from 'react'
+import { expect, userEvent } from 'storybook/test'
 import { observeThemeByClassName } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.js'
 import { ToggleAttributeButton } from '../testing/toggle-attribute-button.js'
 
 const meta = {
 	title: 'theme/observeThemeByClassName',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'new', 'version:0.1'],
 } satisfies Meta
 
 export default meta

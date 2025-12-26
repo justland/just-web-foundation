@@ -6,7 +6,7 @@ import * as css from '../index.ts'
 
 export default {
 	title: 'props/ClassNameProps',
-	tags: ['version:1.0.0', 'autodocs', 'new'],
+	tags: ['version:0.1', 'autodocs', 'new'],
 	render: () => <div />,
 } satisfies Meta
 

@@ -5,7 +5,7 @@ import { toDOMStyle } from '../index.ts'
 
 const meta = {
 	title: 'CSS Properties/toDOMStyle',
-	tags: ['new', 'version:1.0'],
+	tags: ['new', 'version:0.4'],
 } satisfies Meta
 
 export default meta

@@ -5,7 +5,7 @@ import { getPrefersColorTheme, observePrefersColorScheme } from '../index.ts'
 
 const meta = {
 	title: 'utils/observePrefersColorScheme',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:
