@@ -1,4 +1,5 @@
 ignores:
   - .changeset/**
   - .cursor/rules/**
+  - '**/CHANGELOG.md'
   - '**/LICENSE'
