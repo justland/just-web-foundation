@@ -1,5 +1,21 @@
 # @just-web/css
 
+## 0.8.0
+
+### Minor Changes
+
+- 08f72f4: Add new `Properties` interface and `defineProperties` function with improved type parameters for CSS properties. The old `CSSProperties` interface and `defineCSSProperties` function are now deprecated but remain available for backward compatibility.
+
+  Re-export other types from `csstype` package.
+
+- 3b79e92: Build with `tsdown`
+- 59a92f4: Add `defineProperties`, deprecated `defineCSSProperties`.
+  Add `Properties` type, deprecated `CSSProperties` type.
+
+  Update `StyleProps` type to include generic type parameters using `Properties` type instead of `CSSProperties` type.
+
+  These changes improve alignment with the `csstype` package.
+
 ## 0.7.0
 
 ### Minor Changes
