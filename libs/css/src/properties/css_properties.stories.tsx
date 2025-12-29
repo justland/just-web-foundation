@@ -1,11 +1,11 @@
+import { defineCSSProperties } from '#just-web/css'
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { defineCSSProperties } from '../index.ts'
 
 export default {
-	title: 'CSS Properties/CSSProperties',
+	title: 'Properties/CSSProperties',
 	tags: ['autodocs', 'code-only', 'new', 'version:0.1'],
 	decorators: [showDocSource()],
 	render: () => <></>,

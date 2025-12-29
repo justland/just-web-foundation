@@ -11,6 +11,9 @@
 	"license": "MIT",
 	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
+	"imports": {
+		"#just-web/css": "./src/index.ts"
+	},
 	"exports": {
 		".": {
 			"types": "./esm/index.d.mts",
