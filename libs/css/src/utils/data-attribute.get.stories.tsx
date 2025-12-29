@@ -1,6 +1,6 @@
+import { getDataAttribute } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { getDataAttribute } from './data-attribute.js'
 
 interface StoryArgs {
 	attributeName: `data-${string}`
@@ -10,7 +10,7 @@ interface StoryArgs {
 const meta = {
 	title: 'utils/getDataAttribute',
 	component: getDataAttribute,
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get `data-*` attribute values from DOM element',

@@ -1,12 +1,12 @@
+import { defineCSSProperties, getCSSPropValues } from '#just-web/css'
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect } from 'storybook/test'
 import dedent from 'dedent'
-import { defineCSSProperties, getCSSPropValues } from '../index.js'
+import { expect } from 'storybook/test'
 
 export default {
 	title: 'utils/getCSSPropValues',
-	tags: ['code-only', 'new', 'version:1.0.0'],
+	tags: ['code-only', 'version:0.1'],
 	decorators: [showDocSource()],
 	render: () => <></>,
 } satisfies Meta

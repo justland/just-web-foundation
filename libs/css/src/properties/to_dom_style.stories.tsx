@@ -1,18 +1,18 @@
+import type { Properties } from '#just-web/css'
+import { toDOMStyle } from '#just-web/css'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useRef } from 'react'
-import type { CSSProperties } from '../index.ts'
-import { toDOMStyle } from '../index.ts'
 
 const meta = {
 	title: 'CSS Properties/toDOMStyle',
-	tags: ['new', 'version:1.0'],
+	tags: ['new', 'version:0.4'],
 } satisfies Meta
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-const DemoComponent = ({ style, title }: { style: CSSProperties | undefined; title: string }) => {
+const DemoComponent = ({ style, title }: { style: Properties | undefined; title: string }) => {
 	const domStyle = toDOMStyle(style)
 
 	const element = useRef<HTMLDivElement>(null)
@@ -58,7 +58,7 @@ const DemoComponent = ({ style, title }: { style: CSSProperties | undefined; tit
 
 export const BasicUsage: Story = {
 	render() {
-		const style: CSSProperties = {
+		const style: Properties = {
 			backgroundColor: 'lightblue',
 			color: 'darkblue',
 			padding: '1rem',
@@ -71,7 +71,7 @@ export const BasicUsage: Story = {
 
 export const CamelCaseConversion: Story = {
 	render() {
-		const style: CSSProperties = {
+		const style: Properties = {
 			backgroundColor: 'lightgreen',
 			fontSize: '1.2rem',
 			fontWeight: 'bold',
@@ -86,7 +86,7 @@ export const CamelCaseConversion: Story = {
 
 export const CustomProperties: Story = {
 	render() {
-		const style: CSSProperties = {
+		const style: Properties = {
 			'--primary-color': '#ff6b6b',
 			'--secondary-color': '#4ecdc4',
 			'--border-width': '3px',
@@ -104,7 +104,7 @@ export const CustomProperties: Story = {
 
 export const MixedProperties: Story = {
 	render() {
-		const style: CSSProperties = {
+		const style: Properties = {
 			'--theme-color': '#9c88ff',
 			'--spacing': '1.5rem',
 			backgroundColor: 'var(--theme-color)',

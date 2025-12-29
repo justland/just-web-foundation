@@ -1,10 +1,10 @@
+import { getPrefersColorTheme } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { getPrefersColorTheme } from '../index.ts'
 
 const meta = {
 	title: 'utils/getPrefersColorScheme',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function that returns the current preferred color theme from the system settings.',

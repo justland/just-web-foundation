@@ -5,7 +5,7 @@ import { getThemeByDataAttribute } from '../index.ts'
 
 const meta = {
 	title: 'theme/getThemeByDataAttribute',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'new', 'version:0.5'],
 } satisfies Meta
 
 export default meta

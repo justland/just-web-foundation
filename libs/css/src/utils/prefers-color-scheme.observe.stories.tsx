@@ -1,11 +1,11 @@
+import { getPrefersColorTheme, observePrefersColorScheme } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
-import { getPrefersColorTheme, observePrefersColorScheme } from '../index.ts'
 
 const meta = {
 	title: 'utils/observePrefersColorScheme',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:

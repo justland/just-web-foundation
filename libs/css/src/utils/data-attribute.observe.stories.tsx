@@ -1,14 +1,14 @@
+import { observeAttributes } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent } from 'storybook/test'
 import { useEffect, useRef, useState } from 'react'
-import { observeAttributes } from '../index.ts'
+import { expect, userEvent } from 'storybook/test'
 import { LogPanel } from '../testing/log-panel.tsx'
 import { ToggleAttributeButton } from '../testing/toggle-attribute-button.tsx'
 
 const meta = {
 	title: 'utils/observeDataAttribute',
-	tags: ['autodocs', 'new', 'version:1.0.0'],
+	tags: ['autodocs', 'version:0.1'],
 } satisfies Meta
 
 export default meta
