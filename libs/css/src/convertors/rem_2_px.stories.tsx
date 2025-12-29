@@ -1,5 +1,5 @@
+import { rem2px } from '#just-web/css'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { rem2px } from '../index.ts'
 
 const meta = {
 	title: 'convertors/rem2px',

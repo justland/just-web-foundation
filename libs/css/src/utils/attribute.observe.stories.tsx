@@ -1,8 +1,8 @@
+import { observeAttributes } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { observeAttributes } from '../index.ts'
 import { LogPanel } from '../testing/log-panel.tsx'
 
 const meta = {

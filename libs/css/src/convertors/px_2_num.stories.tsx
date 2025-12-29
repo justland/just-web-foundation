@@ -1,6 +1,6 @@
+import { px2num } from '#just-web/css'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect } from 'storybook/test'
-import { px2num } from '../index.ts'
 
 const meta = {
 	title: 'convertors/px2num',

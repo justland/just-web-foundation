@@ -1,5 +1,5 @@
+import { px2rem } from '#just-web/css'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { px2rem } from '../index.ts'
 
 const meta = {
 	title: 'convertors/px2rem',
