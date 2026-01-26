@@ -1,5 +1,5 @@
-import type { StorybookConfig } from '@storybook/react-vite'
 import { fileURLToPath } from 'node:url'
+import type { StorybookConfig } from '@storybook/react-vite'
 import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
 import { defineStorybookVis } from 'storybook-addon-vis/node'
 

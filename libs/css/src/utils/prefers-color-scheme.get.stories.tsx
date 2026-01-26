@@ -1,6 +1,6 @@
-import { getPrefersColorTheme } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { getPrefersColorTheme } from '#just-web/css'
 
 const meta = {
 	title: 'utils/getPrefersColorScheme',
