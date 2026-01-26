@@ -11,14 +11,14 @@
 		"w": "vitest"
 	},
 	"devDependencies": {
-		"@repobuddy/storybook": "^2.1.2",
+		"@repobuddy/storybook": "^2.4.0",
 		"@repobuddy/vitest": "^2.1.1",
 		"@storybook-community/storybook-dark-mode": "^7.0.3",
 		"@storybook/addon-docs": "^10.1.10",
 		"@storybook/addon-themes": "^10.1.10",
 		"@storybook/addon-vitest": "^10.1.10",
 		"@storybook/react-vite": "^10.1.10",
-		"@tailwindcss/vite": "^4.1.6",
+		"@tailwindcss/vite": "^4.1.18",
 		"@tools/typescript": "workspace:^",
 		"@vitest/browser": "^4.0.16",
 		"@vitest/browser-playwright": "^4.0.16",
@@ -28,7 +28,7 @@
 		"storybook": "^10.1.10",
 		"storybook-addon-tag-badges": "^3.0.4",
 		"storybook-addon-vis": "^3.1.2",
-		"tailwindcss": "^4.1.6",
+		"tailwindcss": "^4.1.18",
 		"typescript": "^5.8.3",
 		"vite": "^7.3.0",
 		"vitest": "^4.0.16"
