@@ -22,6 +22,7 @@
 		"sb": "turbo run sb",
 		"size": "turbo run size",
 		"test": "turbo run test",
+		"tk": "pnpm --filter ./libs/toolkits",
 		"types": "pnpm --filter ./libs/types",
 		"verify": "turbo run check cov depcheck size",
 		"version": "changeset version && node scripts/update-version-tags.mjs",

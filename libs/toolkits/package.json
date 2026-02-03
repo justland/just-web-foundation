@@ -1,40 +1,60 @@
 {
-	"name": "@just-web/types",
-	"version": "0.2.0",
-	"description": "Common types for web applications",
-	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/types",
+	"name": "@just-web/toolkits",
+	"version": "0.0.0",
+	"description": "Toolkits for web applications",
+	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/toolkits",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/justland/just-web-foundation.git",
-		"directory": "libs/types"
+		"directory": "libs/toolkits"
 	},
 	"license": "MIT",
 	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
+	"imports": {
+		"#just-web/toolkits": "./src/index.ts"
+	},
 	"exports": {
-		".": "./src/index.ts",
+		".": {
+			"types": "./dist/index.d.mts",
+			"default": "./dist/index.mjs"
+		},
 		"./package.json": "./package.json"
 	},
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
+	"main": "./dist/index.cjs",
+	"types": "./dist/index.d.cts",
 	"files": [
+		"cjs",
+		"esm",
 		"src",
-		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*"
+		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
+		"!**/*.mdx"
 	],
 	"scripts": {
-		"build-doc": "storybook build -o ../../docs/types",
+		"build": "tsdown",
+		"build-doc": "storybook build -o ../../docs/foundation",
+		"clean": "rimraf .turbo dist *.tsbuildinfo",
+		"cov": "vitest run --coverage",
+		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
-		"sb": "storybook dev -p 6208",
+		"sb": "storybook dev -p 6206",
 		"test": "vitest run",
 		"w": "vitest"
+	},
+	"dependencies": {
+		"@just-web/css": "workspace:^",
+		"@just-web/types": "workspace:^",
+		"react-aria-components": "^1.14.0"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.6.0",
 		"@repobuddy/vitest": "^2.1.1",
 		"@storybook-community/storybook-dark-mode": "^7.0.3",
 		"@storybook/addon-docs": "^10.1.10",
+		"@storybook/addon-themes": "^10.1.10",
 		"@storybook/addon-vitest": "^10.1.10",
 		"@storybook/react-vite": "^10.1.10",
+		"@tailwindcss/cli": "^4.1.18",
 		"@tailwindcss/vite": "^4.1.18",
 		"@tools/typescript": "workspace:^",
 		"@vitest/browser": "^4.0.16",
@@ -49,8 +69,10 @@
 		"storybook-addon-tag-badges": "^3.0.4",
 		"storybook-addon-vis": "^3.1.2",
 		"tailwindcss": "^4.1.18",
+		"tsdown": "^0.18.3",
 		"typescript": "^5.8.3",
 		"vite": "^7.3.0",
-		"vitest": "^4.0.16"
+		"vitest": "^4.0.16",
+		"vitest-browser-react": "^2.0.2"
 	}
 }

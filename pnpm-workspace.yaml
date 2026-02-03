@@ -13,6 +13,6 @@ onlyBuiltDependencies:
   - esbuild
 
 minimumReleaseAge: 4320 # 3 days
-minimumReleaseAgeExclude:
-  - '@just-web/*'
-  - '@repobuddy/*'
+# minimumReleaseAgeExclude:
+#   - '@just-web/*'
+#   - '@repobuddy/storybook'
