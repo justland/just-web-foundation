@@ -46,4 +46,4 @@ export type DataAttribute =
 	| 'data-color'
 	| 'data-intent'
 	// Custom
-	| `data-${string}`
+	| (`data-${string}` & {})
