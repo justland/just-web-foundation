@@ -88,7 +88,8 @@
 	"prettier.useTabs": true,
 	"tailwindCSS.classFunctions": ["cva", "cx"],
 	"tailwindCSS.experimental.configFile": {
-		"libs/css/src/tailwind.css": "libs/css/src/**"
+		"libs/css/src/tailwind.css": "libs/css/src/**",
+		"libs/toolkits/tailwind.css": "libs/toolkits/src/**"
 	},
 	"tailwindCSS.experimental.classRegex": [
 		"tw`([^`]*)",
