@@ -67,8 +67,8 @@ importers:
   apps/docs:
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^2.10.0
-        version: 2.10.0(2be924b255c1d6953e5eab95fd36570f)
+        specifier: ^2.11.0
+        version: 2.11.0(2be924b255c1d6953e5eab95fd36570f)
       '@repobuddy/vitest':
         specifier: ^2.1.1
         version: 2.1.1(@vitest/browser-playwright@4.0.18)(vitest@4.0.18)
@@ -140,8 +140,8 @@ importers:
         version: 8.0.0-beta.7
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^2.10.0
-        version: 2.10.0(2be924b255c1d6953e5eab95fd36570f)
+        specifier: ^2.11.0
+        version: 2.11.0(2be924b255c1d6953e5eab95fd36570f)
       '@repobuddy/vitest':
         specifier: ^2.1.1
         version: 2.1.1(@vitest/browser-playwright@4.0.18)(vitest@4.0.18)
@@ -231,8 +231,8 @@ importers:
         version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^2.10.0
-        version: 2.10.0(2be924b255c1d6953e5eab95fd36570f)
+        specifier: ^2.11.0
+        version: 2.11.0(2be924b255c1d6953e5eab95fd36570f)
       '@repobuddy/vitest':
         specifier: ^2.1.1
         version: 2.1.1(@vitest/browser-playwright@4.0.18)(vitest@4.0.18)
@@ -299,6 +299,9 @@ importers:
       tsdown:
         specifier: ^0.18.4
         version: 0.18.4(typescript@5.9.3)
+      type-plus:
+        specifier: 8.0.0-beta.8
+        version: 8.0.0-beta.8(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -315,8 +318,8 @@ importers:
   libs/types:
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^2.10.0
-        version: 2.10.0(2be924b255c1d6953e5eab95fd36570f)
+        specifier: ^2.11.0
+        version: 2.11.0(2be924b255c1d6953e5eab95fd36570f)
       '@repobuddy/vitest':
         specifier: ^2.1.1
         version: 2.1.1(@vitest/browser-playwright@4.0.18)(vitest@4.0.18)
@@ -2620,8 +2623,8 @@ packages:
     peerDependencies:
       '@biomejs/biome': '>= 2'
 
-  '@repobuddy/storybook@2.10.0':
-    resolution: {integrity: sha512-//ROnrkCR0v8oeb3x6+DP+sHefKbntlOgpQzddEAmTB1dDY7xqPmDfgy3O/a9zXFtyHpVXbvxRXaYlQ+IyRQNw==}
+  '@repobuddy/storybook@2.11.0':
+    resolution: {integrity: sha512-OgBSucXKfg/M8nVnKgGbXcOMTw+7upb+yUtTs9PexdeKtMVopJAf+ZznveGAmCKwvzb3MA2YMl7oI+AW7plUkA==}
     peerDependencies:
       '@storybook-community/storybook-dark-mode': ^7.0.0
       '@storybook/addon-docs': ^10.2.4
@@ -10643,7 +10646,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.3.14
 
-  '@repobuddy/storybook@2.10.0(2be924b255c1d6953e5eab95fd36570f)':
+  '@repobuddy/storybook@2.11.0(2be924b255c1d6953e5eab95fd36570f)':
     dependencies:
       '@just-web/css': 0.8.0
       '@repobuddy/test': 1.0.0
