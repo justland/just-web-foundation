@@ -2,7 +2,7 @@ import { defineParameters } from '@repobuddy/storybook'
 import { withThemeByClassName } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
 
-import '../tailwind.css'
+import './tailwind.css'
 import './tailwind.repobuddy-storybook.css'
 
 const preview: Preview = {
