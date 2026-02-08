@@ -1,4 +1,0 @@
-@import "tailwindcss" prefix(jwtk);
-@import "@repobuddy/storybook/tailwind";
-
-@custom-variant dark (&:where(.dark, .dark *));
