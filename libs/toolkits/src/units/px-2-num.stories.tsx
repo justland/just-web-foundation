@@ -24,18 +24,18 @@ function RenderTestCases({
 	}[]
 }) {
 	return (
-		<div className="jwtk:space-y-4">
-			<h3 className="jwtk:text-lg jwtk:font-semibold">{title}</h3>
-			<div className="jwtk:space-y-2">
+		<div className="space-y-4">
+			<h3 className="text-lg font-semibold">{title}</h3>
+			<div className="space-y-2">
 				{testcases.map(({ input, expected, description }, index) => (
 					<div
 						key={`${index}-${input}`}
-						className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
+						className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
 					>
-						<code className="jwtk:text-sm">px2num({input})</code>
+						<code className="text-sm">px2num({input})</code>
 						<span>→</span>
-						<code className="jwtk:text-sm jwtk:font-mono">{px2num(input)}</code>
-						<span className="jwtk:text-gray-500 jwtk:text-sm">
+						<code className="text-sm font-mono">{px2num(input)}</code>
+						<span className="text-gray-500 text-sm">
 							({description ? `${description}, ` : ''}expected: {expected})
 						</span>
 					</div>
@@ -155,9 +155,9 @@ export const Validation: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Validation & Edge Cases</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Validation & Edge Cases</h3>
+				<div className="space-y-2">
 					{invalidInputs.map(({ input, expected, description }) => {
 						const result = px2num(input)
 						const isValid = !Number.isNaN(result) && result === Number(expected)
@@ -165,21 +165,19 @@ export const Validation: Story = {
 						return (
 							<div
 								key={input}
-								className={`jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:rounded ${
-									isValid ? 'jwtk:bg-green-50 dark:jwtk:bg-green-900/20' : 'jwtk:bg-red-50 dark:jwtk:bg-red-900/20'
+								className={`flex items-center space-x-4 p-2 rounded ${
+									isValid ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'
 								}`}
 							>
-								<code className="jwtk:text-sm">px2num('{input}')</code>
+								<code className="text-sm">px2num('{input}')</code>
 								<span>→</span>
-								<code className="jwtk:text-sm jwtk:font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
+								<code className="text-sm font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
 								<span
-									className={`jwtk:text-sm ${isValid ? 'jwtk:text-green-600 dark:jwtk:text-green-400' : 'jwtk:text-red-600 dark:jwtk:text-red-400'}`}
+									className={`text-sm ${isValid ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
 								>
 									({description})
 								</span>
-								{!isValid && (
-									<span className="jwtk:text-xs jwtk:text-red-500 dark:jwtk:text-red-400">Expected: {expected}</span>
-								)}
+								{!isValid && <span className="text-xs text-red-500 dark:text-red-400">Expected: {expected}</span>}
 							</div>
 						)
 					})}
@@ -202,9 +200,9 @@ export const TypeValidation: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Type Validation</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Type Validation</h3>
+				<div className="space-y-2">
 					{typeTests.map(({ input, description }) => {
 						let result: number
 						let error: string | null = null
@@ -219,18 +217,16 @@ export const TypeValidation: Story = {
 						return (
 							<div
 								key={description}
-								className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-yellow-50 dark:jwtk:bg-yellow-900/20 jwtk:rounded"
+								className="flex items-center space-x-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded"
 							>
-								<code className="jwtk:text-sm">px2num({Array.isArray(input) ? '[]' : String(input)})</code>
+								<code className="text-sm">px2num({Array.isArray(input) ? '[]' : String(input)})</code>
 								<span>→</span>
 								{error ? (
-									<code className="jwtk:text-sm jwtk:font-mono jwtk:text-red-600 dark:jwtk:text-red-400">
-										Error: {error}
-									</code>
+									<code className="text-sm font-mono text-red-600 dark:text-red-400">Error: {error}</code>
 								) : (
-									<code className="jwtk:text-sm jwtk:font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
+									<code className="text-sm font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
 								)}
-								<span className="jwtk:text-sm jwtk:text-yellow-600 dark:jwtk:text-yellow-400">({description})</span>
+								<span className="text-sm text-yellow-600 dark:text-yellow-400">({description})</span>
 							</div>
 						)
 					})}
@@ -249,9 +245,9 @@ export const PerformanceTest: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Performance Test</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Performance Test</h3>
+				<div className="space-y-2">
 					{testCases.map(({ count, input }) => {
 						const start = performance.now()
 
@@ -265,14 +261,14 @@ export const PerformanceTest: Story = {
 						return (
 							<div
 								key={`${input}-${count}`}
-								className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-blue-50 dark:jwtk:bg-blue-900/20 jwtk:rounded"
+								className="flex items-center space-x-4 p-2 bg-blue-50 dark:bg-blue-900/20 rounded"
 							>
-								<code className="jwtk:text-sm">
+								<code className="text-sm">
 									{count} × px2num({typeof input === 'string' ? `'${input}'` : input})
 								</code>
 								<span>→</span>
-								<code className="jwtk:text-sm jwtk:font-mono">{duration.toFixed(2)}ms</code>
-								<span className="jwtk:text-sm jwtk:text-blue-600 dark:jwtk:text-blue-400">
+								<code className="text-sm font-mono">{duration.toFixed(2)}ms</code>
+								<span className="text-sm text-blue-600 dark:text-blue-400">
 									({(duration / count).toFixed(4)}ms per call)
 								</span>
 							</div>

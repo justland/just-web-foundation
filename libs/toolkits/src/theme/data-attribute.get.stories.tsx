@@ -20,7 +20,7 @@ const themes = {
 
 function ShowResult({ theme, value }: { theme: string | undefined; value: string | null }) {
 	return (
-		<div className="jwtk:font-sans">
+		<div className="font-sans">
 			<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
 			<p>Data attribute value: {value === null ? '(null)' : value}</p>
 		</div>

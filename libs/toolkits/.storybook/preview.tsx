@@ -23,14 +23,14 @@ const preview: Preview = {
 		// defineDarkModeParam({
 		// 	classTarget: 'html',
 		// 	stylePreview: true,
-		// 	darkClass: ['dark', 'jwtk:bg-black', 'jwtk:text-white'],
+		// 	darkClass: ['dark', 'bg-black', 'text-white'],
 		// }),
 	),
 	decorators: [
 		withThemeByClassName({
 			themes: {
 				light: '',
-				dark: 'dark jwtk:bg-black jwtk:text-white',
+				dark: 'dark bg-black text-white',
 			},
 			defaultTheme: 'light',
 		}),

@@ -32,8 +32,8 @@ export const BasicUsage: StoryObj = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />
@@ -71,8 +71,8 @@ export const MultipleAttributes: StoryObj = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" />
 					<ToggleAttributeButton attribute="data-color-scheme" />
 				</div>
@@ -123,11 +123,11 @@ export const CustomElement: StoryObj = {
 		}, [customElementRef])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" ref={customElementRef} />
 				</div>
-				<div ref={customElementRef} className="jwtk:p-4 jwtk:border jwtk:border-gray-300 jwtk:mb-4">
+				<div ref={customElementRef} className="p-4 border border-gray-300 mb-4">
 					Custom Element to observe
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />

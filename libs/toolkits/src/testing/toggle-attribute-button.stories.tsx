@@ -40,8 +40,8 @@ export const BasicUsage: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans jwtk:space-y-4">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2">
+			<div className="font-sans space-y-4">
+				<div className="flex flex-wrap gap-2">
 					<ToggleAttributeButton attribute="data-demo" values={['test-value']} />
 				</div>
 				<LogPanel title="Attribute changes (on document):" log={log} />
@@ -80,8 +80,8 @@ export const WithCustomValues: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans jwtk:space-y-4">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2">
+			<div className="font-sans space-y-4">
+				<div className="flex flex-wrap gap-2">
 					<ToggleAttributeButton {...args} />
 				</div>
 				<LogPanel title="Attribute changes:" log={log} />
@@ -129,14 +129,11 @@ export const WithRefTarget: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans jwtk:space-y-4">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2">
+			<div className="font-sans space-y-4">
+				<div className="flex flex-wrap gap-2">
 					<ToggleAttributeButton attribute="data-state" ref={targetRef} />
 				</div>
-				<div
-					ref={targetRef}
-					className="jwtk:p-4 jwtk:border-2 jwtk:border-neutral-300 jwtk:rounded jwtk:bg-neutral-50 dark:jwtk:bg-neutral-900"
-				>
+				<div ref={targetRef} className="p-4 border-2 border-neutral-300 rounded bg-neutral-50 dark:bg-neutral-900">
 					Target element (attribute toggles here)
 				</div>
 				<LogPanel title="Attribute changes (on target element):" log={log} />

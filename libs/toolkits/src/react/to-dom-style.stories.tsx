@@ -30,24 +30,24 @@ const DemoComponent = ({ style, title }: { style: CSSProperties | undefined; tit
 	}, [domStyle])
 
 	return (
-		<div className="jwtk:m-4 jwtk:p-4 jwtk:border jwtk:border-gray-300 jwtk:rounded">
-			<h3 className="jwtk:m-0 jwtk:mb-4">{title}</h3>
-			<div className="jwtk:flex jwtk:gap-4 jwtk:items-start">
-				<div className="jwtk:flex-1">
-					<h4 className="jwtk:m-0 jwtk:mb-2 jwtk:text-sm">Input (React-style):</h4>
-					<pre className="jwtk:bg-gray-100 dark:jwtk:bg-gray-900 jwtk:p-2 jwtk:rounded jwtk:text-xs jwtk:m-0 jwtk:overflow-auto">
+		<div className="m-4 p-4 border border-gray-300 rounded">
+			<h3 className="m-0 mb-4">{title}</h3>
+			<div className="flex gap-4 items-start">
+				<div className="flex-1">
+					<h4 className="m-0 mb-2 text-sm">Input (React-style):</h4>
+					<pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs m-0 overflow-auto">
 						{JSON.stringify(style, null, 2)}
 					</pre>
 				</div>
-				<div className="jwtk:flex-1">
-					<h4 className="jwtk:m-0 jwtk:mb-2 jwtk:text-sm">Output (DOM-style):</h4>
-					<pre className="jwtk:bg-gray-100 dark:jwtk:bg-gray-900 jwtk:p-2 jwtk:rounded jwtk:text-xs jwtk:m-0 jwtk:overflow-auto">
+				<div className="flex-1">
+					<h4 className="m-0 mb-2 text-sm">Output (DOM-style):</h4>
+					<pre className="bg-gray-100 dark:bg-gray-900 p-2 rounded text-xs m-0 overflow-auto">
 						{JSON.stringify(domStyle, null, 2)}
 					</pre>
 				</div>
 			</div>
-			<div className="jwtk:flex-1">
-				<h4 className="jwtk:m-0 jwtk:mb-2 jwtk:text-sm">Visual Result:</h4>
+			<div className="flex-1">
+				<h4 className="m-0 mb-2 text-sm">Visual Result:</h4>
 				<div ref={element} className="demo-element">
 					Sample Element
 				</div>

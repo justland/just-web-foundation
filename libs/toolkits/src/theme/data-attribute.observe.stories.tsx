@@ -31,8 +31,8 @@ export const BasicUsage: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" values={['light', 'dark']} />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />
@@ -75,8 +75,8 @@ export const WithDifferentAttributeValues: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" values={['light-theme', 'dark-theme']} />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />
@@ -121,8 +121,8 @@ export const WithDefaultTheme: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" values={['light', 'dark']} />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />
@@ -167,8 +167,8 @@ export const WithAllowCustom: Story = {
 		}, [])
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleAttributeButton attribute="data-theme" values={['light', 'custom']} />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />

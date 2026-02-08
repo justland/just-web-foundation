@@ -52,11 +52,11 @@ export const BasicUsage: Story = {
 		}
 
 		return (
-			<div className="jwtk:p-4">
-				<div className="jwtk:mb-4 jwtk:font-medium">
-					<span className="jwtk:font-bold">Current Theme:</span> <span data-testid="current-theme">{currentTheme}</span>
+			<div className="p-4">
+				<div className="mb-4 font-medium">
+					<span className="font-bold">Current Theme:</span> <span data-testid="current-theme">{currentTheme}</span>
 				</div>
-				<div className="jwtk:flex jwtk:gap-2">
+				<div className="flex gap-2">
 					{Object.keys(themes).map((theme: any) => (
 						<ThemeButton key={theme} theme={theme} onChange={handleThemeChange} currentTheme={currentTheme} />
 					))}
@@ -92,7 +92,7 @@ export const DefaultTheme: Story = {
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.className
 		return (
-			<div className="jwtk:font-sans">
+			<div className="font-sans">
 				<p>
 					Current theme: <span data-testid="current-theme">{theme === undefined ? '(undefined)' : theme}</span>
 				</p>
@@ -139,13 +139,13 @@ export const CustomElement: Story = {
 		)
 
 		return (
-			<div className="jwtk:font-sans">
-				<div className="jwtk:flex jwtk:flex-wrap jwtk:gap-2 jwtk:mb-4">
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
 					{Object.keys(themes).map((theme: any) => (
 						<ThemeButton key={theme} theme={theme} onChange={handleThemeChange} currentTheme={currentTheme} />
 					))}
 				</div>
-				<div ref={customElementRef} className="jwtk:p-4 jwtk:border jwtk:border-gray-300 jwtk:mb-4">
+				<div ref={customElementRef} className="p-4 border border-gray-300 mb-4">
 					Custom Element to observe
 				</div>
 				<LogPanel title="Theme by className" log={log} />
@@ -201,14 +201,14 @@ function ThemeButton<Theme extends string>({ theme, onChange, currentTheme }: Th
 		<button
 			onClick={() => onChange(theme)}
 			className={`
-								jwtk:px-4 jwtk:py-2
-								jwtk:rounded
-								jwtk:font-medium
-								jwtk:transition-colors
+								px-4 py-2
+								rounded
+								font-medium
+								transition-colors
 								${
 									currentTheme === theme
-										? 'jwtk:bg-blue-600 jwtk:text-white hover:jwtk:bg-blue-700'
-										: 'jwtk:bg-gray-200 jwtk:text-gray-800 hover:jwtk:bg-gray-300'
+										? 'bg-blue-600 text-white hover:bg-blue-700'
+										: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
 								}
 							`}
 		>

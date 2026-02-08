@@ -36,12 +36,10 @@ export const BasicUsage: Story = {
 		const value = getDataAttribute(props.attributeName)
 		return (
 			<div>
-				<div className="jwtk:mb-4">
+				<div className="mb-4">
 					<code>getDataAttribute('{props.attributeName}')</code>
 				</div>
-				<pre className="jwtk:bg-neutral-100 dark:jwtk:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},
@@ -63,12 +61,10 @@ export const SpecificElement: Story = {
 		const value = getDataAttribute(props.attributeName, element)
 		return (
 			<div>
-				<div className="jwtk:mb-4">
+				<div className="mb-4">
 					<code>getDataAttribute('{props.attributeName}', element)</code>
 				</div>
-				<pre className="jwtk:bg-neutral-100 dark:jwtk:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},
@@ -88,12 +84,10 @@ export const NonExistentAttribute: Story = {
 		const value = getDataAttribute(props.attributeName)
 		return (
 			<div>
-				<div className="jwtk:mb-4">
+				<div className="mb-4">
 					<code>getDataAttribute('{props.attributeName}')</code>
 				</div>
-				<pre className="jwtk:bg-neutral-100 dark:jwtk:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},

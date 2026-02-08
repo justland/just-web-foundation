@@ -56,9 +56,7 @@ export const GetAttributeFromDocumentRoot: Story = {
 
 		return (
 			<div>
-				<pre className="jwtk:bg-neutral-100 jwtk:dark:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},
@@ -81,12 +79,10 @@ export const SpecificElement: Story = {
 		const value = getAttribute(props.qualifiedName, element)
 		return (
 			<div>
-				<div className="jwtk:mb-4">
+				<div className="mb-4">
 					<code>getAttribute('{props.qualifiedName}', element)</code>
 				</div>
-				<pre className="jwtk:bg-neutral-100 jwtk:dark:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},
@@ -108,12 +104,10 @@ export const NonExistentAttribute: Story = {
 		const value = getAttribute(props.qualifiedName)
 		return (
 			<div>
-				<div className="jwtk:mb-4">
+				<div className="mb-4">
 					<code>getAttribute('{props.qualifiedName}')</code>
 				</div>
-				<pre className="jwtk:bg-neutral-100 jwtk:dark:bg-neutral-900 jwtk:p-2 jwtk:rounded">
-					{JSON.stringify(value, null, 2)}
-				</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
 			</div>
 		)
 	},

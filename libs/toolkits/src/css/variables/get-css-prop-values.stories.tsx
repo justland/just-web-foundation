@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showDocSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
@@ -17,11 +17,12 @@ export const SingleValue: StoryObj = {
 			story: 'can be used to get a single value',
 		},
 		source: {
-			code: `getCSSPropValues('--color-gray-100')`,
+			code: `getCSSPropValues('--jwtk-color-gray-100')`,
 		},
 	}),
+	render: () => <StoryCard className="text-black bg-fuchsia-500 bg-orange-400 rbsb:bg-green-400">Hello</StoryCard>,
 	play: () => {
-		const [gray100] = getCSSPropValues('--color-gray-100')
+		const [gray100] = getCSSPropValues('--jwtk-color-gray-100')
 		expect(gray100).toBe('oklch(96.7% 0.003 264.542)')
 	},
 }
