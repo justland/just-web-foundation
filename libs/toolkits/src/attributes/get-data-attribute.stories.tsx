@@ -1,94 +1,127 @@
-import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import { defineDocsParam, type FnToArgTypes, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
 import { getDataAttribute } from '#just-web/toolkits'
+import code from './get-data-attribute.ts?raw'
 
-interface StoryArgs {
-	attributeName: `data-${string}`
-	element?: Element
-}
-
-const meta = {
-	title: 'utils/getDataAttribute',
-	component: getDataAttribute,
-	tags: ['autodocs', 'version:0.1'],
+const meta: Meta<FnToArgTypes<typeof getDataAttribute, ['qualifiedName', 'element']>> = {
+	title: 'attributes/getDataAttribute',
+	tags: ['autodocs', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get `data-*` attribute values from DOM element',
 		},
 	}),
-} satisfies Meta<typeof getDataAttribute>
+	argTypes: {
+		qualifiedName: {
+			control: 'text',
+		},
+		element: {
+			control: false,
+		},
+	},
+	args: {
+		qualifiedName: 'data-subject',
+	},
+	render: () => <></>,
+}
 
 export default meta
 
-type Story = StoryObj<StoryArgs>
+type Story = StoryObj<typeof meta>
 
-export const BasicUsage: Story = {
-	name: 'Get Document Root Attribute',
-	args: {
-		attributeName: 'data-theme',
-	},
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code },
+	}),
+	decorators: [showDocSource()],
+}
+
+export const FromDocumentRoot: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets the value of data-theme attribute from document root',
+			story: 'By default, gets the value of a data attribute from document root',
+		},
+		source: {
+			code: dedent`
+				document.documentElement.setAttribute('data-theme', 'some value')
+				console.log(getDataAttribute('data-theme'))
+			`,
 		},
 	}),
-	render(props: StoryArgs) {
-		const value = getDataAttribute(props.attributeName)
+	loaders: [
+		({ args: { qualifiedName } }) => {
+			document.documentElement.setAttribute(qualifiedName, 'some value')
+		},
+	],
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	render(props) {
+		const value = getDataAttribute(props.qualifiedName)
+
 		return (
-			<div>
-				<div className="mb-4">
-					<code>getDataAttribute('{props.attributeName}')</code>
-				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
 
-export const SpecificElement: Story = {
-	name: 'Get Specific Element Attribute',
+export const FromSpecificElement: Story = {
 	args: {
-		attributeName: 'data-custom',
+		qualifiedName: 'data-custom',
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets an attribute value from a specific element',
+			story: 'Gets a data attribute value from a specific element',
+		},
+		source: {
+			code: dedent`
+				const element = document.createElement('div')
+				element.setAttribute(qualifiedName, 'test-value')
+				const value = getDataAttribute(qualifiedName, element)
+			`,
 		},
 	}),
-	render(props: StoryArgs) {
+	decorators: [
+		withStoryCard(),
+
+		showDocSource({ placement: 'before' }),
+	],
+	render(props) {
 		const element = document.createElement('div')
-		element.setAttribute(props.attributeName, 'test-value')
-		const value = getDataAttribute(props.attributeName, element)
+		element.setAttribute(props.qualifiedName, 'test-value')
+		const value = getDataAttribute(props.qualifiedName, element)
 		return (
-			<div>
-				<div className="mb-4">
-					<code>getDataAttribute('{props.attributeName}', element)</code>
-				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
 
 export const NonExistentAttribute: Story = {
-	name: 'Get Non-existent Attribute',
+	tags: ['unit'],
 	args: {
-		attributeName: 'data-non-existent',
+		qualifiedName: 'data-not-exist',
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Returns null when trying to get a non-existent attribute',
+			story: 'Returns null when trying to get a non-existent data attribute',
+		},
+		source: {
+			code: dedent`
+				console.log(getDataAttribute('data-not-exist'))
+			`,
 		},
 	}),
-	render(props: StoryArgs) {
-		const value = getDataAttribute(props.attributeName)
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	render(props) {
+		const value = getDataAttribute(props.qualifiedName)
 		return (
-			<div>
-				<div className="mb-4">
-					<code>getDataAttribute('{props.attributeName}')</code>
-				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
