@@ -33,5 +33,13 @@ const config: StorybookConfig = {
 	features: {
 		backgrounds: true,
 	},
+	tags: {
+		unit: {
+			defaultFilterSelection: 'exclude',
+		},
+		internal: {
+			defaultFilterSelection: 'exclude',
+		},
+	},
 }
 export default config
