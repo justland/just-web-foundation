@@ -34,7 +34,6 @@
 	"scripts": {
 		"build": "tsdown",
 		"build:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.css",
-		"build:types": "tsc -p tsconfig.dts.json",
 		"build-doc": "storybook build -o ../../docs/foundation",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
 		"cov": "vitest run --coverage",

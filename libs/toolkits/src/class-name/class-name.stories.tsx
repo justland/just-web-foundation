@@ -1,8 +1,8 @@
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import dedent from 'dedent'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
+import code from './class-name.editor.src.tsx?raw'
 
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
@@ -18,19 +18,7 @@ export const Example: StoryObj = {
 		description: {
 			story: 'The `className` property accepts a string value for CSS class names.',
 		},
-		source: {
-			code: dedent`
-			import type { ClassNameProps } from '@just-web/toolkits'
-			import type { PropsWithChildren } from 'react'
-
-			interface MyComponentProps extends PropsWithChildren<ClassNameProps> {}
-
-			const MyComponent = ({ className, children }: MyComponentProps) => {
-				return <div className={className}>{children}</div>
-			}
-
-			export default () => <MyComponent className="text-blue-800">Hello in blue</MyComponent>`,
-		},
+		source: { code },
 	}),
 }
 
