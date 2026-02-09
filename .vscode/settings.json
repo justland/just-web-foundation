@@ -86,20 +86,18 @@
 		"tsconfig.react.json": "tsconfig"
 	},
 	"prettier.useTabs": true,
-	"tailwindCSS.classFunctions": ["cva", "cx"],
-	"tailwindCSS.experimental.configFile": {
-		"libs/css/src/tailwind.css": "libs/css/src/**",
-		"libs/toolkits/tailwind.css": "libs/toolkits/src/**"
-	},
+	"tailwindCSS.classFunctions": ["twMerge", "twJoin", "cva", "cx"],
 	"tailwindCSS.experimental.classRegex": [
 		"tw`([^`]*)",
 		"twm`([^`]*)",
 		"'@apply([^']*)':",
-		["classNames\\(([^)]*)\\)", "'([^']*)'"],
-		["twMerge\\(([^)]*)\\)", "'([^']*)'"],
-		"toComparableClassName\\(([^)]*)\\)",
-		"toHaveClass\\(([^)]*)\\)"
+		["toComparableClassName\\(([^\\)]*)\\)", "'([^']*)'"],
+		["toHaveClass\\(([^\\)]*)\\)", "'([^']*)'"]
 	],
+	"tailwindCSS.experimental.configFile": {
+		"libs/css/src/tailwind.css": "libs/css/src/**",
+		"libs/toolkits/.storybook/tailwind.css": "libs/toolkits/src/**"
+	},
 	"tsimporter.emitSemicolon": false,
 	"typescript.format.semicolons": "remove",
 	"typescript.preferences.importModuleSpecifierEnding": "js",
