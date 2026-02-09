@@ -1,12 +1,12 @@
 import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { isType } from 'type-plus'
 import type { DataAttribute } from '#just-web/toolkits'
 
 const meta = {
 	title: 'attributes/DataAttribute',
-	tags: ['code-only', 'version:next'],
+	tags: ['type', 'version:next'],
 	render: () => <></>,
 } satisfies Meta
 
@@ -14,7 +14,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const WellKnownAttributes: Story = {
-	name: 'Well-known attribute names',
+	name: 'Well-known attributes',
 	parameters: defineDocsParam({
 		description: {
 			story: 'Supports auto-completion for well-known data attribute names.',
@@ -97,28 +97,7 @@ export const WellKnownAttributes: Story = {
 	},
 }
 
-export const CustomDataAttributes: Story = {
-	parameters: defineDocsParam({
-		description: {
-			story: 'You can use it for arbitrary data-* attributes.',
-		},
-		source: {
-			code: dedent`
-				import type { DataAttribute } from '#just-web/toolkits'
-
-				// Custom data attributes (data-\${string})
-				const custom: DataAttribute = 'data-custom-name'
-			`,
-		},
-	}),
-	decorators: [withStoryCard(), showDocSource()],
-	play() {
-		isType<DataAttribute>('data-custom-name')
-	},
-}
-
-export const PickAttributesForUseCase: Story = {
-	name: 'Pick attributes for a specific use case',
+export const PickAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
@@ -137,4 +116,24 @@ export const PickAttributesForUseCase: Story = {
 		},
 	}),
 	decorators: [withStoryCard(), showDocSource()],
+}
+
+export const CustomDataAttributes: Story = {
+	parameters: defineDocsParam({
+		description: {
+			story: 'You can use it for arbitrary data-* attributes.',
+		},
+		source: {
+			code: dedent`
+				import type { DataAttribute } from '#just-web/toolkits'
+
+				// Custom data attributes (data-\${string})
+				const custom: DataAttribute = 'data-custom-name'
+			`,
+		},
+	}),
+	decorators: [withStoryCard(), showDocSource()],
+	play() {
+		isType<DataAttribute>('data-custom-name')
+	},
 }
