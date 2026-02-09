@@ -22,7 +22,8 @@ export function observeAttributes<T extends string>(
 ) {
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
-			const attribute = mutation.attributeName!
+			const attribute = mutation.attributeName
+			if (!attribute) continue
 			const value = element.getAttribute(attribute) as T | null
 			handlers[attribute]?.(value)
 		}

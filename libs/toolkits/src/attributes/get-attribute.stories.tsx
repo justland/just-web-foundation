@@ -6,7 +6,7 @@ import code from './get-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getAttribute',
-	tags: ['autodocs', 'version:next'],
+	tags: ['func', 'autodocs', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get attribute values from DOM element',
@@ -29,14 +29,6 @@ const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>
 export default meta
 
 type Story = StoryObj<typeof meta>
-
-export const Source: Story = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code },
-	}),
-	decorators: [showDocSource()],
-}
 
 export const FromDocumentRoot: Story = {
 	parameters: defineDocsParam({
@@ -124,4 +116,12 @@ export const NonExistentAttribute: Story = {
 			</StoryCard>
 		)
 	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code },
+	}),
+	decorators: [showDocSource()],
 }

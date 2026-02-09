@@ -9,7 +9,7 @@ import code from './observe-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observeAttributes, ['element']>> = {
 	title: 'attributes/observeAttributes',
-	tags: ['autodocs', 'version:next'],
+	tags: ['func', 'autodocs', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'Observes attribute changes on an element and calls corresponding handlers.',
@@ -27,14 +27,6 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Source: Story = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code },
-	}),
-	decorators: [showDocSource()],
-}
-
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
@@ -43,9 +35,10 @@ export const BasicUsage: Story = {
 		source: {
 			code: dedent`
 				const observer = observeAttributes({
-					'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
+					'data-theme': (value) => { ... },
 				})
-				// cleanup: observer.disconnect()
+				// cleanup
+				observer.disconnect()
 			`,
 		},
 	}),
@@ -63,12 +56,12 @@ export const BasicUsage: Story = {
 		}, [])
 
 		return (
-			<div className="font-sans">
+			<>
 				<div className="flex flex-wrap gap-2 mb-4">
 					<ToggleButton attribute="data-theme" />
 				</div>
 				<LogPanel title="Attribute Changes:" log={log} />
-			</div>
+			</>
 		)
 	},
 	play: async ({ canvas }) => {
@@ -88,10 +81,11 @@ export const MultipleAttributes: Story = {
 		source: {
 			code: dedent`
 				const observer = observeAttributes({
-					'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
-					'aria-label': (value) => setLog((prev) => [...prev, \`aria-label: \${value}\`]),
+					'data-theme': (value) => { ... },
+					'aria-label': (value) => { ... },
 				})
-				// cleanup: observer.disconnect()
+				// cleanup
+				observer.disconnect()
 			`,
 		},
 	}),
@@ -149,11 +143,12 @@ export const CustomElement: Story = {
 			code: dedent`
 				const observer = observeAttributes(
 					{
-						'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
+						'data-anything': (value) => { ... },
 					},
 					customElementRef.current,
 				)
-				// cleanup: observer.disconnect()
+				// cleanup
+				observer.disconnect()
 			`,
 		},
 	}),
@@ -166,8 +161,8 @@ export const CustomElement: Story = {
 			if (!customElementRef.current) return
 			const observer = observeAttributes(
 				{
-					'data-theme': (value) => {
-						setLog((prev) => [...prev, `data-theme: ${value}`])
+					'data-anything': (value) => {
+						setLog((prev) => [...prev, `data-anything: ${value}`])
 					},
 				},
 				customElementRef.current,
@@ -178,7 +173,7 @@ export const CustomElement: Story = {
 		return (
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
-					<ToggleButton attribute="data-theme" ref={customElementRef} />
+					<ToggleButton attribute="data-anything" ref={customElementRef} />
 				</div>
 				<div ref={customElementRef} className="p-4 border border-gray-300 mb-4">
 					Custom Element to observe
@@ -188,18 +183,18 @@ export const CustomElement: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle data-theme' })
+		const btn = canvas.getByRole('button', { name: 'Toggle data-anything' })
 		const element = canvas.getByText('Custom Element to observe')
 
 		await userEvent.click(btn)
-		await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument()
-		const dataTheme = element.getAttribute('data-theme')
-		await expect(dataTheme).toBe('test-value')
+		await expect(canvas.getByText('data-anything: test-value')).toBeInTheDocument()
+		const dataAnything = element.getAttribute('data-anything')
+		await expect(dataAnything).toBe('test-value')
 
 		await userEvent.click(btn)
-		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
-		const dataTheme2 = element.getAttribute('data-theme')
-		await expect(dataTheme2).toBeNull()
+		await expect(canvas.getByText('data-anything: null')).toBeInTheDocument()
+		const dataAnything2 = element.getAttribute('data-anything')
+		await expect(dataAnything2).toBeNull()
 	},
 }
 
@@ -230,3 +225,11 @@ const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute
 		</button>
 	)
 })
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code },
+	}),
+	decorators: [showDocSource()],
+}
