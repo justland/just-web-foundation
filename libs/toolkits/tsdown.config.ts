@@ -9,4 +9,12 @@ export default defineConfig([
 		sourcemap: true,
 		unbundle: true,
 	},
+	{
+		entry: ['src/index.ts'],
+		format: ['es'],
+		outDir: 'static',
+		dts: {
+			emitDtsOnly: true,
+		},
+	},
 ])
