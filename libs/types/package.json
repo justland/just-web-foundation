@@ -29,7 +29,7 @@
 		"w": "vitest"
 	},
 	"devDependencies": {
-		"@repobuddy/storybook": "^2.11.0",
+		"@repobuddy/storybook": "^2.14.0",
 		"@repobuddy/vitest": "^2.1.1",
 		"@storybook-community/storybook-dark-mode": "^7.1.0",
 		"@storybook/addon-docs": "^10.2.7",
