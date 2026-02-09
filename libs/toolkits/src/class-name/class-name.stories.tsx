@@ -1,9 +1,10 @@
-import { defineDocsParam, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
 import code from './class-name.editor.src.tsx?raw'
+import source from './class-name.ts?raw'
 
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
@@ -31,3 +32,11 @@ makeLiveEditStory(BasicUsage, {
 	},
 	code: BasicUsage.parameters?.['docs']?.['source']?.code,
 })
+
+export const Source: StoryObj = {
+	tags: ['!test', 'source'],
+	parameters: defineDocsParam({
+		source: { code: source },
+	}),
+	decorators: [showDocSource({ placement: 'before' })],
+}
