@@ -54,9 +54,11 @@
     
     <link href="./sb-addons/storybook-community-storybook-dark-mode-3/manager-bundle.js" rel="modulepreload" />
     
-    <link href="./sb-addons/vitest-4/manager-bundle.js" rel="modulepreload" />
+    <link href="./sb-addons/tag-badges-4/manager-bundle.js" rel="modulepreload" />
     
-    <link href="./sb-addons/storybook-5/manager-bundle.js" rel="modulepreload" />
+    <link href="./sb-addons/code-editor-5/manager-bundle.js" rel="modulepreload" />
+    
+    <link href="./sb-addons/storybook-6/manager-bundle.js" rel="modulepreload" />
        
 
     <style>
@@ -113,7 +115,11 @@
         
       
         
-          window['TAGS_OPTIONS'] = {};
+          window['TAGS_OPTIONS'] = {
+  "unit": {
+    "defaultFilterSelection": "exclude"
+  }
+};
         
       
         
@@ -145,9 +151,11 @@
       
         import './sb-addons/storybook-community-storybook-dark-mode-3/manager-bundle.js';
       
-        import './sb-addons/vitest-4/manager-bundle.js';
+        import './sb-addons/tag-badges-4/manager-bundle.js';
       
-        import './sb-addons/storybook-5/manager-bundle.js';
+        import './sb-addons/code-editor-5/manager-bundle.js';
+      
+        import './sb-addons/storybook-6/manager-bundle.js';
       
 
       import './sb-manager/runtime.js';
