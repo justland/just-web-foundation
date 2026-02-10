@@ -116,12 +116,12 @@ importers:
       storybook:
         specifier: ^10.2.7
         version: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      storybook-addon-code-editor:
+        specifier: ^6.1.2
+        version: 6.1.2(patch_hash=e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda)(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       storybook-addon-tag-badges:
         specifier: ^3.0.6
         version: 3.0.6(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      storybook-addon-vis:
-        specifier: ^3.1.2
-        version: 3.1.2(@storybook/addon-vitest@10.2.7(@vitest/browser-playwright@4.0.18)(@vitest/browser@4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18))(@vitest/runner@4.0.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vitest@4.0.18))(@vitest/browser-playwright@4.0.18)(@vitest/browser@4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vitest@4.0.18)
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
