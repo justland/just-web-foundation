@@ -1,0 +1,1 @@
+const t={matchMedia(e){return globalThis.matchMedia(e)},getDocumentElement(){return globalThis.document.documentElement},_reset(){this.matchMedia=globalThis.matchMedia,this.getDocumentElement=()=>globalThis.document.documentElement}};export{t as c};
