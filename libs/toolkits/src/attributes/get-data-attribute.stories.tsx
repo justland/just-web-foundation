@@ -6,7 +6,7 @@ import code from './get-data-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getDataAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getDataAttribute',
-	tags: ['func', 'autodocs', 'version:next'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get `data-*` attribute values from DOM element',

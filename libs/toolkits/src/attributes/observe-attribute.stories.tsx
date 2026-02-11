@@ -9,7 +9,7 @@ import code from './observe-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observeAttributes, ['element']>> = {
 	title: 'attributes/observeAttributes',
-	tags: ['func', 'autodocs', 'version:next'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'Observes attribute changes on an element and calls corresponding handlers.',
