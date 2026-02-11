@@ -3,20 +3,23 @@ import { withThemeByClassName } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
 import { setupMonaco } from 'storybook-addon-code-editor'
 import ToolkitTypes from '../.editor/index.d.mts?raw'
-import ReactTypes from '../node_modules/@types/react/index.d.ts?raw'
 
 import './tailwind.css'
 import './tailwind.repobuddy-storybook.css'
 
 setupMonaco({
+	// monacoEnvironment: {
+	// 	getWorker(_moduleId, label) {
+	// 		if (label === 'typescript' || label === 'javascript') {
+	// 			return new Worker('monaco-editor/esm/vs/language/typescript/ts.worker.js', { type: 'module' })
+	// 		}
+	// 		return new Worker('monaco-editor/esm/vs/editor/editor.worker.js', { type: 'module' })
+	// 	},
+	// },
 	onMonacoLoad(monaco) {
 		monaco.languages.typescript.typescriptDefaults.addExtraLib(
 			ToolkitTypes,
 			'file:///node_modules/@just-web/toolkits/index.d.ts',
-		)
-		monaco.languages.typescript.typescriptDefaults.addExtraLib(
-			ReactTypes,
-			'file:///node_modules/@types/react/index.d.ts',
 		)
 	},
 })
