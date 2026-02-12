@@ -12,7 +12,15 @@ export default defineConfig([
 	{
 		entry: ['src/index.ts'],
 		format: ['es'],
-		outDir: '.editor',
+		outDir: '.editor/just_web_toolkits',
+		clean: true,
+		dts: {
+			emitDtsOnly: true,
+		},
+	},
+	{
+		entry: ['./node_modules/@repobuddy/storybook/esm/index.d.ts'],
+		outDir: '.editor/repobuddy_storybook',
 		clean: true,
 		dts: {
 			emitDtsOnly: true,
