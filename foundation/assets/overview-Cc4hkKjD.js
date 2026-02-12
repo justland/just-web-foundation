@@ -1,0 +1,3 @@
+import{j as t}from"./iframe-BfM-9P5l.js";import{useMDXComponents as s}from"./index-CiOropHI.js";import{M as i}from"./blocks-BU5aHa0j.js";import"./preload-helper-PPVm8Dsz.js";function n(o){const e={h1:"h1",p:"p",...s(),...o.components};return t.jsxs(t.Fragment,{children:[t.jsx(i,{title:"Overview"}),`
+`,t.jsx(e.h1,{id:"just-webtoolkits",children:"@just-web/toolkits"}),`
+`,t.jsx(e.p,{children:"@just-web/toolkits is a toolkit for working with web technologies."})]})}function l(o={}){const{wrapper:e}={...s(),...o.components};return e?t.jsx(e,{...o,children:t.jsx(n,{...o})}):n(o)}export{l as default};
