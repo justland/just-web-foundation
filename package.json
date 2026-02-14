@@ -51,9 +51,6 @@
 		"overrides": {
 			"react": "catalog:",
 			"react-dom": "catalog:"
-		},
-		"patchedDependencies": {
-			"storybook-addon-code-editor": "patches/storybook-addon-code-editor.patch"
 		}
 	},
 	"packageManager": "pnpm@10.28.2"
