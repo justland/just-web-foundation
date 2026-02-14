@@ -6,7 +6,7 @@ import { defineCSSProperties } from '#just-web/toolkits'
 
 export default {
 	title: 'Properties/Properties',
-	tags: ['autodocs', 'code-only', 'new', 'version:next'],
+	tags: ['autodocs', 'code-only', 'new', 'version:1.0'],
 	decorators: [showDocSource()],
 	render: () => <></>,
 } satisfies Meta

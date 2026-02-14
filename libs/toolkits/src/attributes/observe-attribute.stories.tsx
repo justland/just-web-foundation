@@ -9,7 +9,7 @@ import code from './observe-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observeAttributes, ['element']>> = {
 	title: 'attributes/observeAttributes',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'Observes attribute changes on an element and calls corresponding handlers.',

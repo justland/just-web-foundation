@@ -10,7 +10,7 @@ import codeTyped from './just-class-name.typed.code.tsx?raw'
 
 const meta: Meta = {
 	title: 'class-name/JustClassName',
-	tags: ['type', 'version:next', 'autodocs'],
+	tags: ['type', 'version:1.0', 'autodocs'],
 	parameters: defineDocsParam({
 		description: {
 			component:
