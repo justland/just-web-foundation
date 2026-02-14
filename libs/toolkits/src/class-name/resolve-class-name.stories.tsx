@@ -4,7 +4,7 @@ import { resolveClassName } from '#just-web/toolkits'
 
 const meta = {
 	title: 'utils/resolveClassName',
-	tags: ['autodocs', 'version:next'],
+	tags: ['autodocs', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:
