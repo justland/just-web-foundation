@@ -1,6 +1,6 @@
 import { defineParameters } from '@repobuddy/storybook'
-import { withThemeByClassName } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
+import { defineDarkModeParam } from '@storybook-community/storybook-dark-mode'
 import { setupMonaco } from 'storybook-addon-code-editor'
 
 import './tailwind.css'
@@ -23,22 +23,12 @@ const preview: Preview = {
 				codePanel: true,
 			},
 		},
-
-		// defineDarkModeParam({
-		// 	classTarget: 'html',
-		// 	stylePreview: true,
-		// 	darkClass: ['dark', 'bg-black', 'text-white'],
-		// }),
-	),
-	decorators: [
-		withThemeByClassName({
-			themes: {
-				light: '',
-				dark: 'dark bg-black text-white',
-			},
-			defaultTheme: 'light',
+		defineDarkModeParam({
+			classTarget: 'html',
+			stylePreview: true,
+			darkClass: ['dark', 'bg-black', 'text-white'],
 		}),
-	],
+	),
 }
 
 export default preview
