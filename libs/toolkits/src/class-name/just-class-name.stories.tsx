@@ -1,16 +1,20 @@
 import * as repobuddyStorybook from '@repobuddy/storybook'
 import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import clsx from 'clsx'
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
-import codeDefault from './just-class-name.editor.basic.tsx?raw'
+import codeDefault from './just-class-name.editor.default.tsx?raw'
+import codeDefaultClassName from './just-class-name.editor.default-class-name.tsx?raw'
 import codeTyped from './just-class-name.editor.type-param.tsx?raw'
 import source from './just-class-name.ts?raw'
+import codePropsDefault from './just-class-name-props.editor.default.tsx?raw'
+import codeResolverStateDefault from './just-class-name-resolver-state.editor.default.tsx?raw'
 
 const meta: Meta = {
 	title: 'class-name/JustClassName',
-	tags: ['type', 'version:next'],
+	tags: ['version:next', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:
@@ -22,32 +26,31 @@ const meta: Meta = {
 
 export default meta
 
-export const Specification: StoryObj = {
-	tags: ['source', '!test'],
+export const Source: StoryObj = {
+	tags: ['source'],
 	parameters: defineDocsParam({
 		source: { code: source },
 	}),
+	decorators: [showDocSource({ placement: 'before' })],
+}
+
+export const JustClassNameProps: StoryObj = {
+	name: 'JustClassNameProps',
+	tags: ['type'],
+	parameters: defineDocsParam({
+		source: { code: codePropsDefault },
+	}),
 	decorators: [
 		withStoryCard({
+			title: 'JustClassNameProps',
 			content: (
 				<>
 					<p>
-						<code>JustClassName</code> extends the basic <code>className</code> type with a callback
-						to invert the flow on control. This allows the consumer to fully control the resulting{' '}
-						<code>className</code>.
+						<code>JustClassNameProps</code> defines the <code>className</code> property with the
+						type <code>JustClassName</code>
 					</p>
 					<p>
-						In the callback, the function receives the full state object with the{' '}
-						<code>className</code> property, which contains the base <code>className</code> produced
-						by the component.
-					</p>
-					<p>
-						The consumer can append, amend, or override the <code>className</code> based on the
-						state.
-					</p>
-					<p>
-						Comparing to <code>JustClassNameProps</code>, <code>JustClassName</code> can be used on
-						any props, allowing you to control the API of your component.
+						It is a ready-made type for the typical <code>className</code> props use case.
 					</p>
 				</>
 			),
@@ -56,6 +59,84 @@ export const Specification: StoryObj = {
 	],
 }
 
+makeLiveEditStory(JustClassNameProps, {
+	availableImports: {
+		'@just-web/toolkits': toolkits,
+		'@repobuddy/storybook': repobuddyStorybook,
+		react: React,
+	},
+	code: JustClassNameProps.parameters?.['docs']?.['source']?.code,
+})
+
+export const JustClassName: StoryObj = {
+	name: 'JustClassName',
+	tags: ['type'],
+	parameters: defineDocsParam({
+		source: { code: codeDefault },
+	}),
+	decorators: [
+		withStoryCard({
+			title: 'JustClassName',
+			content: (
+				<>
+					<p>
+						<code>JustClassName</code> extends the basic <code>className</code> type with a callback
+						to invert the flow on control. This allows you to fully control the resulting{' '}
+						<code>className</code>.
+					</p>
+					<p>
+						In the callback, the function receives <code>JustClassNameResolverState</code>, the full
+						state object with the <code>className</code> property, which contains the base{' '}
+						<code>className</code> produced by the component.
+					</p>
+					<p>
+						The consumer can append, amend, or override the <code>className</code> based on the
+						state.
+					</p>
+				</>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
+}
+
+makeLiveEditStory(JustClassName, {
+	availableImports: {
+		'@just-web/toolkits': toolkits,
+		'@repobuddy/storybook': repobuddyStorybook,
+	},
+	code: JustClassName.parameters?.['docs']?.['source']?.code,
+})
+
+export const JustClassNameResolverState: StoryObj = {
+	name: 'JustClassNameResolverState',
+	tags: ['type'],
+	parameters: defineDocsParam({
+		source: { code: codeResolverStateDefault },
+	}),
+	decorators: [
+		withStoryCard({
+			title: 'JustClassNameResolverState',
+			content: (
+				<>
+					<p>
+						The state type for <code>JustClassName</code> resolver functions.
+					</p>
+				</>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
+}
+
+makeLiveEditStory(JustClassNameResolverState, {
+	availableImports: {
+		'@just-web/toolkits': toolkits,
+		'@repobuddy/storybook': repobuddyStorybook,
+	},
+	code: JustClassNameResolverState.parameters?.['docs']?.['source']?.code,
+})
+
 export const NonInteractiveComponent: StoryObj = {
 	tags: ['use-case', 'editor', '!test'],
 	parameters: defineDocsParam({
@@ -63,7 +144,7 @@ export const NonInteractiveComponent: StoryObj = {
 			story:
 				'Using `JustClassName` without a type parameter: state is `AnyRecord & { className?: string }`. Accepts string, function, or undefined.',
 		},
-		source: { code: codeDefault },
+		source: { code: codePropsDefault },
 	}),
 	decorators: [
 		withStoryCard({
@@ -90,7 +171,6 @@ export const NonInteractiveComponent: StoryObj = {
 		}),
 		showDocSource({ placement: 'before' }),
 	],
-	play() {},
 }
 
 makeLiveEditStory(NonInteractiveComponent, {
@@ -136,4 +216,40 @@ makeLiveEditStory(InteractiveComponent, {
 		react: React,
 	},
 	code: InteractiveComponent.parameters?.['docs']?.['source']?.code,
+})
+
+export const ClassNameVSDefaultClassName: StoryObj = {
+	name: 'className vs defaultClassName',
+	parameters: defineDocsParam({
+		source: { code: codeDefaultClassName },
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						Comparing to{' '}
+						<a href="https://react-aria.adobe.com/styling#render-props">
+							react-aria-components render props
+						</a>
+						, which uses <code>defaultClassName</code> to provide the default value from the
+						component, <code>JustClassName</code> uses <code>className</code>.
+					</p>
+					<p>The key benefit is that you can compose your style and logic:</p>
+				</>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
+}
+
+makeLiveEditStory(ClassNameVSDefaultClassName, {
+	availableImports: {
+		'@just-web/toolkits': toolkits,
+		'@repobuddy/storybook': repobuddyStorybook,
+		react: React,
+		clsx: { default: clsx },
+	},
+	defaultEditorOptions: {},
+	code: ClassNameVSDefaultClassName.parameters?.['docs']?.['source']?.code,
 })
