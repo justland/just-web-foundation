@@ -3,12 +3,12 @@ import { StoryCard } from '@repobuddy/storybook'
 import type { PropsWithChildren } from 'react'
 
 function Badge({ className, ...rest }: PropsWithChildren<JustClassNameProps>) {
-	const baseState = { className: 'bg-blue-400' }
+	const props = { className: 'bg-blue-400' }
 	return (
 		<div
 			{...rest}
 			className={
-				typeof className === 'function' ? className(baseState) : (className ?? baseState.className)
+				typeof className === 'function' ? className(props) : (className ?? props.className)
 			}
 		/>
 	)
@@ -17,7 +17,7 @@ function Badge({ className, ...rest }: PropsWithChildren<JustClassNameProps>) {
 export default () => (
 	<StoryCard appearance="output">
 		<Badge className="font-extrabold">Override</Badge>
-		<Badge className={(state) => `${state.className} font-extrabold`}>Amend</Badge>
+		<Badge className={(renderProps) => `${renderProps.className} font-extrabold`}>Amend</Badge>
 		<Badge className={() => undefined}>Unstyled</Badge>
 	</StoryCard>
 )

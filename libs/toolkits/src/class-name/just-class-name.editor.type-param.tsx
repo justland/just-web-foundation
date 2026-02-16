@@ -1,24 +1,25 @@
 import type { JustClassName } from '@just-web/toolkits'
+import { clsx } from '@just-web/toolkits'
 import { StoryCard } from '@repobuddy/storybook'
 
-interface ButtonState {
+interface ButtonRenderProps {
 	isDisabled?: boolean | undefined
 	isPressed?: boolean | undefined
 }
 
-// With type param: function receives typed state (ButtonStates & { className?: string })
-const classNameWhenDisabled: JustClassName<ButtonState> = (state) =>
-	state.isDisabled ? `${state.className ?? ''} opacity-50 cursor-not-allowed` : state.className
+// With type param: function receives typed render props (ButtonRenderProps & { className?: string })
+const classNameWhenDisabled: JustClassName<ButtonRenderProps> = (renderProps) =>
+	clsx(renderProps.className, renderProps.isDisabled && 'opacity-50 cursor-not-allowed')
 
-const classNameWhenActive: JustClassName<ButtonState> = (state) =>
-	state.isPressed ? `${state.className ?? ''} ring-2 ring-blue-500` : state.className
+const classNameWhenActive: JustClassName<ButtonRenderProps> = (renderProps) =>
+	clsx(renderProps.className, renderProps.isPressed && 'ring-2 ring-blue-500')
 
 export default () => {
-	const state: ButtonState = { isDisabled: true, isPressed: true }
+	const renderProps: ButtonRenderProps = { isDisabled: true, isPressed: true }
 	return (
 		<StoryCard appearance="output">
-			<div>without className: {classNameWhenDisabled(state)}</div>
-			<div>with className: {classNameWhenActive({ ...state, className: 'btn' })}</div>
+			<div>without className: {classNameWhenDisabled(renderProps)}</div>
+			<div>with className: {classNameWhenActive({ ...renderProps, className: 'btn' })}</div>
 		</StoryCard>
 	)
 }

@@ -2,17 +2,17 @@ import type { JustClassNameProps } from '@just-web/toolkits'
 import { resolveClassName } from '@just-web/toolkits'
 import { createContext, type PropsWithChildren, useContext } from 'react'
 
-interface MyButtonStates {
+interface MyButtonRenderProps {
 	disabled?: boolean | undefined
 }
 
-interface MyButtonProps extends PropsWithChildren<JustClassNameProps<MyButtonStates>> {
+interface MyButtonProps extends PropsWithChildren<JustClassNameProps<MyButtonRenderProps>> {
 	disabled?: boolean | undefined
 }
 
-const MyButtonContext = createContext<MyButtonStates | null>(null)
+const MyButtonContext = createContext<MyButtonRenderProps | null>(null)
 
-function mergeProps(context: MyButtonStates, { className, ...props }: MyButtonProps) {
+function mergeProps(context: MyButtonRenderProps, { className, ...props }: MyButtonProps) {
 	return {
 		...context,
 		...props,
@@ -36,7 +36,9 @@ export default () => (
 	<div className="flex flex-col gap-2">
 		<MyButton className="text-blue-600">String className</MyButton>
 		<MyButton
-			className={(state) => (state.disabled ? 'opacity-50 cursor-not-allowed' : undefined)}
+			className={(renderProps) =>
+				renderProps.disabled ? 'opacity-50 cursor-not-allowed' : undefined
+			}
 			disabled
 		>
 			Function className (disabled)

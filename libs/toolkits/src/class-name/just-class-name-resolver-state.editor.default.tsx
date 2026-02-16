@@ -1,10 +1,10 @@
-import type { JustClassNameResolverState } from '@just-web/toolkits'
+import type { JustClassNameFnProps } from '@just-web/toolkits'
 import { clsx } from '@just-web/toolkits'
 
-function textTheme(state?: JustClassNameResolverState) {
+function textTheme(renderProps?: JustClassNameFnProps) {
 	return {
-		...state,
-		className: clsx(state?.className, 'text-emerald-800 dark:text-emerald-200'),
+		...renderProps,
+		className: clsx(renderProps?.className, 'text-emerald-800 dark:text-emerald-200'),
 	}
 }
 

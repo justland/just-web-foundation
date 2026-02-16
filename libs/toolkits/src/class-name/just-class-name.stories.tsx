@@ -26,6 +26,50 @@ const meta: Meta = {
 
 export default meta
 
+export const Specification: StoryObj = {
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						<code>JustClassName</code> extends the basic <code>className</code> type with a callback
+						to invert the flow on control. This allows you to fully control the resulting{' '}
+						<code>className</code> value.
+					</p>
+					<p>
+						The behavior when using <code>JustClassName</code> should be consistent among all
+						components that use it. This provides a consistent API for the consumer.
+					</p>
+					<ul className="list-disc list-inside">
+						<li>
+							When <code>undefined</code> is passed, the default <code>className</code> should be
+							applied.
+						</li>
+						<li>
+							When a <code>string</code> is passed, it should be appended to the default{' '}
+							<code>className</code>.
+						</li>
+						<li>
+							When a <code>function</code> is passed, it must receive the current render props with
+							the default <code>className</code>.
+						</li>
+						<ul className="list-disc list-inside pl-4">
+							<li>
+								When the function returns <code>undefined</code>, the <code>className</code> should
+								be reset to <code>undefined</code>.
+							</li>
+							<li>
+								When the function returns a <code>string</code>, that will be the{' '}
+								<code>className</code> to be applied.
+							</li>
+						</ul>
+					</ul>
+				</>
+			),
+		}),
+	],
+}
+
 export const Source: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
@@ -85,13 +129,17 @@ export const JustClassName: StoryObj = {
 						<code>className</code>.
 					</p>
 					<p>
-						In the callback, the function receives <code>JustClassNameResolverState</code>, the full
-						state object with the <code>className</code> property, which contains the base{' '}
+						Compare to <code>JustClassNameProps</code>, <code>JustClassName</code> allows you to use
+						it on any props, not just the <code>className</code> prop.
+					</p>
+					<p>
+						In the callback, the function receives <code>JustClassNameFnProps</code>, the full
+						render props object with the <code>className</code> property, which contains the base{' '}
 						<code>className</code> produced by the component.
 					</p>
 					<p>
 						The consumer can append, amend, or override the <code>className</code> based on the
-						state.
+						render props or return a completely different.
 					</p>
 				</>
 			),
@@ -108,20 +156,21 @@ makeLiveEditStory(JustClassName, {
 	code: JustClassName.parameters?.['docs']?.['source']?.code,
 })
 
-export const JustClassNameResolverState: StoryObj = {
-	name: 'JustClassNameResolverState',
+export const JustClassNameFnProps: StoryObj = {
+	name: 'JustClassNameFnProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
 		source: { code: codeResolverStateDefault },
 	}),
 	decorators: [
 		withStoryCard({
-			title: 'JustClassNameResolverState',
+			title: 'JustClassNameFnProps',
 			content: (
 				<>
 					<p>
-						The state type for <code>JustClassName</code> resolver functions.
+						The render props type for <code>JustClassName</code> resolver functions.
 					</p>
+					<p>It is useful when you want to create a composable function.</p>
 				</>
 			),
 		}),
@@ -129,12 +178,12 @@ export const JustClassNameResolverState: StoryObj = {
 	],
 }
 
-makeLiveEditStory(JustClassNameResolverState, {
+makeLiveEditStory(JustClassNameFnProps, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
 	},
-	code: JustClassNameResolverState.parameters?.['docs']?.['source']?.code,
+	code: JustClassNameFnProps.parameters?.['docs']?.['source']?.code,
 })
 
 export const NonInteractiveComponent: StoryObj = {
@@ -142,7 +191,7 @@ export const NonInteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustClassName` without a type parameter: state is `AnyRecord & { className?: string }`. Accepts string, function, or undefined.',
+				'Using `JustClassName` without a type parameter: render props is `AnyRecord & { className?: string }`. Accepts string, function, or undefined.',
 		},
 		source: { code: codePropsDefault },
 	}),
@@ -156,7 +205,7 @@ export const NonInteractiveComponent: StoryObj = {
 					</p>
 					<p>
 						The function form receives{' '}
-						<code>{'state: AnyRecord & { className?: string | undefined }'}</code>
+						<code>{'renderProps: AnyRecord & { className?: string | undefined }'}</code>
 					</p>
 					<p>
 						The <code>className</code> contains the base class name produced by the component.
@@ -188,7 +237,7 @@ export const InteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustClassName<States>` with a type parameter: the function receives typed state (`States & { className?: string | undefined }`), enabling autocomplete and type checking for custom state fields.',
+				'Using `JustClassName<RenderProps>` with a type parameter: the function receives typed render props (`RenderProps & { className?: string | undefined }`), enabling autocomplete and type checking for custom render props fields.',
 		},
 		source: { code: codeTyped },
 	}),
@@ -197,10 +246,11 @@ export const InteractiveComponent: StoryObj = {
 			content: (
 				<>
 					<p>
-						When using <code>JustClassName&lt;States&gt;</code> with a type parameter, the function
-						form receives <code>state: States & {'{ className?: string | undefined }'}</code>
+						When using <code>JustClassName&lt;RenderProps&gt;</code> with a type parameter, the
+						function form receives{' '}
+						<code>renderProps: RenderProps & {'{ className?: string | undefined }'}</code>
 					</p>
-					<p>You can use it to customize the class name based on the state.</p>
+					<p>You can use it to customize the class name based on the render props.</p>
 				</>
 			),
 		}),
