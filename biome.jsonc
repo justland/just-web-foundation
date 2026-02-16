@@ -21,13 +21,14 @@
 	},
 	"javascript": {
 		"formatter": {
+			"lineWidth": 100
 			// "trailingCommas": "none"
 		}
 	},
 	"overrides": [
 		{
 			// Disable rules that are not applicable to storybook and testing files
-			"includes": ["**/*.stories.tsx", "**/testing/*.tsx"],
+			"includes": ["**/*.stories.tsx", "**/*.editor.tsx", "**/*.editor.*.tsx", "**/testing/*.tsx"],
 			"linter": {
 				"rules": {
 					"a11y": {

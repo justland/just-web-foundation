@@ -1,4 +1,10 @@
-import { defineDocsParam, type FnToArgTypes, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import {
+	defineDocsParam,
+	type FnToArgTypes,
+	StoryCard,
+	showDocSource,
+	withStoryCard,
+} from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { getDataAttribute } from '#just-web/toolkits'

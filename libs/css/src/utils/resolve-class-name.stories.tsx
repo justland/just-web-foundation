@@ -22,12 +22,15 @@ export const ClassNameString: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Resolves className when provided as a string. Combines defaultClassName with the provided className.',
+			story:
+				'Resolves className when provided as a string. Combines defaultClassName with the provided className.',
 		},
 	}),
 	decorators: [withStoryCard(), showDocSource()],
 	render() {
-		return <div>Result: {resolveClassName({ defaultClassName: 'base-class' }, 'additional-class')}</div>
+		return (
+			<div>Result: {resolveClassName({ defaultClassName: 'base-class' }, 'additional-class')}</div>
+		)
 	},
 }
 
@@ -71,7 +74,8 @@ export const FunctionReturnsUndefined: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When className is a function that returns undefined, it uses the defaultClassName only.',
+			story:
+				'When className is a function that returns undefined, it uses the defaultClassName only.',
 		},
 	}),
 	decorators: [withStoryCard(), showDocSource()],

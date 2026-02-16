@@ -3,7 +3,9 @@ import ToolkitTypes from '../.editor/just_web_toolkits/index.d.mts?raw'
 import RepobuddyStorybookTypes from '../.editor/repobuddy_storybook/index.d.mts?raw'
 import TypePlusTypes from '../.editor/type_plus/index.d.mts?raw'
 
-export const onMonacoLoad: NonNullable<Parameters<typeof setupMonaco>[0]['onMonacoLoad']> = (monaco) => {
+export const onMonacoLoad: NonNullable<Parameters<typeof setupMonaco>[0]['onMonacoLoad']> = (
+	monaco,
+) => {
 	monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
 		noSemanticValidation: false,
 		noSyntaxValidation: false,
@@ -16,5 +18,8 @@ export const onMonacoLoad: NonNullable<Parameters<typeof setupMonaco>[0]['onMona
 		RepobuddyStorybookTypes,
 		'file:///node_modules/@repobuddy/storybook/index.d.ts',
 	)
-	monaco.languages.typescript.typescriptDefaults.addExtraLib(TypePlusTypes, 'file:///node_modules/type-plus/index.d.ts')
+	monaco.languages.typescript.typescriptDefaults.addExtraLib(
+		TypePlusTypes,
+		'file:///node_modules/type-plus/index.d.ts',
+	)
 }

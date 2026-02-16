@@ -20,7 +20,10 @@ export function getCSSPropValues<Props extends Array<`--${string}`>>(
 export function getCSSPropValues<Props extends Array<`--${string}`>>(
 	...props: Props
 ): CreateTuple<Props['length'], string>
-export function getCSSPropValues<Props extends Array<`--${string}`>>(element: unknown, ...props: Props) {
+export function getCSSPropValues<Props extends Array<`--${string}`>>(
+	element: unknown,
+	...props: Props
+) {
 	if (typeof element === 'string') {
 		return getCSSPropValues(globalThis.document.body, element as `--${string}`, ...props)
 	}

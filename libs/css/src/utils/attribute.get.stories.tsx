@@ -44,7 +44,9 @@ export const BasicUsage: Story = {
 				<div className="mb-4">
 					<code>getAttribute('{props.attributeName}')</code>
 				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">
+					{JSON.stringify(value, null, 2)}
+				</pre>
 			</div>
 		)
 	},
@@ -69,7 +71,9 @@ export const SpecificElement: Story = {
 				<div className="mb-4">
 					<code>getAttribute('{props.attributeName}', element)</code>
 				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">
+					{JSON.stringify(value, null, 2)}
+				</pre>
 			</div>
 		)
 	},
@@ -92,7 +96,9 @@ export const NonExistentAttribute: Story = {
 				<div className="mb-4">
 					<code>getAttribute('{props.attributeName}')</code>
 				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
+				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">
+					{JSON.stringify(value, null, 2)}
+				</pre>
 			</div>
 		)
 	},

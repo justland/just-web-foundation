@@ -60,7 +60,8 @@ export const BasicUsage: Story = {
 export const WithCustomValues: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Cycles through custom values (e.g. light → dark → removed) when values prop is provided.',
+			story:
+				'Cycles through custom values (e.g. light → dark → removed) when values prop is provided.',
 		},
 	}),
 	args: {
@@ -133,7 +134,10 @@ export const WithRefTarget: Story = {
 				<div className="flex flex-wrap gap-2">
 					<ToggleAttributeButton attribute="data-state" ref={targetRef} />
 				</div>
-				<div ref={targetRef} className="p-4 border-2 border-neutral-300 rounded bg-neutral-50 dark:bg-neutral-900">
+				<div
+					ref={targetRef}
+					className="p-4 border-2 border-neutral-300 rounded bg-neutral-50 dark:bg-neutral-900"
+				>
 					Target element (attribute toggles here)
 				</div>
 				<LogPanel title="Attribute changes (on target element):" log={log} />

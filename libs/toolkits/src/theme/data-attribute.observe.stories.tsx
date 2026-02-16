@@ -25,7 +25,8 @@ export const BasicUsage: Story = {
 					light: 'light',
 					dark: 'dark',
 				},
-				handler: (value) => setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -68,7 +69,8 @@ export const WithDifferentAttributeValues: Story = {
 					light: 'light-theme',
 					dark: 'dark-theme',
 				},
-				handler: (value) => setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 				attributeName: 'data-theme',
 			})
 			return () => observer.disconnect()
@@ -113,7 +115,8 @@ export const WithDefaultTheme: Story = {
 					light: 'light',
 					dark: 'dark',
 				},
-				handler: (value) => setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 				defaultTheme: 'light',
 				attributeName: 'data-theme',
 			})
@@ -159,7 +162,8 @@ export const WithAllowCustom: Story = {
 					light: 'light',
 					dark: 'dark',
 				},
-				handler: (value) => setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 				allowCustom: true,
 				attributeName: 'data-theme',
 			})

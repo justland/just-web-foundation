@@ -24,7 +24,8 @@ export const Specification: StoryObj = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>ClassNameProps</code> describes the standard type of the <code>className</code> property.
+					<code>ClassNameProps</code> describes the standard type of the <code>className</code>{' '}
+					property.
 				</p>
 			),
 		}),

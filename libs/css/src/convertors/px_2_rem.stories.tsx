@@ -28,7 +28,10 @@ export const BasicUsage: Story = {
 				<h3 className="text-lg font-semibold">Basic Usage (default base: 16px)</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, expected }) => (
-						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+						<div
+							key={input}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">px2rem({input})</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{px2rem(input)}rem</code>
@@ -55,7 +58,10 @@ export const StringInput: Story = {
 				<h3 className="text-lg font-semibold">String Input</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, expected }) => (
-						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+						<div
+							key={input}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">px2rem('{input}')</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{px2rem(input)}rem</code>
@@ -82,7 +88,10 @@ export const CustomBase: Story = {
 				<h3 className="text-lg font-semibold">Custom Base (20px)</h3>
 				<div className="space-y-2">
 					{examples.map(({ input, base, expected }) => (
-						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+						<div
+							key={input}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">{`px2rem(${input}, { base: ${base} })`}</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{px2rem(input, { base })}rem</code>
@@ -105,7 +114,10 @@ export const CustomPrecision: Story = {
 				<h3 className="text-lg font-semibold">Custom Precision (13px ÷ 16px)</h3>
 				<div className="space-y-2">
 					{precisions.map((precision) => (
-						<div key={precision} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+						<div
+							key={precision}
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
+						>
 							<code className="text-sm">{`px2rem(${input}, { precision: ${precision} })`}</code>
 							<span>→</span>
 							<code className="text-sm font-mono">{px2rem(input, { precision })}rem</code>
