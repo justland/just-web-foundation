@@ -4,8 +4,8 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
-import source from './style.ts?raw'
 import code from './style-props.editor.tsx?raw'
+import source from './style-props.ts?raw'
 
 const meta: Meta<toolkits.StyleProps> = {
 	title: 'style/StyleProps',
