@@ -1,14 +1,15 @@
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
 import { resolveClassName } from '#just-web/toolkits'
 
 const meta = {
-	title: 'utils/resolveClassName',
-	tags: ['autodocs', 'version:next'],
+	title: 'class-name/resolveClassName',
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function to resolve class names from state, supporting both string and function-based className resolution.',
+				'A utility function to resolve class names from render props, supporting both string and function-based className resolution.',
 		},
 	}),
 } satisfies Meta<typeof resolveClassName>
@@ -23,13 +24,23 @@ export const ClassNameString: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves className when provided as a string. Combines defaultClassName with the provided className.',
+				'Resolves className when provided as a string. Combines className with the provided className.',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+		resolveClassName({ className: 'base-class' }, 'additional-class')
+		`,
+		}),
+	],
 	render() {
 		return (
-			<div>Result: {resolveClassName({ defaultClassName: 'base-class' }, 'additional-class')}</div>
+			<StoryCard appearance="output">
+				{resolveClassName({ className: 'base-class' }, 'additional-class')}
+			</StoryCard>
 		)
 	},
 }
@@ -40,17 +51,27 @@ export const ClassNameFunction: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves className when provided as a function. The function receives the state and returns the className. Note: When using a function, it returns only the function result (not combined with defaultClassName).',
+				'Resolves className when provided as a function. The function receives the render props and returns the className. Note: When using a function, it returns only the function result (not combined with className).',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+		resolveClassName({ className: 'base-class', isActive: true, count: 5 }, (s) =>
+			s.isActive ? 'active-class' : 'inactive-class',
+		)
+		`,
+		}),
+	],
 	render() {
 		return (
-			<div>
-				{resolveClassName({ defaultClassName: 'base-class', isActive: true, count: 5 }, (s) =>
+			<StoryCard appearance="output">
+				{resolveClassName({ className: 'base-class', isActive: true, count: 5 }, (s) =>
 					s.isActive ? 'active-class' : 'inactive-class',
 				)}
-			</div>
+			</StoryCard>
 		)
 	},
 }
@@ -58,36 +79,55 @@ export const ClassNameFunction: Story = {
 export const UndefinedClassName: Story = {
 	name: 'className: undefined',
 	tags: ['props'],
-	parameters: defineDocsParam({
-		description: {
-			story: 'Returns only the defaultClassName when className is undefined.',
-		},
-	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						When <code>className</code> is <code>undefined</code>, it returns the{' '}
+						<code>className</code> property from the <code>renderProps</code>.
+					</p>
+				</>
+			),
+		}),
+		showDocSource({
+			placement: 'before',
+			source: dedent`resolveClassName({ className: 'base-class' }, undefined)`,
+		}),
+	],
 	render() {
-		return <div>{resolveClassName({ defaultClassName: 'base-class' }, undefined)}</div>
+		return (
+			<StoryCard appearance="output">
+				{resolveClassName({ className: 'base-class' }, undefined)}
+			</StoryCard>
+		)
 	},
 }
 
 export const FunctionReturnsUndefined: Story = {
 	name: 'className: function returns undefined',
 	tags: ['props'],
-	parameters: defineDocsParam({
-		description: {
-			story:
-				'When className is a function that returns undefined, it uses the defaultClassName only.',
-		},
-	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					When <code>className</code> is a function that returns <code>undefined</code>, it returns{' '}
+					<code>undefined</code>.
+				</p>
+			),
+		}),
+		showDocSource({
+			placement: 'before',
+			source: `resolveClassName({ className: 'base-class' }, () => undefined)`,
+		}),
+	],
 	render() {
 		return (
-			<div>
-				{resolveClassName({ defaultClassName: 'base-class', shouldShow: false }, (s) =>
-					s.shouldShow ? 'visible-class' : undefined,
-				) === undefined
+			<StoryCard appearance="output">
+				{resolveClassName({ className: 'base-class' }, () => undefined) === undefined
 					? '(undefined)'
 					: '(not undefined)'}
-			</div>
+			</StoryCard>
 		)
 	},
 }
