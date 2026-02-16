@@ -87,10 +87,8 @@
 		"tsconfig.react.json": "tsconfig"
 	},
 	"prettier.useTabs": true,
-	"tailwindCSS.classFunctions": ["twMerge", "twJoin", "cva", "cx"],
+	"tailwindCSS.classFunctions": ["twMerge", "twJoin", "cva", "cx", "clsx"],
 	"tailwindCSS.experimental.classRegex": [
-		"tw`([^`]*)",
-		"twm`([^`]*)",
 		"'@apply([^']*)':",
 		["toComparableClassName\\(([^\\)]*)\\)", "'([^']*)'"],
 		["toHaveClass\\(([^\\)]*)\\)", "'([^']*)'"]
