@@ -1,5 +1,5 @@
 import type { AnyRecord } from 'type-plus'
-import type { CSSProperties } from '../css/properties/css-properties.ts'
+import type { CSSProperties } from './css-properties.ts'
 import type { JustStyle, JustStyleFnProps } from './just-style.ts'
 
 type DefaultLength = 0 | (string & {})

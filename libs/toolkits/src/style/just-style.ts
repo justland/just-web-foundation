@@ -1,5 +1,5 @@
 import type { AnyRecord } from 'type-plus'
-import type { CSSProperties } from '../css/properties/css-properties.ts'
+import type { CSSProperties } from './css-properties.ts'
 
 type DefaultLength = 0 | (string & {})
 type DefaultTime = string & {}

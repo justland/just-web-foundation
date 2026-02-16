@@ -1,4 +1,4 @@
-import type { CSSProperties } from '../css/properties/css-properties.ts'
+import type { CSSProperties } from '../style/css-properties.ts'
 
 /**
  * Converts React-style CSS properties to DOM style properties.
