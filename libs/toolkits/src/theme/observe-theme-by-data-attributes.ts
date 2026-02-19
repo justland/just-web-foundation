@@ -33,30 +33,15 @@ export function observeThemeByDataAttributes<Themes extends Record<string, strin
 	attributeName: `data-${string}`
 	themes: Themes
 	handler: (value: string | null) => void
-	defaultTheme?: keyof Themes | undefined
-	element?: Element | undefined
-}): MutationObserver
-export function observeThemeByDataAttributes<Themes extends Record<string, string>>(options: {
-	attributeName: `data-${string}`
-	themes: Themes
-	handler: (value: string | null) => void
-	allowCustom: true | undefined
-	defaultTheme?: keyof Themes | undefined
-	element?: Element | undefined
-}): MutationObserver
-export function observeThemeByDataAttributes<Themes extends Record<string, string>>(options: {
-	attributeName: `data-${string}`
-	themes: Themes
-	handler: (value: string | null) => void
-	allowCustom?: boolean | undefined
-	defaultTheme?: keyof Themes | undefined
+	allowCustom?: true | undefined
+	defaultTheme?: string | undefined
 	element?: Element | undefined
 }): MutationObserver {
 	return observeDataAttributes(
 		{
 			[options.attributeName]: (value: string | null) => {
 				if (value === null) {
-					options.handler((options.defaultTheme as string) ?? null)
+					options.handler(options.defaultTheme ?? null)
 					return
 				}
 
