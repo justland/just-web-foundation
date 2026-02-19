@@ -42,6 +42,7 @@
 		"build:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.css",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
 		"cov": "vitest run --coverage",
+		"cov:w": "vitest --coverage",
 		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
 		"sb": "storybook dev -p 6206",
