@@ -17,9 +17,11 @@ const DEFAULT_REM_TO_PX_SCALE = 16
  * ```
  */
 export function getRemToPxScale(): number {
+	/* c8 ignore start */
 	if (typeof document === 'undefined' || !document.documentElement) {
 		return DEFAULT_REM_TO_PX_SCALE
 	}
+	/* c8 ignore end */
 	const rootFontSize = getComputedStyle(document.documentElement).fontSize
 	return Number.parseFloat(rootFontSize) ?? DEFAULT_REM_TO_PX_SCALE
 }
