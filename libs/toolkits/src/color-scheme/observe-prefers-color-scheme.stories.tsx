@@ -1,55 +1,78 @@
-import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import {
+	defineDocsParam,
+	type FnToArgTypes,
+	StoryCard,
+	showDocSource,
+	withStoryCard,
+} from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { useEffect, useState } from 'react'
-import { getPrefersColorTheme, observePrefersColorScheme } from '#just-web/toolkits'
+import { getPrefersColorScheme, observePrefersColorScheme } from '#just-web/toolkits'
+import code from './observe-prefers-color-scheme.ts?raw'
 
-const meta = {
+const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {
 	title: 'color-scheme/observePrefersColorScheme',
-	tags: ['autodocs', 'version:0.1'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
 				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.',
 		},
 	}),
-} satisfies Meta
+	render: () => <></>,
+}
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story:
-				'This demo shows how the `observePrefersColorScheme` function responds to system color scheme changes. Change your system theme to see it in action.',
+			story: 'Observe `prefers-color-scheme` changes.',
+		},
+		source: {
+			code: 'observePrefersColorScheme((value) => { ... }): () => void',
 		},
 	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<div className="space-y-2">
+					<p>
+						<code>observePrefersColorScheme(callback)</code> subscribes to{' '}
+						<code>prefers-color-scheme</code> changes and runs your callback when the preference
+						changes.
+					</p>
+					<p>
+						Use this when you need reactive updates (e.g. UI that follows the system theme). For a
+						one-off read, use <code>getPrefersColorScheme</code> instead.
+					</p>
+					<p>
+						You should call the returned cleanup function to stop observing when you no longer need
+						it.
+					</p>
+				</div>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
 	render: () => {
-		const [scheme, setScheme] = useState<'light' | 'dark' | null>(null)
+		const [scheme, setScheme] = useState(getPrefersColorScheme())
 
-		useEffect(() => {
-			setScheme(getPrefersColorTheme('light', 'dark'))
-
-			return observePrefersColorScheme((value) => setScheme(value))
-		}, [])
+		useEffect(() => observePrefersColorScheme(setScheme), [])
 
 		return (
-			<div
-				style={{
-					padding: '2rem',
-					backgroundColor: scheme === 'dark' ? '#333' : '#fff',
-					color: scheme === 'dark' ? '#fff' : '#333',
-					borderRadius: '8px',
-					transition: 'all 0.3s ease',
-				}}
-			>
-				<h2>Current Color Scheme Preference (prefers-color-scheme)</h2>
-				<p>
-					Your system is currently set to: <strong>{scheme}</strong> mode
-				</p>
-				<p>Try changing your system's or browser's color scheme to see this update!</p>
-			</div>
+			<StoryCard title="Current Color Scheme Preference (prefers-color-scheme)" appearance="output">
+				Your system is currently set to: <strong>{scheme}</strong> mode
+			</StoryCard>
 		)
 	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({ source: { code } }),
+	decorators: [showDocSource()],
 }
