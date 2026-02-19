@@ -1,5 +1,4 @@
 import { findKey } from 'type-plus'
-import { observeAttributes } from '../attributes/observe-attribute.ts'
 import { ctx } from '../testing/globals.ctx.ts'
 
 /**
@@ -41,30 +40,4 @@ export function getThemeByClassName<Themes extends Record<string, string>>(optio
 	const className = element.className
 	const theme = findKey(options.themes, (theme) => className.includes(options.themes[theme]!))
 	return theme ?? options.defaultTheme
-}
-
-export function observeThemeByClassName<Themes extends Record<string, string>>(options: {
-	themes: Themes
-	handler: (value: string | undefined) => void
-	defaultTheme?: keyof Themes | undefined
-	element?: Element | undefined
-}) {
-	return observeAttributes(
-		{
-			class: (value: string | null) => {
-				if (value === null) {
-					options.handler(options.defaultTheme as string)
-					return
-				}
-
-				for (const name in options.themes) {
-					if (value.includes(options.themes[name]!)) {
-						options.handler(name)
-						break
-					}
-				}
-			},
-		},
-		options.element,
-	)
 }
