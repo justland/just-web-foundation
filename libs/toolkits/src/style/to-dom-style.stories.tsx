@@ -7,7 +7,7 @@ import source from './to-dom-style.ts?raw'
 
 const meta = {
 	title: 'style/toDomStyle',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

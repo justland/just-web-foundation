@@ -4,7 +4,7 @@ import dedent from 'dedent'
 
 const meta = {
 	title: 'Types/Placement',
-	tags: ['code-only', 'version:next'],
+	tags: ['code-only', 'version:0.2'],
 	render: () => <></>,
 } satisfies Meta
 

@@ -12,7 +12,7 @@ import code from './get-data-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getDataAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getDataAttribute',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get `data-*` attribute values from DOM element',

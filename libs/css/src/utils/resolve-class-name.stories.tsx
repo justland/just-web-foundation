@@ -4,7 +4,7 @@ import { resolveClassName } from '#just-web/css'
 
 const meta = {
 	title: 'utils/resolveClassName',
-	tags: ['autodocs', 'version:next'],
+	tags: ['autodocs', 'version:0.8'],
 	parameters: defineDocsParam({
 		description: {
 			component:

@@ -5,7 +5,7 @@ import { resolveStyle } from '#just-web/toolkits'
 
 const meta = {
 	title: 'style/resolveStyle',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:
