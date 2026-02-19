@@ -1,1 +1,0 @@
-import{c as s}from"./globals.ctx-DOXvZQDb.js";function n(r){const e=globalThis.matchMedia("(prefers-color-scheme: dark)"),t=o=>{r(o.matches?"dark":"light")};return e.addEventListener("change",t),()=>e.removeEventListener("change",t)}function a(...r){return r.find(e=>s.matchMedia(`(prefers-color-scheme: ${e})`).matches)??null}export{a as g,n as o};
