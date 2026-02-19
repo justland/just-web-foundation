@@ -1,9 +1,20 @@
+import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
+import { expect } from 'storybook/test'
 import { px2rem } from '#just-web/toolkits'
+import source from './px-2-rem.ts?raw'
 
 const meta = {
 	title: 'units/px2rem',
 	tags: ['func', 'version:next'],
+	parameters: defineDocsParam({
+		description: {
+			component:
+				'Converts pixel values to rem units. Accepts a number or string (e.g. "16px" or "16") and optional base (default 16) and precision (default 4).',
+		},
+	}),
+	render: () => <></>,
 } satisfies Meta
 
 export default meta
@@ -11,148 +22,268 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
-	tags: ['snapshot'],
+	tags: ['use-case'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Convert pixel numbers to rem using the default base (16px).',
+		},
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						<code>px2rem(px)</code> returns the rem value. Default base is 16.
+					</p>
+				</>
+			),
+		}),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				px2rem(16)  // 1
+				px2rem(32)  // 2
+				px2rem(8)   // 0.5
+				px2rem(24)  // 1.5
+			`,
+		}),
+	],
 	render() {
 		const examples = [
-			{ input: 16, expected: '1.0000' },
-			{ input: 32, expected: '2.0000' },
-			{ input: 8, expected: '0.5000' },
-			{ input: 24, expected: '1.5000' },
+			{ input: 16, expected: 1 },
+			{ input: 32, expected: 2 },
+			{ input: 8, expected: 0.5 },
+			{ input: 24, expected: 1.5 },
 		]
-
 		return (
-			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Basic Usage (default base: 16px)</h3>
-				<div className="space-y-2">
-					{examples.map(({ input, expected }) => (
-						<div
-							key={input}
-							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
-						>
-							<code className="text-sm">px2rem({input})</code>
-							<span>→</span>
-							<code className="text-sm font-mono">{px2rem(input)}rem</code>
-							<span className="text-gray-500 text-sm">(expected: {expected}rem)</span>
-						</div>
-					))}
-				</div>
-			</div>
+			<StoryCard title="Basic usage (default base: 16px)" appearance="output">
+				<pre className="text-sm">
+					{examples
+						.map(
+							({ input, expected }) =>
+								`px2rem(${input}) → ${px2rem(input)}rem (expected: ${expected}rem)`,
+						)
+						.join('\n')}
+				</pre>
+			</StoryCard>
 		)
+	},
+	play: async () => {
+		const examples = [
+			{ input: 16, expected: 1 },
+			{ input: 32, expected: 2 },
+			{ input: 8, expected: 0.5 },
+			{ input: 24, expected: 1.5 },
+		]
+		for (const { input, expected } of examples) {
+			await expect(px2rem(input)).toBe(expected)
+		}
 	},
 }
 
 export const StringInput: Story = {
+	tags: ['use-case'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'String inputs like "16px" or "16" are parsed and converted.',
+		},
+	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				px2rem('16px')  // 1
+				px2rem('32px')  // 2
+				px2rem('24')    // 1.5
+				px2rem('8.5px') // 0.5313
+			`,
+		}),
+	],
 	render() {
 		const examples = [
-			{ input: '16px', expected: '1.0000' },
-			{ input: '32px', expected: '2.0000' },
-			{ input: '24', expected: '1.5000' },
-			{ input: '8.5px', expected: '0.5313' },
+			{ input: '16px', expected: 1 },
+			{ input: '32px', expected: 2 },
+			{ input: '24', expected: 1.5 },
+			{ input: '8.5px', expected: 0.5313 },
 		]
-
 		return (
-			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">String Input</h3>
-				<div className="space-y-2">
-					{examples.map(({ input, expected }) => (
-						<div
-							key={input}
-							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
-						>
-							<code className="text-sm">px2rem('{input}')</code>
-							<span>→</span>
-							<code className="text-sm font-mono">{px2rem(input)}rem</code>
-							<span className="text-gray-500 text-sm">(expected: {expected}rem)</span>
-						</div>
-					))}
-				</div>
-			</div>
+			<StoryCard title="String input" appearance="output">
+				<pre className="text-sm">
+					{examples
+						.map(
+							({ input, expected }) =>
+								`px2rem('${input}') → ${px2rem(input)}rem (expected: ${expected}rem)`,
+						)
+						.join('\n')}
+				</pre>
+			</StoryCard>
 		)
+	},
+	play: async () => {
+		const examples = [
+			{ input: '16px', expected: 1 },
+			{ input: '32px', expected: 2 },
+			{ input: '24', expected: 1.5 },
+			{ input: '8.5px', expected: 0.5313 },
+		]
+		for (const { input, expected } of examples) {
+			await expect(px2rem(input)).toBe(expected)
+		}
 	},
 }
 
 export const CustomBase: Story = {
+	tags: ['use-case'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Pass a custom base (pixels per 1rem) via options.',
+		},
+	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				px2rem(20, { base: 20 })  // 1
+				px2rem(40, { base: 20 })  // 2
+				px2rem(10, { base: 20 })  // 0.5
+				px2rem(30, { base: 20 })  // 1.5
+			`,
+		}),
+	],
 	render() {
 		const examples = [
-			{ input: 20, base: 20, expected: '1.0000' },
-			{ input: 40, base: 20, expected: '2.0000' },
-			{ input: 10, base: 20, expected: '0.5000' },
-			{ input: 30, base: 20, expected: '1.5000' },
+			{ input: 20, base: 20, expected: 1 },
+			{ input: 40, base: 20, expected: 2 },
+			{ input: 10, base: 20, expected: 0.5 },
+			{ input: 30, base: 20, expected: 1.5 },
 		]
-
 		return (
-			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Custom Base (20px)</h3>
-				<div className="space-y-2">
-					{examples.map(({ input, base, expected }) => (
-						<div
-							key={input}
-							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
-						>
-							<code className="text-sm">{`px2rem(${input}, { base: ${base} })`}</code>
-							<span>→</span>
-							<code className="text-sm font-mono">{px2rem(input, { base })}rem</code>
-							<span className="text-gray-500 text-sm">(expected: {expected}rem)</span>
-						</div>
-					))}
-				</div>
-			</div>
+			<StoryCard title="Custom base (20px)" appearance="output">
+				<pre className="text-sm">
+					{examples
+						.map(
+							({ input, base, expected }) =>
+								`px2rem(${input}, { base: ${base} }) → ${px2rem(input, { base })}rem (expected: ${expected}rem)`,
+						)
+						.join('\n')}
+				</pre>
+			</StoryCard>
 		)
+	},
+	play: async () => {
+		const examples = [
+			{ input: 20, base: 20, expected: 1 },
+			{ input: 40, base: 20, expected: 2 },
+			{ input: 10, base: 20, expected: 0.5 },
+			{ input: 30, base: 20, expected: 1.5 },
+		]
+		for (const { input, base, expected } of examples) {
+			await expect(px2rem(input, { base })).toBe(expected)
+		}
 	},
 }
 
 export const CustomPrecision: Story = {
+	tags: ['use-case'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Control decimal places with the precision option.',
+		},
+	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				px2rem(13, { precision: 0 }) // 1
+				px2rem(13, { precision: 1 }) // 0.8
+				px2rem(13, { precision: 2 }) // 0.81
+				px2rem(13, { precision: 4 }) // 0.8125
+			`,
+		}),
+	],
 	render() {
 		const input = 13
 		const precisions = [0, 1, 2, 3, 4, 6]
-
 		return (
-			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Custom Precision (13px ÷ 16px)</h3>
-				<div className="space-y-2">
-					{precisions.map((precision) => (
-						<div
-							key={precision}
-							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
-						>
-							<code className="text-sm">{`px2rem(${input}, { precision: ${precision} })`}</code>
-							<span>→</span>
-							<code className="text-sm font-mono">{px2rem(input, { precision })}rem</code>
-						</div>
-					))}
-				</div>
-			</div>
+			<StoryCard title="Custom precision (13px ÷ 16px)" appearance="output">
+				<pre className="text-sm">
+					{precisions
+						.map(
+							(precision) =>
+								`px2rem(${input}, { precision: ${precision} }) → ${px2rem(input, { precision })}rem`,
+						)
+						.join('\n')}
+				</pre>
+			</StoryCard>
 		)
+	},
+	play: async () => {
+		const input = 13
+		const expectedByPrecision = [1, 0.8, 0.81, 0.813, 0.8125, 0.8125]
+		const precisions = [0, 1, 2, 3, 4, 6]
+		for (let i = 0; i < precisions.length; i++) {
+			await expect(px2rem(input, { precision: precisions[i] })).toBe(expectedByPrecision[i])
+		}
 	},
 }
 
-export const AllOptions: Story = {
+export const BaseAndPrecision: Story = {
+	tags: ['use-case'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Combine custom base and precision.',
+		},
+	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				px2rem(18, { base: 18, precision: 2 })
+				px2rem(27, { base: 18, precision: 3 })
+				px2rem('36px', { base: 18, precision: 1 })
+				px2rem(9, { base: 18, precision: 0 })
+			`,
+		}),
+	],
 	render() {
 		const examples = [
-			{ input: 18, base: 18, precision: 2 },
+			{ input: 18 as number | string, base: 18, precision: 2 },
 			{ input: 27, base: 18, precision: 3 },
-			{ input: '36px', base: 18, precision: 1 },
+			{ input: '36px' as number | string, base: 18, precision: 1 },
 			{ input: 9, base: 18, precision: 0 },
 		]
-
 		return (
-			<div className="space-y-4">
-				<h3 className="text-lg font-semibold">Custom Base and Precision</h3>
-				<div className="space-y-2">
-					{examples.map(({ input, base, precision }) => (
-						<div
-							key={`${input}-${base}-${precision}`}
-							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
-						>
-							<code className="text-sm">
-								{`px2rem(${typeof input === 'string' ? `'${input}'` : input}, { base: ${base}, precision: ${precision} })`}
-							</code>
-							<span>→</span>
-							<code className="text-sm font-mono">{px2rem(input, { base, precision })}rem</code>
-						</div>
-					))}
-				</div>
-			</div>
+			<StoryCard title="Custom base and precision" appearance="output">
+				<pre className="text-sm">
+					{examples
+						.map(
+							({ input, base, precision }) =>
+								`px2rem(${typeof input === 'string' ? `'${input}'` : input}, { base: ${base}, precision: ${precision} }) → ${px2rem(input, { base, precision })}rem`,
+						)
+						.join('\n')}
+				</pre>
+			</StoryCard>
 		)
 	},
+	play: async () => {
+		const examples = [
+			{ input: 18 as number | string, base: 18, precision: 2, expected: 1 },
+			{ input: 27, base: 18, precision: 3, expected: 1.5 },
+			{ input: '36px' as number | string, base: 18, precision: 1, expected: 2 },
+			{ input: 9, base: 18, precision: 0, expected: 1 },
+		]
+		for (const { input, base, precision, expected } of examples) {
+			await expect(px2rem(input, { base, precision })).toBe(expected)
+		}
+	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({ source: { code: source } }),
+	decorators: [showDocSource()],
 }
