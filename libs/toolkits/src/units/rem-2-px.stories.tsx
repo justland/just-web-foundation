@@ -1,12 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { rem2px } from '#just-web/toolkits'
 
 const meta = {
-	title: 'convertors/rem2px',
-	tags: ['version:0.6'],
-	parameters: {
-		layout: 'centered',
-	},
+	title: 'units/rem2px',
+	tags: ['func', 'version:next'],
 } satisfies Meta
 
 export default meta
