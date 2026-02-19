@@ -10,7 +10,7 @@ import codePropsDefault from './just-children-props.editor.default.tsx?raw'
 
 const meta: Meta = {
 	title: 'children/JustChildren',
-	tags: ['version:next', '!test'],
+	tags: ['version:1.0', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:

@@ -9,7 +9,7 @@ import source from './style-props.ts?raw'
 
 const meta: Meta<toolkits.StyleProps> = {
 	title: 'style/StyleProps',
-	tags: ['type', 'version:next', '!test'],
+	tags: ['type', 'version:1.0', '!test'],
 	render: () => <></>,
 }
 

@@ -8,7 +8,7 @@ import source from './get-css-variable-value.ts?raw'
 
 const meta = {
 	title: 'style/getCSSVariableValue',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

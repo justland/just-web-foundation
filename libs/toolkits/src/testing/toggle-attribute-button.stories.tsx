@@ -8,7 +8,7 @@ import { ToggleAttributeButton } from './toggle-attribute-button.tsx'
 
 const meta = {
 	title: 'testing/ToggleAttributeButton',
-	tags: ['autodocs', 'version:next'],
+	tags: ['autodocs', 'version:1.0'],
 	component: ToggleAttributeButton,
 } satisfies Meta<typeof ToggleAttributeButton>
 

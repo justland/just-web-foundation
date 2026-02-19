@@ -12,7 +12,7 @@ import code from './get-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getAttribute',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get attribute values from DOM element',

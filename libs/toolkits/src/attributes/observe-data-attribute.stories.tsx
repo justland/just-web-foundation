@@ -15,7 +15,7 @@ import code from './observe-data-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	title: 'attributes/observeDataAttributes',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

@@ -12,7 +12,7 @@ import code from './observe-prefers-color-scheme.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {
 	title: 'color-scheme/observePrefersColorScheme',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:
