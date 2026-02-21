@@ -1,14 +1,16 @@
 import type { Properties as CSSTypeProperties } from 'csstype'
 
+/** Custom CSS properties (variables) with `--` prefix. */
+type CustomProperties = { [k: `--${string}`]: string }
+
 /**
  * Extends CSS properties to include custom properties.
  * Allows for string or number values for standard properties,
  * and string values for custom properties with '--' prefix.
  */
-export interface Properties<TLength = 0 | (string & {}), TTime = string & {}>
-	extends CSSTypeProperties<TLength, TTime> {
-	[k: `--${string}`]: string
-}
+export type Properties<TLength = 0 | (string & {}), TTime = string & {}> =
+	| CSSTypeProperties<TLength, TTime>
+	| (CSSTypeProperties<TLength, TTime> & CustomProperties)
 
 /**
  * Defines CSS properties including custom properties.
