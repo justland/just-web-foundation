@@ -1,1 +1,0 @@
-function u(e){const t=e.element??document.documentElement,r=e.theme;if(!r||!(r in e.themes)){t.removeAttribute(e.attributeName);return}const m=e.themes[r],a=Array.isArray(m)?m[0]:m;a!==void 0&&a!==""?t.setAttribute(e.attributeName,a):t.removeAttribute(e.attributeName)}export{u as s};

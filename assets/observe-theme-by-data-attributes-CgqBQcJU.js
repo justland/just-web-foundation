@@ -1,1 +1,0 @@
-import{o as a}from"./observe-data-attribute-CrIGpGqK.js";function l(e){return a({[e.attributeName]:r=>{if(r===null){e.handler(e.defaultTheme??null);return}for(const t in e.themes)if(e.themes[t]===r){e.handler(t);return}e.allowCustom&&e.handler(r)}},e.element)}export{l as o};

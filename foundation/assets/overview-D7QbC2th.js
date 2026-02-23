@@ -1,3 +1,0 @@
-import{j as t,M as r}from"./iframe-BwCvR-Rn.js";import{useMDXComponents as n}from"./index-B50o_7mg.js";import"./preload-helper-PPVm8Dsz.js";function s(o){const e={code:"code",h1:"h1",p:"p",strong:"strong",...n(),...o.components};return t.jsxs(t.Fragment,{children:[t.jsx(r,{title:"react/Overview"}),`
-`,t.jsx(e.h1,{id:"just-webtoolkitsreact",children:"@just-web/toolkits/react"}),`
-`,t.jsxs(e.p,{children:[t.jsx(e.code,{children:"@just-web/toolkits/react"})," is the React subpath of ",t.jsx(e.strong,{children:"@just-web/toolkits"}),". It provides React specific utilities."]})]})}function j(o={}){const{wrapper:e}={...n(),...o.components};return e?t.jsx(e,{...o,children:t.jsx(s,{...o})}):s(o)}export{j as default};

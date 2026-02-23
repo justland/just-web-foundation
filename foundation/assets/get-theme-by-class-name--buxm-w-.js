@@ -1,1 +1,0 @@
-import{f as a}from"./findKey-D_Zca1Sl.js";function u(e){const n=(e.element??document.documentElement).className;return a(e.themes,s=>{const t=e.themes[s];if(t===void 0)return!1;const m=Array.isArray(t)?t[0]:t;return!!m&&n.includes(m)})??e.defaultTheme}export{u as g};

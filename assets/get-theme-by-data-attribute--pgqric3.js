@@ -1,0 +1,1 @@
+import{d as t}from"./data-attribute-theme-store-Zjn-v2eS.js";function r(e){return t(e.attributeName,e.element).get({themes:e.themes,defaultTheme:e.defaultTheme,allowCustom:e.allowCustom})}export{r as g};
