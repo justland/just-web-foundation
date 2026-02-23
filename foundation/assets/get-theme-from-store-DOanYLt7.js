@@ -1,1 +1,0 @@
-async function r(e){const t=await e.store.get();return t&&t.theme in e.themes?t:(t&&console.warn("The stored theme value is invalid"),e.theme!=null?{theme:e.theme,value:e.themes[e.theme]}:void 0)}export{r as g};
