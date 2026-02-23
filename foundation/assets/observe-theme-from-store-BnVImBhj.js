@@ -1,0 +1,1 @@
+import{g as m}from"./get-theme-from-store-DOanYLt7.js";function i(t){const{store:e,themes:r,theme:s,handler:n}=t,o=()=>{m({store:e,themes:r,theme:s}).then(n)};o();const c=e.subscribe?.(o);return{disconnect:()=>c?.()}}export{i as o};

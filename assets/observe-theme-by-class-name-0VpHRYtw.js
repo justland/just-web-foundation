@@ -1,0 +1,1 @@
+import{o as m}from"./observe-attribute-DJMrXwPX.js";function h(e){return m({class:a=>{if(a===null){e.handler(e.defaultTheme);return}for(const l in e.themes){const r=e.themes[l];if(r&&a.includes(Array.isArray(r)?r[0]:r)){e.handler(l);return}}e.handler(e.defaultTheme)}},e.element)}export{h as o};

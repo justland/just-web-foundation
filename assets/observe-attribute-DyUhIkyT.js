@@ -1,1 +1,0 @@
-function b(e,o=globalThis.document.documentElement){const r=new MutationObserver(u=>{for(const i of u){const t=i.attributeName;if(!t)continue;const n=o.getAttribute(t);e[t]?.(n)}});return r.observe(o,{attributes:!0,attributeFilter:Object.keys(e)}),r}export{b as o};

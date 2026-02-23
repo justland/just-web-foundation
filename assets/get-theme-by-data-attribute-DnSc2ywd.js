@@ -1,0 +1,1 @@
+import{g as a}from"./get-data-attribute-Bl9c_7h4.js";import{f as r}from"./findKey-BZZwGHNT.js";function l(e){const t=a(e.attributeName,e.element)??void 0;return r(e.themes,m=>e.themes[m]===t)??e.defaultTheme??(e.allowCustom?t:void 0)}export{l as g};

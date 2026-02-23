@@ -1,0 +1,1 @@
+function h(e){const a=e.element??document.documentElement,s=e.theme;if(!s)return;const l=Object.values(e.themes).flatMap(t=>Array.isArray(t)?[...t]:[t]),r=a.className.trim(),m=(r?r.split(/\s+/):[]).filter(t=>!l.includes(t)),c=s in e.themes?Array.isArray(e.themes[s])?[...e.themes[s]]:[e.themes[s]]:[];a.className=[...m,...c].filter(Boolean).join(" ")}export{h as s};
