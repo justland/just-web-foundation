@@ -1,6 +1,6 @@
 {
 	"name": "@just-web/css",
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"description": "CSS types and utilities",
 	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/css",
 	"repository": {
