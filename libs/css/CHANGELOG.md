@@ -1,5 +1,12 @@
 # @just-web/css
 
+## 0.8.1
+
+### Patch Changes
+
+- 534a4b7: Widen `CSSProperties` and `Properties` to union types so plain `Properties` (e.g. from React or csstype) are assignable.
+  Remove deprecation from `@just-web/css` `CSSProperties` (will be the name of the type in `@just-web/toolkits`).
+
 ## 0.8.0
 
 ### Minor Changes
