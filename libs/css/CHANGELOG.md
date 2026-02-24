@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.8.3
+
+### Patch Changes
+
+- 1303f62: Fix `Properties` the same way as `CSSProperties`.
+
 ## 0.8.2
 
 ### Patch Changes
