@@ -1,9 +1,9 @@
-import { defineCSSProperties, type CSSProperties } from '#just-web/css'
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
 import { testType } from 'type-plus'
+import { type CSSProperties, defineCSSProperties } from '#just-web/css'
 
 const meta: Meta = {
 	title: 'Properties/CSSProperties',
