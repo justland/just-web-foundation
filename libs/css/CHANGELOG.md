@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.8.2
+
+### Patch Changes
+
+- 8ac9f2d: Fix `CSSProperties` to support type param usage
+
 ## 0.8.1
 
 ### Patch Changes
