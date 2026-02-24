@@ -5,12 +5,14 @@ import dedent from 'dedent'
 import { expect } from 'storybook/test'
 import { testType } from 'type-plus'
 
-export default {
+const meta: Meta = {
 	title: 'Properties/CSSProperties',
 	tags: ['autodocs', 'code-only', 'new', 'version:0.1'],
 	decorators: [showDocSource()],
 	render: () => <></>,
-} satisfies Meta
+}
+
+export default meta
 
 export const TypeUsage: StoryObj = {
 	tags: ['!test'],
