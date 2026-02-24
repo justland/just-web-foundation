@@ -1,6 +1,6 @@
-import { getDataAttribute } from '#just-web/css'
 import { defineDocsParam } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { getDataAttribute } from '#just-web/css'
 
 interface StoryArgs {
 	attributeName: `data-${string}`
