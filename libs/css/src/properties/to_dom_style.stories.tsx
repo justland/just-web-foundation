@@ -1,7 +1,7 @@
-import type { Properties } from '#just-web/css'
-import { toDOMStyle } from '#just-web/css'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useEffect, useRef } from 'react'
+import type { Properties } from '#just-web/css'
+import { toDOMStyle } from '#just-web/css'
 
 const meta = {
 	title: 'CSS Properties/toDOMStyle',
