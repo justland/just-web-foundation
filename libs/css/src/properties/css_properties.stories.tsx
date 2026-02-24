@@ -1,15 +1,18 @@
-import { defineCSSProperties } from '#just-web/css'
+import { defineCSSProperties, type CSSProperties } from '#just-web/css'
 import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
+import { testType } from 'type-plus'
 
-export default {
+const meta: Meta = {
 	title: 'Properties/CSSProperties',
 	tags: ['autodocs', 'code-only', 'new', 'version:0.1'],
 	decorators: [showDocSource()],
 	render: () => <></>,
-} satisfies Meta
+}
+
+export default meta
 
 export const TypeUsage: StoryObj = {
 	tags: ['!test'],
@@ -25,6 +28,22 @@ export const TypeUsage: StoryObj = {
 			`,
 		},
 	}),
+	play: () => {
+		const style: CSSProperties = {
+			color: 'red',
+			'--custom-property': '10px',
+		}
+		expect(style).toEqual({
+			color: 'red',
+			'--custom-property': '10px',
+		})
+
+		interface TypeParams<K extends keyof CSSProperties> {
+			property: K
+			value: CSSProperties[K]
+		}
+		testType.unknown<TypeParams<keyof CSSProperties>>(false)
+	},
 }
 
 export const DefineFunction: StoryObj = {
