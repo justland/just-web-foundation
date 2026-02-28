@@ -1,5 +1,4 @@
 import { findKey } from 'type-plus'
-import { ctx } from '../testing/globals.ctx.ts'
 
 /**
  * Gets the current theme by checking element class names against a themes map.
@@ -36,7 +35,7 @@ export function getThemeByClassName<Themes extends Record<string, string>>(optio
 	defaultTheme?: keyof Themes | undefined
 	element?: Element | undefined
 }): keyof Themes | undefined {
-	const element = options.element ?? ctx.getDocumentElement()
+	const element = options.element ?? document.documentElement
 	const className = element.className
 	const theme = findKey(options.themes, (theme) => className.includes(options.themes[theme]!))
 	return theme ?? options.defaultTheme
