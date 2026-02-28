@@ -31,10 +31,7 @@ export const BasicUsage: Story = {
 		useEffect(() => {
 			setScheme(getPrefersColorTheme('light', 'dark'))
 
-			return observePrefersColorScheme<'light' | 'dark'>({
-				light: (value) => setScheme(value),
-				dark: (value) => setScheme(value),
-			})
+			return observePrefersColorScheme((value) => setScheme(value))
 		}, [])
 
 		return (
