@@ -9,7 +9,7 @@ export type { ThemeMap } from './theme-map.types.ts'
  * - set: receives writes from setTheme
  * - subscribe: observed for external changes
  */
-export type ThemeStore<Themes extends ThemeMap> = {
+export type ThemeStore<Themes extends ThemeMap = ThemeMap> = {
 	get?: (() => ThemeEntry<Themes> | undefined | null) | undefined
 	set?: ((entry: ThemeEntry<Themes> | undefined) => void) | undefined
 	subscribe?:
@@ -17,7 +17,7 @@ export type ThemeStore<Themes extends ThemeMap> = {
 		| undefined
 }
 
-export type AsyncThemeStore<Themes extends ThemeMap> = {
+export type AsyncThemeStore<Themes extends ThemeMap = ThemeMap> = {
 	get?:
 		| (() => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>)
 		| undefined

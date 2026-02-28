@@ -2,6 +2,6 @@ import type { ThemeStore } from '../theme.types.ts'
 
 export const dummyThemeStore = {
 	get: () => undefined,
-	set: (_entry) => {},
+	set: () => {},
 	subscribe: () => () => {}
-} satisfies ThemeStore<any>
+} satisfies ThemeStore
