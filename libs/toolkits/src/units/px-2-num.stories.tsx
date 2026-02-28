@@ -1,13 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { expect } from 'storybook/test'
 import { px2num } from '#just-web/toolkits'
 
 const meta = {
-	title: 'convertors/px2num',
-	tags: ['version:0.7'],
-	parameters: {
-		layout: 'centered',
-	},
+	title: 'units/px2num',
+	tags: ['func', 'version:next'],
 } satisfies Meta
 
 export default meta
