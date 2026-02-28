@@ -1,47 +1,71 @@
-import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { getPrefersColorTheme } from '#just-web/toolkits'
+import {
+	defineDocsParam,
+	type FnToArgTypes,
+	StoryCard,
+	showDocSource,
+	withStoryCard,
+} from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import { getPrefersColorScheme } from '#just-web/toolkits'
+import code from './get-prefers-color-scheme.ts?raw'
 
-const meta = {
-	title: 'color-scheme/getPrefersColorScheme',
-	tags: ['autodocs', 'version:0.1'],
+const meta: Meta<FnToArgTypes<typeof getPrefersColorScheme>> = {
+	title: 'color-scheme/getPrefersColorTheme',
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that returns the current preferred color theme from the system settings.',
+				'A utility function that returns the current preferred color scheme. It can only be "light" or "dark".',
 		},
 	}),
-} satisfies Meta
+	render: () => <></>,
+}
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story:
-				'This demo shows how the `getPrefersColorScheme` function returns the current preferred color theme from the system settings.',
+			story: 'Read the current `prefers-color-scheme` value.',
+		},
+		source: {
+			code: 'getPrefersColorScheme(): "light" | "dark"',
 		},
 	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<div className="space-y-2">
+					<p>
+						<code>getPrefersColorScheme()</code> reads the current <code>prefers-color-scheme</code>{' '}
+						value.
+					</p>
+					<p>
+						Use this when you need a one-off read of the user's color scheme (e.g. for initial
+						render or non-reactive logic). For reactive updates when the preference changes, use{' '}
+						<code>observePrefersColorScheme</code> instead.
+					</p>
+				</div>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
 	render: () => {
-		const scheme = getPrefersColorTheme('light', 'dark')
+		const scheme = getPrefersColorScheme()
 
 		return (
-			<div
-				style={{
-					padding: '2rem',
-					backgroundColor: scheme === 'dark' ? '#333' : '#fff',
-					color: scheme === 'dark' ? '#fff' : '#333',
-					borderRadius: '8px',
-					transition: 'all 0.3s ease',
-				}}
-			>
-				<h2>Current Color Scheme Preference (prefers-color-scheme)</h2>
-				<p>
-					Your system is currently set to: <strong>{scheme}</strong> mode
-				</p>
-			</div>
+			<StoryCard title="Current Color Scheme Preference (prefers-color-scheme)" appearance="output">
+				Your system is currently set to: <strong>{scheme}</strong> mode
+			</StoryCard>
 		)
 	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({ source: { code } }),
+	decorators: [showDocSource()],
 }
