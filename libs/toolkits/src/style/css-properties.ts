@@ -9,6 +9,6 @@ type CustomProperties = { [k: `--${string}`]: string }
  * and string values for custom properties with '--' prefix.
  * Defined as a union so plain Properties (e.g. from React) are assignable.
  */
-export type CSSProperties<TLength = string | number, TTime = string & {}> =
-	| Properties<TLength, TTime>
-	| (Properties<TLength, TTime> & CustomProperties)
+export interface CSSProperties<TLength = string | number, TTime = string & {}>
+	extends Properties<TLength, TTime>,
+		CustomProperties {}
