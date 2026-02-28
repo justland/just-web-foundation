@@ -26,4 +26,12 @@ export default defineConfig([
 			emitDtsOnly: true,
 		},
 	},
+	{
+		entry: ['./node_modules/type-plus/esm/index.d.ts'],
+		outDir: '.editor/type_plus',
+		clean: true,
+		dts: {
+			emitDtsOnly: true,
+		},
+	},
 ])
