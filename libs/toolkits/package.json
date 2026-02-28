@@ -59,8 +59,8 @@
 		"w": "vitest"
 	},
 	"dependencies": {
-		"csstype": "^3.2.3",
-		"clsx": "^2.1.1"
+		"clsx": "^2.1.1",
+		"csstype": "^3.2.3"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.25.0",
@@ -71,6 +71,7 @@
 		"@storybook/react-vite": "^10.2.7",
 		"@tailwindcss/cli": "^4.1.18",
 		"@tailwindcss/vite": "^4.1.18",
+		"@testing-library/react": "^16.3.2",
 		"@tools/typescript": "workspace:^",
 		"@types/react": "^19.2.13",
 		"@vitest/browser": "^4.0.18",

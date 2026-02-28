@@ -7,7 +7,7 @@ export type ThemeResult = {
 }
 
 export type ThemeResultCardProps = {
-	result: ThemeResult | undefined
+	result: ThemeResult | null | undefined
 	title: string
 	'data-testid'?: string | undefined
 }

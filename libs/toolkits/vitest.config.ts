@@ -14,6 +14,7 @@ export default mergeConfig(config, {
 	esbuild: { jsx: 'automatic' },
 	optimizeDeps: {
 		include: [
+			'@testing-library/react',
 			'react/jsx-dev-runtime',
 			'@repobuddy/storybook',
 			'@repobuddy/storybook/storybook-dark-mode',
