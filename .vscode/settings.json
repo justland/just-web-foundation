@@ -101,5 +101,8 @@
 	"typescript.preferences.quoteStyle": "single",
 	"typescript.suggest.autoImports": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"typescript.updateImportsOnFileMove.enabled": "always"
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"yaml.schemas": {
+		"https://json.schemastore.org/pnpm-workspace": "pnpm-workspace.yaml"
+	}
 }
