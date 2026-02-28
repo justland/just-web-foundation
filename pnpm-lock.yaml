@@ -231,9 +231,6 @@ importers:
       '@just-web/types':
         specifier: workspace:^
         version: link:../types
-      react-aria-components:
-        specifier: ^1.15.1
-        version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.25.0
@@ -283,6 +280,9 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      react-aria-components:
+        specifier: ^1.15.1
+        version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
