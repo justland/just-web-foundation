@@ -6,11 +6,12 @@ import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
 import codeDefault from './just-children.editor.default.tsx?raw'
 import source from './just-children.ts?raw'
+import codeFnPropsDefault from './just-children-fn-props.editor.default.tsx?raw'
 import codePropsDefault from './just-children-props.editor.default.tsx?raw'
 
 const meta: Meta = {
 	title: 'children/JustChildren',
-	tags: ['type', 'version:next', '!test'],
+	tags: ['version:next', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:
@@ -66,6 +67,37 @@ export const Specification: StoryObj = {
 	],
 }
 
+export const JustChildrenStory: StoryObj = {
+	name: 'JustChildren',
+	tags: ['type'],
+	parameters: defineDocsParam({
+		source: { code: codeDefault },
+	}),
+	decorators: [
+		withStoryCard({
+			title: 'JustChildren',
+			content: (
+				<>
+					<p>
+						Compare to <code>JustChildrenProps</code>, <code>JustChildren</code> allows you to use
+						it on its own (e.g. for a variable or parameter that can be static or a resolver).
+					</p>
+				</>
+			),
+		}),
+		showSource(),
+	],
+}
+
+makeLiveEditStory(JustChildrenStory, {
+	availableImports: {
+		'@just-web/toolkits': toolkits,
+		'@repobuddy/storybook': repobuddyStorybook,
+		react: React,
+	},
+	code: JustChildrenStory.parameters?.['docs']?.['source']?.code,
+})
+
 export const JustChildrenPropsStory: StoryObj = {
 	name: 'JustChildrenProps',
 	tags: ['type'],
@@ -100,20 +132,25 @@ makeLiveEditStory(JustChildrenPropsStory, {
 	code: JustChildrenPropsStory.parameters?.['docs']?.['source']?.code,
 })
 
-export const JustChildrenStory: StoryObj = {
-	name: 'JustChildren',
+export const JustChildrenFnPropsStory: StoryObj = {
+	name: 'JustChildrenFnProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeDefault },
+		source: { code: codeFnPropsDefault },
 	}),
 	decorators: [
 		withStoryCard({
-			title: 'JustChildren',
+			title: 'JustChildrenFnProps',
 			content: (
 				<>
 					<p>
-						Compare to <code>JustChildrenProps</code>, <code>JustChildren</code> allows you to use
-						it on its own (e.g. for a variable or parameter that can be static or a resolver).
+						<code>JustChildrenFnProps</code> is the argument type for <code>JustChildren</code>{' '}
+						resolver functions. It is <code>RenderProps</code> merged with{' '}
+						<code>{'{ children?: ReactNode }'}</code>.
+					</p>
+					<p>
+						Use it to type the parameter when writing a <code>children</code> function so you get
+						access to render props and the current default <code>children</code>.
 					</p>
 				</>
 			),
@@ -122,13 +159,13 @@ export const JustChildrenStory: StoryObj = {
 	],
 }
 
-makeLiveEditStory(JustChildrenStory, {
+makeLiveEditStory(JustChildrenFnPropsStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
 		react: React,
 	},
-	code: JustChildrenStory.parameters?.['docs']?.['source']?.code,
+	code: JustChildrenFnPropsStory.parameters?.['docs']?.['source']?.code,
 })
 
 export const Source: StoryObj = {
