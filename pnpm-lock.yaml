@@ -220,15 +220,12 @@ importers:
 
   libs/toolkits:
     dependencies:
-      '@just-web/css':
-        specifier: workspace:^
-        version: link:../css
-      '@just-web/types':
-        specifier: workspace:^
-        version: link:../types
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      csstype:
+        specifier: ^3.2.3
+        version: 3.2.3
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.25.0

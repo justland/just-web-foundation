@@ -59,8 +59,7 @@
 		"w": "vitest"
 	},
 	"dependencies": {
-		"@just-web/css": "workspace:^",
-		"@just-web/types": "workspace:^",
+		"csstype": "^3.2.3",
 		"clsx": "^2.1.1"
 	},
 	"devDependencies": {
