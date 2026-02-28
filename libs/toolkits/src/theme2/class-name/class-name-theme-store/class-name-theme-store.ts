@@ -1,3 +1,4 @@
+import type { Required } from 'type-plus'
 import { observeAttributes } from '../../../attributes/observe-attribute.ts'
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
@@ -23,16 +24,16 @@ export type ClassNameThemeStoreOptions<Themes extends ThemeMap> = {
  *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.get() // returns themeResult from element.className
- * store.set('grayscale')
+ * store.set(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function classNameThemeStore<Themes extends ThemeMap>(
 	options: ClassNameThemeStoreOptions<Themes>
-) {
+): Required<ThemeStore<Themes>> {
 	const element = options.element ?? document?.documentElement
 
-	if (!element) return dummyThemeStore satisfies ThemeStore<Themes>
+	if (!element) return dummyThemeStore
 
 	const { themeMap } = options
 
@@ -42,8 +43,8 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 			if (theme === undefined) return undefined
 			return themeEntry(theme, themeMap)
 		},
-		set(theme) {
-			applyThemeToClassName(element, theme, themeMap)
+		set(entry) {
+			applyThemeToClassName(element, entry, themeMap)
 		},
 		subscribe(handler) {
 			const observer = observeAttributes(
@@ -57,5 +58,5 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 			)
 			return () => observer.disconnect()
 		}
-	} satisfies ThemeStore<Themes>
+	}
 }

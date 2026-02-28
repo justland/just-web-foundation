@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { inMemoryThemeStore, setThemeToStores } from './index.ts'
+import { inMemoryThemeStore, setThemeToStores, themeResult } from './index.ts'
 
 const themeMap = {
 	current: 'current',
@@ -10,21 +10,24 @@ const themeMap = {
 describe('setThemeToStores', () => {
 	it('when store has set, writes theme to it', async () => {
 		const store = inMemoryThemeStore({ themeMap })
-		await setThemeToStores([store], 'grayscale')
+		await setThemeToStores([store], themeResult('grayscale', themeMap))
 		expect(store.get?.()?.theme).toBe('grayscale')
 	})
 
 	it('when store has no set, skips it', async () => {
 		const storeWithSet = inMemoryThemeStore({ themeMap })
 		const storeWithoutSet = { get: () => undefined }
-		await setThemeToStores([storeWithoutSet, storeWithSet] as any, 'grayscale')
+		await setThemeToStores(
+			[storeWithoutSet, storeWithSet] as any,
+			themeResult('grayscale', themeMap)
+		)
 		expect(storeWithSet.get?.()?.theme).toBe('grayscale')
 	})
 
 	it('writes to all stores that have set', async () => {
 		const store1 = inMemoryThemeStore({ themeMap })
 		const store2 = inMemoryThemeStore({ themeMap })
-		await setThemeToStores([store1, store2], 'high-contrast')
+		await setThemeToStores([store1, store2], themeResult('high-contrast', themeMap))
 		expect(store1.get?.()?.theme).toBe('high-contrast')
 		expect(store2.get?.()?.theme).toBe('high-contrast')
 	})

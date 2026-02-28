@@ -1,3 +1,4 @@
+import type { Required } from 'type-plus'
 import { getDataAttribute } from '../../../attributes/get-data-attribute.ts'
 import { observeDataAttributes } from '../../../attributes/observe-data-attribute.ts'
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
@@ -27,7 +28,7 @@ export type DataAttributeThemeStoreOptions<Themes extends ThemeMap> = {
  *   themeMap: { current: 'current', grayscale: 'grayscale' },
  * })
  * store.get() // returns themeResult from data attribute
- * store.set('grayscale')
+ * store.set(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -37,7 +38,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	const element = options.element ?? document?.documentElement
 	const { attributeName, themeMap } = options
 
-	if (!element) return dummyThemeStore satisfies ThemeStore<Themes>
+	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
 
 	return {
 		get() {
@@ -46,8 +47,8 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			if (theme === undefined) return undefined
 			return themeEntry(theme, themeMap)
 		},
-		set(theme) {
-			applyThemeToDataAttribute(element, attributeName, theme, themeMap)
+		set(entry) {
+			applyThemeToDataAttribute(element, attributeName, entry)
 		},
 		subscribe(handler) {
 			const observer = observeDataAttributes<string, `data-${string}`>(

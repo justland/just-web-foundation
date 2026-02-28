@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { inMemoryThemeStore, observeThemeFromStores } from './index.ts'
+import { inMemoryThemeStore, observeThemeFromStores, themeResult } from './index.ts'
 
 const themeMap = {
 	current: 'current',
@@ -10,7 +10,7 @@ const themeMap = {
 describe('observeThemeFromStores', () => {
 	it('calls handler immediately with current theme from stores', async () => {
 		const store = inMemoryThemeStore({ themeMap })
-		store.set?.('grayscale')
+		store.set?.(themeResult('grayscale', themeMap))
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores([store], 'current', handler)
 		await vi.waitFor(() => {
@@ -28,7 +28,7 @@ describe('observeThemeFromStores', () => {
 			expect(handler).toHaveBeenCalled()
 		})
 		handler.mockClear()
-		store.set?.('grayscale')
+		store.set?.(themeResult('grayscale', themeMap))
 		await vi.waitFor(() => {
 			expect(handler).toHaveBeenCalledWith('grayscale')
 		})
@@ -43,14 +43,14 @@ describe('observeThemeFromStores', () => {
 		})
 		handler.mockClear()
 		unsubscribe()
-		store.set?.('grayscale')
+		store.set?.(themeResult('grayscale', themeMap))
 		await new Promise((r) => setTimeout(r, 20))
 		expect(handler).not.toHaveBeenCalled()
 	})
 
 	it('when store has no subscribe, skips it but still receives updates from store with subscribe', async () => {
 		const store = inMemoryThemeStore({ themeMap })
-		const storeWithoutSubscribe = { get: () => undefined, set: () => {} }
+		const storeWithoutSubscribe = { get: () => undefined, set: (_entry: unknown) => {} }
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores(
 			[storeWithoutSubscribe, store] as any,
@@ -59,7 +59,7 @@ describe('observeThemeFromStores', () => {
 		)
 		await vi.waitFor(() => expect(handler).toHaveBeenCalled())
 		handler.mockClear()
-		store.set?.('grayscale')
+		store.set?.(themeResult('grayscale', themeMap))
 		await vi.waitFor(() => expect(handler).toHaveBeenCalledWith('grayscale'))
 		unsubscribe()
 	})

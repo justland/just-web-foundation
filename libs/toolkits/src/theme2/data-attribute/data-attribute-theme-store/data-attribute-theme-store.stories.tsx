@@ -12,6 +12,7 @@ import {
 	type ThemeStore,
 	themeResult
 } from '../../index.ts'
+import { themeEntry } from '../../theme-entry.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './data-attribute-theme-store.ts?raw'
 
@@ -75,7 +76,7 @@ export const Playground: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set('grayscale')
+		store.set(themeResult('grayscale', themeMap))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -115,7 +116,7 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set('current')
+			store.set(themeResult('current', themeMap))
 			return {}
 		}
 	],
@@ -176,7 +177,7 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = createStore({ element: document.body })
-			store.set('high-contrast')
+			store.set(themeResult('high-contrast', themeMap))
 			return {}
 		}
 	],
@@ -244,7 +245,7 @@ export const ElementCustom: Story = {
 			const el = targetRef.current
 			if (!el) return
 			const s = createStore({ element: el })
-			s.set('grayscale')
+			s.set(themeEntry('grayscale', themeMap))
 			setStore(s)
 		}, [])
 
@@ -312,7 +313,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set('current')
+			store.set(themeResult('current', themeMap))
 			return {}
 		}
 	],
@@ -392,7 +393,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = createStoreArray()
-			store.set('grayscale')
+			store.set(themeEntry('grayscale', themeMapArray))
 			return {}
 		}
 	],
@@ -419,7 +420,7 @@ export const ThemeMapArrayValues: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
-			'value: theme-grayscale, app:bg-gray-100'
+			'value: [theme-grayscale, app:bg-gray-100]'
 		)
 	}
 }
@@ -447,7 +448,7 @@ export const Get: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set('grayscale')
+			store.set(themeResult('grayscale', themeMap))
 			return {}
 		}
 	],
@@ -484,7 +485,7 @@ export const SetStory: Story = {
 					attributeName: 'data-theme',
 					themeMap,
 				})
-				store.set('high-contrast')
+				store.set(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
@@ -503,7 +504,7 @@ export const SetStory: Story = {
 							key={theme}
 							data-testid={`set-${theme}`}
 							onClick={() => {
-								store.set(theme)
+								store.set(themeResult(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -572,7 +573,7 @@ export const Subscribe: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set('high-contrast')
+		store.set(themeResult('high-contrast', themeMap))
 
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

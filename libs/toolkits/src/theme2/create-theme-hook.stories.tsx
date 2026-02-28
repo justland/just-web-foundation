@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../testing/button.tsx'
 import code from './create-theme-hook.ts?raw'
-import { createThemeHook, inMemoryThemeStore } from './index.ts'
+import { createThemeHook, inMemoryThemeStore, themeResult } from './index.ts'
 
 type Theme = 'current' | 'grayscale' | 'high-contrast'
 
@@ -214,7 +214,7 @@ export const StoryWithValue: Story = {
 	render: () => {
 		const store = useMemo(() => {
 			const s = inMemoryThemeStore({ themeMap })
-			s.set?.('grayscale')
+			s.set?.(themeResult('grayscale', themeMap))
 			return s
 		}, [])
 		const useTheme = useMemo(

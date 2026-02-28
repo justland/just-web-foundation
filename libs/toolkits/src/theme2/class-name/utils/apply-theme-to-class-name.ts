@@ -1,17 +1,19 @@
 import type { ThemeMap } from '../../theme.types.ts'
+import type { ThemeEntry } from '../../theme-entry.types.ts'
 
 /**
  * Applies theme to element by updating its class attribute.
  *
- * Removes all theme classes from the element, then adds classes for the given theme.
+ * Removes all theme classes from the element, then adds classes for the given entry.
+ * When entry is undefined, removes all theme classes (themeMap needed for clear path).
  *
  * @param element - Target element
- * @param theme - Theme key to apply
- * @param themeMap - Record mapping theme keys to class name(s)
+ * @param entry - Theme entry to apply, or undefined to clear
+ * @param themeMap - Record mapping theme keys to class names (used for clear case)
  */
 export function applyThemeToClassName<Themes extends ThemeMap>(
 	element: Element,
-	theme: keyof Themes,
+	entry: ThemeEntry<Themes> | undefined,
 	themeMap: Themes
 ): void {
 	const allThemeClasses = Object.values(themeMap).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
@@ -19,10 +21,6 @@ export function applyThemeToClassName<Themes extends ThemeMap>(
 	const currentClasses = current ? current.split(/\s+/) : []
 	const withoutThemes = currentClasses.filter((c) => !allThemeClasses.includes(c))
 	const activeClasses =
-		theme in themeMap
-			? Array.isArray(themeMap[theme])
-				? [...(themeMap[theme] as readonly string[])]
-				: [themeMap[theme] as string]
-			: []
+		entry !== undefined ? (Array.isArray(entry.value) ? [...entry.value] : [entry.value]) : []
 	element.className = [...withoutThemes, ...activeClasses].filter(Boolean).join(' ')
 }

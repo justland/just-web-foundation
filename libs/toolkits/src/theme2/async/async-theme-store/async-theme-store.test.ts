@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { asyncThemeStore, type ThemeResult } from '../../index.ts'
+import { asyncThemeStore, type ThemeResult, themeResult } from '../../index.ts'
 
 const themeMap = { current: 'current', grayscale: 'grayscale' } as const
 
@@ -9,8 +9,8 @@ describe('asyncThemeStore', () => {
 		let notify: ((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
 		const store = asyncThemeStore<typeof themeMap>({
 			get: async () => wrote,
-			set: async (theme) => {
-				wrote = { theme, value: themeMap[theme] }
+			set: async (entry) => {
+				wrote = entry ?? undefined
 				notify?.(wrote)
 			},
 			subscribe: (handler) => {
@@ -24,7 +24,7 @@ describe('asyncThemeStore', () => {
 		expect(await store.get?.()).toEqual(undefined)
 		const values: Array<ThemeResult<typeof themeMap> | undefined | null> = []
 		const unsubscribe = store.subscribe?.((v) => values.push(v))
-		await store.set?.('grayscale')
+		await store.set?.(themeResult('grayscale', themeMap))
 		expect(await store.get?.()).toEqual({ theme: 'grayscale', value: 'grayscale' })
 		unsubscribe?.()
 		expect(values).toEqual([undefined, { theme: 'grayscale', value: 'grayscale' }])
@@ -37,18 +37,18 @@ describe('asyncThemeStore', () => {
 		expect(store.get).toBeUndefined()
 		expect(store.set).toBeDefined()
 		expect(store.subscribe).toBeUndefined()
-		await store.set?.('grayscale')
+		await store.set?.(themeResult('grayscale', themeMap))
 	})
 
 	it('when get and set are provided, store supports read and write', async () => {
 		let wrote: ThemeResult<typeof themeMap> | undefined
 		const store = asyncThemeStore<typeof themeMap>({
 			get: async () => wrote,
-			set: async (theme) => {
-				wrote = { theme, value: themeMap[theme] }
+			set: async (entry) => {
+				wrote = entry ?? undefined
 			}
 		})
-		await store.set?.('grayscale')
+		await store.set?.(themeResult('grayscale', themeMap))
 		expect(await Promise.resolve(store.get?.())).toEqual({
 			theme: 'grayscale',
 			value: 'grayscale'
@@ -60,8 +60,8 @@ describe('asyncThemeStore', () => {
 		const values: Array<ThemeResult<typeof themeMap> | undefined | null> = []
 		let notify: ((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
 		const store = asyncThemeStore<typeof themeMap>({
-			set: async (theme) => {
-				wrote = { theme, value: themeMap[theme] }
+			set: async (entry) => {
+				wrote = entry ?? undefined
 				notify?.(wrote)
 			},
 			subscribe: (handler) => {
@@ -73,7 +73,7 @@ describe('asyncThemeStore', () => {
 			}
 		})
 		const unsubscribe = store.subscribe?.((v) => values.push(v))
-		await store.set?.('grayscale')
+		await store.set?.(themeResult('grayscale', themeMap))
 		unsubscribe?.()
 		expect(values).toEqual([undefined, { theme: 'grayscale', value: 'grayscale' }])
 	})

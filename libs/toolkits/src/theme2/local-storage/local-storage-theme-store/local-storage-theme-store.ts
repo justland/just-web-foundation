@@ -26,7 +26,7 @@ export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
  *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.get() // returns themeResult from localStorage
- * store.set('grayscale')
+ * store.set(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -55,9 +55,13 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 
 	return {
 		get,
-		set(theme) {
+		set(entry) {
 			try {
-				window.localStorage.setItem(storageKey, JSON.stringify({ theme, value: themeMap[theme] }))
+				if (entry === undefined) {
+					window.localStorage.removeItem(storageKey)
+				} else {
+					window.localStorage.setItem(storageKey, JSON.stringify(entry))
+				}
 				notify()
 			} catch {
 				// Ignore quota or other errors

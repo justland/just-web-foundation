@@ -16,8 +16,8 @@ import type { AsyncThemeStore, ThemeMap } from '../../theme.types.ts'
  *     const res = await fetch('/api/theme')
  *     return (await res.json()).theme
  *   },
- *   set: async (theme) => {
- *     await fetch('/api/theme', { method: 'PUT', body: JSON.stringify({ theme }) })
+ *   set: async (entry) => {
+ *     await fetch('/api/theme', { method: 'PUT', body: JSON.stringify(entry) })
  *   },
  * })
  * ```

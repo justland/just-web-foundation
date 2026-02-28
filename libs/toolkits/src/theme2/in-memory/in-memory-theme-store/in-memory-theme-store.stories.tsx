@@ -79,14 +79,14 @@ export const ThemeMapOption: Story = {
 		showSource({
 			source: dedent`
 				const store = inMemoryThemeStore({ themeMap })
-				store.set('current')
+				store.set(themeResult('current', themeMap))
 			`
 		})
 	],
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore({ themeMap })
-			store.set('current')
+			store.set(themeResult('current', themeMap))
 			return { store }
 		}
 	],
@@ -137,7 +137,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore({ themeMap })
-			store.set('current')
+			store.set(themeResult('current', themeMap))
 			return { store }
 		}
 	],
@@ -198,7 +198,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore<typeof themeMapArray>({ themeMap: themeMapArray })
-			store.set('grayscale')
+			store.set(themeResult('grayscale', themeMapArray))
 			return { store }
 		}
 	],
@@ -217,7 +217,7 @@ export const ThemeMapArrayValues: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
-			'value: theme-grayscale, app:bg-gray-100'
+			'value: [theme-grayscale, app:bg-gray-100]'
 		)
 	}
 }
@@ -235,7 +235,7 @@ export const Get: Story = {
 		showSource({
 			source: dedent`
 				const store = inMemoryThemeStore({ themeMap })
-				store.set('grayscale')
+				store.set(themeResult('grayscale', themeMap))
 				const result = store.get()
 			`
 		})
@@ -243,7 +243,7 @@ export const Get: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore({ themeMap })
-			store.set('grayscale')
+			store.set(themeResult('grayscale', themeMap))
 			return { store }
 		}
 	],
@@ -311,7 +311,7 @@ export const SetStory: Story = {
 		showSource({
 			source: dedent`
 				const store = inMemoryThemeStore({ themeMap })
-				store.set('high-contrast')
+				store.set(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
@@ -330,7 +330,7 @@ export const SetStory: Story = {
 							key={theme}
 							data-testid={`set-${theme}`}
 							onClick={() => {
-								store.set(theme)
+								store.set(themeResult(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -389,10 +389,16 @@ export const Subscribe: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					<Button data-testid="set-high-contrast" onClick={() => store.set('high-contrast')}>
+					<Button
+						data-testid="set-high-contrast"
+						onClick={() => store.set(themeResult('high-contrast', themeMap))}
+					>
 						set('high-contrast')
 					</Button>
-					<Button data-testid="set-current" onClick={() => store.set('current')}>
+					<Button
+						data-testid="set-current"
+						onClick={() => store.set(themeResult('current', themeMap))}
+					>
 						set('current')
 					</Button>
 				</div>
@@ -432,9 +438,9 @@ export const SubscribeUnsubscribe: Story = {
 			source: dedent`
 				const store = inMemoryThemeStore({ themeMap })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				store.set('grayscale')
+				store.set(themeResult('grayscale', themeMap))
 				unsubscribe()
-				store.set('current') // handler not called
+				store.set(themeResult('current', themeMap)) // handler not called
 			`
 		})
 	],
@@ -456,10 +462,16 @@ export const SubscribeUnsubscribe: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					<Button data-testid="set-grayscale" onClick={() => store.set('grayscale')}>
+					<Button
+						data-testid="set-grayscale"
+						onClick={() => store.set(themeResult('grayscale', themeMap))}
+					>
 						set('grayscale')
 					</Button>
-					<Button data-testid="set-current" onClick={() => store.set('current')}>
+					<Button
+						data-testid="set-current"
+						onClick={() => store.set(themeResult('current', themeMap))}
+					>
 						set('current')
 					</Button>
 					<Button

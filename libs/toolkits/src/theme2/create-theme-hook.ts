@@ -2,11 +2,12 @@ import { useCallback, useSyncExternalStore } from 'react'
 import { observeThemeFromStores } from './observe-theme-from-stores.ts'
 import { setThemeToStores } from './set-theme-to-stores.ts'
 import type { StoreEntry, ThemeMap } from './theme.types.ts'
+import { themeEntry } from './theme-entry.ts'
 
 function createSharedChannel<Themes extends ThemeMap>(
 	stores: StoreEntry<Themes>[],
 	defaultTheme: keyof Themes | undefined,
-	_themeMap: Themes
+	themeMap: Themes
 ) {
 	let lastTheme: keyof Themes | undefined = defaultTheme
 	const listeners = new Set<(theme: keyof Themes | undefined) => void>()
@@ -35,7 +36,7 @@ function createSharedChannel<Themes extends ThemeMap>(
 		subscribe,
 		getSnapshot,
 		getServerSnapshot,
-		setTheme: (theme: keyof Themes) => setThemeToStores(stores, theme),
+		setTheme: (theme: keyof Themes) => setThemeToStores(stores, themeEntry(theme, themeMap)),
 		unobserve
 	}
 }

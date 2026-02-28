@@ -1,5 +1,4 @@
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
-import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 
 export type InMemoryThemeStoreOptions<Themes extends ThemeMap> = {
@@ -20,29 +19,27 @@ export type InMemoryThemeStoreOptions<Themes extends ThemeMap> = {
  *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.get() // undefined when empty
- * store.set('grayscale')
+ * store.set(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function inMemoryThemeStore<Themes extends ThemeMap>(
-	options: InMemoryThemeStoreOptions<Themes>
+	_options: InMemoryThemeStoreOptions<Themes>
 ) {
-	const { themeMap } = options
-	let value: keyof Themes | undefined | null
+	let value: ThemeEntry<Themes> | undefined | null
 	const listeners = new Set<(v: ThemeEntry<Themes> | undefined) => void>()
 
 	function get() {
 		if (value === undefined || value === null) return value
-		return themeEntry(value, themeMap)
+		return value
 	}
 
 	return {
 		get,
-		set(theme) {
-			if (value === theme) return
-			value = theme
-			const result = themeEntry(theme, themeMap)
-			for (const fn of listeners) fn(result)
+		set(entry) {
+			if (value === entry) return
+			value = entry
+			for (const fn of listeners) fn(entry ?? undefined)
 		},
 		subscribe(handler) {
 			listeners.add(handler)

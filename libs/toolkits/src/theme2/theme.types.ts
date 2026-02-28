@@ -11,7 +11,7 @@ export type { ThemeMap } from './theme-map.types.ts'
  */
 export type ThemeStore<Themes extends ThemeMap> = {
 	get?: (() => ThemeEntry<Themes> | undefined | null) | undefined
-	set?: ((theme: keyof Themes) => void) | undefined
+	set?: ((entry: ThemeEntry<Themes> | undefined) => void) | undefined
 	subscribe?:
 		| ((handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void)
 		| undefined
@@ -21,7 +21,7 @@ export type AsyncThemeStore<Themes extends ThemeMap> = {
 	get?:
 		| (() => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>)
 		| undefined
-	set?: ((theme: keyof Themes) => void | Promise<void>) | undefined
+	set?: ((entry: ThemeEntry<Themes> | undefined) => void | Promise<void>) | undefined
 	subscribe?:
 		| ((handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void)
 		| undefined

@@ -3,6 +3,7 @@ import { Button } from '../testing/button.tsx'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import { appendId } from '../utils/append-id.ts'
 import type { StoreEntry, ThemeMap } from './theme.types.ts'
+import { themeEntry } from './theme-entry.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
 
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
@@ -44,10 +45,10 @@ export function ThemeStoreDemo2<Themes extends ThemeMap>({
 
 	const handleSet = useCallback(
 		(theme: keyof Themes) => async () => {
-			const ret = store.set?.(theme)
+			const ret = store.set?.(themeEntry(theme, themes))
 			await Promise.resolve(ret)
 		},
-		[store]
+		[store, themes]
 	)
 
 	const observeTestId = appendId(dataTestId, 'observe')

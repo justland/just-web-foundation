@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getThemeFromStores, inMemoryThemeStore } from './index.ts'
+import { getThemeFromStores, inMemoryThemeStore, themeResult } from './index.ts'
 
 const themeMap = {
 	current: 'current',
@@ -16,7 +16,7 @@ describe('getThemeFromStores', () => {
 
 	it('when first store has value, returns it', async () => {
 		const store = inMemoryThemeStore({ themeMap })
-		store.set?.('grayscale')
+		store.set?.(themeResult('grayscale', themeMap))
 		const result = await getThemeFromStores([store], 'current')
 		expect(result).toBe('grayscale')
 	})
@@ -24,7 +24,7 @@ describe('getThemeFromStores', () => {
 	it('when first store is empty and second has value, waterfall returns second', async () => {
 		const store1 = inMemoryThemeStore({ themeMap })
 		const store2 = inMemoryThemeStore({ themeMap })
-		store2.set?.('grayscale')
+		store2.set?.(themeResult('grayscale', themeMap))
 		const result = await getThemeFromStores([store1, store2], 'current')
 		expect(result).toBe('grayscale')
 	})
@@ -37,8 +37,8 @@ describe('getThemeFromStores', () => {
 
 	it('when store has no get, is skipped in waterfall', async () => {
 		const storeWithGet = inMemoryThemeStore({ themeMap })
-		storeWithGet.set?.('grayscale')
-		const storeWithoutGet = { set: () => {} }
+		storeWithGet.set?.(themeResult('grayscale', themeMap))
+		const storeWithoutGet = { set: (_entry: unknown) => {} }
 		const result = await getThemeFromStores([storeWithoutGet, storeWithGet] as any, 'current')
 		expect(result).toBe('grayscale')
 	})
