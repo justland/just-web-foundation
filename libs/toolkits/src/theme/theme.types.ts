@@ -5,3 +5,9 @@
  * The rest of the values are expected to be additional values that are used along with the main value.
  */
 export type ThemeMap = Record<string, string | readonly string[]>
+
+export type ThemeStorageOptions<Themes extends ThemeMap = ThemeMap> = {
+	storageKey: string
+	themes: Themes
+	theme?: keyof Themes | null | undefined
+}

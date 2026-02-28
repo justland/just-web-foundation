@@ -50,7 +50,7 @@ export const BasicUsage: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex gap-2">
-					{[].map((theme) => (
+					{(['light', 'dark'] as const).map((theme) => (
 						<Button
 							key={theme}
 							onPress={() => {
@@ -65,7 +65,7 @@ export const BasicUsage: Story = {
 					))}
 				</div>
 				<StoryCard title="document.documentElement.className" appearance="output">
-					<code>{className}</code>
+					<code data-testid="class-name">{className}</code>
 				</StoryCard>
 			</div>
 		)
@@ -74,12 +74,12 @@ export const BasicUsage: Story = {
 		await step('light', async () => {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
-			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
+			await expect(canvas.getByTestId('class-name')).toHaveTextContent('your-light-class')
 		})
 		await step('dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
-			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
+			await expect(canvas.getByTestId('class-name')).toHaveTextContent('your-dark-class')
 		})
 	},
 }
@@ -89,10 +89,11 @@ export const WithThemeArray: Story = {
 	decorators: [
 		withStoryCard({
 			content: (
-				<p>
-					<code>setThemeByClassName</code> by default sets the theme on{' '}
-					<code>document.documentElement</code>.
-				</p>
+				<>
+					<p>
+						When a theme value is an array, <strong>all</strong> values are applied as class names.
+					</p>
+				</>
 			),
 		}),
 		showSource({
@@ -109,19 +110,20 @@ export const WithThemeArray: Story = {
 	],
 	render: () => {
 		const [className] = useAttribute('class')
+		const themesWithArrays = {
+			light: ['your-light-class', 'app:text-gray-100', 'app:bg-gray-800'],
+			dark: ['your-dark-class', 'app:text-gray-800', 'app:bg-gray-100'],
+		} as const
 
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex gap-2">
-					{(['light', 'dark'] as const).map((theme) => (
+					{(Object.keys(themesWithArrays) as (keyof typeof themesWithArrays)[]).map((theme) => (
 						<Button
 							key={theme}
 							onPress={() => {
 								setThemeByClassName({
-									themes: {
-										light: ['your-light-class', 'app:text-gray-100', 'app:bg-gray-800'],
-										dark: ['your-dark-class', 'app:text-gray-800', 'app:bg-gray-100'],
-									},
+									themes: themesWithArrays,
 									theme,
 								})
 							}}
@@ -131,7 +133,7 @@ export const WithThemeArray: Story = {
 					))}
 				</div>
 				<StoryCard title="document.documentElement.className" appearance="output">
-					<code>{className}</code>
+					<code data-testid="class-name">{className}</code>
 				</StoryCard>
 			</div>
 		)
@@ -140,12 +142,16 @@ export const WithThemeArray: Story = {
 		await step('light', async () => {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
-			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
+			await expect(canvas.getByTestId('class-name')).toHaveTextContent(
+				'your-light-class app:text-gray-100 app:bg-gray-800',
+			)
 		})
 		await step('dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
-			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
+			await expect(canvas.getByTestId('class-name')).toHaveTextContent(
+				'your-dark-class app:text-gray-800 app:bg-gray-100',
+			)
 		})
 	},
 }
