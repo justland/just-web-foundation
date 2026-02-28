@@ -1,3 +1,7 @@
 {
-	"extends": "@tools/typescript/tsconfig.json"
+	"extends": "@tools/typescript/tsconfig.json",
+	"compilerOptions": {
+		"rewriteRelativeImportExtensions": true
+	},
+	"include": ["src", "./storybook", "../../libs/toolkits", "../../libs/types", "../../libs/css"]
 }
