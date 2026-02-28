@@ -231,7 +231,7 @@ importers:
         version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@repobuddy/storybook':
-        specifier: ^2.11.0
+        specifier: ^2.25.0
         version: 2.25.0(82de231412847ee76f021feb42c205d0)
       '@repobuddy/vitest':
         specifier: ^2.1.1
@@ -299,6 +299,9 @@ importers:
       tsdown:
         specifier: ^0.18.4
         version: 0.18.4(typescript@5.9.3)
+      type-plus:
+        specifier: 8.0.0-beta.8
+        version: 8.0.0-beta.8(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
