@@ -8,15 +8,11 @@ import './tailwind.css'
 import './tailwind.repobuddy-storybook.css'
 
 setupMonaco({
-	// monacoEnvironment: {
-	// 	getWorker(_moduleId, label) {
-	// 		if (label === 'typescript' || label === 'javascript') {
-	// 			return new Worker('monaco-editor/esm/vs/language/typescript/ts.worker.js', { type: 'module' })
-	// 		}
-	// 		return new Worker('monaco-editor/esm/vs/editor/editor.worker.js', { type: 'module' })
-	// 	},
-	// },
 	onMonacoLoad(monaco) {
+		monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+			noSemanticValidation: false,
+			noSyntaxValidation: false,
+		})
 		monaco.languages.typescript.typescriptDefaults.addExtraLib(
 			ToolkitTypes,
 			'file:///node_modules/@just-web/toolkits/index.d.ts',
