@@ -1,7 +1,8 @@
-import { defineDocsParam, type FnToArgTypes, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, type FnToArgTypes, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
 import { getAttribute } from '#just-web/toolkits'
-import source from './get-attribute.ts?raw'
+import code from './get-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getAttribute',
@@ -30,40 +31,43 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Source: Story = {
+	tags: ['source'],
 	parameters: defineDocsParam({
-		source: {
-			code: source,
-		},
+		source: { code },
 	}),
 	decorators: [showDocSource()],
 }
 
-export const GetAttributeFromDocumentRoot: Story = {
+export const FromDocumentRoot: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets the value of an attribute from document root',
+			story: 'By default, gets the value of an attribute from document root',
+		},
+		source: {
+			code: dedent`
+				document.documentElement.setAttribute('data-theme', 'some value')
+				console.log(getAttribute('data-theme'))
+				`,
 		},
 	}),
-	decorators: [withStoryCard()],
 	loaders: [
 		({ args: { qualifiedName } }) => {
-			document.documentElement.setAttribute(qualifiedName, 'test-value')
+			document.documentElement.setAttribute(qualifiedName, 'some value')
 		},
 	],
-
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 	render(props) {
 		const value = getAttribute(props.qualifiedName)
 
 		return (
-			<div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
 
-export const SpecificElement: Story = {
-	name: 'Get Attribute From A Specific Element',
+export const FromSpecificElement: Story = {
 	args: {
 		qualifiedName: 'data-custom',
 	},
@@ -71,44 +75,53 @@ export const SpecificElement: Story = {
 		description: {
 			story: 'Gets an attribute value from a specific element',
 		},
+		source: {
+			code: dedent`
+				const element = document.createElement('div')
+				element.setAttribute(qualifiedName, 'test-value')
+				const value = getAttribute(qualifiedName, element)
+			`,
+		},
 	}),
-	decorators: [withStoryCard()],
+	decorators: [
+		withStoryCard(),
+
+		showDocSource({ placement: 'before' }),
+	],
 	render(props) {
 		const element = document.createElement('div')
 		element.setAttribute(props.qualifiedName, 'test-value')
 		const value = getAttribute(props.qualifiedName, element)
 		return (
-			<div>
-				<div className="mb-4">
-					<code>getAttribute('{props.qualifiedName}', element)</code>
-				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
 
 export const NonExistentAttribute: Story = {
-	name: 'Get Non-existent Attribute',
 	tags: ['unit'],
 	args: {
-		qualifiedName: 'data-non-existent',
+		qualifiedName: 'data-not-exist',
 	},
 	parameters: defineDocsParam({
 		description: {
 			story: 'Returns null when trying to get a non-existent attribute',
 		},
+		source: {
+			code: dedent`
+				console.log(getAttribute('data-not-exist'))
+			`,
+		},
 	}),
-	decorators: [withStoryCard()],
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 	render(props) {
 		const value = getAttribute(props.qualifiedName)
 		return (
-			<div>
-				<div className="mb-4">
-					<code>getAttribute('{props.qualifiedName}')</code>
-				</div>
-				<pre className="bg-neutral-100 dark:bg-neutral-900 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
-			</div>
+			<StoryCard appearance="output">
+				<pre>{JSON.stringify(value, null, 2)}</pre>
+			</StoryCard>
 		)
 	},
 }
