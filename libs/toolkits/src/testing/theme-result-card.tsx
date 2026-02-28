@@ -1,4 +1,5 @@
 import { StoryCard } from '@repobuddy/storybook'
+import { appendId } from '../utils/append-id.ts'
 
 export type ThemeResult = {
 	theme?: unknown
@@ -21,14 +22,22 @@ function formatValue(value: unknown): string {
 export function ThemeResultCard({
 	result,
 	title,
-	'data-testid': themeTestId,
+	'data-testid': dataTestId,
 }: ThemeResultCardProps) {
 	return (
-		<StoryCard title={title} appearance="output">
-			<p data-testid={themeTestId}>
-				theme: {result?.theme === undefined ? '(undefined)' : String(result?.theme)}
+		<StoryCard title={title} data-testid={dataTestId} appearance="output">
+			<p>
+				theme:{' '}
+				<span data-testid={appendId(dataTestId, 'theme')}>
+					{result?.theme === undefined ? '(undefined)' : String(result?.theme)}
+				</span>
 			</p>
-			<p>value: {result?.value === undefined ? '(undefined)' : formatValue(result?.value)}</p>
+			<p>
+				value:{' '}
+				<span data-testid={appendId(dataTestId, 'value')}>
+					{result?.value === undefined ? '(undefined)' : formatValue(result?.value)}
+				</span>
+			</p>
 		</StoryCard>
 	)
 }
