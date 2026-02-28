@@ -1,18 +1,18 @@
-import type { JustClassNameResolverState } from '@just-web/toolkits'
+import type { JustClassNameFnProps } from '@just-web/toolkits'
 import { clsx } from '@just-web/toolkits'
 
-function textTheme(state?: JustClassNameResolverState) {
+function textTheme(renderProps?: JustClassNameFnProps) {
 	return {
-		...state,
-		className: clsx(state?.className, 'text-black dark:text-white'),
+		...renderProps,
+		className: clsx(renderProps?.className, 'text-black dark:text-white'),
 	}
 }
 
-function hoverTheme(state?: JustClassNameResolverState) {
+function hoverTheme(renderProps?: JustClassNameFnProps) {
 	return {
-		...state,
+		...renderProps,
 		className: clsx(
-			state?.className,
+			renderProps?.className,
 			'rounded outline-2 hover:outline-blue-300 dark:hover:outline-blue-700',
 		),
 	}

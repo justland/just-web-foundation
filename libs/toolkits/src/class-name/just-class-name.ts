@@ -1,38 +1,36 @@
 import type { AnyRecord } from 'type-plus'
 
 /**
- * Props interface for components that accept a state-aware `className`.
+ * Props interface for components that accept a render-props-aware `className`.
  *
  * Use this when defining component props that support the same `className` contract as {@link JustClassName}:
- * a static string, a resolver function that receives state (including existing `className`), or `undefined`.
+ * a static string, a resolver function that receives render props (including existing `className`), or `undefined`.
  *
- * @typeParam States - Record type for component state. When `className` is a function, it receives `States` merged with `{ className?: string }`.
+ * @typeParam RenderProps - Record type for render props. When `className` is a function, it receives `RenderProps` merged with `{ className?: string }`.
  */
-export interface JustClassNameProps<States extends AnyRecord = AnyRecord> {
-	className?: JustClassName<States> | undefined
+export interface JustClassNameProps<RenderProps extends AnyRecord = AnyRecord> {
+	className?: JustClassName<RenderProps> | undefined
 }
 
 /**
- * A `className` type that can be static or computed from component state.
+ * A `className` type that can be static or computed from render props.
  *
- * Use this when a component accepts `className` that may be:
+ * - `string`: The value is appended to the existing `className` in render props.
+ * - `undefined`: Resets the `className` to `undefined`, removing existing `className`.
+ * - `function`: Process the render props and return the desired `className`.
  *
- * - A **function** – receives current state (including existing `className`) and returns the resolved class string or `undefined`.
- * - A **string** – used as-is and merged with any existing `className` in state.
- * - **undefined** – no additional classes; only `state.className` is used.
- *
- * @typeParam States - Record type for component state. Resolvers receive `States` merged with `{ className?: string }`.
+ * @typeParam RenderProps - Record type for render props. Resolvers receive `RenderProps` merged with `{ className?: string }`.
  */
-export type JustClassName<State extends AnyRecord = AnyRecord> =
-	| ((state: JustClassNameResolverState<State>) => string | undefined)
+export type JustClassName<RenderProps extends AnyRecord = AnyRecord> =
+	| ((renderProps: JustClassNameFnProps<RenderProps>) => string | undefined)
 	| string
 	| undefined
 
 /**
- * The state type for `JustClassName` resolver functions.
+ * The props type for `JustClassName` resolver functions.
  *
- * @typeParam State - Record type for component state.
+ * @typeParam RenderProps - Record type for render props.
  */
-export type JustClassNameResolverState<State extends AnyRecord = AnyRecord> = State & {
+export type JustClassNameFnProps<RenderProps extends AnyRecord = AnyRecord> = RenderProps & {
 	className?: string | undefined
 }

@@ -2,4 +2,4 @@
 "@just-web/toolkits": minor
 ---
 
-Add `JustClassNameProps` and `JustClassNameResolverState` types.
+Add `JustClassNameProps` and `JustClassNameFnProps` types.
