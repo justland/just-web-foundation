@@ -1,8 +1,9 @@
-import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
 import { getThemeByDataAttribute } from '#just-web/toolkits'
+import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import source from './get-theme-by-data-attribute.ts?raw'
 
 const meta = {
@@ -27,14 +28,7 @@ const themes = {
 	system: 'system-theme',
 } as const
 
-function ShowResult({ theme, value }: { theme: string | undefined; value: string | null }) {
-	return (
-		<div className="font-sans">
-			<p>Current theme: {theme === undefined ? '(undefined)' : theme}</p>
-			<p>Data attribute value: {value === null ? '(null)' : value}</p>
-		</div>
-	)
-}
+const RESULT_CARD_TITLE = 'Theme from data-theme'
 
 export const BasicUsage: Story = {
 	tags: ['use-case'],
@@ -68,11 +62,7 @@ export const BasicUsage: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return (
-			<StoryCard title="Theme from data-theme" appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('dark')
@@ -98,11 +88,7 @@ export const UndefinedWhenNotSet: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-not-exist')
-		return (
-			<StoryCard appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBeUndefined()
@@ -130,11 +116,7 @@ export const WithDefaultTheme: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return (
-			<StoryCard appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('system')
@@ -157,11 +139,7 @@ export const InvalidThemeWithDefaultTheme: Story = {
 			defaultTheme: 'system',
 			attributeName: 'data-theme',
 		})
-		return (
-			<StoryCard appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -187,11 +165,7 @@ export const InvalidTheme: Story = {
 			themes,
 			attributeName: 'data-theme',
 		})
-		return (
-			<StoryCard appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -225,11 +199,7 @@ export const AllowCustom: Story = {
 			attributeName: 'data-theme',
 			allowCustom: true,
 		})
-		return (
-			<StoryCard appearance="output">
-				<ShowResult theme={theme} value={value} />
-			</StoryCard>
-		)
+		return <ThemeResultCard title={RESULT_CARD_TITLE} result={{ theme, value }} />
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({

@@ -4,6 +4,7 @@ import dedent from 'dedent'
 import { useEffect, useState } from 'react'
 import { expect } from 'storybook/test'
 import { observeThemeFromSessionStorage, setThemeToSessionStorage } from '#just-web/toolkits'
+import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import { defineThemeStorageOptions } from './define-theme-storage-options.ts'
 import source from './observe-theme-from-session-storage.ts?raw'
 
@@ -57,21 +58,11 @@ function ObserveThemeDemo({
 	}, [storageKey, defaultTheme, themesOption])
 
 	return (
-		<StoryCard title="Observed theme from sessionStorage" appearance="output">
-			<p data-testid="observed-theme">
-				theme: {result?.theme === undefined ? '(undefined)' : String(result?.theme)}
-			</p>
-			<p>
-				value:{' '}
-				{result?.value === null
-					? '(missing)'
-					: result?.value === ''
-						? '(empty)'
-						: Array.isArray(result?.value)
-							? `[${result?.value.join(', ')}]`
-							: result?.value}
-			</p>
-		</StoryCard>
+		<ThemeResultCard
+			title="Observed theme from sessionStorage"
+			data-testid="observed-theme"
+			result={result}
+		/>
 	)
 }
 

@@ -1,6 +1,6 @@
-import { StoryCard } from '@repobuddy/storybook'
 import { useEffect, useState } from 'react'
 import { getThemeFromStore, type ThemeMap, type ThemeStore } from '#just-web/toolkits'
+import { ThemeResultCard } from './theme-result-card.tsx'
 
 export function ShowThemeFromStore<Themes extends ThemeMap>({
 	store,
@@ -19,21 +19,5 @@ export function ShowThemeFromStore<Themes extends ThemeMap>({
 		getThemeFromStore({ store, themes, theme }).then(setResult)
 	}, [store, themes, theme])
 
-	return (
-		<StoryCard title="Theme from store" appearance="output">
-			<p data-testid="theme-from-store">
-				theme: {result?.theme === undefined ? '(undefined)' : String(result?.theme)}
-			</p>
-			<p>
-				value:{' '}
-				{result?.value === null
-					? '(missing)'
-					: result?.value === ''
-						? '(empty)'
-						: Array.isArray(result?.value)
-							? `[${result?.value.join(', ')}]`
-							: result?.value}
-			</p>
-		</StoryCard>
-	)
+	return <ThemeResultCard title="Theme from store" data-testid="theme-from-store" result={result} />
 }

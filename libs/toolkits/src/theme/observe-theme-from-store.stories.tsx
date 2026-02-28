@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
@@ -9,6 +9,7 @@ import {
 	type ThemeResult,
 	type ThemeStore,
 } from '#just-web/toolkits'
+import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 
 const meta = {
 	title: 'theme/observeThemeFromStore',
@@ -76,21 +77,11 @@ function ObserveThemeFromStoreDemo({
 	}, [store, defaultTheme, themesOption])
 
 	return (
-		<StoryCard title="Observed theme from store" appearance="output">
-			<p data-testid="observed-theme-from-store">
-				theme: {result?.theme === undefined ? '(undefined)' : String(result?.theme)}
-			</p>
-			<p>
-				value:{' '}
-				{result?.value === null
-					? '(missing)'
-					: result?.value === ''
-						? '(empty)'
-						: Array.isArray(result?.value)
-							? `[${result?.value.join(', ')}]`
-							: result?.value}
-			</p>
-		</StoryCard>
+		<ThemeResultCard
+			title="Observed theme from store"
+			data-testid="observed-theme-from-store"
+			result={result}
+		/>
 	)
 }
 
