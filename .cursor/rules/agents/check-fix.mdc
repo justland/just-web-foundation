@@ -1,0 +1,54 @@
+---
+description: Run check:fix after making code changes to fix style errors
+globs:
+alwaysApply: true
+---
+# Check Fix Instructions
+
+This rule ensures that after making code changes, the agent runs the `check:fix` script to fix any style errors (Biome lint/format).
+
+## Table of Contents
+
+- [When to Apply](mdc:#when-to-apply-this-rule)
+- [How to Apply](mdc:#how-to-apply-this-rule)
+- [Command](mdc:#command)
+- [Enforcement](mdc:#enforcement)
+- [Integration](mdc:#integration)
+
+## When to Apply This Rule
+
+This rule should be applied in **EVERY** response involving code changes, including:
+
+- Adding, modifying, or deleting source files
+- Refactoring existing code
+- Fixing bugs that require code edits
+- Creating or updating components, hooks, utilities, or configuration
+
+## How to Apply This Rule
+
+1. **After completing code changes**: Before finalizing the response or generating a commit message, run the fix script
+2. **Run from repository root**: Execute `pnpm run check:fix` from the project root
+3. **Review auto-fixes**: If Biome fixes any issues, include those changes in the same session
+
+## Command
+
+```sh
+pnpm run check:fix
+```
+
+This runs `biome check --fix` to automatically fix lint and format issues across the codebase.
+
+## Enforcement
+
+**This rule is MANDATORY - no exceptions.** If code was modified:
+
+1. Run `pnpm run check:fix` before claiming the task is complete
+2. Do not skip this step even for minimal changes
+3. If the script reports errors it cannot auto-fix, address them and re-run
+
+## Integration
+
+This rule works in conjunction with:
+
+- [commit-summary.mdc](mdc:.cursor/rules/agents/commit-summary.mdc) - Run check:fix before generating commit message
+- [master.mdc](mdc:.cursor/rules/master.mdc) - For overall rule organization
