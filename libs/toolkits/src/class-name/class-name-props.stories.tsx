@@ -8,35 +8,27 @@ import source from './class-name-props.ts?raw'
 
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
-	tags: ['type', 'version:next', 'autodocs'],
+	tags: ['type', 'version:next'],
 	render: () => <></>,
 }
 
 export default meta
 
-export const BasicUsage: StoryObj = {
+export const Playground: StoryObj = {
 	tags: ['!test', 'editor'],
-	parameters: defineDocsParam({
-		description: {
-			story: 'The `className` property accepts a string value for CSS class names.',
-		},
-		source: { code },
-	}),
-	decorators: [withStoryCard()],
+	parameters: defineDocsParam({ source: { code } }),
 }
 
-makeLiveEditStory(BasicUsage, {
+makeLiveEditStory(Playground, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		react: React,
 	},
-	code: BasicUsage.parameters?.['docs']?.['source']?.code,
+	code: Playground.parameters?.['docs']?.['source']?.code,
 })
 
 export const Source: StoryObj = {
 	tags: ['!test', 'source'],
-	parameters: defineDocsParam({
-		source: { code: source },
-	}),
-	decorators: [showDocSource({ placement: 'before' })],
+	parameters: defineDocsParam({ source: { code: source } }),
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 }

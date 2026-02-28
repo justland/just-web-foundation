@@ -1,7 +1,7 @@
 import type { ClassNameProps } from '@just-web/toolkits'
 import type { PropsWithChildren } from 'react'
 
-const MyComponent = ({ className, children }: PropsWithChildren<ClassNameProps>) => {
+function MyComponent({ className, children }: PropsWithChildren<ClassNameProps>) {
 	return <div className={className}>{children}</div>
 }
 
