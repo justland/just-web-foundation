@@ -14,6 +14,11 @@ const config: StorybookConfig = {
 			directory: '../../../libs/types',
 			files: 'src/**/*.@(mdx|stories.tsx)',
 		},
+		{
+			titlePrefix: '@just-web/toolkits',
+			directory: '../../../libs/toolkits',
+			files: 'src/**/*.@(mdx|stories.tsx)',
+		},
 	],
 	addons: [
 		'@storybook/addon-docs',
