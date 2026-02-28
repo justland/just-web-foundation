@@ -2,7 +2,7 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
-import { expect } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 import { classNameThemeStore } from '#just-web/toolkits'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import source from './class-name-theme-store.ts?raw'
@@ -203,13 +203,6 @@ export const Subscribe: Story = {
 				'store.subscribe() calls the handler once with the current theme and when the class attribute changes.',
 		},
 	}),
-	loaders: [
-		() => {
-			const store = classNameThemeStore<typeof themes>()
-			store.set({ themes, theme: 'grayscale' })
-			return {}
-		},
-	],
 	decorators: [
 		withStoryCard(),
 		showSource({
@@ -228,7 +221,15 @@ export const Subscribe: Story = {
 		return <StoreSubscribeDemo themes={themes} defaultTheme="default" />
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('theme: grayscale')
+		const store = classNameThemeStore<typeof themes>()
+		store.set({ themes, theme: 'grayscale' })
+
+		await waitFor(() =>
+			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale'),
+		)
+		await expect(canvas.getByTestId('store-subscribe-result-value')).toHaveTextContent(
+			'text-gray-100',
+		)
 	},
 }
 

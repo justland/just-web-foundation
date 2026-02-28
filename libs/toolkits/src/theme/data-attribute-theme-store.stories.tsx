@@ -2,7 +2,7 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
-import { expect } from 'storybook/test'
+import { expect, waitFor } from 'storybook/test'
 import { dataAttributeThemeStore } from '#just-web/toolkits'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import source from './data-attribute-theme-store.ts?raw'
@@ -218,8 +218,6 @@ export const Subscribe: Story = {
 	}),
 	loaders: [
 		() => {
-			const store = dataAttributeThemeStore<typeof themes>(ATTR)
-			store.set({ themes, theme: 'grayscale' })
 			return { attributeName: ATTR }
 		},
 	],
@@ -243,7 +241,14 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('theme: grayscale')
+		const store = dataAttributeThemeStore<typeof themes>(ATTR)
+		store.set({ themes, theme: 'grayscale' })
+		await waitFor(() =>
+			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale'),
+		)
+		await expect(canvas.getByTestId('store-subscribe-result-value')).toHaveTextContent(
+			'text-gray-100',
+		)
 	},
 }
 

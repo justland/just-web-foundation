@@ -120,7 +120,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 		}
 	}
 	if (element == null) {
-		let store = defaultStores.get(attributeName) as DataAttributeThemeStore<Themes> | undefined
+		let store = defaultStores.get(attributeName)
 		if (store) return store
 		store = dataAttributeThemeStoreForElement<Themes>(attributeName, el)
 		defaultStores.set(attributeName, store)
@@ -131,7 +131,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 		byAttr = new Map()
 		elementStores.set(el, byAttr)
 	}
-	let store = byAttr.get(attributeName) as DataAttributeThemeStore<Themes> | undefined
+	let store = byAttr.get(attributeName)
 	if (store) return store
 	store = dataAttributeThemeStoreForElement<Themes>(attributeName, el)
 	byAttr.set(attributeName, store)
