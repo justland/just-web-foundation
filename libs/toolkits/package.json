@@ -33,7 +33,7 @@
 	],
 	"scripts": {
 		"build": "tsdown",
-		"build:css": "tailwindcss -i ./tailwind.css -o ./dist/tailwind2.css",
+		"build:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.css",
 		"build-doc": "storybook build -o ../../docs/foundation",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
 		"cov": "vitest run --coverage",
@@ -72,6 +72,7 @@
 		"storybook-addon-vis": "^3.1.2",
 		"tailwindcss": "^4.1.18",
 		"tsdown": "^0.18.4",
+		"type-plus": "8.0.0-beta.8",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1",
 		"vitest": "^4.0.18",
