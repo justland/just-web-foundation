@@ -69,7 +69,8 @@
 	"editor.tabSize": 2,
 	"eslint.enable": true,
 	"files.associations": {
-		"*.css": "tailwindcss"
+		"*.css": "tailwindcss",
+		"*.editor.source": "typescriptreact"
 	},
 	"files.trimTrailingWhitespace": true,
 	"json.schemas": [
@@ -95,7 +96,7 @@
 		["toHaveClass\\(([^\\)]*)\\)", "'([^']*)'"]
 	],
 	"tailwindCSS.experimental.configFile": {
-		"libs/css/src/tailwind.css": "libs/css/src/**",
+		"libs/css/.storybook/tailwind.css": "libs/css/src/**",
 		"libs/toolkits/.storybook/tailwind.css": "libs/toolkits/src/**"
 	},
 	"tsimporter.emitSemicolon": false,

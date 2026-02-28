@@ -12,7 +12,8 @@ export default defineConfig([
 	{
 		entry: ['src/index.ts'],
 		format: ['es'],
-		outDir: 'static',
+		outDir: '.editor',
+		clean: true,
 		dts: {
 			emitDtsOnly: true,
 		},
