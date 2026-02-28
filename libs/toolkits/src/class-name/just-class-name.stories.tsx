@@ -4,17 +4,17 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
-import codeDefault from './just-class-name.basic.code.tsx?raw'
+import codeDefault from './just-class-name.editor.basic.tsx?raw'
+import codeTyped from './just-class-name.editor.type-param.tsx?raw'
 import source from './just-class-name.ts?raw'
-import codeTyped from './just-class-name.typed.code.tsx?raw'
 
 const meta: Meta = {
 	title: 'class-name/JustClassName',
-	tags: ['type', 'version:next', 'autodocs'],
+	tags: ['type', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Type for a class name that can be a string, a function `(state: States & { className? }) => string | undefined`, or undefined. Use with `resolveClassName()` to resolve the final class string.',
+				'`JustClassName` extends the basic `className` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `className`.',
 		},
 	}),
 	render: () => <></>,
@@ -22,8 +22,39 @@ const meta: Meta = {
 
 export default meta
 
-export const BasicUsage: StoryObj = {
-	tags: ['!test', 'editor'],
+export const Specification: StoryObj = {
+	tags: ['source', '!test'],
+	parameters: defineDocsParam({
+		source: { code: source },
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						<code>JustClassName</code> extends the basic <code>className</code> type with a callback to invert the flow
+						on control. This allows the consumer to fully control the resulting <code>className</code>.
+					</p>
+					<p>
+						In the callback, the function receives the full state object with the <code>className</code> property, which
+						contains the base <code>className</code> produced by the component.
+					</p>
+					<p>
+						The consumer can append, amend, or override the <code>className</code> based on the state.
+					</p>
+					<p>
+						Comparing to <code>JustClassNameProps</code>, <code>JustClassName</code> can be used on any props, allowing
+						you to control the API of your component.
+					</p>
+				</>
+			),
+		}),
+		showDocSource({ placement: 'before' }),
+	],
+}
+
+export const NonInteractiveComponent: StoryObj = {
+	tags: ['use-case', 'editor', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			story:
@@ -36,8 +67,18 @@ export const BasicUsage: StoryObj = {
 			content: (
 				<>
 					<p>
-						<code>JustClassName</code> accepts string, function, or undefined.
+						For non-interactive component, you can use <code>JustClassName</code> without specifying the type parameter.
 					</p>
+					<p>
+						The function form receives <code>{'state: AnyRecord & { className?: string | undefined }'}</code>
+					</p>
+					<p>
+						The <code>className</code> contains the base class name produced by the component.
+					</p>
+					<p>
+						You can append or amend the <code>className</code> by returning a string based off of it.
+					</p>
+					<p>You can also return a completely new class name by returning different value.</p>
 				</>
 			),
 		}),
@@ -46,18 +87,18 @@ export const BasicUsage: StoryObj = {
 	play() {},
 }
 
-makeLiveEditStory(BasicUsage, {
+makeLiveEditStory(NonInteractiveComponent, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
 		react: React,
 	},
 	defaultEditorOptions: {},
-	code: BasicUsage.parameters?.['docs']?.['source']?.code,
+	code: NonInteractiveComponent.parameters?.['docs']?.['source']?.code,
 })
 
-export const WithTypeParam: StoryObj = {
-	tags: ['!test', 'editor'],
+export const InteractiveComponent: StoryObj = {
+	tags: ['use-case', 'editor', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			story:
@@ -70,10 +111,8 @@ export const WithTypeParam: StoryObj = {
 			content: (
 				<>
 					<p>
-						When using <code>JustClassName&lt;States&gt;</code> with a type parameter,
-					</p>
-					<p>
-						the function form receives <code>state: States & {'{ className?: string | undefined }'}</code>
+						When using <code>JustClassName&lt;States&gt;</code> with a type parameter, the function form receives{' '}
+						<code>state: States & {'{ className?: string | undefined }'}</code>
 					</p>
 					<p>You can use it to customize the class name based on the state.</p>
 				</>
@@ -84,19 +123,11 @@ export const WithTypeParam: StoryObj = {
 	play() {},
 }
 
-makeLiveEditStory(WithTypeParam, {
+makeLiveEditStory(InteractiveComponent, {
 	availableImports: {
 		'@repobuddy/storybook': repobuddyStorybook,
 		'@just-web/toolkits': toolkits,
 		react: React,
 	},
-	code: WithTypeParam.parameters?.['docs']?.['source']?.code,
+	code: InteractiveComponent.parameters?.['docs']?.['source']?.code,
 })
-
-export const Source: StoryObj = {
-	tags: ['!test', 'source'],
-	parameters: defineDocsParam({
-		source: { code: source },
-	}),
-	decorators: [showDocSource({ placement: 'before' })],
-}
