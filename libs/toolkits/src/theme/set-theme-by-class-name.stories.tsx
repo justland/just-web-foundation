@@ -24,11 +24,6 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themes = {
-	light: ['light', 'text-black', 'bg-white'],
-	dark: ['dark', 'text-white', 'bg-black'],
-} as const
-
 export const BasicUsage: Story = {
 	tags: ['use-case'],
 	decorators: [
@@ -55,7 +50,7 @@ export const BasicUsage: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex gap-2">
-					{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
+					{[].map((theme) => (
 						<Button
 							key={theme}
 							onPress={() => {
@@ -118,7 +113,7 @@ export const WithThemeArray: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex gap-2">
-					{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
+					{(['light', 'dark'] as const).map((theme) => (
 						<Button
 							key={theme}
 							onPress={() => {
@@ -184,7 +179,7 @@ export const WithCustomElement: Story = {
 	render: () => {
 		const customElementRef = useRef<HTMLDivElement>(null)
 		const [customElement, setCustomElement] = useState<HTMLDivElement | null>(null)
-		const [selectedTheme, setSelectedTheme] = useState<keyof typeof themes | null>(null)
+		const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark' | null>(null)
 		const setRef = useCallback((el: HTMLDivElement | null) => {
 			customElementRef.current = el
 			setCustomElement(el)
@@ -194,7 +189,7 @@ export const WithCustomElement: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex gap-2">
-					{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
+					{(['light', 'dark'] as const).map((theme) => (
 						<Button
 							key={theme}
 							onPress={() => {

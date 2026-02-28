@@ -1,4 +1,5 @@
 import { observeAttributes } from '../attributes/observe-attribute.ts'
+import type { ThemeMap } from './theme.types.ts'
 
 /**
  * Observes changes to element class names and calls a handler when the theme (based on class) changes.
@@ -20,10 +21,10 @@ import { observeAttributes } from '../attributes/observe-attribute.ts'
  * observer.disconnect()
  * ```
  */
-export function observeThemeByClassName<Themes extends Record<string, string>>(options: {
+export function observeThemeByClassName<Themes extends ThemeMap>(options: {
 	themes: Themes
 	handler: (value: string | undefined) => void
-	defaultTheme?: keyof Themes | undefined
+	defaultTheme?: (keyof Themes | (string & {})) | undefined
 	element?: Element | null | undefined
 }) {
 	return observeAttributes(
@@ -35,11 +36,16 @@ export function observeThemeByClassName<Themes extends Record<string, string>>(o
 				}
 
 				for (const name in options.themes) {
-					if (value.includes(options.themes[name]!)) {
+					const themeValue = options.themes[name]
+					if (
+						themeValue &&
+						value.includes(Array.isArray(themeValue) ? themeValue[0] : themeValue)
+					) {
 						options.handler(name)
-						break
+						return
 					}
 				}
+				options.handler(options.defaultTheme as string)
 			},
 		},
 		options.element,

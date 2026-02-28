@@ -1,24 +1,19 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
 import { observeThemeByClassName, setThemeByClassName } from '#just-web/toolkits'
+import { useAttribute } from '#just-web/toolkits/react'
 import { Button } from '../testing/button.tsx'
-import { LogPanel } from '../testing/log-panel.tsx'
 import source from './observe-theme-by-class-name.ts?raw'
 
-const classThemes = { light: 'light', dark: 'dark' } as const
+const themes = {
+	light: ['your-light-class', 'app:text-black', 'app:bg-white'],
+	dark: ['your-dark-class', 'app:text-white', 'app:bg-black'],
+} as const
 
-function clearThemeClasses(themes: Record<string, string | readonly string[]>) {
-	const allClasses = Object.values(themes).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
-	const el = document.documentElement
-	el.className = el.className
-		.split(/\s+/)
-		.filter((c) => !allClasses.includes(c))
-		.join(' ')
-		.trim()
-}
+const classThemes = { light: 'your-light-class', dark: 'your-dark-class' } as const
 
 const meta = {
 	title: 'theme/observeThemeByClassName',
@@ -38,125 +33,142 @@ type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
 	tags: ['use-case'],
-	parameters: defineDocsParam({
-		description: {
-			story: 'Observe theme changes when document class is toggled.',
-		},
-	}),
 	decorators: [
-		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		withStoryCard({
+			content: (
+				<p>
+					Observe theme changes on <code>document.documentElement.className</code>.
+				</p>
+			),
+		}),
+		showSource({
 			source: dedent`
 				observeThemeByClassName({
-				  themes: { light: 'light', dark: 'dark' },
-				  handler: (value) => setLog(prev => [...prev, \`theme: \${value}\`]),
+				  themes: { light: 'your-light-class', dark: 'your-dark-class' },
+				  handler: (value) => setTheme(value)
 				})
 			`,
 		}),
 	],
 	render: () => {
-		const [log, setLog] = useState<string[]>([])
+		const [theme, setTheme] = useState<string>()
+		const [className, setClassName] = useState<string>()
 
 		useEffect(() => {
 			const observer = observeThemeByClassName({
-				themes: { light: 'light', dark: 'dark' },
-				handler: (value) =>
-					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+				themes: { light: 'your-light-class', dark: 'your-dark-class' },
+				handler: (value) => {
+					setTheme(value)
+					setClassName(document.documentElement.className)
+				},
 			})
 			return () => observer.disconnect()
 		}, [])
 
 		return (
-			<StoryCard title="Attribute changes" appearance="output">
-				<div className="font-sans p-4">
-					<div className="flex flex-wrap gap-2 mb-4">
-						{(Object.keys(classThemes) as (keyof typeof classThemes)[]).map((theme) => (
-							<Button
-								key={theme}
-								onPress={() => setThemeByClassName({ themes: classThemes, theme })}
-							>
-								{theme}
-							</Button>
-						))}
-						<Button onPress={() => clearThemeClasses(classThemes)}>Clear</Button>
-					</div>
-					<LogPanel title="Attribute Changes:" log={log} />
+			<div className="flex flex-col gap-4">
+				<div className="flex gap-2">
+					{(Object.keys(classThemes) as (keyof typeof classThemes)[]).map((theme) => (
+						<Button key={theme} onPress={() => setThemeByClassName({ themes: classThemes, theme })}>
+							{theme}
+						</Button>
+					))}
 				</div>
-			</StoryCard>
+				<StoryCard title="Theme" appearance="output">
+					<code data-testid="theme">{theme ?? '(empty)'}</code>
+				</StoryCard>
+				<StoryCard title="documentElement.className" appearance="output">
+					<code data-testid="document-class-name">{className ?? '(empty)'}</code>
+				</StoryCard>
+			</div>
 		)
 	},
 	play: async ({ canvas, step }) => {
-		await step('undefined -> light', async () => {
+		await step('(empty) -> light', async () => {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('light')
 		})
 		await step('light -> dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
-		})
-		await step('dark -> undefined', async () => {
-			const btn = canvas.getByRole('button', { name: 'Clear' })
-			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
 	},
 }
 
-export const WithDifferentAttributeValues: Story = {
+export const WithThemeArray: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Theme keys can map to different class values (e.g. light-theme, dark-theme).',
+			story:
+				'Theme keys can map to different class values (e.g. your-light-theme, your-dark-theme).',
 		},
 	}),
-	decorators: [withStoryCard()],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					When a theme value is an array, only the <strong>first</strong> value is used to determine
+					the theme.
+				</p>
+			),
+		}),
+		showSource({
+			source: dedent`
+				observeThemeByClassName({
+					themes: {
+						light: ['your-light-class', 'app:text-black', 'app:bg-white'],
+						dark: ['your-dark-class', 'app:text-white', 'app:bg-black'],
+					},
+					handler: (value) => setTheme(value),
+				})
+			`,
+		}),
+	],
 	render: () => {
-		const [log, setLog] = useState<string[]>([])
+		const [theme, setTheme] = useState<string>()
+		const [className, setClassName] = useState<string>()
 
 		useEffect(() => {
 			const observer = observeThemeByClassName({
-				themes: { light: 'light-theme', dark: 'dark-theme' },
-				handler: (value) =>
-					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+				themes: themes,
+				handler: (value) => {
+					setTheme(value)
+					setClassName(document.documentElement.className)
+				},
 			})
 			return () => observer.disconnect()
 		}, [])
 
-		const themes = { light: 'light-theme', dark: 'dark-theme' } as const
 		return (
-			<StoryCard appearance="output">
-				<div className="font-sans p-4">
-					<div className="flex flex-wrap gap-2 mb-4">
-						{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
-							<Button key={theme} onPress={() => setThemeByClassName({ themes, theme })}>
-								{theme}
-							</Button>
-						))}
-						<Button onPress={() => clearThemeClasses(themes)}>Clear</Button>
-					</div>
-					<LogPanel title="Attribute Changes:" log={log} />
+			<div className="flex flex-col gap-4">
+				<div className="flex gap-2">
+					{(Object.keys(themes) as (keyof typeof themes)[]).map((t) => (
+						<Button key={t} onPress={() => setThemeByClassName({ themes, theme: t })}>
+							{t}
+						</Button>
+					))}
 				</div>
-			</StoryCard>
+				<StoryCard title="Theme" appearance="output">
+					<code data-testid="theme">{theme ?? '(empty)'}</code>
+				</StoryCard>
+				<StoryCard title="documentElement.className" appearance="output">
+					<code data-testid="document-class-name">{className ?? '(empty)'}</code>
+				</StoryCard>
+			</div>
 		)
 	},
 	play: async ({ canvas, step }) => {
-		await step('undefined -> light', async () => {
+		await step('(empty) -> light', async () => {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('light')
 		})
 		await step('light -> dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
-		})
-		await step('dark -> undefined', async () => {
-			const btn = canvas.getByRole('button', { name: 'Clear' })
-			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
 	},
 }
@@ -169,53 +181,81 @@ export const WithDefaultTheme: Story = {
 			story: 'When class is cleared, handler receives defaultTheme instead of undefined.',
 		},
 	}),
-	decorators: [withStoryCard()],
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				observeThemeByClassName({
+				  themes: { light: 'your-light-class', dark: 'your-dark-class' },
+				  handler: (value) => setTheme(value),
+				  defaultTheme: 'light',
+				})
+			`,
+		}),
+	],
 	render: () => {
-		const [log, setLog] = useState<string[]>([])
+		const [theme, setTheme] = useState<string>()
+		const [className] = useAttribute('class')
 
 		useEffect(() => {
 			const observer = observeThemeByClassName({
-				themes: { light: 'light', dark: 'dark' },
-				handler: (value) => setLog((prev) => [...prev, `theme: ${value}`]),
-				defaultTheme: 'light',
+				defaultTheme: 'unset',
+				themes: classThemes,
+				handler: (value) => {
+					setTheme(value)
+				},
 			})
 			return () => observer.disconnect()
 		}, [])
 
 		return (
-			<StoryCard appearance="output">
-				<div className="font-sans p-4">
-					<div className="flex flex-wrap gap-2 mb-4">
-						{(Object.keys(classThemes) as (keyof typeof classThemes)[]).map((theme) => (
-							<Button
-								key={theme}
-								onPress={() => setThemeByClassName({ themes: classThemes, theme })}
-							>
-								{theme}
-							</Button>
-						))}
-						<Button onPress={() => clearThemeClasses(classThemes)}>Clear</Button>
-					</div>
-					<LogPanel title="Attribute Changes:" log={log} />
+			<div className="flex flex-col gap-4">
+				<div className="flex gap-2">
+					{(Object.keys(themes) as (keyof typeof themes)[]).map((t) => (
+						<Button
+							key={t}
+							onPress={() =>
+								setThemeByClassName({
+									themes: classThemes,
+									theme: t,
+								})
+							}
+						>
+							{t}
+						</Button>
+					))}
+					<Button
+						onPress={() => {
+							document.documentElement.classList.remove(...Object.values(classThemes))
+						}}
+					>
+						Clear
+					</Button>
 				</div>
-			</StoryCard>
+				<StoryCard title="Theme" appearance="output">
+					<code data-testid="theme">{theme ?? '(empty)'}</code>
+				</StoryCard>
+				<StoryCard title="documentElement.className" appearance="output">
+					<code data-testid="document-class-name">{className ?? '(empty)'}</code>
+				</StoryCard>
+			</div>
 		)
 	},
 	play: async ({ canvas, step }) => {
-		await step('null -> light', async () => {
+		await step('(empty) -> light', async () => {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('light')
 		})
 		await step('light -> dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
-			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
-		await step('dark -> light (default)', async () => {
+		await step('dark -> unset (defaultTheme)', async () => {
 			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
-			await expect(canvas.getAllByText('theme: light').length).toBe(2)
+			await expect(canvas.getByTestId('theme')).toHaveTextContent('unset')
 		})
 	},
 }
@@ -223,5 +263,5 @@ export const WithDefaultTheme: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }
