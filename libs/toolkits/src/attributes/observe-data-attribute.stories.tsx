@@ -31,14 +31,6 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Source: Story = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code },
-	}),
-	decorators: [showSource()],
-}
-
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
@@ -271,4 +263,12 @@ export const CustomElement: Story = {
 		const dataTheme2 = element.getAttribute('data-theme')
 		await expect(dataTheme2).toBeNull()
 	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code },
+	}),
+	decorators: [showSource()],
 }

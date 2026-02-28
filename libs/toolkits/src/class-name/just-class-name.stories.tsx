@@ -70,14 +70,6 @@ export const Specification: StoryObj = {
 	],
 }
 
-export const Source: StoryObj = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code: source },
-	}),
-	decorators: [showSource()],
-}
-
 export const JustClassNameProps: StoryObj = {
 	name: 'JustClassNameProps',
 	tags: ['type'],
@@ -303,3 +295,11 @@ makeLiveEditStory(ClassNameVSDefaultClassName, {
 	defaultEditorOptions: {},
 	code: ClassNameVSDefaultClassName.parameters?.['docs']?.['source']?.code,
 })
+
+export const Source: StoryObj = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code: source },
+	}),
+	decorators: [showSource()],
+}

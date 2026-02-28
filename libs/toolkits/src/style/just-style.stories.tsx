@@ -68,14 +68,6 @@ export const Specification: StoryObj = {
 	],
 }
 
-export const Source: StoryObj = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code: source },
-	}),
-	decorators: [showSource()],
-}
-
 export const JustStylePropsStory: StoryObj = {
 	name: 'JustStyleProps',
 	tags: ['type'],
@@ -264,3 +256,11 @@ makeLiveEditStory(InteractiveComponent, {
 	},
 	code: InteractiveComponent.parameters?.['docs']?.['source']?.code,
 })
+
+export const Source: StoryObj = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code: source },
+	}),
+	decorators: [showSource()],
+}

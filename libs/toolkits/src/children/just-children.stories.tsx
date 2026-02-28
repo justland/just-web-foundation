@@ -10,7 +10,7 @@ import codePropsDefault from './just-children-props.editor.default.tsx?raw'
 
 const meta: Meta = {
 	title: 'children/JustChildren',
-	tags: ['version:next', '!test'],
+	tags: ['type', 'version:next', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:
@@ -64,14 +64,6 @@ export const Specification: StoryObj = {
 			),
 		}),
 	],
-}
-
-export const Source: StoryObj = {
-	tags: ['source'],
-	parameters: defineDocsParam({
-		source: { code: source },
-	}),
-	decorators: [showSource()],
 }
 
 export const JustChildrenPropsStory: StoryObj = {
@@ -138,3 +130,11 @@ makeLiveEditStory(JustChildrenStory, {
 	},
 	code: JustChildrenStory.parameters?.['docs']?.['source']?.code,
 })
+
+export const Source: StoryObj = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code: source },
+	}),
+	decorators: [showSource()],
+}
