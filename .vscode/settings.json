@@ -44,6 +44,7 @@
 		"formatjs",
 		"jscoverage",
 		"jsxdev",
+		"jwtk",
 		"lato",
 		"locofy",
 		"ltex",
@@ -75,6 +76,10 @@
 		{
 			"fileMatch": ["tsconfig.*.json"],
 			"url": "http://json.schemastore.org/tsconfig"
+		},
+		{
+			"fileMatch": ["biome.jsonc"],
+			"url": "./node_modules/@biomejs/biome/configuration_schema.json"
 		}
 	],
 	"material-icon-theme.files.associations": {

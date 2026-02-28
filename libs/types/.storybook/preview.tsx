@@ -6,6 +6,7 @@ import {
 } from '@repobuddy/storybook/storybook-dark-mode'
 import type { Preview } from '@storybook/react-vite'
 
+import '@repobuddy/storybook/styles.css'
 import '../tailwind.css'
 
 const preview: Preview = {

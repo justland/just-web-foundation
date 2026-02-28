@@ -1,0 +1,16 @@
+{
+	"root": false,
+	"extends": "//",
+	"overrides": [
+		{
+			"includes": ["**/augments/**/*.ts"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		}
+	]
+}
