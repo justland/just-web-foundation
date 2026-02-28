@@ -1,9 +1,10 @@
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
+import { atom, createStore } from 'jotai'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { expect } from 'storybook/test'
-import { createStore } from 'zustand/vanilla'
+import { createStore as createZustandStore } from 'zustand/vanilla'
 import {
 	getThemeFromStore,
 	observeThemeFromStore,
@@ -229,7 +230,7 @@ function createZustandThemeStore(initial: ThemeResult<typeof themes>): {
 }
 
 function createZustandThemeStoreInner(initial: ThemeResult<typeof themes>) {
-	return createStore<{ themeResult: ThemeResult<typeof themes> }>(() => ({
+	return createZustandStore<{ themeResult: ThemeResult<typeof themes> }>(() => ({
 		themeResult: initial,
 	}))
 }
@@ -255,6 +256,44 @@ export const WithZustand: Story = {
 	],
 	play: async () => {
 		const { store } = createZustandThemeStore(undefined)
+		await setThemeToStore({ store, themes, theme: 'grayscale' })
+		const result = await getThemeFromStore({ store, themes, theme: 'default' })
+		await expect(result?.theme).toBe('grayscale')
+	},
+}
+
+// --- Jotai use case ---
+function createJotaiThemeStore(initial: ThemeResult<typeof themes>): ThemeStore<typeof themes> {
+	const themeResultAtom = atom<ThemeResult<typeof themes>>(initial)
+	const jotaiStore = createStore()
+	jotaiStore.set(themeResultAtom, initial)
+	return {
+		get: () => jotaiStore.get(themeResultAtom),
+		set: (result) => jotaiStore.set(themeResultAtom, result),
+		subscribe: (handler) => jotaiStore.sub(themeResultAtom, () => handler()),
+	}
+}
+
+export const WithJotai: Story = {
+	tags: ['use-case'],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Theme store backed by Jotai. get/set/subscribe map to store.get/set/sub on a theme atom.
+				</p>
+			),
+		}),
+		showSource({
+			source: dedent`
+				const store = createJotaiThemeStore(undefined)
+				const result = await getThemeFromStore({ store, themes, theme: 'default' })
+				await setThemeToStore({ store, themes, theme: 'grayscale' })
+			`,
+		}),
+	],
+	play: async () => {
+		const store = createJotaiThemeStore(undefined)
 		await setThemeToStore({ store, themes, theme: 'grayscale' })
 		const result = await getThemeFromStore({ store, themes, theme: 'default' })
 		await expect(result?.theme).toBe('grayscale')

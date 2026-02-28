@@ -272,6 +272,9 @@ importers:
       dedent:
         specifier: ^1.7.1
         version: 1.7.1
+      jotai:
+        specifier: ^2.18.0
+        version: 2.18.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.13)(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -320,6 +323,9 @@ importers:
       vitest-browser-react:
         specifier: ^2.0.5
         version: 2.0.5(@types/react@19.2.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vitest@4.0.18)
+      zustand:
+        specifier: ^5.0.11
+        version: 5.0.11(@types/react@19.2.13)(react@18.3.1)(use-sync-external-store@1.6.0(react@18.3.1))
 
   libs/types:
     devDependencies:
@@ -5102,6 +5108,24 @@ packages:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
 
+  jotai@2.18.0:
+    resolution: {integrity: sha512-XI38kGWAvtxAZ+cwHcTgJsd+kJOJGf3OfL4XYaXWZMZ7IIY8e53abpIHvtVn1eAgJ5dlgwlGFnP4psrZ/vZbtA==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@babel/core': '>=7.0.0'
+      '@babel/template': '>=7.0.0'
+      '@types/react': '>=17.0.0'
+      react: ^18.3.1
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+
   js-tokens@10.0.0:
     resolution: {integrity: sha512-lM/UBzQmfJRo9ABXbPWemivdCW8V2G8FHaHdypQaIy523snUjog0W71ayWXTjiR+ixeMyVHN2XcpnTd/liPg/Q==}
 
@@ -7628,6 +7652,24 @@ packages:
 
   zod@3.24.4:
     resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
+  zustand@5.0.11:
+    resolution: {integrity: sha512-fdZY+dk7zn/vbWNCYmzZULHRrss0jx5pPFiOuMZ/5HJN6Yv3u+1Wswy/4MpZEkEGhtNH+pwxZB8OKgUBPzYAGg==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: ^18.3.1
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -13087,6 +13129,13 @@ snapshots:
 
   jiti@2.6.1: {}
 
+  jotai@2.18.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.13)(react@18.3.1):
+    optionalDependencies:
+      '@babel/core': 7.28.5
+      '@babel/template': 7.27.2
+      '@types/react': 19.2.13
+      react: 18.3.1
+
   js-tokens@10.0.0: {}
 
   js-tokens@4.0.0: {}
@@ -15862,3 +15911,9 @@ snapshots:
       readable-stream: 4.7.0
 
   zod@3.24.4: {}
+
+  zustand@5.0.11(@types/react@19.2.13)(react@18.3.1)(use-sync-external-store@1.6.0(react@18.3.1)):
+    optionalDependencies:
+      '@types/react': 19.2.13
+      react: 18.3.1
+      use-sync-external-store: 1.6.0(react@18.3.1)
