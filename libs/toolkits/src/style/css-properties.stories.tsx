@@ -1,7 +1,10 @@
 import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
+import type { CSSProperties as ReactCSSProperties } from 'react'
+import { testType } from 'type-plus'
 import type * as toolkits from '#just-web/toolkits'
+import type { CSSProperties } from '#just-web/toolkits'
 import source from './css-properties.ts?raw'
 
 const meta: Meta<toolkits.CSSProperties> = {
@@ -51,4 +54,33 @@ export const SupportCustomProperties: StoryObj = {
 		}),
 		showDocSource({ placement: 'before' }),
 	],
+}
+
+export const AcceptsReactCSSProperties: StoryObj = {
+	name: 'Accepts React.CSSProperties',
+	tags: ['unit'],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					<code>CSSProperties</code> accepts <code>React.CSSProperties</code>.
+				</p>
+			),
+		}),
+		showDocSource({
+			placement: 'before',
+			source: dedent`const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
+			const justStyle: CSSProperties = reactStyle
+		`,
+		}),
+	],
+	render: () => {
+		const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
+		const justStyle: CSSProperties = reactStyle
+
+		testType.canAssign<typeof justStyle, typeof reactStyle>(true)
+		testType.canAssign<typeof reactStyle, typeof justStyle>(true)
+
+		return <div />
+	},
 }
