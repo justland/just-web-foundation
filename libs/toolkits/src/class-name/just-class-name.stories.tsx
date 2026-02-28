@@ -32,19 +32,22 @@ export const Specification: StoryObj = {
 			content: (
 				<>
 					<p>
-						<code>JustClassName</code> extends the basic <code>className</code> type with a callback to invert the flow
-						on control. This allows the consumer to fully control the resulting <code>className</code>.
+						<code>JustClassName</code> extends the basic <code>className</code> type with a callback
+						to invert the flow on control. This allows the consumer to fully control the resulting{' '}
+						<code>className</code>.
 					</p>
 					<p>
-						In the callback, the function receives the full state object with the <code>className</code> property, which
-						contains the base <code>className</code> produced by the component.
+						In the callback, the function receives the full state object with the{' '}
+						<code>className</code> property, which contains the base <code>className</code> produced
+						by the component.
 					</p>
 					<p>
-						The consumer can append, amend, or override the <code>className</code> based on the state.
+						The consumer can append, amend, or override the <code>className</code> based on the
+						state.
 					</p>
 					<p>
-						Comparing to <code>JustClassNameProps</code>, <code>JustClassName</code> can be used on any props, allowing
-						you to control the API of your component.
+						Comparing to <code>JustClassNameProps</code>, <code>JustClassName</code> can be used on
+						any props, allowing you to control the API of your component.
 					</p>
 				</>
 			),
@@ -67,16 +70,19 @@ export const NonInteractiveComponent: StoryObj = {
 			content: (
 				<>
 					<p>
-						For non-interactive component, you can use <code>JustClassName</code> without specifying the type parameter.
+						For non-interactive component, you can use <code>JustClassName</code> without specifying
+						the type parameter.
 					</p>
 					<p>
-						The function form receives <code>{'state: AnyRecord & { className?: string | undefined }'}</code>
+						The function form receives{' '}
+						<code>{'state: AnyRecord & { className?: string | undefined }'}</code>
 					</p>
 					<p>
 						The <code>className</code> contains the base class name produced by the component.
 					</p>
 					<p>
-						You can append or amend the <code>className</code> by returning a string based off of it.
+						You can append or amend the <code>className</code> by returning a string based off of
+						it.
 					</p>
 					<p>You can also return a completely new class name by returning different value.</p>
 				</>
@@ -111,8 +117,8 @@ export const InteractiveComponent: StoryObj = {
 			content: (
 				<>
 					<p>
-						When using <code>JustClassName&lt;States&gt;</code> with a type parameter, the function form receives{' '}
-						<code>state: States & {'{ className?: string | undefined }'}</code>
+						When using <code>JustClassName&lt;States&gt;</code> with a type parameter, the function
+						form receives <code>state: States & {'{ className?: string | undefined }'}</code>
 					</p>
 					<p>You can use it to customize the class name based on the state.</p>
 				</>

@@ -160,7 +160,9 @@ function validateTypeScriptSyntax(filePath) {
 	try {
 		// Try to use the project's TypeScript config if available
 		const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
-		const command = fs.existsSync(tsConfigPath) ? 'npx tsc --noEmit --project .' : 'npx tsc --noEmit "' + filePath + '"'
+		const command = fs.existsSync(tsConfigPath)
+			? 'npx tsc --noEmit --project .'
+			: 'npx tsc --noEmit "' + filePath + '"'
 
 		execSync(command, {
 			stdio: 'pipe',
@@ -215,7 +217,9 @@ function main() {
 
 			// Extract version from package.json
 			const version = extractVersionFromPackageJson(packageJsonPath)
-			console.info(`  📦 Found version: ${version} (from ${path.relative(process.cwd(), packageJsonPath)})`)
+			console.info(
+				`  📦 Found version: ${version} (from ${path.relative(process.cwd(), packageJsonPath)})`,
+			)
 
 			// Update the file
 			const { changed, content } = updateVersionTagsInFile(storyFile, version)
@@ -281,7 +285,9 @@ function main() {
 	} else if (results.updated > 0) {
 		console.info('\n✅ Version tags updated successfully!')
 		console.info('🔍 You can verify the changes by running:')
-		console.info('   grep -r "version:" . --include="*.stories.tsx" | grep -E "version:[0-9]+\\.[0-9]+"')
+		console.info(
+			'   grep -r "version:" . --include="*.stories.tsx" | grep -E "version:[0-9]+\\.[0-9]+"',
+		)
 	}
 
 	if (results.errors > 0) {

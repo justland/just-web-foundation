@@ -177,7 +177,11 @@ export const Validation: Story = {
 								>
 									({description})
 								</span>
-								{!isValid && <span className="text-xs text-red-500 dark:text-red-400">Expected: {expected}</span>}
+								{!isValid && (
+									<span className="text-xs text-red-500 dark:text-red-400">
+										Expected: {expected}
+									</span>
+								)}
 							</div>
 						)
 					})}
@@ -219,14 +223,20 @@ export const TypeValidation: Story = {
 								key={description}
 								className="flex items-center space-x-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded"
 							>
-								<code className="text-sm">px2num({Array.isArray(input) ? '[]' : String(input)})</code>
+								<code className="text-sm">
+									px2num({Array.isArray(input) ? '[]' : String(input)})
+								</code>
 								<span>→</span>
 								{error ? (
-									<code className="text-sm font-mono text-red-600 dark:text-red-400">Error: {error}</code>
+									<code className="text-sm font-mono text-red-600 dark:text-red-400">
+										Error: {error}
+									</code>
 								) : (
 									<code className="text-sm font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
 								)}
-								<span className="text-sm text-yellow-600 dark:text-yellow-400">({description})</span>
+								<span className="text-sm text-yellow-600 dark:text-yellow-400">
+									({description})
+								</span>
 							</div>
 						)
 					})}

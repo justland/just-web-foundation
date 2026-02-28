@@ -1,4 +1,9 @@
-import { defineDocsParam, type FnToArgTypes, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import {
+	defineDocsParam,
+	type FnToArgTypes,
+	showDocSource,
+	withStoryCard,
+} from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'

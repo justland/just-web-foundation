@@ -24,7 +24,8 @@ export const BasicUsage: Story = {
 					light: 'light',
 					dark: 'dark',
 				},
-				handler: (value) => setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -67,7 +68,8 @@ export const WithDifferentAttributeValues: Story = {
 					light: 'light-theme',
 					dark: 'dark-theme',
 				},
-				handler: (value) => setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+				handler: (value) =>
+					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
 			})
 			return () => observer.disconnect()
 		}, [])

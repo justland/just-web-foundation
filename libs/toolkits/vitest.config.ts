@@ -7,7 +7,8 @@ import { storybookVis } from 'storybook-addon-vis/vitest-plugin'
 import { mergeConfig } from 'vitest/config'
 import config from './vite.config.js'
 
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
+const dirname =
+	typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
 
 export default mergeConfig(config, {
 	esbuild: { jsx: 'automatic' },

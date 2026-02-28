@@ -75,7 +75,8 @@ export const AllPlacementValues: Story = {
 export const ComponentUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Using Placement type in component props for positioning elements like tooltips, popovers, or dropdowns.',
+			story:
+				'Using Placement type in component props for positioning elements like tooltips, popovers, or dropdowns.',
 		},
 		source: {
 			code: dedent`

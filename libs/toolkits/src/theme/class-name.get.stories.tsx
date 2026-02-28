@@ -10,7 +10,8 @@ const meta = {
 	tags: ['autodocs', 'new', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'A utility function that determines the current theme based on element class name.',
+			component:
+				'A utility function that determines the current theme based on element class name.',
 		},
 	}),
 } satisfies Meta
@@ -54,11 +55,17 @@ export const BasicUsage: Story = {
 		return (
 			<div className="p-4">
 				<div className="mb-4 font-medium">
-					<span className="font-bold">Current Theme:</span> <span data-testid="current-theme">{currentTheme}</span>
+					<span className="font-bold">Current Theme:</span>{' '}
+					<span data-testid="current-theme">{currentTheme}</span>
 				</div>
 				<div className="flex gap-2">
 					{Object.keys(themes).map((theme: any) => (
-						<ThemeButton key={theme} theme={theme} onChange={handleThemeChange} currentTheme={currentTheme} />
+						<ThemeButton
+							key={theme}
+							theme={theme}
+							onChange={handleThemeChange}
+							currentTheme={currentTheme}
+						/>
 					))}
 				</div>
 			</div>
@@ -94,7 +101,8 @@ export const DefaultTheme: Story = {
 		return (
 			<div className="font-sans">
 				<p>
-					Current theme: <span data-testid="current-theme">{theme === undefined ? '(undefined)' : theme}</span>
+					Current theme:{' '}
+					<span data-testid="current-theme">{theme === undefined ? '(undefined)' : theme}</span>
 				</p>
 				<p>Class name: {value === '' ? '(empty)' : value}</p>
 			</div>
@@ -142,7 +150,12 @@ export const CustomElement: Story = {
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
 					{Object.keys(themes).map((theme: any) => (
-						<ThemeButton key={theme} theme={theme} onChange={handleThemeChange} currentTheme={currentTheme} />
+						<ThemeButton
+							key={theme}
+							theme={theme}
+							onChange={handleThemeChange}
+							currentTheme={currentTheme}
+						/>
 					))}
 				</div>
 				<div ref={customElementRef} className="p-4 border border-gray-300 mb-4">
@@ -196,7 +209,11 @@ type ThemeButtonProps<Theme extends string> = {
 	currentTheme: string | undefined
 }
 
-function ThemeButton<Theme extends string>({ theme, onChange, currentTheme }: ThemeButtonProps<Theme>) {
+function ThemeButton<Theme extends string>({
+	theme,
+	onChange,
+	currentTheme,
+}: ThemeButtonProps<Theme>) {
 	return (
 		<button
 			onClick={() => onChange(theme)}

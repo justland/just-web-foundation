@@ -1,4 +1,9 @@
-import { defineDocsParam, type FnToArgTypes, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import {
+	defineDocsParam,
+	type FnToArgTypes,
+	showDocSource,
+	withStoryCard,
+} from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useRef, useState } from 'react'
@@ -13,7 +18,8 @@ const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'Observes changes to `data-*` attributes on an element and calls corresponding handlers.',
+			component:
+				'Observes changes to `data-*` attributes on an element and calls corresponding handlers.',
 		},
 	}),
 	argTypes: {

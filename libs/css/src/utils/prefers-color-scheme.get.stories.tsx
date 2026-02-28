@@ -7,7 +7,8 @@ const meta = {
 	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'A utility function that returns the current preferred color theme from the system settings.',
+			component:
+				'A utility function that returns the current preferred color theme from the system settings.',
 		},
 	}),
 } satisfies Meta
