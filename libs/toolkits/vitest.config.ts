@@ -19,6 +19,8 @@ export default mergeConfig(config, {
 			'@repobuddy/storybook/storybook-dark-mode',
 			'dedent',
 			'storybook-addon-code-editor',
+			'zustand/vanilla',
+			'jotai',
 		],
 	},
 	plugins: [

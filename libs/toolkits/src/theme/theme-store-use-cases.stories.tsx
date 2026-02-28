@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { expect } from 'storybook/test'
+import { createStore } from 'zustand/vanilla'
 import {
 	getThemeFromStore,
 	observeThemeFromStore,
@@ -210,5 +211,52 @@ export const WithMockBackend: Story = {
 		await setThemeToStore({ store, themes, theme: 'grayscale' })
 		const after = await getThemeFromStore({ store, themes, theme: 'default' })
 		await expect(after?.theme).toBe('grayscale')
+	},
+}
+
+// --- Zustand use case ---
+function createZustandThemeStore(initial: ThemeResult<typeof themes>): {
+	store: ThemeStore<typeof themes>
+	zustandStore: ReturnType<typeof createZustandThemeStoreInner>
+} {
+	const zustandStore = createZustandThemeStoreInner(initial)
+	const store: ThemeStore<typeof themes> = {
+		get: () => zustandStore.getState().themeResult,
+		set: (result) => zustandStore.setState({ themeResult: result }),
+		subscribe: (handler) => zustandStore.subscribe(handler),
+	}
+	return { store, zustandStore }
+}
+
+function createZustandThemeStoreInner(initial: ThemeResult<typeof themes>) {
+	return createStore<{ themeResult: ThemeResult<typeof themes> }>(() => ({
+		themeResult: initial,
+	}))
+}
+
+export const WithZustand: Story = {
+	tags: ['use-case'],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Theme store backed by Zustand vanilla store. get/set/subscribe map to
+					getState/setState/subscribe.
+				</p>
+			),
+		}),
+		showSource({
+			source: dedent`
+				const { store } = createZustandThemeStore(undefined)
+				const result = await getThemeFromStore({ store, themes, theme: 'default' })
+				await setThemeToStore({ store, themes, theme: 'grayscale' })
+			`,
+		}),
+	],
+	play: async () => {
+		const { store } = createZustandThemeStore(undefined)
+		await setThemeToStore({ store, themes, theme: 'grayscale' })
+		const result = await getThemeFromStore({ store, themes, theme: 'default' })
+		await expect(result?.theme).toBe('grayscale')
 	},
 }
