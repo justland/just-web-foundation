@@ -33,5 +33,5 @@ export async function setThemeToStore<Themes extends ThemeMap>(
 					value: options.themes[options.theme],
 				}
 			: undefined
-	await Promise.resolve(options.store.set(result))
+	await Promise.resolve(options.store.set?.(result))
 }

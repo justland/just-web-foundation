@@ -9,7 +9,7 @@ export type ThemeResult = {
 export type ThemeResultCardProps = {
 	result: ThemeResult | undefined
 	title: string
-	'data-testid'?: string
+	'data-testid'?: string | undefined
 }
 
 function formatValue(value: unknown): string {

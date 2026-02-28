@@ -12,7 +12,7 @@ export type ThemeResult<Themes extends ThemeMap> =
 
 export type ThemeStore<Themes extends ThemeMap> = {
 	get(): ThemeResult<Themes> | Promise<ThemeResult<Themes>>
-	set(result: ThemeResult<Themes>): void | Promise<void>
+	set?(result: ThemeResult<Themes>): void | Promise<void>
 	subscribe?(handler: () => void): () => void
 }
 

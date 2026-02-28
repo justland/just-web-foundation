@@ -23,15 +23,17 @@ export type GetThemeFromStoreOptions<Themes extends ThemeMap> = {
 export async function getThemeFromStore<Themes extends ThemeMap>(
 	options: GetThemeFromStoreOptions<Themes>,
 ): Promise<ThemeResult<Themes>> {
-	const raw = await Promise.resolve(options.store.get())
-	const defaultResult: ThemeResult<Themes> =
-		options.theme != null
-			? {
-					theme: options.theme,
-					value: options.themes[options.theme],
-				}
-			: undefined
-	if (raw == null) return defaultResult
-	if (!(raw.theme in options.themes)) return defaultResult
-	return raw as ThemeResult<Themes>
+	const raw = await options.store.get()
+	if (raw && raw.theme in options.themes) return raw
+
+	if (raw) {
+		console.warn('The stored theme value is invalid')
+	}
+
+	return options.theme != null
+		? {
+				theme: options.theme,
+				value: options.themes[options.theme],
+			}
+		: undefined
 }
