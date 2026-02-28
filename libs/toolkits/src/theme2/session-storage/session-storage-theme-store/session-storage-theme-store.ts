@@ -1,7 +1,7 @@
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
-import { themeResult } from '../../theme-result.ts'
-import type { ThemeResult } from '../../theme-result.types.ts'
+import { themeEntry } from '../../theme-entry.ts'
+import type { ThemeEntry } from '../../theme-entry.types.ts'
 import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 
 export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
@@ -39,13 +39,13 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		return dummyThemeStore satisfies ThemeStore<Themes>
 	}
 
-	const handlers = new Set<(theme: ThemeResult<Themes> | undefined) => void>()
+	const handlers = new Set<(theme: ThemeEntry<Themes> | undefined) => void>()
 
 	function get() {
 		const stored = window.sessionStorage.getItem(storageKey)
 		const theme = parseStoredTheme(stored, themeMap)
 		if (theme === undefined) return undefined
-		return themeResult(theme, themeMap)
+		return themeEntry(theme, themeMap)
 	}
 
 	function notify() {

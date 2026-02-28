@@ -3,7 +3,7 @@ import { Button } from '../testing/button.tsx'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import { appendId } from '../utils/append-id.ts'
 import type { StoreEntry, ThemeMap } from './theme.types.ts'
-import type { ThemeResult } from './theme-result.types.ts'
+import type { ThemeEntry } from './theme-entry.types.ts'
 
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: StoreEntry<Themes>
@@ -24,10 +24,10 @@ export function ThemeStoreDemo2<Themes extends ThemeMap>({
 	setThemeKeys,
 	'data-testid': dataTestId = 'theme-store-demo2'
 }: ThemeStoreDemo2Props<Themes>) {
-	const [observedResult, setObservedResult] = useState<ThemeResult<Themes> | undefined | null>(
+	const [observedResult, setObservedResult] = useState<ThemeEntry<Themes> | undefined | null>(
 		undefined
 	)
-	const [getResult, setGetResult] = useState<ThemeResult<Themes> | undefined | null>(undefined)
+	const [getResult, setGetResult] = useState<ThemeEntry<Themes> | undefined | null>(undefined)
 
 	const keys = (setThemeKeys ??
 		(Object.keys(themes) as (keyof Themes)[]).slice(0, 3)) as (keyof Themes)[]

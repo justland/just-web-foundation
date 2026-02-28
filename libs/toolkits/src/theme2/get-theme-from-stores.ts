@@ -1,12 +1,8 @@
 import type { StoreEntry, ThemeMap } from './theme.types.ts'
-import type { ThemeResult } from './theme-result.types.ts'
+import type { ThemeEntry } from './theme-entry.types.ts'
 
 type StoreWithGet<Themes extends ThemeMap> = StoreEntry<Themes> & {
-	get: () =>
-		| ThemeResult<Themes>
-		| undefined
-		| null
-		| Promise<ThemeResult<Themes> | undefined | null>
+	get: () => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>
 }
 
 /**

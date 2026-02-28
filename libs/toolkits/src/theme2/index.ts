@@ -13,6 +13,6 @@ export type {
 	StoreEntry,
 	ThemeStore
 } from './theme.types.ts'
+export { themeEntry as themeResult } from './theme-entry.ts'
+export type { ThemeEntry as ThemeResult } from './theme-entry.types.ts'
 export type { ThemeMap } from './theme-map.types.ts'
-export { themeResult } from './theme-result.ts'
-export type { ThemeResult } from './theme-result.types.ts'

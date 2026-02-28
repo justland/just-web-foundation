@@ -1,7 +1,7 @@
 import { observeAttributes } from '../../../attributes/observe-attribute.ts'
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
-import { themeResult } from '../../theme-result.ts'
+import { themeEntry } from '../../theme-entry.ts'
 import { applyThemeToClassName } from '../utils/apply-theme-to-class-name.ts'
 import { resolveThemeFromClassName } from '../utils/resolve-theme-from-class-name.ts'
 
@@ -40,7 +40,7 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 		get() {
 			const theme = resolveThemeFromClassName(element.className, themeMap)
 			if (theme === undefined) return undefined
-			return themeResult(theme, themeMap)
+			return themeEntry(theme, themeMap)
 		},
 		set(theme) {
 			applyThemeToClassName(element, theme, themeMap)
@@ -50,7 +50,7 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 				{
 					class: (value) => {
 						const theme = value ? resolveThemeFromClassName(value, themeMap) : undefined
-						handler(theme ? themeResult(theme, themeMap) : undefined)
+						handler(theme ? themeEntry(theme, themeMap) : undefined)
 					}
 				},
 				element

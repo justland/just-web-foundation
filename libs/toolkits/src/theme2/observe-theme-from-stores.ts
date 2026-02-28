@@ -1,9 +1,9 @@
 import { getThemeFromStores } from './get-theme-from-stores.ts'
 import type { StoreEntry, ThemeMap } from './theme.types.ts'
-import type { ThemeResult } from './theme-result.types.ts'
+import type { ThemeEntry } from './theme-entry.types.ts'
 
 type StoreWithSubscribe<Themes extends ThemeMap> = StoreEntry<Themes> & {
-	subscribe: (handler: (theme: ThemeResult<Themes> | undefined | null) => void) => () => void
+	subscribe: (handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void
 }
 
 /**

@@ -1,6 +1,6 @@
 import { tryParseJSON } from '../../_internal/utils/try-parse-json.ts'
+import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
-import type { ThemeResult } from '../theme-result.types.ts'
 
 /**
  * Parses stored JSON theme and validates the theme key against theme map.
@@ -33,7 +33,7 @@ export function parseStoredTheme<Theme extends string>(
 export function parseStoredThemeResult<Themes extends ThemeMap>(
 	stored: string | null | undefined,
 	themeMap: Themes
-): ThemeResult<Themes> | undefined {
+): ThemeEntry<Themes> | undefined {
 	const theme = parseStoredTheme(stored, themeMap as ThemeMap<keyof Themes & string>)
 	if (theme === undefined) return undefined
 	return { theme, value: themeMap[theme] }

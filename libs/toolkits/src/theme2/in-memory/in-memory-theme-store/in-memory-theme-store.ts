@@ -1,6 +1,6 @@
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
-import { themeResult } from '../../theme-result.ts'
-import type { ThemeResult } from '../../theme-result.types.ts'
+import { themeEntry } from '../../theme-entry.ts'
+import type { ThemeEntry } from '../../theme-entry.types.ts'
 
 export type InMemoryThemeStoreOptions<Themes extends ThemeMap> = {
 	themeMap: Themes
@@ -29,11 +29,11 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(
 ) {
 	const { themeMap } = options
 	let value: keyof Themes | undefined | null
-	const listeners = new Set<(v: ThemeResult<Themes> | undefined) => void>()
+	const listeners = new Set<(v: ThemeEntry<Themes> | undefined) => void>()
 
 	function get() {
 		if (value === undefined || value === null) return value
-		return themeResult(value, themeMap)
+		return themeEntry(value, themeMap)
 	}
 
 	return {
@@ -41,7 +41,7 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(
 		set(theme) {
 			if (value === theme) return
 			value = theme
-			const result = themeResult(theme, themeMap)
+			const result = themeEntry(theme, themeMap)
 			for (const fn of listeners) fn(result)
 		},
 		subscribe(handler) {

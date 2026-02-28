@@ -2,7 +2,7 @@ import { getDataAttribute } from '../../../attributes/get-data-attribute.ts'
 import { observeDataAttributes } from '../../../attributes/observe-data-attribute.ts'
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
 import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
-import { themeResult } from '../../theme-result.ts'
+import { themeEntry } from '../../theme-entry.ts'
 import { applyThemeToDataAttribute } from '../utils/apply-theme-to-data-attribute.ts'
 import { resolveThemeFromDataAttribute } from '../utils/resolve-theme-from-data-attribute.ts'
 
@@ -44,7 +44,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const value = getDataAttribute(attributeName, element)
 			const theme = resolveThemeFromDataAttribute(value, themeMap)
 			if (theme === undefined) return undefined
-			return themeResult(theme, themeMap)
+			return themeEntry(theme, themeMap)
 		},
 		set(theme) {
 			applyThemeToDataAttribute(element, attributeName, theme, themeMap)
@@ -54,7 +54,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 				{
 					[attributeName]: (value) => {
 						const theme = value ? resolveThemeFromDataAttribute(value, themeMap) : undefined
-						handler(theme ? themeResult(theme, themeMap) : undefined)
+						handler(theme ? themeEntry(theme, themeMap) : undefined)
 					}
 				},
 				element
