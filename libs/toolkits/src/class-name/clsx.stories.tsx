@@ -11,7 +11,7 @@ import { clsx } from '#just-web/toolkits'
 
 const meta: Meta<FnToArgTypes<typeof clsx>> = {
 	title: 'class-name/clsx',
-	tags: ['version:next'],
+	tags: ['func', 'version:next'],
 	render: () => <></>,
 }
 
