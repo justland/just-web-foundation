@@ -51,7 +51,7 @@ export const BasicUsage: Story = {
 }
 
 export const WithRem2px: Story = {
-	name: 'with rem2px',
+	name: 'With rem2px',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
