@@ -1,16 +1,25 @@
-import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { getThemeByDataAttribute } from '../index.ts'
+import { getThemeByDataAttribute } from '#just-web/toolkits'
+import source from './get-theme-by-data-attribute.ts?raw'
 
 const meta = {
 	title: 'theme/getThemeByDataAttribute',
-	tags: ['autodocs', 'new', 'version:0.5'],
+	tags: ['func', 'version:next'],
+	parameters: defineDocsParam({
+		description: {
+			component:
+				'Gets the current theme from a data attribute value (e.g. data-theme) with optional default and allowCustom.',
+		},
+	}),
+	render: () => <></>,
 } satisfies Meta
 
 export default meta
 
-type Story = StoryObj<typeof getThemeByDataAttribute>
+type Story = StoryObj<typeof meta>
 
 const themes = {
 	light: 'light-theme',
@@ -28,11 +37,25 @@ function ShowResult({ theme, value }: { theme: string | undefined; value: string
 }
 
 export const BasicUsage: Story = {
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'Gets theme value from a data attribute with fallback to default theme.',
 		},
 	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`
+				getThemeByDataAttribute({
+				  themes,
+				  defaultTheme: 'dark',
+				  attributeName: 'data-theme',
+				})
+			`,
+		}),
+	],
 	loaders: [
 		() => {
 			document.documentElement.setAttribute('data-theme', 'dark-theme')
@@ -46,7 +69,11 @@ export const BasicUsage: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard title="Theme from data-theme" appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('dark')
@@ -72,7 +99,11 @@ export const UndefinedWhenNotSet: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-not-exist')
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBeUndefined()
@@ -81,9 +112,10 @@ export const UndefinedWhenNotSet: Story = {
 
 export const WithDefaultTheme: Story = {
 	name: 'With defaultTheme',
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when data attribute value is not a valid theme.',
+			story: 'Falls back to default theme when data attribute is missing or invalid.',
 		},
 	}),
 	loaders: [
@@ -99,7 +131,11 @@ export const WithDefaultTheme: Story = {
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.getAttribute('data-theme')
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async ({ loaded: { theme } }) => {
 		await expect(theme).toBe('system')
@@ -108,6 +144,7 @@ export const WithDefaultTheme: Story = {
 
 export const InvalidThemeWithDefaultTheme: Story = {
 	name: 'Invalid theme with defaultTheme',
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'Falls back to default theme when data attribute value is not a valid theme.',
@@ -121,8 +158,11 @@ export const InvalidThemeWithDefaultTheme: Story = {
 			defaultTheme: 'system',
 			attributeName: 'data-theme',
 		})
-
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -135,9 +175,10 @@ export const InvalidThemeWithDefaultTheme: Story = {
 }
 
 export const InvalidTheme: Story = {
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Returns undefined when data attribute value is not a valid theme.',
+			story: 'Returns undefined when data attribute value is not a valid theme and no default.',
 		},
 	}),
 	render: () => {
@@ -147,8 +188,11 @@ export const InvalidTheme: Story = {
 			themes,
 			attributeName: 'data-theme',
 		})
-
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -161,11 +205,20 @@ export const InvalidTheme: Story = {
 
 export const AllowCustom: Story = {
 	name: 'allowCustom',
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when data attribute value is not a valid theme.',
+			story:
+				'When allowCustom is true, returns the raw attribute value if it does not match a theme.',
 		},
 	}),
+	decorators: [
+		withStoryCard(),
+		showDocSource({
+			placement: 'before',
+			source: dedent`getThemeByDataAttribute({ themes, attributeName: 'data-theme', allowCustom: true })`,
+		}),
+	],
 	render: () => {
 		document.documentElement.setAttribute('data-theme', 'custom')
 		const value = document.documentElement.getAttribute('data-theme')
@@ -174,8 +227,11 @@ export const AllowCustom: Story = {
 			attributeName: 'data-theme',
 			allowCustom: true,
 		})
-
-		return <ShowResult theme={theme} value={value} />
+		return (
+			<StoryCard appearance="output">
+				<ShowResult theme={theme} value={value} />
+			</StoryCard>
+		)
 	},
 	play: async () => {
 		const theme = getThemeByDataAttribute({
@@ -185,4 +241,10 @@ export const AllowCustom: Story = {
 		})
 		await expect(theme).toBe('custom')
 	},
+}
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({ source: { code: source } }),
+	decorators: [showDocSource()],
 }
