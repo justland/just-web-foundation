@@ -3,10 +3,12 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { observeThemeByDataAttributes } from '#just-web/toolkits'
+import { observeThemeByDataAttributes, setThemeByDataAttribute } from '#just-web/toolkits'
+import { Button } from '../testing/button.tsx'
 import { LogPanel } from '../testing/log-panel.tsx'
-import { ToggleAttributeButton } from '../testing/toggle-attribute-button.tsx'
 import source from './observe-theme-by-data-attributes.ts?raw'
+
+const dataThemeThemes = { light: 'light', dark: 'dark' } as const
 
 const meta = {
 	title: 'theme/observeThemeByDataAttributes',
@@ -61,7 +63,23 @@ export const BasicUsage: Story = {
 			<StoryCard title="Attribute changes" appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="data-theme" values={['light', 'dark']} />
+						{(Object.keys(dataThemeThemes) as (keyof typeof dataThemeThemes)[]).map((theme) => (
+							<Button
+								key={theme}
+								onPress={() =>
+									setThemeByDataAttribute({
+										attributeName: 'data-theme',
+										themes: dataThemeThemes,
+										theme,
+									})
+								}
+							>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => document.documentElement.removeAttribute('data-theme')}>
+							Clear
+						</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -69,16 +87,18 @@ export const BasicUsage: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle data-theme' })
 		await step('null -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> null', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: (null)')).toBeInTheDocument()
 		})
@@ -106,11 +126,28 @@ export const WithDifferentAttributeValues: Story = {
 			return () => observer.disconnect()
 		}, [])
 
+		const themes = { light: 'light-theme', dark: 'dark-theme' } as const
 		return (
 			<StoryCard appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="data-theme" values={['light-theme', 'dark-theme']} />
+						{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
+							<Button
+								key={theme}
+								onPress={() =>
+									setThemeByDataAttribute({
+										attributeName: 'data-theme',
+										themes,
+										theme,
+									})
+								}
+							>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => document.documentElement.removeAttribute('data-theme')}>
+							Clear
+						</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -118,16 +155,18 @@ export const WithDifferentAttributeValues: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle data-theme' })
 		await step('null -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> null', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: (null)')).toBeInTheDocument()
 		})
@@ -161,7 +200,23 @@ export const WithDefaultTheme: Story = {
 			<StoryCard appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="data-theme" values={['light', 'dark']} />
+						{(Object.keys(dataThemeThemes) as (keyof typeof dataThemeThemes)[]).map((theme) => (
+							<Button
+								key={theme}
+								onPress={() =>
+									setThemeByDataAttribute({
+										attributeName: 'data-theme',
+										themes: dataThemeThemes,
+										theme,
+									})
+								}
+							>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => document.documentElement.removeAttribute('data-theme')}>
+							Clear
+						</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -169,16 +224,18 @@ export const WithDefaultTheme: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle data-theme' })
 		await step('null -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> light (default)', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getAllByText('data-theme: light').length).toBe(2)
 		})
@@ -247,11 +304,28 @@ export const WithAllowCustom: Story = {
 			return () => observer.disconnect()
 		}, [])
 
+		const themes = { light: 'light', dark: 'dark' } as const
 		return (
 			<StoryCard title="Demo" appearance="output">
 				<div className="font-sans p-4 space-y-4">
 					<div className="flex flex-wrap gap-2">
-						<ToggleAttributeButton attribute="data-theme" values={['light', 'custom']} />
+						<Button
+							onPress={() =>
+								setThemeByDataAttribute({
+									attributeName: 'data-theme',
+									themes,
+									theme: 'light',
+								})
+							}
+						>
+							light
+						</Button>
+						<Button onPress={() => document.documentElement.setAttribute('data-theme', 'custom')}>
+							custom
+						</Button>
+						<Button onPress={() => document.documentElement.removeAttribute('data-theme')}>
+							Clear
+						</Button>
 					</div>
 					<LogPanel title="Handler received:" log={log} />
 				</div>
@@ -259,12 +333,13 @@ export const WithAllowCustom: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle data-theme' })
 		await step('null -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: light')).toBeInTheDocument()
 		})
 		await step('light -> custom', async () => {
+			const btn = canvas.getByRole('button', { name: 'custom' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: custom')).toBeInTheDocument()
 		})

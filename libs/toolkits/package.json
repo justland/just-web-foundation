@@ -12,7 +12,8 @@
 	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
 	"imports": {
-		"#just-web/toolkits": "./src/index.ts"
+		"#just-web/toolkits": "./src/index.ts",
+		"#just-web/toolkits/react": "./src/react/index.ts"
 	},
 	"exports": {
 		".": {
@@ -23,6 +24,14 @@
 			"source": "./src/index.ts",
 			"style": "./tailwind.css",
 			"default": "./dist/index.mjs"
+		},
+		"./react": {
+			"types": [
+				"./dist/react.d.mts",
+				"./src/react/index.ts"
+			],
+			"source": "./src/react/index.ts",
+			"default": "./dist/react.mjs"
 		},
 		"./package.json": "./package.json"
 	},

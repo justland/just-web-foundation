@@ -10,6 +10,9 @@ import { getAttribute } from './get-attribute.ts'
  *
  * @example
  */
-export function getDataAttribute(qualifiedName: DataAttribute, element?: Element | undefined) {
+export function getDataAttribute(
+	qualifiedName: DataAttribute,
+	element?: Element | null | undefined,
+) {
 	return getAttribute(qualifiedName, element)
 }

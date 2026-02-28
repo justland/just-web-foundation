@@ -23,7 +23,7 @@ import { observeAttributes } from './observe-attribute.ts'
  */
 export function observeDataAttributes<T extends string, K extends `data-${string}`>(
 	handlers: Record<K, (value: T | null) => void>,
-	element?: Element | undefined,
+	element?: Element | null | undefined,
 ) {
 	return observeAttributes(handlers, element)
 }

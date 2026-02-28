@@ -3,10 +3,22 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { observeThemeByClassName } from '#just-web/toolkits'
+import { observeThemeByClassName, setThemeByClassName } from '#just-web/toolkits'
+import { Button } from '../testing/button.tsx'
 import { LogPanel } from '../testing/log-panel.tsx'
-import { ToggleAttributeButton } from '../testing/toggle-attribute-button.tsx'
 import source from './observe-theme-by-class-name.ts?raw'
+
+const classThemes = { light: 'light', dark: 'dark' } as const
+
+function clearThemeClasses(themes: Record<string, string | readonly string[]>) {
+	const allClasses = Object.values(themes).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
+	const el = document.documentElement
+	el.className = el.className
+		.split(/\s+/)
+		.filter((c) => !allClasses.includes(c))
+		.join(' ')
+		.trim()
+}
 
 const meta = {
 	title: 'theme/observeThemeByClassName',
@@ -59,7 +71,15 @@ export const BasicUsage: Story = {
 			<StoryCard title="Attribute changes" appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="class" values={['light', 'dark']} />
+						{(Object.keys(classThemes) as (keyof typeof classThemes)[]).map((theme) => (
+							<Button
+								key={theme}
+								onPress={() => setThemeByClassName({ themes: classThemes, theme })}
+							>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => clearThemeClasses(classThemes)}>Clear</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -67,16 +87,18 @@ export const BasicUsage: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle class' })
 		await step('undefined -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> undefined', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
 		})
@@ -103,11 +125,17 @@ export const WithDifferentAttributeValues: Story = {
 			return () => observer.disconnect()
 		}, [])
 
+		const themes = { light: 'light-theme', dark: 'dark-theme' } as const
 		return (
 			<StoryCard appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="class" values={['light-theme', 'dark-theme']} />
+						{(Object.keys(themes) as (keyof typeof themes)[]).map((theme) => (
+							<Button key={theme} onPress={() => setThemeByClassName({ themes, theme })}>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => clearThemeClasses(themes)}>Clear</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -115,16 +143,18 @@ export const WithDifferentAttributeValues: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle class' })
 		await step('undefined -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> undefined', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
 		})
@@ -156,7 +186,15 @@ export const WithDefaultTheme: Story = {
 			<StoryCard appearance="output">
 				<div className="font-sans p-4">
 					<div className="flex flex-wrap gap-2 mb-4">
-						<ToggleAttributeButton attribute="class" values={['light', 'dark']} />
+						{(Object.keys(classThemes) as (keyof typeof classThemes)[]).map((theme) => (
+							<Button
+								key={theme}
+								onPress={() => setThemeByClassName({ themes: classThemes, theme })}
+							>
+								{theme}
+							</Button>
+						))}
+						<Button onPress={() => clearThemeClasses(classThemes)}>Clear</Button>
 					</div>
 					<LogPanel title="Attribute Changes:" log={log} />
 				</div>
@@ -164,16 +202,18 @@ export const WithDefaultTheme: Story = {
 		)
 	},
 	play: async ({ canvas, step }) => {
-		const btn = canvas.getByRole('button', { name: 'Toggle class' })
 		await step('null -> light', async () => {
+			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: light')).toBeInTheDocument()
 		})
 		await step('light -> dark', async () => {
+			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
 		})
 		await step('dark -> light (default)', async () => {
+			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getAllByText('theme: light').length).toBe(2)
 		})

@@ -24,7 +24,7 @@ export function observeThemeByClassName<Themes extends Record<string, string>>(o
 	themes: Themes
 	handler: (value: string | undefined) => void
 	defaultTheme?: keyof Themes | undefined
-	element?: Element | undefined
+	element?: Element | null | undefined
 }) {
 	return observeAttributes(
 		{

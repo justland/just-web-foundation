@@ -18,8 +18,9 @@
  */
 export function observeAttributes<T extends string>(
 	handlers: Record<string, (value: T | null) => void>,
-	element: Element | undefined = globalThis.document.documentElement,
+	element: Element | null | undefined,
 ) {
+	element = element ?? globalThis.document.documentElement
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
 			const attribute = mutation.attributeName

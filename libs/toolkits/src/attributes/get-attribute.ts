@@ -16,7 +16,8 @@
  */
 export function getAttribute<T extends string>(
 	qualifiedName: T,
-	element: Element | undefined = globalThis.document.documentElement,
+	element: Element | null | undefined,
 ) {
-	return element?.getAttribute(qualifiedName)
+	element = element ?? globalThis.document.documentElement
+	return element.getAttribute(qualifiedName)
 }
