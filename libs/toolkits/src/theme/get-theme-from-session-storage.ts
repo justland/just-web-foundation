@@ -1,4 +1,4 @@
-import { tryParseJSON } from '../_internal/utils/try-parse-json.ts'
+import { createSessionStorageThemeStore } from './create-session-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -32,24 +32,9 @@ export function getThemeFromSessionStorage<Themes extends ThemeMap>(
 			value: Themes[keyof Themes]
 	  }
 	| undefined {
-	const defaultTheme = options.theme
-		? {
-				theme: options.theme,
-				value: options.themes[options.theme],
-			}
-		: undefined
-	if (!window?.sessionStorage) return defaultTheme
-
-	try {
-		const stored = window.sessionStorage.getItem(options.storageKey)
-
-		const theme = tryParseJSON<{
-			theme: keyof Themes
-			value: Themes[keyof Themes]
-		}>(stored)
-		if (!theme) return defaultTheme
-		return theme
-	} catch {
-		return defaultTheme
-	}
+	const store = createSessionStorageThemeStore<Themes>(options.storageKey)
+	return store.get({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }

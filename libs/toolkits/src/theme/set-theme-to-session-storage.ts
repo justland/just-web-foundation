@@ -1,3 +1,4 @@
+import { createSessionStorageThemeStore } from './create-session-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -25,22 +26,9 @@ import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 export function setThemeToSessionStorage<Themes extends ThemeMap>(
 	options: ThemeStorageOptions<Themes>,
 ): void {
-	if (!window?.sessionStorage) return
-
-	try {
-		if (!options.theme) {
-			window.sessionStorage.removeItem(options.storageKey)
-			return
-		}
-
-		window.sessionStorage.setItem(
-			options.storageKey,
-			JSON.stringify({
-				theme: options.theme,
-				value: options.themes[options.theme],
-			}),
-		)
-	} catch {
-		// Ignore quota or other storage errors
-	}
+	const store = createSessionStorageThemeStore<Themes>(options.storageKey)
+	store.set({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }
