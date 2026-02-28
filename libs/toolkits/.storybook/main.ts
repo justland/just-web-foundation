@@ -37,9 +37,9 @@ const config: StorybookConfig = {
 		unit: {
 			defaultFilterSelection: 'exclude',
 		},
-		internal: {
-			defaultFilterSelection: 'exclude',
-		},
+		// internal: {
+		// 	defaultFilterSelection: 'exclude',
+		// },
 	},
 }
 export default config
