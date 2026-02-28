@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { isType } from 'type-plus'
@@ -64,7 +64,7 @@ export const WellKnownAttributes: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	play() {
 		isType<DataAttribute>('data-metrics')
 		isType<DataAttribute>('data-state')
@@ -115,7 +115,7 @@ export const PickAttributes: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 }
 
 export const CustomDataAttributes: Story = {
@@ -132,7 +132,7 @@ export const CustomDataAttributes: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	play() {
 		isType<DataAttribute>('data-custom-name')
 	},

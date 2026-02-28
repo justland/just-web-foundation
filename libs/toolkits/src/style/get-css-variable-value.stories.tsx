@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useRef, useState } from 'react'
@@ -36,7 +36,7 @@ export const Specification: Story = {
 				</p>
 			),
 		}),
-		showDocSource(),
+		showSource(),
 	],
 }
 
@@ -50,8 +50,7 @@ export const SingleVariable: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`getCSSVariableValue('--color-gray-100')`,
 		}),
 	],
@@ -79,8 +78,7 @@ export const MultipleVariables: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`getCSSVariableValue('--color-white', '--color-gray-100')`,
 		}),
 	],
@@ -129,8 +127,7 @@ export const FromElement: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`const element = canvas.getByTestId('subject')
 getCSSVariableValue(element, '--text-red-100')`,
 		}),
@@ -152,8 +149,7 @@ export const VariableDoesNotExist: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`getCSSVariableValue('--nonexistent-var')`,
 		}),
 	],

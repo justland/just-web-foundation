@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { resolveStyle } from '#just-web/toolkits'
@@ -29,8 +29,7 @@ export const StyleObject: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 		resolveStyle({ style: { padding: '0.5rem', color: 'red' } }, { fontWeight: 'bold' })
 		`,
@@ -60,8 +59,7 @@ export const StyleFunction: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 		resolveStyle({ style: { padding: '0.5rem' }, isActive: true }, (s) =>
 			s.isActive ? { ...s.style, color: 'green' } : s.style,
@@ -95,8 +93,7 @@ export const UndefinedStyle: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`resolveStyle({ style: { padding: '0.5rem' } }, undefined)`,
 		}),
 	],
@@ -122,8 +119,7 @@ export const FunctionReturnsUndefined: Story = {
 				</p>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: `resolveStyle({ style: { padding: '0.5rem' } }, () => undefined)`,
 		}),
 	],

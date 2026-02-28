@@ -2,7 +2,7 @@ import {
 	defineDocsParam,
 	type FnToArgTypes,
 	StoryCard,
-	showDocSource,
+	showSource,
 	withStoryCard,
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
@@ -53,7 +53,7 @@ export const FromDocumentRoot: Story = {
 			document.documentElement.setAttribute(qualifiedName, 'some value')
 		},
 	],
-	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	decorators: [withStoryCard(), showSource()],
 	render(props) {
 		const value = getDataAttribute(props.qualifiedName)
 
@@ -84,7 +84,7 @@ export const FromSpecificElement: Story = {
 	decorators: [
 		withStoryCard(),
 
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 	render(props) {
 		const element = document.createElement('div')
@@ -113,7 +113,7 @@ export const NonExistentAttribute: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	decorators: [withStoryCard(), showSource()],
 	render(props) {
 		const value = getDataAttribute(props.qualifiedName)
 		return (
@@ -129,5 +129,5 @@ export const Source: Story = {
 	parameters: defineDocsParam({
 		source: { code },
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

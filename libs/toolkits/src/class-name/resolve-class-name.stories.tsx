@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { resolveClassName } from '#just-web/toolkits'
@@ -29,8 +29,7 @@ export const ClassNameString: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 		resolveClassName({ className: 'base-class' }, 'additional-class')
 		`,
@@ -56,8 +55,7 @@ export const ClassNameFunction: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 		resolveClassName({ className: 'base-class', isActive: true, count: 5 }, (s) =>
 			s.isActive ? 'active-class' : 'inactive-class',
@@ -90,8 +88,7 @@ export const UndefinedClassName: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`resolveClassName({ className: 'base-class' }, undefined)`,
 		}),
 	],
@@ -116,8 +113,7 @@ export const FunctionReturnsUndefined: Story = {
 				</p>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: `resolveClassName({ className: 'base-class' }, () => undefined)`,
 		}),
 	],

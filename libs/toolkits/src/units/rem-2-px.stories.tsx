@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
@@ -38,8 +38,7 @@ export const BasicUsage: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				rem2px(1)    // 16
 				rem2px(2)    // 32
@@ -90,8 +89,7 @@ export const StringInput: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				rem2px('1rem')     // 16
 				rem2px('2rem')     // 32
@@ -142,8 +140,7 @@ export const CustomBase: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				rem2px(1, { base: 20 })   // 20
 				rem2px(2, { base: 20 })   // 40
@@ -194,8 +191,7 @@ export const CustomPrecision: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				rem2px(0.8125, { precision: 0 }) // 13
 				rem2px(0.8125, { precision: 1 }) // 13.0
@@ -239,8 +235,7 @@ export const BaseAndPrecision: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				rem2px(1, { base: 18, precision: 2 })
 				rem2px(1.5, { base: 18, precision: 3 })
@@ -285,5 +280,5 @@ export const BaseAndPrecision: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

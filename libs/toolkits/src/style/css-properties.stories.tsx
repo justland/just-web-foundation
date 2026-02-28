@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import type { CSSProperties as ReactCSSProperties } from 'react'
@@ -29,7 +29,7 @@ export const Specification: StoryObj = {
 				</p>
 			),
 		}),
-		showDocSource(),
+		showSource(),
 	],
 }
 
@@ -52,7 +52,7 @@ export const SupportCustomProperties: StoryObj = {
 				</p>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -67,8 +67,7 @@ export const AcceptsReactCSSProperties: StoryObj = {
 				</p>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
 			const justStyle: CSSProperties = reactStyle
 		`,

@@ -1,5 +1,5 @@
 import * as repobuddyStorybook from '@repobuddy/storybook'
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
@@ -29,7 +29,7 @@ export const Specification: StoryObj = {
 				</p>
 			),
 		}),
-		showDocSource(),
+		showSource(),
 	],
 }
 
@@ -40,7 +40,7 @@ export const BasicUsage: StoryObj = {
 		withStoryCard({
 			content: <p>Use it by itself or combine with other props.</p>,
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 

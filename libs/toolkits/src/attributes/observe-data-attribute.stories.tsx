@@ -1,9 +1,4 @@
-import {
-	defineDocsParam,
-	type FnToArgTypes,
-	showDocSource,
-	withStoryCard,
-} from '@repobuddy/storybook'
+import { defineDocsParam, type FnToArgTypes, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useRef, useState } from 'react'
@@ -41,7 +36,7 @@ export const Source: Story = {
 	parameters: defineDocsParam({
 		source: { code },
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }
 
 export const BasicUsage: Story = {
@@ -59,7 +54,7 @@ export const BasicUsage: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 
@@ -120,7 +115,7 @@ export const MultipleAttributes: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 
@@ -212,7 +207,7 @@ export const CustomElement: Story = {
 			`,
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
+	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 		const customElementRef = useRef<HTMLDivElement>(null)

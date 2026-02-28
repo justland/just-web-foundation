@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
@@ -38,8 +38,7 @@ export const BasicUsage: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num(16)  // 16
 				px2num(32)  // 32
@@ -90,8 +89,7 @@ export const StringInput: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num('16px')  // 16
 				px2num('32px')  // 32
@@ -142,8 +140,7 @@ export const DecimalValues: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num('12.5px')   // 12.5
 				px2num('0.5px')    // 0.5
@@ -194,8 +191,7 @@ export const EdgeCases: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num('0px')   // 0
 				px2num(0)       // 0
@@ -253,8 +249,7 @@ export const SameResultFromNumberOrString: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num(16)      // 16  (number)
 				px2num('16px')  // 16  (string with px)
@@ -308,8 +303,7 @@ export const Validation: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				px2num('')        // NaN
 				px2num('px')      // NaN
@@ -428,5 +422,5 @@ export const PerformanceTest: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

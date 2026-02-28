@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { resolveChildren } from '#just-web/toolkits'
@@ -29,8 +29,7 @@ export const StaticChildren: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: `resolveChildren({ children: 'Default' }, 'Override content')`,
 		}),
 	],
@@ -55,8 +54,7 @@ export const ChildrenFunction: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 		resolveChildren({ children: 'Default', count: 42 }, (rp) => \`Computed: \${rp.count}\`)
 		`,
@@ -89,8 +87,7 @@ export const UndefinedChildren: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: `resolveChildren({ children: 'From render props' }, undefined)`,
 		}),
 	],
@@ -116,8 +113,7 @@ export const FunctionReturnsUndefined: Story = {
 				</p>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: `resolveChildren({ children: 'Default' }, () => undefined)`,
 		}),
 	],

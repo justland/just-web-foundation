@@ -1,5 +1,5 @@
 import * as repobuddyStorybook from '@repobuddy/storybook'
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import clsx from 'clsx'
 import * as React from 'react'
@@ -75,7 +75,7 @@ export const Source: StoryObj = {
 	parameters: defineDocsParam({
 		source: { code: source },
 	}),
-	decorators: [showDocSource({ placement: 'before' })],
+	decorators: [showSource()],
 }
 
 export const JustClassNameProps: StoryObj = {
@@ -99,7 +99,7 @@ export const JustClassNameProps: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -144,7 +144,7 @@ export const JustClassName: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -174,7 +174,7 @@ export const JustClassNameFnProps: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -218,7 +218,7 @@ export const NonInteractiveComponent: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -254,7 +254,7 @@ export const InteractiveComponent: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 	play() {},
 }
@@ -289,7 +289,7 @@ export const ClassNameVSDefaultClassName: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 

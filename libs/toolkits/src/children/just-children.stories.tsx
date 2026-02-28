@@ -1,5 +1,5 @@
 import * as repobuddyStorybook from '@repobuddy/storybook'
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
@@ -71,7 +71,7 @@ export const Source: StoryObj = {
 	parameters: defineDocsParam({
 		source: { code: source },
 	}),
-	decorators: [showDocSource({ placement: 'before' })],
+	decorators: [showSource()],
 }
 
 export const JustChildrenPropsStory: StoryObj = {
@@ -95,7 +95,7 @@ export const JustChildrenPropsStory: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 
@@ -126,7 +126,7 @@ export const JustChildrenStory: StoryObj = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 }
 

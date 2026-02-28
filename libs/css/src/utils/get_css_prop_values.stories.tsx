@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
+import { defineDocsParam, showSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
@@ -7,7 +7,7 @@ import { defineCSSProperties, getCSSPropValues } from '#just-web/css'
 export default {
 	title: 'utils/getCSSPropValues',
 	tags: ['code-only', 'version:0.1'],
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 	render: () => <></>,
 } satisfies Meta
 

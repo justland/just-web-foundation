@@ -2,7 +2,7 @@ import {
 	defineDocsParam,
 	type FnToArgTypes,
 	StoryCard,
-	showDocSource,
+	showSource,
 	withStoryCard,
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
@@ -56,7 +56,7 @@ export const BasicUsage: Story = {
 				</div>
 			),
 		}),
-		showDocSource({ placement: 'before' }),
+		showSource(),
 	],
 	render: () => {
 		const [scheme, setScheme] = useState(getPrefersColorScheme())
@@ -74,5 +74,5 @@ export const BasicUsage: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

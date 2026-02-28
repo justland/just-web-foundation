@@ -2,7 +2,7 @@ import {
 	defineDocsParam,
 	type FnToArgTypes,
 	StoryCard,
-	showDocSource,
+	showSource,
 	withStoryCard,
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
@@ -37,8 +37,7 @@ export const Overview: Story = {
 				</>
 			),
 		}),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`function clsx(...inputs: ClassValue[]): string`,
 		}),
 	],
@@ -51,10 +50,7 @@ export const BasicUsage: Story = {
 			story: 'Combine multiple class name strings. Falsy values are ignored.',
 		},
 	}),
-	decorators: [
-		withStoryCard(),
-		showDocSource({ placement: 'before', source: dedent`clsx('base', 'active', 'rounded')` }),
-	],
+	decorators: [withStoryCard(), showSource({ source: dedent`clsx('base', 'active', 'rounded')` })],
 	render() {
 		return (
 			<StoryCard appearance="output">
@@ -77,8 +73,7 @@ export const ConditionalClasses: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`clsx('btn', {
 		'btn-active': isActive,
 		'btn-disabled': isDisabled,
@@ -114,8 +109,7 @@ export const MixedInputs: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`clsx('base', ['a', null, 'b'], { active: true, hidden: false })`,
 		}),
 	],

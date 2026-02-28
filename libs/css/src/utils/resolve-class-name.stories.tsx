@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { resolveClassName } from '#just-web/css'
 
@@ -26,7 +26,7 @@ export const ClassNameString: Story = {
 				'Resolves className when provided as a string. Combines defaultClassName with the provided className.',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>Result: {resolveClassName({ defaultClassName: 'base-class' }, 'additional-class')}</div>
@@ -43,7 +43,7 @@ export const ClassNameFunction: Story = {
 				'Resolves className when provided as a function. The function receives the state and returns the className. Note: When using a function, it returns only the function result (not combined with defaultClassName).',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>
@@ -63,7 +63,7 @@ export const UndefinedClassName: Story = {
 			story: 'Returns only the defaultClassName when className is undefined.',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	render() {
 		return <div>{resolveClassName({ defaultClassName: 'base-class' }, undefined)}</div>
 	},
@@ -78,7 +78,7 @@ export const FunctionReturnsUndefined: Story = {
 				'When className is a function that returns undefined, it uses the defaultClassName only.',
 		},
 	}),
-	decorators: [withStoryCard(), showDocSource()],
+	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>

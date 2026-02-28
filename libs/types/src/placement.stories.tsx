@@ -1,4 +1,4 @@
-import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
+import { defineDocsParam, showSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 
@@ -24,7 +24,7 @@ export const BasicUsage: Story = {
 			`,
 		},
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }
 
 export const AllPlacementValues: Story = {
@@ -69,7 +69,7 @@ export const AllPlacementValues: Story = {
 			`,
 		},
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }
 
 export const ComponentUsage: Story = {
@@ -101,5 +101,5 @@ export const ComponentUsage: Story = {
 			`,
 		},
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

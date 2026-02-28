@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { getRemToPxScale, rem2px } from '#just-web/toolkits'
@@ -38,7 +38,7 @@ export const BasicUsage: Story = {
 				</>
 			),
 		}),
-		showDocSource({ placement: 'before', source: dedent`getRemToPxScale()` }),
+		showSource({ source: dedent`getRemToPxScale()` }),
 	],
 	render() {
 		const scale = getRemToPxScale()
@@ -60,8 +60,7 @@ export const WithRem2px: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				const base = getRemToPxScale()
 				rem2px(1, { base })
@@ -85,5 +84,5 @@ export const WithRem2px: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }

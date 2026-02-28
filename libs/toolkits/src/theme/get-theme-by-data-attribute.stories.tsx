@@ -1,4 +1,4 @@
-import { defineDocsParam, StoryCard, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
@@ -45,8 +45,7 @@ export const BasicUsage: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`
 				getThemeByDataAttribute({
 				  themes,
@@ -214,8 +213,7 @@ export const AllowCustom: Story = {
 	}),
 	decorators: [
 		withStoryCard(),
-		showDocSource({
-			placement: 'before',
+		showSource({
 			source: dedent`getThemeByDataAttribute({ themes, attributeName: 'data-theme', allowCustom: true })`,
 		}),
 	],
@@ -246,5 +244,5 @@ export const AllowCustom: Story = {
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showDocSource()],
+	decorators: [showSource()],
 }
