@@ -34,7 +34,7 @@ export const BasicUsage: Story = {
 		source: {
 			code: dedent`
 				const themes = { light: 'theme-light', dark: 'theme-dark' }
-				const [theme, setTheme] = useThemeByClassName({ themes, defaultTheme: 'light' })
+				const [theme, setTheme] = useThemeByClassName({ themes, theme: 'light' })
 				setTheme('dark')
 				setTheme('light')
 			`,
@@ -44,7 +44,7 @@ export const BasicUsage: Story = {
 	render: () => {
 		const [theme, setTheme] = useThemeByClassName({
 			themes: THEMES,
-			defaultTheme: 'light',
+			theme: 'light',
 		})
 
 		return (
@@ -84,7 +84,7 @@ export const CustomElement: Story = {
 				const [element, setElement] = useState<HTMLDivElement | null>(null)
 				const [theme, setTheme] = useThemeByClassName({
 					themes: { light: 'theme-light', dark: 'theme-dark' },
-					defaultTheme: 'light',
+					theme: 'light',
 					element: element ?? undefined,
 				})
 				return <div ref={setElement}>...</div>
@@ -96,7 +96,7 @@ export const CustomElement: Story = {
 		const [element, setElement] = useState<HTMLDivElement | null>(null)
 		const [theme, setTheme] = useThemeByClassName({
 			themes: THEMES,
-			defaultTheme: 'light',
+			theme: 'light',
 			element: element ?? undefined,
 		})
 
@@ -141,7 +141,7 @@ export const SyncFromElsewhere: Story = {
 		},
 		source: {
 			code: dedent`
-				const [theme] = useThemeByClassName({ themes, defaultTheme: 'light' })
+				const [theme] = useThemeByClassName({ themes, theme: 'light' })
 				// When something else adds/removes theme classes on the element,
 				// theme updates automatically
 			`,
@@ -151,7 +151,7 @@ export const SyncFromElsewhere: Story = {
 	render: () => {
 		const [theme] = useThemeByClassName({
 			themes: THEMES,
-			defaultTheme: 'light',
+			theme: 'light',
 		})
 
 		const toggleExternally = () => {

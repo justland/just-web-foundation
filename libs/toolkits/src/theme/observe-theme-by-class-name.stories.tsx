@@ -174,11 +174,11 @@ export const WithThemeArray: Story = {
 }
 
 export const WithDefaultTheme: Story = {
-	name: 'With defaultTheme',
+	name: 'With theme',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When class is cleared, handler receives defaultTheme instead of undefined.',
+			story: 'When class is cleared, handler receives options.theme instead of undefined.',
 		},
 	}),
 	decorators: [
@@ -188,7 +188,7 @@ export const WithDefaultTheme: Story = {
 				observeThemeByClassName({
 				  themes: { light: 'your-light-class', dark: 'your-dark-class' },
 				  handler: (value) => setTheme(value),
-				  defaultTheme: 'light',
+				  theme: 'light',
 				})
 			`,
 		}),
@@ -199,7 +199,7 @@ export const WithDefaultTheme: Story = {
 
 		useEffect(() => {
 			const observer = observeThemeByClassName({
-				defaultTheme: 'unset',
+				theme: 'unset',
 				themes: classThemes,
 				handler: (value) => {
 					setTheme(value)
@@ -252,7 +252,7 @@ export const WithDefaultTheme: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
-		await step('dark -> unset (defaultTheme)', async () => {
+		await step('dark -> unset (theme)', async () => {
 			const btn = canvas.getByRole('button', { name: 'Clear' })
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('theme')).toHaveTextContent('unset')

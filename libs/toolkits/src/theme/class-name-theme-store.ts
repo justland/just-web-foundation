@@ -1,33 +1,23 @@
 import { findKey } from 'type-plus'
 import { observeAttributes } from '../attributes/observe-attribute.ts'
-import type { ThemeMap } from './theme.types.ts'
-
-export type ClassNameThemeStoreGetOptions<Themes extends ThemeMap> = {
-	themes: Themes
-	defaultTheme?: keyof Themes | undefined
-}
-
-export type ClassNameThemeStoreSetOptions<Themes extends ThemeMap> = {
-	themes: Themes
-	theme: keyof Themes
-}
+import type { ThemeMap, ThemeStoreGetOptions, ThemeStoreSetOptions } from './theme.types.ts'
 
 export type ClassNameThemeStoreSubscribeOptions<Themes extends ThemeMap> = {
 	themes: Themes
-	defaultTheme?: (keyof Themes | (string & {})) | undefined
+	theme?: (keyof Themes | (string & {})) | undefined
 	handler: (value: string | undefined) => void
 }
 
 export type ClassNameThemeStore<Themes extends ThemeMap> = {
-	get(options: ClassNameThemeStoreGetOptions<Themes>): keyof Themes | undefined
-	set(options: ClassNameThemeStoreSetOptions<Themes>): void
+	get(options: ThemeStoreGetOptions<Themes>): keyof Themes | undefined
+	set(options: ThemeStoreSetOptions<Themes>): void
 	subscribe(options: ClassNameThemeStoreSubscribeOptions<Themes>): { disconnect: () => void }
 }
 
 function classNameThemeStoreForElement<Themes extends ThemeMap>(
 	element: Element,
 ): ClassNameThemeStore<Themes> {
-	function get(options: ClassNameThemeStoreGetOptions<Themes>): keyof Themes | undefined {
+	function get(options: ThemeStoreGetOptions<Themes>): keyof Themes | undefined {
 		const className = element.className
 		const theme = findKey(options.themes, (theme) => {
 			const value: string | readonly string[] | undefined = options.themes[theme]
@@ -35,10 +25,10 @@ function classNameThemeStoreForElement<Themes extends ThemeMap>(
 			const v = Array.isArray(value) ? value[0] : value
 			return !!v && className.includes(v)
 		})
-		return theme ?? options.defaultTheme
+		return theme ?? options.theme
 	}
 
-	function set(options: ClassNameThemeStoreSetOptions<Themes>): void {
+	function set(options: ThemeStoreSetOptions<Themes>): void {
 		const theme = options.theme
 		if (!theme) return
 
@@ -64,7 +54,7 @@ function classNameThemeStoreForElement<Themes extends ThemeMap>(
 			{
 				class: (value: string | null) => {
 					if (value === null) {
-						options.handler(options.defaultTheme as string | undefined)
+						options.handler(options.theme as string | undefined)
 						return
 					}
 					for (const name in options.themes) {
@@ -77,7 +67,7 @@ function classNameThemeStoreForElement<Themes extends ThemeMap>(
 							return
 						}
 					}
-					options.handler(options.defaultTheme as string | undefined)
+					options.handler(options.theme as string | undefined)
 				},
 			},
 			element,
@@ -97,7 +87,7 @@ const storeCache = new WeakMap<Element, ClassNameThemeStore<any>>()
  *
  * The returned store provides `get`, `set`, and `subscribe` that operate on the
  * given element (or document.documentElement when omitted). Callers pass `themes`
- * and optional `defaultTheme` / `theme` when calling get/set/subscribe.
+ * and optional `theme` (fallback) when calling get/set/subscribe.
  *
  * @param element - Element to read/write class names on (defaults to document.documentElement)
  * @returns A store object with get, set, and subscribe
@@ -105,9 +95,9 @@ const storeCache = new WeakMap<Element, ClassNameThemeStore<any>>()
  * @example
  * ```ts
  * const store = classNameThemeStore()
- * const theme = store.get({ themes: { light: 'theme-light', dark: 'theme-dark' }, defaultTheme: 'light' })
+ * const theme = store.get({ themes: { light: 'theme-light', dark: 'theme-dark' }, theme: 'light' })
  * store.set({ themes, theme: 'dark' })
- * const observer = store.subscribe({ themes, defaultTheme: 'light', handler: (t) => console.log(t) })
+ * const observer = store.subscribe({ themes, theme: 'light', handler: (t) => console.log(t) })
  * observer.disconnect()
  * ```
  */

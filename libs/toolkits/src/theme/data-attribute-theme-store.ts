@@ -1,29 +1,23 @@
 import { findKey } from 'type-plus'
 import { getDataAttribute } from '../attributes/get-data-attribute.ts'
 import { observeDataAttributes } from '../attributes/observe-data-attribute.ts'
-import type { ThemeMap } from './theme.types.ts'
+import type { ThemeMap, ThemeStoreGetOptions, ThemeStoreSetOptions } from './theme.types.ts'
 
-export type DataAttributeThemeStoreGetOptions<Themes extends ThemeMap> = {
-	themes: Themes
-	defaultTheme?: keyof Themes | undefined
-	allowCustom?: boolean | undefined
-}
-
-export type DataAttributeThemeStoreSetOptions<Themes extends ThemeMap> = {
-	themes: Themes
-	theme: keyof Themes
-}
+export type DataAttributeThemeStoreGetOptions<Themes extends ThemeMap> =
+	ThemeStoreGetOptions<Themes> & {
+		allowCustom?: boolean | undefined
+	}
 
 export type DataAttributeThemeStoreSubscribeOptions<Themes extends ThemeMap> = {
 	themes: Themes
-	defaultTheme?: string | undefined
+	theme?: string | undefined
 	allowCustom?: true | undefined
 	handler: (value: string | null) => void
 }
 
 export type DataAttributeThemeStore<Themes extends ThemeMap> = {
 	get(options: DataAttributeThemeStoreGetOptions<Themes>): keyof Themes | string | undefined
-	set(options: DataAttributeThemeStoreSetOptions<Themes>): void
+	set(options: ThemeStoreSetOptions<Themes>): void
 	subscribe(options: DataAttributeThemeStoreSubscribeOptions<Themes>): { disconnect: () => void }
 }
 
@@ -36,10 +30,10 @@ function dataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 	): keyof Themes | string | undefined {
 		const value = getDataAttribute(attributeName, element) ?? undefined
 		const theme = findKey(options.themes, (theme) => options.themes[theme] === value)
-		return theme ?? options.defaultTheme ?? (options.allowCustom ? value : undefined)
+		return theme ?? options.theme ?? (options.allowCustom ? value : undefined)
 	}
 
-	function set(options: DataAttributeThemeStoreSetOptions<Themes>): void {
+	function set(options: ThemeStoreSetOptions<Themes>): void {
 		const theme = options.theme
 		if (!theme || !(theme in options.themes)) {
 			element.removeAttribute(attributeName)
@@ -61,7 +55,7 @@ function dataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 			{
 				[attributeName]: (value: string | null) => {
 					if (value === null) {
-						options.handler(options.defaultTheme ?? null)
+						options.handler(options.theme ?? null)
 						return
 					}
 					for (const name in options.themes) {
@@ -101,9 +95,9 @@ const elementStores = new WeakMap<Element, Map<string, DataAttributeThemeStore<a
  * @example
  * ```ts
  * const store = dataAttributeThemeStore('data-theme')
- * const theme = store.get({ themes: { light: 'light', dark: 'dark' }, defaultTheme: 'light' })
+ * const theme = store.get({ themes: { light: 'light', dark: 'dark' }, theme: 'light' })
  * store.set({ themes, theme: 'dark' })
- * const observer = store.subscribe({ themes, defaultTheme: 'light', handler: (t) => console.log(t) })
+ * const observer = store.subscribe({ themes, theme: 'light', handler: (t) => console.log(t) })
  * observer.disconnect()
  * ```
  */

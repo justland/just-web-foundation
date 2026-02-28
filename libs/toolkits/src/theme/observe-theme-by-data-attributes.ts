@@ -7,7 +7,7 @@ import type { ThemeMap } from './theme.types.ts'
  * @param options - Configuration options
  * @param options.themes - Record mapping theme keys to their data attribute values
  * @param options.handler - Callback function called with the new theme value or null when removed
- * @param options.defaultTheme - Fallback theme key if attribute value doesn't match any theme
+ * @param options.theme - Fallback theme key if attribute value doesn't match any theme
  * @param options.attributeName - Name of the data attribute to observe (must start with 'data-')
  * @returns An object with disconnect() to stop observing
  *
@@ -22,7 +22,7 @@ import type { ThemeMap } from './theme.types.ts'
  * const observer = observeThemeByDataAttributes({
  *   themes,
  *   handler: (theme) => console.log('Theme changed to:', theme),
- *   defaultTheme: 'light',
+ *   theme: 'light',
  *   attributeName: 'data-theme'
  * })
  *
@@ -35,13 +35,13 @@ export function observeThemeByDataAttributes<Themes extends ThemeMap>(options: {
 	themes: Themes
 	handler: (value: string | null) => void
 	allowCustom?: true | undefined
-	defaultTheme?: string | undefined
+	theme?: string | undefined
 	element?: Element | undefined
 }): { disconnect: () => void } {
 	const store = dataAttributeThemeStore<Themes>(options.attributeName, options.element)
 	return store.subscribe({
 		themes: options.themes,
-		defaultTheme: options.defaultTheme,
+		theme: options.theme,
 		allowCustom: options.allowCustom,
 		handler: options.handler,
 	})

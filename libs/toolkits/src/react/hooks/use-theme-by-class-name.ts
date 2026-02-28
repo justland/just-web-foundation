@@ -10,14 +10,14 @@ import type { ThemeMap } from '../../theme/theme.types.ts'
  *
  * @param options - Configuration options
  * @param options.themes - Record mapping theme keys to their class name values
- * @param options.defaultTheme - Fallback theme key when no matching class is found
+ * @param options.theme - Fallback theme key when no matching class is found
  * @param options.element - Element to read/set theme on (defaults to document.documentElement)
  * @returns Tuple of [currentTheme, setTheme]
  *
  * @example
  * ```tsx
  * const themes = { light: 'theme-light', dark: 'theme-dark' }
- * const [theme, setTheme] = useThemeByClassName({ themes, defaultTheme: 'light' })
+ * const [theme, setTheme] = useThemeByClassName({ themes, theme: 'light' })
  *
  * return (
  *   <>
@@ -30,7 +30,7 @@ import type { ThemeMap } from '../../theme/theme.types.ts'
  */
 export function useThemeByClassName<Themes extends ThemeMap>(options: {
 	themes: Themes
-	defaultTheme?: keyof Themes | undefined
+	theme?: keyof Themes | undefined
 	element?: Element | undefined
 }): [keyof Themes | undefined, (theme: keyof Themes) => void] {
 	const element =
@@ -38,16 +38,14 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 
 	const [theme, setThemeState] = useState<keyof Themes | undefined>(() =>
 		element
-			? getThemeByClassName({ themes: options.themes, defaultTheme: options.defaultTheme, element })
-			: options.defaultTheme,
+			? getThemeByClassName({ themes: options.themes, theme: options.theme, element })
+			: options.theme,
 	)
 
 	useEffect(() => {
 		if (!element) return
 
-		setThemeState(
-			getThemeByClassName({ themes: options.themes, defaultTheme: options.defaultTheme, element }),
-		)
+		setThemeState(getThemeByClassName({ themes: options.themes, theme: options.theme, element }))
 
 		const observer = observeAttributes(
 			{
@@ -55,7 +53,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 					setThemeState(
 						getThemeByClassName({
 							themes: options.themes,
-							defaultTheme: options.defaultTheme,
+							theme: options.theme,
 							element,
 						}),
 					)
@@ -64,7 +62,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 			element,
 		)
 		return () => observer.disconnect()
-	}, [element, options.themes, options.defaultTheme])
+	}, [element, options.themes, options.theme])
 
 	const setTheme = useCallback(
 		(themeKey: keyof Themes) => {

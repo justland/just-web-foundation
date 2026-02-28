@@ -33,14 +33,14 @@ const ATTR = 'data-theme-cs' as const
 function StoreGetDemo({
 	attributeName,
 	themes: themesOption,
-	defaultTheme,
+	theme: themeFallback,
 }: {
 	attributeName: `data-${string}`
 	themes: typeof themes
-	defaultTheme?: keyof typeof themes
+	theme?: keyof typeof themes
 }) {
 	const store = dataAttributeThemeStore<typeof themes>(attributeName)
-	const result = store.get({ themes: themesOption, defaultTheme })
+	const result = store.get({ themes: themesOption, theme: themeFallback })
 	return (
 		<ThemeResultCard
 			title="store.get() result"
@@ -73,7 +73,7 @@ export const BasicUsage: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes: { default: 'text-white', grayscale: 'text-gray-100' }, theme: 'default' })
-				const theme = store.get({ themes, defaultTheme: 'default' })
+				const theme = store.get({ themes, theme: 'default' })
 			`,
 		}),
 	],
@@ -85,7 +85,7 @@ export const BasicUsage: Story = {
 		},
 	],
 	render: (_, { loaded: { attributeName } }) => {
-		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
+		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: default')
@@ -112,8 +112,8 @@ export const GetWithDefault: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>store.get(&#123; themes, defaultTheme: &#39;grayscale&#39; &#125;)</code> returns
-					grayscale when the attribute is not set.
+					<code>store.get(&#123; themes, theme: &#39;grayscale&#39; &#125;)</code> returns grayscale
+					when the attribute is not set.
 				</p>
 			),
 		}),
@@ -122,13 +122,13 @@ export const GetWithDefault: Story = {
 				const store = dataAttributeThemeStore('data-theme')
 				const theme = store.get({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					defaultTheme: 'grayscale',
+					theme: 'grayscale',
 				})
 			`,
 		}),
 	],
 	render: (_, { loaded: { attributeName } }) => {
-		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="grayscale" />
+		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="grayscale" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -158,12 +158,12 @@ export const SetThenGet: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes, theme: 'grayscale' })
-				const theme = store.get({ themes, defaultTheme: 'default' })
+				const theme = store.get({ themes, theme: 'default' })
 			`,
 		}),
 	],
 	render: (_, { loaded: { attributeName } }) => {
-		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
+		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -174,11 +174,11 @@ export const SetThenGet: Story = {
 function StoreSubscribeDemo({
 	attributeName,
 	themes: themesOption,
-	defaultTheme,
+	theme: themeFallback,
 }: {
 	attributeName: `data-${string}`
 	themes: typeof themes
-	defaultTheme?: keyof typeof themes
+	theme?: keyof typeof themes
 }) {
 	const [result, setResult] = useState<string | null | undefined>(undefined)
 
@@ -186,11 +186,11 @@ function StoreSubscribeDemo({
 		const store = dataAttributeThemeStore<typeof themes>(attributeName)
 		const observer = store.subscribe({
 			themes: themesOption,
-			defaultTheme,
+			theme: themeFallback,
 			handler: setResult,
 		})
 		return () => observer.disconnect()
-	}, [attributeName, defaultTheme, themesOption])
+	}, [attributeName, themeFallback, themesOption])
 
 	return (
 		<ThemeResultCard
@@ -228,7 +228,7 @@ export const Subscribe: Story = {
 				const store = dataAttributeThemeStore('data-theme')
 				const observer = store.subscribe({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					defaultTheme: 'default',
+					theme: 'default',
 					handler: (theme) => console.log('Theme:', theme),
 				})
 				observer.disconnect()
@@ -236,9 +236,7 @@ export const Subscribe: Story = {
 		}),
 	],
 	render: (_, { loaded: { attributeName } }) => {
-		return (
-			<StoreSubscribeDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
-		)
+		return <StoreSubscribeDemo attributeName={attributeName} themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		const store = dataAttributeThemeStore<typeof themes>(ATTR)

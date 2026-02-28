@@ -42,7 +42,7 @@ export const BasicUsage: Story = {
 			source: dedent`
 				getThemeByClassName({
 				  themes: { light: 'light', dark: 'dark' },
-				  defaultTheme: 'dark',
+				  theme: 'dark',
 				})
 			`,
 		}),
@@ -53,7 +53,7 @@ export const BasicUsage: Story = {
 		useEffect(() => {
 			const theme = getThemeByClassName({
 				themes: { light: 'light', dark: 'dark' },
-				defaultTheme: 'dark',
+				theme: 'dark',
 			})
 			setCurrentTheme(theme)
 		}, [])
@@ -105,7 +105,7 @@ export const DefaultTheme: Story = {
 		showSource({
 			source: dedent`
 				document.documentElement.classList.remove('light', 'dark')
-				getThemeByClassName({ themes, defaultTheme: 'dark' })
+				getThemeByClassName({ themes, theme: 'dark' })
 			`,
 		}),
 	],
@@ -114,7 +114,7 @@ export const DefaultTheme: Story = {
 			document.documentElement.classList.remove('light', 'dark')
 			const theme = getThemeByClassName({
 				themes,
-				defaultTheme: 'dark',
+				theme: 'dark',
 			})
 			return { theme }
 		},
@@ -148,7 +148,7 @@ export const CustomElement: Story = {
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`getThemeByClassName({ themes, defaultTheme: 'dark', element: myElement })`,
+			source: dedent`getThemeByClassName({ themes, theme: 'dark', element: myElement })`,
 		}),
 	],
 	render: () => {
@@ -213,7 +213,7 @@ export const InvalidTheme: Story = {
 			source: dedent`
 				getThemeByClassName({
 					themes: { light: 'not-exist-theme-light', dark: 'not-exist-theme-dark' },
-					defaultTheme: 'dark',
+					theme: 'dark',
 				})
 			`,
 		}),
@@ -224,7 +224,7 @@ export const InvalidTheme: Story = {
 				light: 'not-exist-theme-light',
 				dark: 'not-exist-theme-dark',
 			},
-			defaultTheme: 'dark',
+			theme: 'dark',
 		})
 		return (
 			<div className="flex flex-col gap-4">

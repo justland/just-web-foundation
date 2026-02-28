@@ -6,10 +6,10 @@ import type { ThemeMap } from './theme.types.ts'
  *
  * @param options - Configuration options
  * @param options.themes - Record mapping theme keys to their data attribute values
- * @param options.defaultTheme - Fallback theme key if attribute value doesn't match any theme
+ * @param options.theme - Fallback theme key if attribute value doesn't match any theme
  * @param options.attributeName - Name of the data attribute to check (must start with 'data-')
  * @param options.allowCustom - Whether to allow custom themes value
- * @returns The matching theme key, or defaultTheme if no match found
+ * @returns The matching theme key, or options.theme if no match found
  *
  * @example
  * ```ts
@@ -22,35 +22,35 @@ import type { ThemeMap } from './theme.types.ts'
  * // Get theme from data-theme attribute
  * const theme = getThemeByDataAttribute({
  *   themes,
- *   defaultTheme: 'system',
+ *   theme: 'system',
  *   attributeName: 'data-theme'
  * })
  * ```
  */
 export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
-	defaultTheme?: keyof Themes | undefined
+	theme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
 }): keyof Themes | undefined
 export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
 	allowCustom: true
-	defaultTheme?: keyof Themes | undefined
+	theme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
 }): string | undefined
 export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
 	allowCustom?: boolean | undefined
-	defaultTheme?: keyof Themes | undefined
+	theme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
 }): keyof Themes | string | undefined {
 	const store = dataAttributeThemeStore<Themes>(options.attributeName, options.element)
 	return store.get({
 		themes: options.themes,
-		defaultTheme: options.defaultTheme,
+		theme: options.theme,
 		allowCustom: options.allowCustom,
 	}) as keyof Themes | string | undefined
 }

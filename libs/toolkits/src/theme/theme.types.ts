@@ -16,6 +16,18 @@ export type ThemeStore<Themes extends ThemeMap> = {
 	subscribe?(handler: () => void): () => void
 }
 
+/** Options for store get(): themes map and optional fallback theme key. */
+export type ThemeStoreGetOptions<Themes extends ThemeMap> = {
+	themes: Themes
+	theme?: keyof Themes | undefined
+}
+
+/** Options for store set(): themes map and theme key to set. */
+export type ThemeStoreSetOptions<Themes extends ThemeMap> = {
+	themes: Themes
+	theme: keyof Themes
+}
+
 export type ThemeStorageOptions<Themes extends ThemeMap = ThemeMap> = {
 	storageKey: string
 	themes: Themes

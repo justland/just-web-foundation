@@ -30,13 +30,13 @@ const themes = {
 
 function StoreGetDemo({
 	themes: themesOption,
-	defaultTheme,
+	theme: themeFallback,
 }: {
 	themes: typeof themes
-	defaultTheme?: keyof typeof themes
+	theme?: keyof typeof themes
 }) {
 	const store = classNameThemeStore<typeof themes>()
-	const result = store.get({ themes: themesOption, defaultTheme })
+	const result = store.get({ themes: themesOption, theme: themeFallback })
 	return (
 		<ThemeResultCard
 			title="store.get() result"
@@ -59,7 +59,7 @@ export const BasicUsage: Story = {
 			source: dedent`
 				const store = classNameThemeStore()
 				store.set({ themes: { default: 'text-white', grayscale: 'text-gray-100' }, theme: 'default' })
-				const theme = store.get({ themes, defaultTheme: 'default' })
+				const theme = store.get({ themes, theme: 'default' })
 			`,
 		}),
 	],
@@ -71,7 +71,7 @@ export const BasicUsage: Story = {
 		},
 	],
 	render: () => {
-		return <StoreGetDemo themes={themes} defaultTheme="default" />
+		return <StoreGetDemo themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: default')
@@ -103,8 +103,8 @@ export const GetWithDefault: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>store.get(&#123; themes, defaultTheme: &#39;grayscale&#39; &#125;)</code> returns
-					grayscale when no theme class is present.
+					<code>store.get(&#123; themes, theme: &#39;grayscale&#39; &#125;)</code> returns grayscale
+					when no theme class is present.
 				</p>
 			),
 		}),
@@ -113,13 +113,13 @@ export const GetWithDefault: Story = {
 				const store = classNameThemeStore()
 				const theme = store.get({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					defaultTheme: 'grayscale',
+					theme: 'grayscale',
 				})
 			`,
 		}),
 	],
 	render: () => {
-		return <StoreGetDemo themes={themes} defaultTheme="grayscale" />
+		return <StoreGetDemo themes={themes} theme="grayscale" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -150,12 +150,12 @@ export const SetThenGet: Story = {
 			source: dedent`
 				const store = classNameThemeStore()
 				store.set({ themes, theme: 'grayscale' })
-				const theme = store.get({ themes, defaultTheme: 'default' })
+				const theme = store.get({ themes, theme: 'default' })
 			`,
 		}),
 	],
 	render: () => {
-		return <StoreGetDemo themes={themes} defaultTheme="default" />
+		return <StoreGetDemo themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -165,10 +165,10 @@ export const SetThenGet: Story = {
 
 function StoreSubscribeDemo({
 	themes: themesOption,
-	defaultTheme,
+	theme: themeFallback,
 }: {
 	themes: typeof themes
-	defaultTheme?: keyof typeof themes
+	theme?: keyof typeof themes
 }) {
 	const [result, setResult] = useState<string | undefined>(undefined)
 
@@ -176,11 +176,11 @@ function StoreSubscribeDemo({
 		const store = classNameThemeStore<typeof themes>()
 		const observer = store.subscribe({
 			themes: themesOption,
-			defaultTheme,
+			theme: themeFallback,
 			handler: setResult,
 		})
 		return () => observer.disconnect()
-	}, [defaultTheme, themesOption])
+	}, [themeFallback, themesOption])
 
 	return (
 		<ThemeResultCard
@@ -210,7 +210,7 @@ export const Subscribe: Story = {
 				const store = classNameThemeStore()
 				const observer = store.subscribe({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					defaultTheme: 'default',
+					theme: 'default',
 					handler: (theme) => console.log('Theme:', theme),
 				})
 				observer.disconnect()
@@ -218,7 +218,7 @@ export const Subscribe: Story = {
 		}),
 	],
 	render: () => {
-		return <StoreSubscribeDemo themes={themes} defaultTheme="default" />
+		return <StoreSubscribeDemo themes={themes} theme="default" />
 	},
 	play: async ({ canvas }) => {
 		const store = classNameThemeStore<typeof themes>()

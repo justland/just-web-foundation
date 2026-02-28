@@ -6,8 +6,8 @@ import type { ThemeMap } from './theme.types.ts'
  *
  * @param options - Configuration options
  * @param options.themes - Record mapping theme keys to their class name values
- * @param options.handler - Callback called with the current theme key or default when class is cleared
- * @param options.defaultTheme - Fallback theme key when no matching class is found
+ * @param options.handler - Callback called with the current theme key or options.theme when class is cleared
+ * @param options.theme - Fallback theme key when no matching class is found
  * @param options.element - Element to observe (defaults to document.documentElement)
  * @returns An object with disconnect() to stop observing
  *
@@ -16,7 +16,7 @@ import type { ThemeMap } from './theme.types.ts'
  * const observer = observeThemeByClassName({
  *   themes: { light: 'theme-light', dark: 'theme-dark' },
  *   handler: (theme) => console.log('Theme:', theme),
- *   defaultTheme: 'light',
+ *   theme: 'light',
  * })
  * observer.disconnect()
  * ```
@@ -24,13 +24,13 @@ import type { ThemeMap } from './theme.types.ts'
 export function observeThemeByClassName<Themes extends ThemeMap>(options: {
 	themes: Themes
 	handler: (value: string | undefined) => void
-	defaultTheme?: (keyof Themes | (string & {})) | undefined
+	theme?: (keyof Themes | (string & {})) | undefined
 	element?: Element | null | undefined
 }): { disconnect: () => void } {
 	const store = classNameThemeStore<Themes>(options.element)
 	return store.subscribe({
 		themes: options.themes,
-		defaultTheme: options.defaultTheme,
+		theme: options.theme,
 		handler: options.handler,
 	})
 }

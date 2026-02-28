@@ -182,11 +182,11 @@ export const WithDifferentAttributeValues: Story = {
 }
 
 export const WithDefaultTheme: Story = {
-	name: 'With defaultTheme',
+	name: 'With theme',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When attribute is removed, handler receives defaultTheme instead of null.',
+			story: 'When attribute is removed, handler receives options.theme instead of null.',
 		},
 	}),
 	decorators: [withStoryCard()],
@@ -198,7 +198,7 @@ export const WithDefaultTheme: Story = {
 				attributeName: ATTRIBUTE_NAME,
 				themes,
 				handler: () => {},
-				defaultTheme: 'light',
+				theme: 'light',
 			})
 			return () => observer.disconnect()
 		}, [])
