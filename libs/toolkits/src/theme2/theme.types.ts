@@ -1,6 +1,7 @@
+import type { ThemeMap } from './theme-map.types.ts'
 import type { ThemeResult } from './theme-result.types.ts'
 
-export type ThemeMap<Theme extends string = string> = Record<Theme, string | readonly string[]>
+export type { ThemeMap } from './theme-map.types.ts'
 
 /**
  * Optional store methods. Data flow participation is inferred from which methods exist:

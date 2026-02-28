@@ -282,6 +282,148 @@ export const ElementCustom: Story = {
 	}
 }
 
+export const ThemeMapStringValue: Story = {
+	name: 'themeMap: string value',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be a single string per theme.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: <p>Each theme maps to one string value (attribute value).</p>
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: 'theme-grayscale',
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
+			`
+		})
+	],
+	loaders: [
+		() => {
+			const store = createStore()
+			store.set('current')
+			return {}
+		}
+	],
+	render: () => {
+		const store = createStore()
+		const result = store.get()
+		return (
+			<div className="flex flex-col gap-4">
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute('data-theme') ?? '(none)')
+							: ''}
+					</code>
+				</StoryCard>
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={result ?? { theme: 'current', value: themeMap.current }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+	}
+}
+
+const themeMapArray = {
+	current: 'theme-current',
+	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+	'high-contrast': 'theme-high-contrast'
+} as const
+
+function createStoreArray(options?: { element?: Element }) {
+	return dataAttributeThemeStore({
+		attributeName,
+		themeMap: themeMapArray,
+		...options
+	})
+}
+
+export const ThemeMapArrayValues: Story = {
+	name: 'themeMap: array values',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'themeMap values can be string[]. dataAttributeThemeStore uses only the first value for the attribute.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					With <code>string[]</code> values, only the first value is used for the data attribute.{' '}
+					<code>ThemeResult.value</code> remains the full array.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
+			`
+		})
+	],
+	loaders: [
+		() => {
+			const store = createStoreArray()
+			store.set('grayscale')
+			return {}
+		}
+	],
+	render: () => {
+		const store = createStoreArray()
+		const result = store.get()
+		return (
+			<div className="flex flex-col gap-4">
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute('data-theme') ?? '(none)')
+							: ''}
+					</code>
+				</StoryCard>
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+			'value: theme-grayscale, app:bg-gray-100'
+		)
+	}
+}
+
 export const Get: Story = {
 	name: 'get',
 	tags: ['props'],

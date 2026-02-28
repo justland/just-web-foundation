@@ -135,6 +135,133 @@ export const StorageKey: Story = {
 	}
 }
 
+const THEMEMAP_STORAGE_KEY = 'theme2-ls-thememap'
+
+export const ThemeMapStringValue: Story = {
+	name: 'themeMap: string value',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be a single string per theme.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: <p>Each theme maps to one string value.</p>
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: 'theme-grayscale',
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = localStorageThemeStore({
+					storageKey: 'theme',
+					themeMap,
+				})
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
+			const store = localStorageThemeStore<typeof themeMap>({
+				storageKey: THEMEMAP_STORAGE_KEY,
+				themeMap
+			})
+			store.set('current')
+			return { store }
+		}
+	],
+	render: (_, { loaded: { store } }) => {
+		const result = store.get()
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={result ?? { theme: 'current', value: themeMap.current }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+	}
+}
+
+const themeMapArray = {
+	current: 'theme-current',
+	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+	'high-contrast': 'theme-high-contrast'
+} as const
+
+export const ThemeMapArrayValues: Story = {
+	name: 'themeMap: array values',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be string[]. Stored and retrieved value is the full array.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> persists the
+					full array.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = localStorageThemeStore({
+					storageKey: 'theme',
+					themeMap,
+				})
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
+			const store = localStorageThemeStore<typeof themeMapArray>({
+				storageKey: THEMEMAP_STORAGE_KEY,
+				themeMap: themeMapArray
+			})
+			store.set('grayscale')
+			return { store }
+		}
+	],
+	render: (_, { loaded: { store } }) => {
+		const result = store.get()
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+			'value: theme-grayscale, app:bg-gray-100'
+		)
+	}
+}
+
 export const Get: Story = {
 	name: 'get',
 	tags: ['props'],
@@ -183,7 +310,7 @@ export const Get: Story = {
 }
 
 export const GetWhenEmpty: Story = {
-	name: 'get: when storage empty returns undefined',
+	name: 'get: undefined',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
@@ -372,7 +499,7 @@ export const Subscribe: Story = {
 }
 
 export const SubscribeUnsubscribe: Story = {
-	name: 'subscribe: unsubscribe stops notifications',
+	name: 'subscribe: unsubscribe',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {

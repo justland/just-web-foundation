@@ -1,7 +1,6 @@
 import { tryParseJSON } from '../../_internal/utils/try-parse-json.ts'
-import type { ThemeResult } from '../theme.types.ts'
-
-export type ThemeMap<Theme extends string> = Record<Theme, string | readonly string[]>
+import type { ThemeMap } from '../theme-map.types.ts'
+import type { ThemeResult } from '../theme-result.types.ts'
 
 /**
  * Parses stored JSON theme and validates the theme key against theme map.

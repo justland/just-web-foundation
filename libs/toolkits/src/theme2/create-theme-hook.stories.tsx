@@ -90,6 +90,111 @@ export const Playground: Story = {
 	}
 }
 
+export const ThemeMapStringValue: Story = {
+	name: 'themeMap: string value',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be a single string per theme.'
+		},
+		source: {
+			code: dedent`
+				const themeMap = {
+					current: 'current',
+					grayscale: 'grayscale',
+					'high-contrast': 'high-contrast',
+				} as const
+
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(() => inMemoryThemeStore({ themeMap }), [])
+		const useTheme = useMemo(
+			() =>
+				createThemeHook({
+					stores: [store],
+					defaultTheme: 'current',
+					themeMap
+				}),
+			[store]
+		)
+
+		function Demo() {
+			const [theme] = useTheme()
+			return (
+				<StoryCard title="useTheme() with string themeMap" appearance="output">
+					<pre data-testid="current-theme" className="font-mono">
+						{theme ?? '(none)'}
+					</pre>
+				</StoryCard>
+			)
+		}
+		return <Demo />
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('current')
+	}
+}
+
+const themeMapArray = {
+	current: 'theme-current',
+	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+	'high-contrast': 'theme-high-contrast'
+} as const
+
+export const ThemeMapArrayValues: Story = {
+	name: 'themeMap: array values',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'themeMap values can be string[]. createThemeHook accepts both; theme keys work the same.'
+		},
+		source: {
+			code: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(() => inMemoryThemeStore({ themeMap: themeMapArray }), [])
+		const useTheme = useMemo(
+			() =>
+				createThemeHook({
+					stores: [store],
+					defaultTheme: 'current',
+					themeMap: themeMapArray
+				}),
+			[store]
+		)
+
+		function Demo() {
+			const [theme] = useTheme()
+			return (
+				<StoryCard title="useTheme() with array themeMap" appearance="output">
+					<pre data-testid="current-theme" className="font-mono">
+						{theme ?? '(none)'}
+					</pre>
+				</StoryCard>
+			)
+		}
+		return <Demo />
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('current')
+	}
+}
+
 export const StoryWithValue: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({

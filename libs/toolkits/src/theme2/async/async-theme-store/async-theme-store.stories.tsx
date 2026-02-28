@@ -113,6 +113,157 @@ export const OptionsStructure: Story = {
 	)
 }
 
+export const ThemeMapStringValue: Story = {
+	name: 'themeMap: string value',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be a single string per theme.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: <p>Each theme maps to one string value.</p>
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: 'theme-grayscale',
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = asyncThemeStore({
+					get: async () => wrote,
+					set: async (theme) => { wrote = themeResult(theme, themeMap); notify?.(wrote) },
+					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
+				})
+			`
+		})
+	],
+	render: () => {
+		const wroteRef = useRef<ThemeResult<typeof themeMap>>(themeResult('current', themeMap))
+		const notifyRef = useRef<
+			((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+		>(undefined)
+		const store = useMemo(
+			() =>
+				asyncThemeStore<typeof themeMap>({
+					get: () => wroteRef.current,
+					set: async (theme) => {
+						wroteRef.current = themeResult(theme, themeMap)
+						notifyRef.current?.(wroteRef.current)
+					},
+					subscribe: (handler) => {
+						notifyRef.current = handler
+						handler(wroteRef.current)
+						return () => (notifyRef.current = undefined)
+					}
+				}),
+			[]
+		)
+		const result = store.get?.()
+		const displayResult =
+			result && typeof result === 'object' && 'theme' in result ? result : wroteRef.current
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={displayResult}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+	}
+}
+
+const themeMapArray = {
+	current: 'theme-current',
+	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+	'high-contrast': 'theme-high-contrast'
+} as const
+
+export const ThemeMapArrayValues: Story = {
+	name: 'themeMap: array values',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'themeMap values can be string[]. ThemeResult.value can be the full array.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> is the full
+					array.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const themeMap = {
+					current: 'theme-current',
+					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
+					'high-contrast': 'theme-high-contrast',
+				} as const
+
+				const store = asyncThemeStore({
+					get: async () => wrote,
+					set: async (theme) => { wrote = themeResult(theme, themeMap); notify?.(wrote) },
+					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
+				})
+			`
+		})
+	],
+	render: () => {
+		const wroteRef = useRef<ThemeResult<typeof themeMapArray>>(
+			themeResult('grayscale', themeMapArray)
+		)
+		const notifyRef = useRef<
+			((v: ThemeResult<typeof themeMapArray> | undefined | null) => void) | undefined
+		>(undefined)
+		const store = useMemo(
+			() =>
+				asyncThemeStore<typeof themeMapArray>({
+					get: () => wroteRef.current,
+					set: async (theme) => {
+						wroteRef.current = themeResult(theme, themeMapArray)
+						notifyRef.current?.(wroteRef.current)
+					},
+					subscribe: (handler) => {
+						notifyRef.current = handler
+						handler(wroteRef.current)
+						return () => (notifyRef.current = undefined)
+					}
+				}),
+			[]
+		)
+		const result = store.get?.()
+		const displayResult =
+			result && typeof result === 'object' && 'theme' in result ? result : wroteRef.current
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.get() result"
+					data-testid="store-get-result"
+					result={displayResult}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+			'value: theme-grayscale, app:bg-gray-100'
+		)
+	}
+}
+
 export const Get: Story = {
 	name: 'get',
 	tags: ['props'],
@@ -156,7 +307,7 @@ export const Get: Story = {
 }
 
 export const GetWhenEmpty: Story = {
-	name: 'get: when store is empty returns undefined',
+	name: 'get: undefined',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
@@ -387,7 +538,7 @@ export const Subscribe: Story = {
 }
 
 export const SubscribeUnsubscribe: Story = {
-	name: 'subscribe: unsubscribe stops notifications',
+	name: 'subscribe: unsubscribe',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {

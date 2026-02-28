@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { MDXBadges } from 'storybook-addon-tag-badges/manager-helpers'
+import ThemeMapStoriesMeta from './theme-map.stories'
+
+<Meta title="theme2/ThemeMap" />
+
+# ThemeMap <MDXBadges of={ThemeMapStoriesMeta} />
+
+Record mapping theme keys to their values. Each value can be a single string or `readonly string[]` (e.g. multiple CSS classes). Used by all ThemeStore factories via the `themeMap` option.
+
+## Value types
+
+- **String value** – One string per theme (most common case).
+- **Array value** – `readonly string[]` for multiple tokens (e.g. multiple CSS classes). `classNameThemeStore` applies all; `dataAttributeThemeStore` uses first only.
+- **Mixed** – A `themeMap` can mix string and `string[]` values.
+
+## See also
+
+themeMap stories in:
+
+- [inMemoryThemeStore](?path=/story/theme2-in-memory-inmemorythemestore--theme-map-string-value)
+- [localStorageThemeStore](?path=/story/theme2-local-storage-localstoragethemestore--theme-map-string-value)
+- [sessionStorageThemeStore](?path=/story/theme2-session-storage-sessionstoragethemestore--theme-map-string-value)
+- [classNameThemeStore](?path=/story/theme2-class-name-classnamethemestore--theme-map-string-value)
+- [dataAttributeThemeStore](?path=/story/theme2-data-attribute-dataattributethemestore--theme-map-string-value)
+- [asyncThemeStore](?path=/story/theme2-async-asyncthemestore--theme-map-string-value)
+- [createThemeHook](?path=/story/theme2-createthemehook--theme-map-string-value)

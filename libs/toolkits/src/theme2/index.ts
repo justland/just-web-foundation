@@ -11,8 +11,8 @@ export { setThemeToStores } from './set-theme-to-stores.ts'
 export type {
 	AsyncThemeStore,
 	StoreEntry,
-	ThemeMap,
 	ThemeStore
 } from './theme.types.ts'
+export type { ThemeMap } from './theme-map.types.ts'
 export { themeResult } from './theme-result.ts'
 export type { ThemeResult } from './theme-result.types.ts'

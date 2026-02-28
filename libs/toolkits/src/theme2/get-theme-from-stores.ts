@@ -1,4 +1,5 @@
-import type { StoreEntry, ThemeMap, ThemeResult } from './theme.types.ts'
+import type { StoreEntry, ThemeMap } from './theme.types.ts'
+import type { ThemeResult } from './theme-result.types.ts'
 
 type StoreWithGet<Themes extends ThemeMap> = StoreEntry<Themes> & {
 	get: () =>
