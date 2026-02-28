@@ -23,18 +23,15 @@ export const BasicUsage: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Basic Usage (default base: 16px)</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Basic Usage (default base: 16px)</h3>
+				<div className="space-y-2">
 					{examples.map(({ input, expected }) => (
-						<div
-							key={input}
-							className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
-						>
-							<code className="jwtk:text-sm">rem2px({input})</code>
+						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+							<code className="text-sm">rem2px({input})</code>
 							<span>→</span>
-							<code className="jwtk:text-sm jwtk:font-mono">{rem2px(input)}px</code>
-							<span className="jwtk:text-gray-500 jwtk:text-sm">(expected: {expected}px)</span>
+							<code className="text-sm font-mono">{rem2px(input)}px</code>
+							<span className="text-gray-500 text-sm">(expected: {expected}px)</span>
 						</div>
 					))}
 				</div>
@@ -53,18 +50,15 @@ export const StringInput: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">String Input</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">String Input</h3>
+				<div className="space-y-2">
 					{examples.map(({ input, expected }) => (
-						<div
-							key={input}
-							className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
-						>
-							<code className="jwtk:text-sm">rem2px('{input}')</code>
+						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+							<code className="text-sm">rem2px('{input}')</code>
 							<span>→</span>
-							<code className="jwtk:text-sm jwtk:font-mono">{rem2px(input)}px</code>
-							<span className="jwtk:text-gray-500 jwtk:text-sm">(expected: {expected}px)</span>
+							<code className="text-sm font-mono">{rem2px(input)}px</code>
+							<span className="text-gray-500 text-sm">(expected: {expected}px)</span>
 						</div>
 					))}
 				</div>
@@ -83,18 +77,15 @@ export const CustomBase: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Custom Base (20px)</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Custom Base (20px)</h3>
+				<div className="space-y-2">
 					{examples.map(({ input, base, expected }) => (
-						<div
-							key={input}
-							className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
-						>
-							<code className="jwtk:text-sm">{`rem2px(${input}, { base: ${base} })`}</code>
+						<div key={input} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+							<code className="text-sm">{`rem2px(${input}, { base: ${base} })`}</code>
 							<span>→</span>
-							<code className="jwtk:text-sm jwtk:font-mono">{rem2px(input, { base })}px</code>
-							<span className="jwtk:text-gray-500 jwtk:text-sm">(expected: {expected}px)</span>
+							<code className="text-sm font-mono">{rem2px(input, { base })}px</code>
+							<span className="text-gray-500 text-sm">(expected: {expected}px)</span>
 						</div>
 					))}
 				</div>
@@ -109,17 +100,14 @@ export const CustomPrecision: Story = {
 		const precisions = [0, 1, 2, 3, 4, 6]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Custom Precision (0.8125rem × 16px)</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Custom Precision (0.8125rem × 16px)</h3>
+				<div className="space-y-2">
 					{precisions.map((precision) => (
-						<div
-							key={precision}
-							className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
-						>
-							<code className="jwtk:text-sm">{`rem2px(${input}, { precision: ${precision} })`}</code>
+						<div key={precision} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+							<code className="text-sm">{`rem2px(${input}, { precision: ${precision} })`}</code>
 							<span>→</span>
-							<code className="jwtk:text-sm jwtk:font-mono">{rem2px(input, { precision })}px</code>
+							<code className="text-sm font-mono">{rem2px(input, { precision })}px</code>
 						</div>
 					))}
 				</div>
@@ -138,19 +126,19 @@ export const AllOptions: Story = {
 		]
 
 		return (
-			<div className="jwtk:space-y-4">
-				<h3 className="jwtk:text-lg jwtk:font-semibold">Custom Base and Precision</h3>
-				<div className="jwtk:space-y-2">
+			<div className="space-y-4">
+				<h3 className="text-lg font-semibold">Custom Base and Precision</h3>
+				<div className="space-y-2">
 					{examples.map(({ input, base, precision }) => (
 						<div
 							key={`${input}-${base}-${precision}`}
-							className="jwtk:flex jwtk:items-center jwtk:space-x-4 jwtk:p-2 jwtk:bg-gray-50 dark:jwtk:bg-gray-800 jwtk:rounded"
+							className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-gray-800 rounded"
 						>
-							<code className="jwtk:text-sm">
+							<code className="text-sm">
 								{`rem2px(${typeof input === 'string' ? `'${input}'` : input}, { base: ${base}, precision: ${precision} })`}
 							</code>
 							<span>→</span>
-							<code className="jwtk:text-sm jwtk:font-mono">{rem2px(input, { base, precision })}px</code>
+							<code className="text-sm font-mono">{rem2px(input, { base, precision })}px</code>
 						</div>
 					))}
 				</div>

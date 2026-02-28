@@ -25,7 +25,7 @@ export const Example: StoryObj = {
 				return <div className={className}>{children}</div>
 			}
 
-			export default () => <MyComponent className="jwtk:text-blue-800">Hello in blue</MyComponent>`,
+			export default () => <MyComponent className="text-blue-800">Hello in blue</MyComponent>`,
 		},
 	}),
 }

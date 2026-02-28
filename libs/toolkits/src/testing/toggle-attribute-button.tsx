@@ -23,7 +23,7 @@ export const ToggleAttributeButton = forwardRef<HTMLElement, { attribute: string
 		return (
 			<Button
 				key={attribute}
-				className="jwtk:bg-cyan-700 jwtk:text-white jwtk:px-4 jwtk:py-2 jwtk:rounded-md jwtk:shadow-md active:jwtk:bg-cyan-800"
+				className="bg-cyan-700 text-white px-4 py-2 rounded-md shadow-md active:bg-cyan-800"
 				onClick={() => handleAttributeChange(attribute)}
 			>
 				Toggle {attribute}
