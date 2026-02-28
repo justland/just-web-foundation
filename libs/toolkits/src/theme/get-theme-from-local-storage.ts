@@ -1,4 +1,4 @@
-import { createLocalStorageThemeStore } from './create-local-storage-theme-store.ts'
+import { localStorageThemeStore } from './local-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -32,7 +32,7 @@ export function getThemeFromLocalStorage<Themes extends ThemeMap>(
 			value: Themes[keyof Themes]
 	  }
 	| undefined {
-	const store = createLocalStorageThemeStore<Themes>(options.storageKey)
+	const store = localStorageThemeStore<Themes>(options.storageKey)
 	return store.get({
 		themes: options.themes,
 		theme: options.theme,

@@ -1,4 +1,4 @@
-import { createDataAttributeThemeStore } from './create-data-attribute-theme-store.ts'
+import { dataAttributeThemeStore } from './data-attribute-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -38,7 +38,7 @@ export function observeThemeByDataAttributes<Themes extends ThemeMap>(options: {
 	defaultTheme?: string | undefined
 	element?: Element | undefined
 }): { disconnect: () => void } {
-	const store = createDataAttributeThemeStore<Themes>(options.attributeName, options.element)
+	const store = dataAttributeThemeStore<Themes>(options.attributeName, options.element)
 	return store.subscribe({
 		themes: options.themes,
 		defaultTheme: options.defaultTheme,

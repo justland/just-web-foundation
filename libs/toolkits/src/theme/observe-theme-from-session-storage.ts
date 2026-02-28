@@ -1,4 +1,4 @@
-import { createSessionStorageThemeStore } from './create-session-storage-theme-store.ts'
+import { sessionStorageThemeStore } from './session-storage-theme-store.ts'
 import type { ThemeMap, ThemeResult, ThemeStorageOptions } from './theme.types.ts'
 
 export type ObserveThemeFromSessionStorageResult<Themes extends ThemeMap> = ThemeResult<Themes>
@@ -33,7 +33,7 @@ export function observeThemeFromSessionStorage<Themes extends ThemeMap>(
 		handler: (result: ObserveThemeFromSessionStorageResult<Themes>) => void
 	},
 ): { disconnect: () => void } {
-	const store = createSessionStorageThemeStore<Themes>(options.storageKey)
+	const store = sessionStorageThemeStore<Themes>(options.storageKey)
 	return store.subscribe({
 		themes: options.themes,
 		theme: options.theme,

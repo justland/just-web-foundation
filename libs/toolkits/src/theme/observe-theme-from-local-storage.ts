@@ -1,4 +1,4 @@
-import { createLocalStorageThemeStore } from './create-local-storage-theme-store.ts'
+import { localStorageThemeStore } from './local-storage-theme-store.ts'
 import type { ThemeMap, ThemeResult, ThemeStorageOptions } from './theme.types.ts'
 
 export type ObserveThemeFromLocalStorageResult<Themes extends ThemeMap> = ThemeResult<Themes>
@@ -33,7 +33,7 @@ export function observeThemeFromLocalStorage<Themes extends ThemeMap>(
 		handler: (result: ObserveThemeFromLocalStorageResult<Themes>) => void
 	},
 ): { disconnect: () => void } {
-	const store = createLocalStorageThemeStore<Themes>(options.storageKey)
+	const store = localStorageThemeStore<Themes>(options.storageKey)
 	return store.subscribe({
 		themes: options.themes,
 		theme: options.theme,

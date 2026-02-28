@@ -1,4 +1,4 @@
-import { createSessionStorageThemeStore } from './create-session-storage-theme-store.ts'
+import { sessionStorageThemeStore } from './session-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -32,7 +32,7 @@ export function getThemeFromSessionStorage<Themes extends ThemeMap>(
 			value: Themes[keyof Themes]
 	  }
 	| undefined {
-	const store = createSessionStorageThemeStore<Themes>(options.storageKey)
+	const store = sessionStorageThemeStore<Themes>(options.storageKey)
 	return store.get({
 		themes: options.themes,
 		theme: options.theme,

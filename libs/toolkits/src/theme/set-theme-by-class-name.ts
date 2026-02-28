@@ -1,4 +1,4 @@
-import { createClassNameThemeStore } from './create-class-name-theme-store.ts'
+import { classNameThemeStore } from './class-name-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -38,7 +38,7 @@ export function setThemeByClassName<Themes extends ThemeMap>(options: {
 	theme: keyof Themes
 	element?: Element | null | undefined
 }): void {
-	const store = createClassNameThemeStore<Themes>(options.element)
+	const store = classNameThemeStore<Themes>(options.element)
 	store.set({
 		themes: options.themes,
 		theme: options.theme,

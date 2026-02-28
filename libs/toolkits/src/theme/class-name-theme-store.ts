@@ -24,7 +24,7 @@ export type ClassNameThemeStore<Themes extends ThemeMap> = {
 	subscribe(options: ClassNameThemeStoreSubscribeOptions<Themes>): { disconnect: () => void }
 }
 
-function createClassNameThemeStoreForElement<Themes extends ThemeMap>(
+function classNameThemeStoreForElement<Themes extends ThemeMap>(
 	element: Element,
 ): ClassNameThemeStore<Themes> {
 	function get(options: ClassNameThemeStoreGetOptions<Themes>): keyof Themes | undefined {
@@ -77,7 +77,7 @@ function createClassNameThemeStoreForElement<Themes extends ThemeMap>(
 							return
 						}
 					}
-					options.handler(options.defaultTheme as keyof Themes | undefined)
+					options.handler(options.defaultTheme as string | undefined)
 				},
 			},
 			element,
@@ -90,10 +90,10 @@ function createClassNameThemeStoreForElement<Themes extends ThemeMap>(
 	return { get, set, subscribe }
 }
 
-const storeCache = new WeakMap<Element, ClassNameThemeStore<ThemeMap>>()
+const storeCache = new WeakMap<Element, ClassNameThemeStore<any>>()
 
 /**
- * Creates a theme store that reads and writes theme via element class names.
+ * Theme store that reads and writes theme via element class names.
  *
  * The returned store provides `get`, `set`, and `subscribe` that operate on the
  * given element (or document.documentElement when omitted). Callers pass `themes`
@@ -104,14 +104,14 @@ const storeCache = new WeakMap<Element, ClassNameThemeStore<ThemeMap>>()
  *
  * @example
  * ```ts
- * const store = createClassNameThemeStore()
+ * const store = classNameThemeStore()
  * const theme = store.get({ themes: { light: 'theme-light', dark: 'theme-dark' }, defaultTheme: 'light' })
  * store.set({ themes, theme: 'dark' })
  * const observer = store.subscribe({ themes, defaultTheme: 'light', handler: (t) => console.log(t) })
  * observer.disconnect()
  * ```
  */
-export function createClassNameThemeStore<Themes extends ThemeMap>(
+export function classNameThemeStore<Themes extends ThemeMap>(
 	element?: Element | null | undefined,
 ): ClassNameThemeStore<Themes> {
 	const el = element ?? (typeof document !== 'undefined' ? document.documentElement : null)
@@ -122,9 +122,9 @@ export function createClassNameThemeStore<Themes extends ThemeMap>(
 			subscribe: () => ({ disconnect: () => {} }),
 		}
 	}
-	let store = storeCache.get(el) as ClassNameThemeStore<Themes> | undefined
+	let store = storeCache.get(el)
 	if (store) return store
-	store = createClassNameThemeStoreForElement<Themes>(el)
-	storeCache.set(el, store as ClassNameThemeStore<ThemeMap>)
+	store = classNameThemeStoreForElement<Themes>(el)
+	storeCache.set(el, store)
 	return store
 }

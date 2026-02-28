@@ -21,7 +21,7 @@ export type SessionStorageThemeStore<Themes extends ThemeMap> = {
 }
 
 /**
- * Creates a theme store backed by sessionStorage for a fixed storage key.
+ * Theme store backed by sessionStorage for a fixed storage key.
  *
  * The returned store provides `get`, `set`, and `subscribe` that use the given
  * `storageKey`. Callers pass `themes` and optional `theme` (default) when calling
@@ -32,7 +32,7 @@ export type SessionStorageThemeStore<Themes extends ThemeMap> = {
  *
  * @example
  * ```ts
- * const store = createSessionStorageThemeStore('app-theme')
+ * const store = sessionStorageThemeStore('app-theme')
  * const result = store.get({ themes: { light: 'theme-light', dark: 'theme-dark' }, theme: 'light' })
  * store.set({ themes, theme: 'dark' })
  * const observer = store.subscribe({ themes, theme: 'light', handler: (r) => console.log(r) })
@@ -41,7 +41,7 @@ export type SessionStorageThemeStore<Themes extends ThemeMap> = {
  */
 const storeCache = new Map<string, SessionStorageThemeStore<ThemeMap>>()
 
-export function createSessionStorageThemeStore<Themes extends ThemeMap>(
+export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	storageKey: string,
 ): SessionStorageThemeStore<Themes> {
 	let store = storeCache.get(storageKey) as SessionStorageThemeStore<Themes> | undefined

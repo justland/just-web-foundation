@@ -3,17 +3,17 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
 import { expect } from 'storybook/test'
-import { createSessionStorageThemeStore } from '#just-web/toolkits'
+import { dataAttributeThemeStore } from '#just-web/toolkits'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
-import source from './create-session-storage-theme-store.ts?raw'
+import source from './data-attribute-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme/createSessionStorageThemeStore',
+	title: 'theme/dataAttributeThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Creates a theme store backed by sessionStorage for a fixed storage key. The store provides get, set, and subscribe that use the given key. Callers pass themes and optional default theme when calling get/set/subscribe.',
+				'Theme store that reads and writes theme via a data attribute on an element. The store provides get, set, and subscribe for the given attribute name and element.',
 		},
 	}),
 	render: () => <></>,
@@ -28,24 +28,35 @@ const themes = {
 	grayscale: 'text-gray-100',
 } as const
 
-const STORAGE_KEY_BASIC = 'cs-ss-theme-basic'
-const STORAGE_KEY_GET = 'cs-ss-theme-get'
-const STORAGE_KEY_SET = 'cs-ss-theme-set'
-const STORAGE_KEY_SUBSCRIBE = 'cs-ss-theme-subscribe'
+const ATTR = 'data-theme-cs' as const
 
 function StoreGetDemo({
-	storageKey,
+	attributeName,
 	themes: themesOption,
-	theme: defaultTheme,
+	defaultTheme,
 }: {
-	storageKey: string
+	attributeName: `data-${string}`
 	themes: typeof themes
-	theme?: keyof typeof themes
+	defaultTheme?: keyof typeof themes
 }) {
-	const store = createSessionStorageThemeStore<typeof themes>(storageKey)
-	const result = store.get({ themes: themesOption, theme: defaultTheme })
+	const store = dataAttributeThemeStore<typeof themes>(attributeName)
+	const result = store.get({ themes: themesOption, defaultTheme })
 	return (
-		<ThemeResultCard title="store.get() result" data-testid="store-get-result" result={result} />
+		<ThemeResultCard
+			title="store.get() result"
+			data-testid="store-get-result"
+			result={
+				result !== undefined
+					? {
+							theme: String(result),
+							value:
+								result in themesOption
+									? themesOption[result as keyof typeof themes]
+									: String(result),
+						}
+					: undefined
+			}
+		/>
 	)
 }
 
@@ -53,28 +64,28 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Create a store with a storage key, set a theme, then get and display the result.',
+			story: 'Create a store with an attribute name, set a theme, then get and display the result.',
 		},
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = createSessionStorageThemeStore('app-theme')
+				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes: { default: 'text-white', grayscale: 'text-gray-100' }, theme: 'default' })
-				const result = store.get({ themes, theme: 'default' })
+				const theme = store.get({ themes, defaultTheme: 'default' })
 			`,
 		}),
 	],
 	loaders: [
 		() => {
-			const store = createSessionStorageThemeStore<typeof themes>(STORAGE_KEY_BASIC)
+			const store = dataAttributeThemeStore<typeof themes>(ATTR)
 			store.set({ themes, theme: 'default' })
-			return { storageKey: STORAGE_KEY_BASIC }
+			return { attributeName: ATTR }
 		},
 	],
-	render: (_, { loaded: { storageKey } }) => {
-		return <StoreGetDemo storageKey={storageKey} themes={themes} theme="default" />
+	render: (_, { loaded: { attributeName } }) => {
+		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: default')
@@ -88,37 +99,36 @@ export const GetWithDefault: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When nothing is stored at the key, store.get() returns the default theme from options.',
+				'When the attribute is missing or does not match a theme, store.get() returns the default theme from options.',
 		},
 	}),
 	loaders: [
 		() => {
-			const store = createSessionStorageThemeStore<typeof themes>(STORAGE_KEY_GET)
-			store.set({ themes, theme: null })
-			return { storageKey: STORAGE_KEY_GET }
+			document.documentElement.removeAttribute(ATTR)
+			return { attributeName: ATTR }
 		},
 	],
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					<code>store.get(&#123; themes, theme: &#39;grayscale&#39; &#125;)</code> returns grayscale
-					when storage is empty.
+					<code>store.get(&#123; themes, defaultTheme: &#39;grayscale&#39; &#125;)</code> returns
+					grayscale when the attribute is not set.
 				</p>
 			),
 		}),
 		showSource({
 			source: dedent`
-				const store = createSessionStorageThemeStore('theme-get')
-				const result = store.get({
+				const store = dataAttributeThemeStore('data-theme')
+				const theme = store.get({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					theme: 'grayscale',
+					defaultTheme: 'grayscale',
 				})
 			`,
 		}),
 	],
-	render: (_, { loaded: { storageKey } }) => {
-		return <StoreGetDemo storageKey={storageKey} themes={themes} theme="grayscale" />
+	render: (_, { loaded: { attributeName } }) => {
+		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="grayscale" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -131,29 +141,29 @@ export const SetThenGet: Story = {
 	tags: ['use-case'],
 	loaders: [
 		() => {
-			const store = createSessionStorageThemeStore<typeof themes>(STORAGE_KEY_SET)
+			const store = dataAttributeThemeStore<typeof themes>(ATTR)
 			store.set({ themes, theme: 'grayscale' })
-			return { storageKey: STORAGE_KEY_SET }
+			return { attributeName: ATTR }
 		},
 	],
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					<code>store.set()</code> persists the theme; <code>store.get()</code> reads it back.
+					<code>store.set()</code> writes the attribute; <code>store.get()</code> reads it back.
 				</p>
 			),
 		}),
 		showSource({
 			source: dedent`
-				const store = createSessionStorageThemeStore('theme-set')
+				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes, theme: 'grayscale' })
-				const result = store.get({ themes, theme: 'default' })
+				const theme = store.get({ themes, defaultTheme: 'default' })
 			`,
 		}),
 	],
-	render: (_, { loaded: { storageKey } }) => {
-		return <StoreGetDemo storageKey={storageKey} themes={themes} theme="default" />
+	render: (_, { loaded: { attributeName } }) => {
+		return <StoreGetDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
@@ -162,33 +172,38 @@ export const SetThenGet: Story = {
 }
 
 function StoreSubscribeDemo({
-	storageKey,
+	attributeName,
 	themes: themesOption,
-	theme: defaultTheme,
+	defaultTheme,
 }: {
-	storageKey: string
+	attributeName: `data-${string}`
 	themes: typeof themes
-	theme?: keyof typeof themes
+	defaultTheme?: keyof typeof themes
 }) {
-	const [result, setResult] = useState<
-		{ theme: string; value: string | readonly string[] } | undefined
-	>(undefined)
+	const [result, setResult] = useState<string | null | undefined>(undefined)
 
 	useEffect(() => {
-		const store = createSessionStorageThemeStore<typeof themes>(storageKey)
+		const store = dataAttributeThemeStore<typeof themes>(attributeName)
 		const observer = store.subscribe({
 			themes: themesOption,
-			theme: defaultTheme,
+			defaultTheme,
 			handler: setResult,
 		})
 		return () => observer.disconnect()
-	}, [storageKey, defaultTheme, themesOption])
+	}, [attributeName, defaultTheme, themesOption])
 
 	return (
 		<ThemeResultCard
 			title="store.subscribe() handler"
 			data-testid="store-subscribe-result"
-			result={result}
+			result={
+				result != null
+					? {
+							theme: result,
+							value: result in themesOption ? themesOption[result as keyof typeof themes] : result,
+						}
+					: undefined
+			}
 		/>
 	)
 }
@@ -198,51 +213,53 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler once with the current theme and when the storage key changes in another tab.',
+				'store.subscribe() calls the handler once with the current theme and when the attribute changes.',
 		},
 	}),
 	loaders: [
 		() => {
-			const store = createSessionStorageThemeStore<typeof themes>(STORAGE_KEY_SUBSCRIBE)
+			const store = dataAttributeThemeStore<typeof themes>(ATTR)
 			store.set({ themes, theme: 'grayscale' })
-			return { storageKey: STORAGE_KEY_SUBSCRIBE }
+			return { attributeName: ATTR }
 		},
 	],
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = createSessionStorageThemeStore('theme-observe')
+				const store = dataAttributeThemeStore('data-theme')
 				const observer = store.subscribe({
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-					theme: 'default',
-					handler: (result) => console.log('Theme:', result?.theme, result?.value),
+					defaultTheme: 'default',
+					handler: (theme) => console.log('Theme:', theme),
 				})
 				observer.disconnect()
 			`,
 		}),
 	],
-	render: (_, { loaded: { storageKey } }) => {
-		return <StoreSubscribeDemo storageKey={storageKey} themes={themes} theme="default" />
+	render: (_, { loaded: { attributeName } }) => {
+		return (
+			<StoreSubscribeDemo attributeName={attributeName} themes={themes} defaultTheme="default" />
+		)
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('theme: grayscale')
 	},
 }
 
-export const SameKeyReturnsCachedStore: Story = {
-	name: 'same key returns cached store',
+export const SameAttributeReturnsCachedStore: Story = {
+	name: 'same attribute returns cached store',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Calling createSessionStorageThemeStore with the same key returns the same store instance.',
+				'Calling dataAttributeThemeStore with the same attribute name (and no element) returns the same store instance.',
 		},
 	}),
 	loaders: [
 		() => {
-			const store1 = createSessionStorageThemeStore<typeof themes>('cs-ss-theme-cache')
-			const store2 = createSessionStorageThemeStore<typeof themes>('cs-ss-theme-cache')
+			const store1 = dataAttributeThemeStore<typeof themes>('data-theme-cache')
+			const store2 = dataAttributeThemeStore<typeof themes>('data-theme-cache')
 			return { sameReference: store1 === store2 }
 		},
 	],
@@ -250,14 +267,15 @@ export const SameKeyReturnsCachedStore: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Two calls with the same <code>storageKey</code> return the same store (cached by key).
+					Two calls with the same <code>attributeName</code> (and default element) return the same
+					store.
 				</p>
 			),
 		}),
 		showSource({
 			source: dedent`
-				const store1 = createSessionStorageThemeStore('app-theme')
-				const store2 = createSessionStorageThemeStore('app-theme')
+				const store1 = dataAttributeThemeStore('data-theme')
+				const store2 = dataAttributeThemeStore('data-theme')
 				store1 === store2
 			`,
 		}),

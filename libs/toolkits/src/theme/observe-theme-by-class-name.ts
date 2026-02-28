@@ -1,4 +1,4 @@
-import { createClassNameThemeStore } from './create-class-name-theme-store.ts'
+import { classNameThemeStore } from './class-name-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -27,7 +27,7 @@ export function observeThemeByClassName<Themes extends ThemeMap>(options: {
 	defaultTheme?: (keyof Themes | (string & {})) | undefined
 	element?: Element | null | undefined
 }): { disconnect: () => void } {
-	const store = createClassNameThemeStore<Themes>(options.element)
+	const store = classNameThemeStore<Themes>(options.element)
 	return store.subscribe({
 		themes: options.themes,
 		defaultTheme: options.defaultTheme,

@@ -27,7 +27,7 @@ export type DataAttributeThemeStore<Themes extends ThemeMap> = {
 	subscribe(options: DataAttributeThemeStoreSubscribeOptions<Themes>): { disconnect: () => void }
 }
 
-function createDataAttributeThemeStoreForElement<Themes extends ThemeMap>(
+function dataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 	attributeName: `data-${string}`,
 	element: Element,
 ): DataAttributeThemeStore<Themes> {
@@ -85,11 +85,11 @@ function createDataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 	return { get, set, subscribe }
 }
 
-const defaultStores = new Map<string, DataAttributeThemeStore<ThemeMap>>()
-const elementStores = new WeakMap<Element, Map<string, DataAttributeThemeStore<ThemeMap>>>()
+const defaultStores = new Map<string, DataAttributeThemeStore<any>>()
+const elementStores = new WeakMap<Element, Map<string, DataAttributeThemeStore<any>>>()
 
 /**
- * Creates a theme store that reads and writes theme via a data attribute on an element.
+ * Theme store that reads and writes theme via a data attribute on an element.
  *
  * The returned store provides `get`, `set`, and `subscribe` for the given
  * attribute name and element (or document.documentElement when element is omitted).
@@ -100,14 +100,14 @@ const elementStores = new WeakMap<Element, Map<string, DataAttributeThemeStore<T
  *
  * @example
  * ```ts
- * const store = createDataAttributeThemeStore('data-theme')
+ * const store = dataAttributeThemeStore('data-theme')
  * const theme = store.get({ themes: { light: 'light', dark: 'dark' }, defaultTheme: 'light' })
  * store.set({ themes, theme: 'dark' })
  * const observer = store.subscribe({ themes, defaultTheme: 'light', handler: (t) => console.log(t) })
  * observer.disconnect()
  * ```
  */
-export function createDataAttributeThemeStore<Themes extends ThemeMap>(
+export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	attributeName: `data-${string}`,
 	element?: Element | null | undefined,
 ): DataAttributeThemeStore<Themes> {
@@ -122,8 +122,8 @@ export function createDataAttributeThemeStore<Themes extends ThemeMap>(
 	if (element == null) {
 		let store = defaultStores.get(attributeName) as DataAttributeThemeStore<Themes> | undefined
 		if (store) return store
-		store = createDataAttributeThemeStoreForElement<Themes>(attributeName, el)
-		defaultStores.set(attributeName, store as DataAttributeThemeStore<ThemeMap>)
+		store = dataAttributeThemeStoreForElement<Themes>(attributeName, el)
+		defaultStores.set(attributeName, store)
 		return store
 	}
 	let byAttr = elementStores.get(el)
@@ -133,7 +133,7 @@ export function createDataAttributeThemeStore<Themes extends ThemeMap>(
 	}
 	let store = byAttr.get(attributeName) as DataAttributeThemeStore<Themes> | undefined
 	if (store) return store
-	store = createDataAttributeThemeStoreForElement<Themes>(attributeName, el)
-	byAttr.set(attributeName, store as DataAttributeThemeStore<ThemeMap>)
+	store = dataAttributeThemeStoreForElement<Themes>(attributeName, el)
+	byAttr.set(attributeName, store)
 	return store
 }
