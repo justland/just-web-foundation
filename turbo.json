@@ -5,7 +5,7 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"inputs": ["*.ts", "*.tsx", "*.css", "package.json", "tsconfig*json"],
-			"outputs": ["cjs", "esm", "tokens.css", "*.tsbuildinfo"]
+			"outputs": ["cjs", "dist", "esm", "tokens.css", "*.tsbuildinfo"]
 		},
 		"build-doc": {
 			"dependsOn": ["^build"],
