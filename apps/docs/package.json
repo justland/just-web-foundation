@@ -11,7 +11,7 @@
 		"w": "vitest"
 	},
 	"devDependencies": {
-		"@repobuddy/storybook": "^2.1.2",
+		"@repobuddy/storybook": "^2.25.0",
 		"@repobuddy/vitest": "^2.1.1",
 		"@storybook-community/storybook-dark-mode": "^7.0.3",
 		"@storybook/addon-docs": "^10.1.10",
