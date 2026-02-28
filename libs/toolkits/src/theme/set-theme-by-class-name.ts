@@ -1,3 +1,4 @@
+import { createClassNameThemeStore } from './create-class-name-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -37,22 +38,9 @@ export function setThemeByClassName<Themes extends ThemeMap>(options: {
 	theme: keyof Themes
 	element?: Element | null | undefined
 }): void {
-	const element = options.element ?? document.documentElement
-	const theme = options.theme
-
-	if (!theme) return
-
-	const allThemeClasses = Object.values(options.themes).flatMap((v) =>
-		Array.isArray(v) ? [...v] : [v],
-	)
-	const current = element.className.trim()
-	const currentClasses = current ? current.split(/\s+/) : []
-	const withoutThemes = currentClasses.filter((c) => !allThemeClasses.includes(c))
-	const activeClasses =
-		theme in options.themes
-			? Array.isArray(options.themes[theme])
-				? [...(options.themes[theme] as readonly string[])]
-				: [options.themes[theme] as string]
-			: []
-	element.className = [...withoutThemes, ...activeClasses].filter(Boolean).join(' ')
+	const store = createClassNameThemeStore<Themes>(options.element)
+	store.set({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }

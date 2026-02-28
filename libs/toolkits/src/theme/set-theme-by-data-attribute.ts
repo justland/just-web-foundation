@@ -1,3 +1,4 @@
+import { createDataAttributeThemeStore } from './create-data-attribute-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -41,19 +42,9 @@ export function setThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	theme: keyof Themes
 	themes: Themes
 }): void {
-	const element = options.element ?? document.documentElement
-	const theme = options.theme
-
-	if (!theme || !(theme in options.themes)) {
-		element.removeAttribute(options.attributeName)
-		return
-	}
-
-	const value = options.themes[theme]
-	const attributeValue = Array.isArray(value) ? value[0] : value
-	if (attributeValue !== undefined && attributeValue !== '') {
-		element.setAttribute(options.attributeName, attributeValue)
-	} else {
-		element.removeAttribute(options.attributeName)
-	}
+	const store = createDataAttributeThemeStore<Themes>(options.attributeName, options.element)
+	store.set({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }

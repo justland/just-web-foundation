@@ -1,4 +1,4 @@
-import { findKey } from 'type-plus'
+import { createClassNameThemeStore } from './create-class-name-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -36,14 +36,9 @@ export function getThemeByClassName<Themes extends ThemeMap>(options: {
 	defaultTheme?: keyof Themes | undefined
 	element?: Element | null | undefined
 }): keyof Themes | undefined {
-	const element = options.element ?? document.documentElement
-	const className = element.className
-	const theme = findKey(options.themes, (theme) => {
-		const value: string | readonly string[] | undefined = options.themes[theme]
-		if (value === undefined) return false
-
-		const v = Array.isArray(value) ? value[0] : value
-		return !!v && className.includes(v)
+	const store = createClassNameThemeStore<Themes>(options.element)
+	return store.get({
+		themes: options.themes,
+		defaultTheme: options.defaultTheme,
 	})
-	return theme ?? options.defaultTheme
 }

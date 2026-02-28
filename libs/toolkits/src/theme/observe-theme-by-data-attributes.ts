@@ -1,4 +1,5 @@
-import { observeDataAttributes } from '../attributes/observe-data-attribute.ts'
+import { createDataAttributeThemeStore } from './create-data-attribute-theme-store.ts'
+import type { ThemeMap } from './theme.types.ts'
 
 /**
  * Observes changes to a theme data attribute and calls a handler when it changes.
@@ -8,7 +9,7 @@ import { observeDataAttributes } from '../attributes/observe-data-attribute.ts'
  * @param options.handler - Callback function called with the new theme value or null when removed
  * @param options.defaultTheme - Fallback theme key if attribute value doesn't match any theme
  * @param options.attributeName - Name of the data attribute to observe (must start with 'data-')
- * @returns A MutationObserver that can be disconnected to stop observing
+ * @returns An object with disconnect() to stop observing
  *
  * @example
  * ```ts
@@ -29,34 +30,19 @@ import { observeDataAttributes } from '../attributes/observe-data-attribute.ts'
  * observer.disconnect()
  * ```
  */
-export function observeThemeByDataAttributes<Themes extends Record<string, string>>(options: {
+export function observeThemeByDataAttributes<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
 	themes: Themes
 	handler: (value: string | null) => void
 	allowCustom?: true | undefined
 	defaultTheme?: string | undefined
 	element?: Element | undefined
-}): MutationObserver {
-	return observeDataAttributes(
-		{
-			[options.attributeName]: (value: string | null) => {
-				if (value === null) {
-					options.handler(options.defaultTheme ?? null)
-					return
-				}
-
-				for (const name in options.themes) {
-					if (options.themes[name] === value) {
-						options.handler(name)
-						return
-					}
-				}
-
-				if (options.allowCustom) {
-					options.handler(value)
-				}
-			},
-		},
-		options.element,
-	)
+}): { disconnect: () => void } {
+	const store = createDataAttributeThemeStore<Themes>(options.attributeName, options.element)
+	return store.subscribe({
+		themes: options.themes,
+		defaultTheme: options.defaultTheme,
+		allowCustom: options.allowCustom,
+		handler: options.handler,
+	})
 }

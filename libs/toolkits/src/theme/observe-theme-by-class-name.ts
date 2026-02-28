@@ -1,4 +1,4 @@
-import { observeAttributes } from '../attributes/observe-attribute.ts'
+import { createClassNameThemeStore } from './create-class-name-theme-store.ts'
 import type { ThemeMap } from './theme.types.ts'
 
 /**
@@ -9,7 +9,7 @@ import type { ThemeMap } from './theme.types.ts'
  * @param options.handler - Callback called with the current theme key or default when class is cleared
  * @param options.defaultTheme - Fallback theme key when no matching class is found
  * @param options.element - Element to observe (defaults to document.documentElement)
- * @returns The same return as observeAttributes (disconnect to stop observing)
+ * @returns An object with disconnect() to stop observing
  *
  * @example
  * ```ts
@@ -26,28 +26,11 @@ export function observeThemeByClassName<Themes extends ThemeMap>(options: {
 	handler: (value: string | undefined) => void
 	defaultTheme?: (keyof Themes | (string & {})) | undefined
 	element?: Element | null | undefined
-}) {
-	return observeAttributes(
-		{
-			class: (value: string | null) => {
-				if (value === null) {
-					options.handler(options.defaultTheme as string)
-					return
-				}
-
-				for (const name in options.themes) {
-					const themeValue = options.themes[name]
-					if (
-						themeValue &&
-						value.includes(Array.isArray(themeValue) ? themeValue[0] : themeValue)
-					) {
-						options.handler(name)
-						return
-					}
-				}
-				options.handler(options.defaultTheme as string)
-			},
-		},
-		options.element,
-	)
+}): { disconnect: () => void } {
+	const store = createClassNameThemeStore<Themes>(options.element)
+	return store.subscribe({
+		themes: options.themes,
+		defaultTheme: options.defaultTheme,
+		handler: options.handler,
+	})
 }

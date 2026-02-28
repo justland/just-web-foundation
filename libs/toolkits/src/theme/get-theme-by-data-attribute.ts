@@ -1,5 +1,5 @@
-import { findKey } from 'type-plus'
-import { getDataAttribute } from '../attributes/get-data-attribute.ts'
+import { createDataAttributeThemeStore } from './create-data-attribute-theme-store.ts'
+import type { ThemeMap } from './theme.types.ts'
 
 /**
  * Gets the theme based on a data attribute value.
@@ -27,28 +27,30 @@ import { getDataAttribute } from '../attributes/get-data-attribute.ts'
  * })
  * ```
  */
-export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
+export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
 	defaultTheme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
 }): keyof Themes | undefined
-export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
+export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
-	allowCustom: true | undefined
+	allowCustom: true
 	defaultTheme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
 }): string | undefined
-export function getThemeByDataAttribute<Themes extends Record<string, string>>(options: {
+export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	attributeName: `data-${string}`
 	allowCustom?: boolean | undefined
 	defaultTheme?: keyof Themes | undefined
 	themes: Themes
 	element?: Element | undefined
-}): keyof Themes | undefined {
-	const value = getDataAttribute(options.attributeName, options.element) ?? undefined
-	const theme = findKey(options.themes, (theme) => options.themes[theme] === value)
-
-	return theme ?? options.defaultTheme ?? (options.allowCustom ? value : undefined)
+}): keyof Themes | string | undefined {
+	const store = createDataAttributeThemeStore<Themes>(options.attributeName, options.element)
+	return store.get({
+		themes: options.themes,
+		defaultTheme: options.defaultTheme,
+		allowCustom: options.allowCustom,
+	}) as keyof Themes | string | undefined
 }
