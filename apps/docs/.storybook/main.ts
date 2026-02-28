@@ -1,5 +1,9 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
+import { fileURLToPath } from 'node:url'
 import type { StorybookConfig } from '@storybook/react-vite'
+import { getCodeEditorStaticDirs } from 'storybook-addon-code-editor/getStaticDirs'
+
+const __filename = fileURLToPath(import.meta.url)
 
 const config: StorybookConfig = {
 	stories: [
@@ -20,15 +24,22 @@ const config: StorybookConfig = {
 			files: 'src/**/*.@(mdx|stories.tsx)',
 		},
 	],
+	staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
 		'@storybook/addon-docs',
 		'@storybook/addon-themes',
 		'@storybook-community/storybook-dark-mode',
-		'@storybook/addon-vitest',
+		'storybook-addon-tag-badges',
+		'storybook-addon-code-editor',
 	],
 	framework: {
 		name: '@storybook/react-vite',
 		options: {},
+	},
+	tags: {
+		unit: {
+			defaultFilterSelection: 'exclude',
+		},
 	},
 }
 export default config

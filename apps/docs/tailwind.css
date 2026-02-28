@@ -1,8 +1,0 @@
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@source ".storybook/preview.tsx";
-@source "src/**";
-@source "../../libs/css/src/**";
-@source "../../libs/types/src/**";
