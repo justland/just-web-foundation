@@ -1,4 +1,4 @@
-import { tryParseJSON } from '../utils/try-parse-json.ts'
+import { tryParseJSON } from '../_internal/utils/try-parse-json.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
