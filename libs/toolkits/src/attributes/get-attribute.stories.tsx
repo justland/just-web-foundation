@@ -74,6 +74,7 @@ export const SpecificElement: Story = {
 			story: 'Gets an attribute value from a specific element',
 		},
 	}),
+	decorators: [withStoryCard()],
 	render(props) {
 		const element = document.createElement('div')
 		element.setAttribute(props.qualifiedName, 'test-value')
@@ -102,6 +103,7 @@ export const NonExistentAttribute: Story = {
 			story: 'Returns null when trying to get a non-existent attribute',
 		},
 	}),
+	decorators: [withStoryCard()],
 	render(props) {
 		const value = getAttribute(props.qualifiedName)
 		return (

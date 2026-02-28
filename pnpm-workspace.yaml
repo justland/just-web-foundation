@@ -12,7 +12,7 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
 
-minimumReleaseAge: 4320 # 3 days
+# minimumReleaseAge: 4320 # 3 days
 # minimumReleaseAgeExclude:
 #   - '@just-web/*'
 #   - '@repobuddy/storybook'
