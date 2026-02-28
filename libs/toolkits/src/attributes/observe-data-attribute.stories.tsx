@@ -10,7 +10,7 @@ import code from './observe-data-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	title: 'attributes/observeDataAttributes',
-	tags: ['func', 'autodocs', 'version:next'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'Observes changes to `data-*` attributes on an element and calls corresponding handlers.',

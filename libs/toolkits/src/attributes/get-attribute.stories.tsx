@@ -6,7 +6,7 @@ import code from './get-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>> = {
 	title: 'attributes/getAttribute',
-	tags: ['func', 'autodocs', 'version:next'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'A utility function to get attribute values from DOM element',
