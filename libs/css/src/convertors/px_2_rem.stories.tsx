@@ -272,7 +272,7 @@ export const AllOptions: Story = {
 			{ input: 18 as number | string, base: 18, precision: 2, expected: 1 },
 			{ input: 27, base: 18, precision: 3, expected: 1.5 },
 			{ input: '36px' as number | string, base: 18, precision: 1, expected: 2 },
-			{ input: 9, base: 18, precision: 0, expected: 0.5 },
+			{ input: 9, base: 18, precision: 0, expected: 1 },
 		]
 		for (const { input, base, precision, expected } of examples) {
 			await expect(px2rem(input, { base, precision })).toBe(expected)
