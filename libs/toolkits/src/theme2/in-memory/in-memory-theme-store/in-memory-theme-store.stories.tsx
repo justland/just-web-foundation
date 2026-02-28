@@ -51,7 +51,7 @@ export const Playground: Story = {
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
+		const store = inMemoryThemeStore({ themeMap })
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
@@ -85,7 +85,7 @@ export const ThemeMapOption: Story = {
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
+			const store = inMemoryThemeStore({ themeMap })
 			store.set('current')
 			return { store }
 		}
@@ -136,7 +136,7 @@ export const ThemeMapStringValue: Story = {
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
+			const store = inMemoryThemeStore({ themeMap })
 			store.set('current')
 			return { store }
 		}
@@ -242,7 +242,7 @@ export const Get: Story = {
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
+			const store = inMemoryThemeStore({ themeMap })
 			store.set('grayscale')
 			return { store }
 		}
@@ -281,7 +281,7 @@ export const GetWhenEmpty: Story = {
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
+		const store = inMemoryThemeStore({ themeMap })
 		const result = store.get()
 		return (
 			<ThemeResultCard
@@ -316,10 +316,10 @@ export const SetStory: Story = {
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>({ themeMap })
-		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
+		const store = inMemoryThemeStore({ themeMap })
+		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | undefined>(() => {
 			const r = store.get()
-			return r?.theme ?? null
+			return r?.theme
 		})
 
 		return (
@@ -378,11 +378,11 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>({ themeMap }), [])
+		const store = useMemo(() => inMemoryThemeStore({ themeMap }), [])
 		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => {
-			return store.subscribe!(setResult)
+			return store.subscribe(setResult)
 		}, [store])
 
 		const displayTheme = result?.theme ?? 'current'
@@ -439,16 +439,16 @@ export const SubscribeUnsubscribe: Story = {
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>({ themeMap }), [])
+		const store = useMemo(() => inMemoryThemeStore({ themeMap }), [])
 		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
-		const unsubRef = useRef<(() => void) | null>(null)
+		const unSubRef = useRef<(() => void) | null>(null)
 
 		useEffect(() => {
-			if (unsubRef.current) return
-			unsubRef.current = store.subscribe!(setResult)
+			if (unSubRef.current) return
+			unSubRef.current = store.subscribe!(setResult)
 			return () => {
-				unsubRef.current?.()
-				unsubRef.current = null
+				unSubRef.current?.()
+				unSubRef.current = null
 			}
 		}, [store])
 
@@ -465,8 +465,8 @@ export const SubscribeUnsubscribe: Story = {
 					<Button
 						data-testid="unsubscribe"
 						onClick={() => {
-							unsubRef.current?.()
-							unsubRef.current = null
+							unSubRef.current?.()
+							unSubRef.current = null
 						}}
 					>
 						unsubscribe()

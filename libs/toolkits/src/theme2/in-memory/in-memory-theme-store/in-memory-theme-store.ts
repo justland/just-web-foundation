@@ -47,7 +47,9 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(
 		subscribe(handler) {
 			listeners.add(handler)
 			handler(get())
-			return () => listeners.delete(handler)
+			return () => {
+				listeners.delete(handler)
+			}
 		}
 	} satisfies ThemeStore<Themes>
 }
