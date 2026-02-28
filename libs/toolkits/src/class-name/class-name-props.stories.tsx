@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
 import * as toolkits from '#just-web/toolkits'
-import code from './class-name.editor.src.tsx?raw'
-import source from './class-name.ts?raw'
+import code from './class-name-props.editor.src.tsx?raw'
+import source from './class-name-props.ts?raw'
 
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
