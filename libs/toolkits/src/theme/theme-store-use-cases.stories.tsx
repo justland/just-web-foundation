@@ -151,3 +151,64 @@ export const WithReactContext: Story = {
 		await expect(got?.theme).toBe('grayscale')
 	},
 }
+
+// --- Mock Backend API use case (simulated delay, no real HTTP) ---
+function createMockBackendStore(
+	initial: ThemeResult<typeof themes>,
+	delayMs = 50,
+): ThemeStore<typeof themes> {
+	let value = initial
+	const listeners: Array<() => void> = []
+	return {
+		get() {
+			return new Promise<ThemeResult<typeof themes>>((resolve) => {
+				setTimeout(() => resolve(value), delayMs)
+			})
+		},
+		set(result) {
+			return new Promise<void>((resolve) => {
+				setTimeout(() => {
+					value = result
+					for (const fn of listeners) fn()
+					resolve()
+				}, delayMs)
+			})
+		},
+		subscribe(handler) {
+			listeners.push(handler)
+			return () => {
+				const i = listeners.indexOf(handler)
+				if (i !== -1) listeners.splice(i, 1)
+			}
+		},
+	}
+}
+
+export const WithMockBackend: Story = {
+	tags: ['use-case'],
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Theme store that simulates a backend API with async get/set and a short delay. No real
+					HTTP; same pattern would work with axios or fetch.
+				</p>
+			),
+		}),
+		showSource({
+			source: dedent`
+				const store = createMockBackendStore(undefined, 50)
+				const result = await getThemeFromStore({ store, themes, theme: 'default' })
+				await setThemeToStore({ store, themes, theme: 'grayscale' })
+			`,
+		}),
+	],
+	play: async () => {
+		const store = createMockBackendStore(undefined, 10)
+		const result = await getThemeFromStore({ store, themes, theme: 'default' })
+		await expect(result?.theme).toBe('default')
+		await setThemeToStore({ store, themes, theme: 'grayscale' })
+		const after = await getThemeFromStore({ store, themes, theme: 'default' })
+		await expect(after?.theme).toBe('grayscale')
+	},
+}
