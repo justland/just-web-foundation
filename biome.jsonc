@@ -18,6 +18,11 @@
 			"!**/vitest.config.*.timestamp*"
 		]
 	},
+	"javascript": {
+		"formatter": {
+			// "trailingCommas": "none"
+		}
+	},
 	"overrides": [
 		{
 			// Disable rules that are not applicable to storybook and testing files
