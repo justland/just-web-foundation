@@ -29,7 +29,7 @@ export interface Properties<TLength = 0 | (string & {}), TTime = string & {}>
  * ```
  */
 export function defineProperties<TLength = 0 | (string & {}), TTime = string & {}>(
-	style: Properties<TLength, TTime>,
+	style: Properties<TLength, TTime>
 ) {
 	return style as Properties
 }

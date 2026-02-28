@@ -28,7 +28,7 @@ export type ObserveThemeFromStoreOptions<Themes extends ThemeMap> = {
  * ```
  */
 export function observeThemeFromStore<Themes extends ThemeMap>(
-	options: ObserveThemeFromStoreOptions<Themes>,
+	options: ObserveThemeFromStoreOptions<Themes>
 ): { disconnect: () => void } {
 	const { store, themes, theme, handler } = options
 
@@ -41,6 +41,6 @@ export function observeThemeFromStore<Themes extends ThemeMap>(
 	const unsubscribe = store.subscribe?.(notify)
 
 	return {
-		disconnect: () => unsubscribe?.(),
+		disconnect: () => unsubscribe?.()
 	}
 }

@@ -45,6 +45,6 @@ export function setThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	const store = dataAttributeThemeStore<Themes>(options.attributeName, options.element)
 	store.set({
 		themes: options.themes,
-		theme: options.theme,
+		theme: options.theme
 	})
 }

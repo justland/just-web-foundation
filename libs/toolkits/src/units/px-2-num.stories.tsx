@@ -11,10 +11,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Converts pixel values to numbers. Accepts a number or string (e.g. "16px" or "16") and returns the numeric value.',
-		},
+				'Converts pixel values to numbers. Accepts a number or string (e.g. "16px" or "16") and returns the numeric value.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -25,8 +25,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Convert numeric pixel values; number input is returned as-is.',
-		},
+			story: 'Convert numeric pixel values; number input is returned as-is.'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -36,7 +36,7 @@ export const BasicUsage: Story = {
 						<code>px2num(px)</code> returns the numeric value. Number input is passed through.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -44,23 +44,22 @@ export const BasicUsage: Story = {
 				px2num(32)  // 32
 				px2num(8)   // 8
 				px2num(24)  // 24
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
 			{ input: 16, expected: 16 },
 			{ input: 32, expected: 32 },
 			{ input: 8, expected: 8 },
-			{ input: 24, expected: 24 },
+			{ input: 24, expected: 24 }
 		]
 		return (
 			<StoryCard title="Basic usage (number input)" appearance="output">
 				<pre className="text-sm">
 					{examples
 						.map(
-							({ input, expected }) =>
-								`px2num(${input}) → ${px2num(input)} (expected: ${expected})`,
+							({ input, expected }) => `px2num(${input}) → ${px2num(input)} (expected: ${expected})`
 						)
 						.join('\n')}
 				</pre>
@@ -72,20 +71,20 @@ export const BasicUsage: Story = {
 			{ input: 16, expected: 16 },
 			{ input: 32, expected: 32 },
 			{ input: 8, expected: 8 },
-			{ input: 24, expected: 24 },
+			{ input: 24, expected: 24 }
 		]
 		for (const { input, expected } of examples) {
 			await expect(px2num(input)).toBe(expected)
 		}
-	},
+	}
 }
 
 export const StringInput: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'String inputs like "16px" or "16" are parsed to numbers.',
-		},
+			story: 'String inputs like "16px" or "16" are parsed to numbers.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -95,15 +94,15 @@ export const StringInput: Story = {
 				px2num('32px')  // 32
 				px2num('24')    // 24
 				px2num('8.5px') // 8.5
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
 			{ input: '16px', expected: 16 },
 			{ input: '32px', expected: 32 },
 			{ input: '24', expected: 24 },
-			{ input: '8.5px', expected: 8.5 },
+			{ input: '8.5px', expected: 8.5 }
 		]
 		return (
 			<StoryCard title="String input" appearance="output">
@@ -111,7 +110,7 @@ export const StringInput: Story = {
 					{examples
 						.map(
 							({ input, expected }) =>
-								`px2num('${input}') → ${px2num(input)} (expected: ${expected})`,
+								`px2num('${input}') → ${px2num(input)} (expected: ${expected})`
 						)
 						.join('\n')}
 				</pre>
@@ -123,20 +122,20 @@ export const StringInput: Story = {
 			{ input: '16px', expected: 16 },
 			{ input: '32px', expected: 32 },
 			{ input: '24', expected: 24 },
-			{ input: '8.5px', expected: 8.5 },
+			{ input: '8.5px', expected: 8.5 }
 		]
 		for (const { input, expected } of examples) {
 			await expect(px2num(input)).toBe(expected)
 		}
-	},
+	}
 }
 
 export const DecimalValues: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Decimal pixel values are parsed correctly.',
-		},
+			story: 'Decimal pixel values are parsed correctly.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -146,15 +145,15 @@ export const DecimalValues: Story = {
 				px2num('0.5px')    // 0.5
 				px2num('1.75px')   // 1.75
 				px2num('100.25px') // 100.25
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
 			{ input: '12.5px', expected: 12.5 },
 			{ input: '0.5px', expected: 0.5 },
 			{ input: '1.75px', expected: 1.75 },
-			{ input: '100.25px', expected: 100.25 },
+			{ input: '100.25px', expected: 100.25 }
 		]
 		return (
 			<StoryCard title="Decimal values" appearance="output">
@@ -162,7 +161,7 @@ export const DecimalValues: Story = {
 					{examples
 						.map(
 							({ input, expected }) =>
-								`px2num('${input}') → ${px2num(input)} (expected: ${expected})`,
+								`px2num('${input}') → ${px2num(input)} (expected: ${expected})`
 						)
 						.join('\n')}
 				</pre>
@@ -174,20 +173,20 @@ export const DecimalValues: Story = {
 			{ input: '12.5px', expected: 12.5 },
 			{ input: '0.5px', expected: 0.5 },
 			{ input: '1.75px', expected: 1.75 },
-			{ input: '100.25px', expected: 100.25 },
+			{ input: '100.25px', expected: 100.25 }
 		]
 		for (const { input, expected } of examples) {
 			await expect(px2num(input)).toBe(expected)
 		}
-	},
+	}
 }
 
 export const EdgeCases: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Edge cases: zero, one, and large values.',
-		},
+			story: 'Edge cases: zero, one, and large values.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -199,8 +198,8 @@ export const EdgeCases: Story = {
 				px2num(1)       // 1
 				px2num('1000px') // 1000
 				px2num(1000)    // 1000
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
@@ -209,7 +208,7 @@ export const EdgeCases: Story = {
 			{ input: '1px', expected: 1 },
 			{ input: 1, expected: 1 },
 			{ input: '1000px', expected: 1000 },
-			{ input: 1000, expected: 1000 },
+			{ input: 1000, expected: 1000 }
 		]
 		return (
 			<StoryCard title="Edge cases" appearance="output">
@@ -218,7 +217,7 @@ export const EdgeCases: Story = {
 						.map(({ input, expected }) =>
 							typeof input === 'string'
 								? `px2num('${input}') → ${px2num(input)} (expected: ${expected})`
-								: `px2num(${input}) → ${px2num(input)} (expected: ${expected})`,
+								: `px2num(${input}) → ${px2num(input)} (expected: ${expected})`
 						)
 						.join('\n')}
 				</pre>
@@ -232,20 +231,20 @@ export const EdgeCases: Story = {
 			{ input: '1px' as number | string, expected: 1 },
 			{ input: 1, expected: 1 },
 			{ input: '1000px' as number | string, expected: 1000 },
-			{ input: 1000, expected: 1000 },
+			{ input: 1000, expected: 1000 }
 		]
 		for (const { input, expected } of examples) {
 			await expect(px2num(input)).toBe(expected)
 		}
-	},
+	}
 }
 
 export const SameResultFromNumberOrString: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Number and string inputs both produce the same numeric result.',
-		},
+			story: 'Number and string inputs both produce the same numeric result.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -256,8 +255,8 @@ export const SameResultFromNumberOrString: Story = {
 				px2num('16')    // 16  (string without px)
 				px2num(32.5)    // 32.5
 				px2num('32.5px') // 32.5
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
@@ -265,7 +264,7 @@ export const SameResultFromNumberOrString: Story = {
 			{ input: '16px', description: 'String with px suffix', expected: 16 },
 			{ input: '16', description: 'String without px suffix', expected: 16 },
 			{ input: 32.5, description: 'Decimal number', expected: 32.5 },
-			{ input: '32.5px', description: 'Decimal string with px', expected: 32.5 },
+			{ input: '32.5px', description: 'Decimal string with px', expected: 32.5 }
 		]
 		return (
 			<StoryCard title="Same result from number or string" appearance="output">
@@ -273,7 +272,7 @@ export const SameResultFromNumberOrString: Story = {
 					{examples
 						.map(
 							({ input, description }) =>
-								`px2num(${typeof input === 'string' ? `'${input}'` : input}) → ${px2num(input)} (${description})`,
+								`px2num(${typeof input === 'string' ? `'${input}'` : input}) → ${px2num(input)} (${description})`
 						)
 						.join('\n')}
 				</pre>
@@ -286,20 +285,20 @@ export const SameResultFromNumberOrString: Story = {
 			{ input: '16px', expected: 16 },
 			{ input: '16', expected: 16 },
 			{ input: 32.5, expected: 32.5 },
-			{ input: '32.5px', expected: 32.5 },
+			{ input: '32.5px', expected: 32.5 }
 		]
 		for (const { input, expected } of examples) {
 			await expect(px2num(input)).toBe(expected)
 		}
-	},
+	}
 }
 
 export const Validation: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Validation and edge cases: empty string, non-numeric, double px, whitespace, case.',
-		},
+			story: 'Validation and edge cases: empty string, non-numeric, double px, whitespace, case.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -310,8 +309,8 @@ export const Validation: Story = {
 				px2num('16pxpx')  // 16
 				px2num(' 16px ')  // 16
 				px2num('16PX')    // 16
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const testCases = [
@@ -320,7 +319,7 @@ export const Validation: Story = {
 			{ input: 'abc', expected: Number.NaN, description: 'Non-numeric string' },
 			{ input: '16pxpx', expected: 16, description: 'Double px suffix' },
 			{ input: ' 16px ', expected: 16, description: 'Whitespace around value' },
-			{ input: '16PX', expected: 16, description: 'Uppercase PX' },
+			{ input: '16PX', expected: 16, description: 'Uppercase PX' }
 		]
 		return (
 			<StoryCard title="Validation & edge cases" appearance="output">
@@ -344,7 +343,7 @@ export const Validation: Story = {
 		await expect(px2num('16pxpx')).toBe(16)
 		await expect(px2num(' 16px ')).toBe(16)
 		await expect(px2num('16PX')).toBe(16)
-	},
+	}
 }
 
 export const TypeValidation: Story = {
@@ -352,8 +351,8 @@ export const TypeValidation: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Behavior with invalid types (null, undefined, boolean, etc.).',
-		},
+			story: 'Behavior with invalid types (null, undefined, boolean, etc.).'
+		}
 	}),
 	decorators: [withStoryCard()],
 	render() {
@@ -361,7 +360,7 @@ export const TypeValidation: Story = {
 			{ input: null, description: 'null value' },
 			{ input: undefined, description: 'undefined value' },
 			{ input: true, description: 'boolean true' },
-			{ input: false, description: 'boolean false' },
+			{ input: false, description: 'boolean false' }
 		]
 		return (
 			<StoryCard title="Type validation" appearance="output">
@@ -384,7 +383,7 @@ export const TypeValidation: Story = {
 	},
 	play: async () => {
 		await expect(Number.isNaN(px2num(undefined))).toBe(true)
-	},
+	}
 }
 
 export const PerformanceTest: Story = {
@@ -392,15 +391,15 @@ export const PerformanceTest: Story = {
 	tags: ['unit', '!test'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Rough throughput for number and string inputs.',
-		},
+			story: 'Rough throughput for number and string inputs.'
+		}
 	}),
 	decorators: [withStoryCard()],
 	render() {
 		const testCases = [
 			{ count: 1000, input: '16px' as number | string },
 			{ count: 1000, input: 16 },
-			{ count: 1000, input: '123.456px' as number | string },
+			{ count: 1000, input: '123.456px' as number | string }
 		]
 		return (
 			<StoryCard title="Performance test" appearance="output">
@@ -416,11 +415,11 @@ export const PerformanceTest: Story = {
 				</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

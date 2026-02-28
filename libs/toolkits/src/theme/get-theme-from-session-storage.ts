@@ -25,7 +25,7 @@ import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
  * ```
  */
 export function getThemeFromSessionStorage<Themes extends ThemeMap>(
-	options: ThemeStorageOptions<Themes>,
+	options: ThemeStorageOptions<Themes>
 ):
 	| {
 			theme: keyof Themes
@@ -35,6 +35,6 @@ export function getThemeFromSessionStorage<Themes extends ThemeMap>(
 	const store = sessionStorageThemeStore<Themes>(options.storageKey)
 	return store.get({
 		themes: options.themes,
-		theme: options.theme,
+		theme: options.theme
 	})
 }

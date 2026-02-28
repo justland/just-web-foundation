@@ -8,9 +8,9 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function to resolve class names from state, supporting both string and function-based className resolution.',
-		},
-	}),
+				'A utility function to resolve class names from state, supporting both string and function-based className resolution.'
+		}
+	})
 } satisfies Meta<typeof resolveClassName>
 
 export default meta
@@ -23,15 +23,15 @@ export const ClassNameString: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves className when provided as a string. Combines defaultClassName with the provided className.',
-		},
+				'Resolves className when provided as a string. Combines defaultClassName with the provided className.'
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>Result: {resolveClassName({ defaultClassName: 'base-class' }, 'additional-class')}</div>
 		)
-	},
+	}
 }
 
 export const ClassNameFunction: Story = {
@@ -40,19 +40,19 @@ export const ClassNameFunction: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves className when provided as a function. The function receives the state and returns the className. Note: When using a function, it returns only the function result (not combined with defaultClassName).',
-		},
+				'Resolves className when provided as a function. The function receives the state and returns the className. Note: When using a function, it returns only the function result (not combined with defaultClassName).'
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>
 				{resolveClassName({ defaultClassName: 'base-class', isActive: true, count: 5 }, (s) =>
-					s.isActive ? 'active-class' : 'inactive-class',
+					s.isActive ? 'active-class' : 'inactive-class'
 				)}
 			</div>
 		)
-	},
+	}
 }
 
 export const UndefinedClassName: Story = {
@@ -60,13 +60,13 @@ export const UndefinedClassName: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Returns only the defaultClassName when className is undefined.',
-		},
+			story: 'Returns only the defaultClassName when className is undefined.'
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render() {
 		return <div>{resolveClassName({ defaultClassName: 'base-class' }, undefined)}</div>
-	},
+	}
 }
 
 export const FunctionReturnsUndefined: Story = {
@@ -75,19 +75,19 @@ export const FunctionReturnsUndefined: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When className is a function that returns undefined, it uses the defaultClassName only.',
-		},
+				'When className is a function that returns undefined, it uses the defaultClassName only.'
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render() {
 		return (
 			<div>
 				{resolveClassName({ defaultClassName: 'base-class', shouldShow: false }, (s) =>
-					s.shouldShow ? 'visible-class' : undefined,
+					s.shouldShow ? 'visible-class' : undefined
 				) === undefined
 					? '(undefined)'
 					: '(not undefined)'}
 			</div>
 		)
-	},
+	}
 }

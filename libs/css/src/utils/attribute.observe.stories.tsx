@@ -7,7 +7,7 @@ import { LogPanel } from '../testing/log-panel.tsx'
 
 const meta = {
 	title: 'utils/observeAttributes',
-	tags: ['autodocs', 'version:0.5'],
+	tags: ['autodocs', 'version:0.5']
 } satisfies Meta
 
 export default meta
@@ -15,8 +15,8 @@ export default meta
 export const BasicUsage: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes a single attribute change on the document root element.',
-		},
+			story: 'Observes a single attribute change on the document root element.'
+		}
 	}),
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
@@ -25,7 +25,7 @@ export const BasicUsage: StoryObj = {
 			const observer = observeAttributes({
 				'data-theme': (value) => {
 					setLog((prev) => [...prev, `data-theme: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -45,14 +45,14 @@ export const BasicUsage: StoryObj = {
 		await userEvent.click(btn)
 		await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument()
 		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
-	},
+	}
 }
 
 export const MultipleAttributes: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes multiple attributes simultaneously.',
-		},
+			story: 'Observes multiple attributes simultaneously.'
+		}
 	}),
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
@@ -64,7 +64,7 @@ export const MultipleAttributes: StoryObj = {
 				},
 				'aria-label': (value) => {
 					setLog((prev) => [...prev, `aria-label: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -95,18 +95,18 @@ export const MultipleAttributes: StoryObj = {
 			await expect(canvas.getByText('aria-label: test-value')).toBeInTheDocument()
 			await expect(canvas.getByText('aria-label: null')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const CustomElement: StoryObj = {
 	args: {
 		attributes: ['data-theme'],
-		element: 'custom',
+		element: 'custom'
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes attribute changes on a custom element instead of the document root.',
-		},
+			story: 'Observes attribute changes on a custom element instead of the document root.'
+		}
 	}),
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
@@ -118,9 +118,9 @@ export const CustomElement: StoryObj = {
 				{
 					'data-theme': (value) => {
 						setLog((prev) => [...prev, `data-theme: ${value}`])
-					},
+					}
 				},
-				customElementRef.current,
+				customElementRef.current
 			)
 			return () => observer.disconnect()
 		}, [customElementRef])
@@ -150,7 +150,7 @@ export const CustomElement: StoryObj = {
 		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
 		const dataTheme2 = element.getAttribute('data-theme')
 		await expect(dataTheme2).toBeNull()
-	},
+	}
 }
 
 const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute }, ref) => {
@@ -167,7 +167,7 @@ const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute
 				target.setAttribute(attr, newValue)
 			}
 		},
-		[ref],
+		[ref]
 	)
 
 	return (

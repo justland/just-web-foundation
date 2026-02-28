@@ -123,8 +123,8 @@ export function observeThemeByDataAttributes<Themes extends Record<string, strin
 				if (options.allowCustom) {
 					options.handler(value)
 				}
-			},
+			}
 		},
-		options.element,
+		options.element
 	)
 }

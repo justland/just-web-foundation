@@ -10,10 +10,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				"Returns the current document's rem-to-px scale (the pixel value of 1rem) by reading the root element's computed font size. In non-browser environments returns 16.",
-		},
+				"Returns the current document's rem-to-px scale (the pixel value of 1rem) by reading the root element's computed font size. In non-browser environments returns 16."
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -24,8 +24,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Read the current document rem-to-px scale (root font size).',
-		},
+			story: 'Read the current document rem-to-px scale (root font size).'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -36,9 +36,9 @@ export const BasicUsage: Story = {
 					</p>
 					<p>This is typically the value of the browser's default font size setting.</p>
 				</>
-			),
+			)
 		}),
-		showSource({ source: dedent`getRemToPxScale()` }),
+		showSource({ source: dedent`getRemToPxScale()` })
 	],
 	render() {
 		const scale = getRemToPxScale()
@@ -47,7 +47,7 @@ export const BasicUsage: Story = {
 				<pre>{scale}px per 1rem</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const WithRem2px: Story = {
@@ -55,8 +55,8 @@ export const WithRem2px: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Use the scale as base for rem2px so conversions match the document.',
-		},
+			story: 'Use the scale as base for rem2px so conversions match the document.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -65,8 +65,8 @@ export const WithRem2px: Story = {
 				const base = getRemToPxScale()
 				rem2px(1, { base })
 				rem2px(1.5, { base })
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const base = getRemToPxScale()
@@ -78,11 +78,11 @@ export const WithRem2px: Story = {
 				</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

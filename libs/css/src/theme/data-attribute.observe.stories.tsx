@@ -7,7 +7,7 @@ import { ToggleAttributeButton } from '../testing/toggle-attribute-button.js'
 
 const meta = {
 	title: 'theme/observeThemeByDataAttributes',
-	tags: ['autodocs', 'new', 'version:0.5'],
+	tags: ['autodocs', 'new', 'version:0.5']
 } satisfies Meta
 
 export default meta
@@ -23,10 +23,10 @@ export const BasicUsage: Story = {
 				attributeName: 'data-theme',
 				themes: {
 					light: 'light',
-					dark: 'dark',
+					dark: 'dark'
 				},
 				handler: (value) =>
-					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
+					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`])
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -56,7 +56,7 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: (null)')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const WithDifferentAttributeValues: Story = {
@@ -67,11 +67,11 @@ export const WithDifferentAttributeValues: Story = {
 			const observer = observeThemeByDataAttributes({
 				themes: {
 					light: 'light-theme',
-					dark: 'dark-theme',
+					dark: 'dark-theme'
 				},
 				handler: (value) =>
 					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
-				attributeName: 'data-theme',
+				attributeName: 'data-theme'
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -101,7 +101,7 @@ export const WithDifferentAttributeValues: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: (null)')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const WithDefaultTheme: Story = {
@@ -113,12 +113,12 @@ export const WithDefaultTheme: Story = {
 			const observer = observeThemeByDataAttributes({
 				themes: {
 					light: 'light',
-					dark: 'dark',
+					dark: 'dark'
 				},
 				handler: (value) =>
 					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 				defaultTheme: 'light',
-				attributeName: 'data-theme',
+				attributeName: 'data-theme'
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -148,7 +148,7 @@ export const WithDefaultTheme: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getAllByText('data-theme: light').length).toBe(2)
 		})
-	},
+	}
 }
 
 export const WithAllowCustom: Story = {
@@ -160,12 +160,12 @@ export const WithAllowCustom: Story = {
 			const observer = observeThemeByDataAttributes({
 				themes: {
 					light: 'light',
-					dark: 'dark',
+					dark: 'dark'
 				},
 				handler: (value) =>
 					setLog((prev) => [...prev, `data-theme: ${value === null ? '(null)' : value}`]),
 				allowCustom: true,
-				attributeName: 'data-theme',
+				attributeName: 'data-theme'
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -190,5 +190,5 @@ export const WithAllowCustom: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('data-theme: custom')).toBeInTheDocument()
 		})
-	},
+	}
 }

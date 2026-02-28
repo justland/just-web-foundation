@@ -15,10 +15,10 @@ const meta: Meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'`JustChildren` extends the basic `children` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `children` value.',
-		},
+				'`JustChildren` extends the basic `children` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `children` value.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -62,16 +62,16 @@ export const Specification: StoryObj = {
 						</ul>
 					</ul>
 				</>
-			),
-		}),
-	],
+			)
+		})
+	]
 }
 
 export const JustChildrenStory: StoryObj = {
 	name: 'JustChildren',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeDefault },
+		source: { code: codeDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -83,26 +83,26 @@ export const JustChildrenStory: StoryObj = {
 						it on its own (e.g. for a variable or parameter that can be static or a resolver).
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustChildrenStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: JustChildrenStory.parameters?.['docs']?.['source']?.code,
+	code: JustChildrenStory.parameters?.['docs']?.['source']?.code
 })
 
 export const JustChildrenPropsStory: StoryObj = {
 	name: 'JustChildrenProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codePropsDefault },
+		source: { code: codePropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -117,26 +117,26 @@ export const JustChildrenPropsStory: StoryObj = {
 						It is a ready-made type for the typical <code>children</code> props use case.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustChildrenPropsStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: JustChildrenPropsStory.parameters?.['docs']?.['source']?.code,
+	code: JustChildrenPropsStory.parameters?.['docs']?.['source']?.code
 })
 
 export const JustChildrenFnPropsStory: StoryObj = {
 	name: 'JustChildrenFnProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeFnPropsDefault },
+		source: { code: codeFnPropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -153,25 +153,25 @@ export const JustChildrenFnPropsStory: StoryObj = {
 						access to render props and the current default <code>children</code>.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustChildrenFnPropsStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: JustChildrenFnPropsStory.parameters?.['docs']?.['source']?.code,
+	code: JustChildrenFnPropsStory.parameters?.['docs']?.['source']?.code
 })
 
 export const Source: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

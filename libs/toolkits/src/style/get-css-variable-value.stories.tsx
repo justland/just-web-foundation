@@ -12,10 +12,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function to retrieve CSS custom property values from an element or document body.',
-		},
+				'A utility function to retrieve CSS custom property values from an element or document body.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta<typeof getCSSVariableValue>
 
 export default meta
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>
 export const Specification: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
 	decorators: [
 		withStoryCard({
@@ -34,10 +34,10 @@ export const Specification: Story = {
 					<code>getCSSVariableValue</code> retrieves CSS custom property values from an element or{' '}
 					<code>document.body</code>.
 				</p>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 export const SingleVariable: Story = {
@@ -45,14 +45,14 @@ export const SingleVariable: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets a single CSS variable value from document body when given one property name.',
-		},
+			story: 'Gets a single CSS variable value from document body when given one property name.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`getCSSVariableValue('--color-gray-100')`,
-		}),
+			source: dedent`getCSSVariableValue('--color-gray-100')`
+		})
 	],
 	render() {
 		const [gray100] = getCSSVariableValue('--color-gray-100')
@@ -65,7 +65,7 @@ export const SingleVariable: Story = {
 	play: async () => {
 		const [gray100] = getCSSVariableValue('--color-gray-100')
 		await expect(gray100).toBe('oklch(96.7% 0.003 264.542)')
-	},
+	}
 }
 
 export const MultipleVariables: Story = {
@@ -73,14 +73,14 @@ export const MultipleVariables: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets multiple CSS variable values from document body.',
-		},
+			story: 'Gets multiple CSS variable values from document body.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`getCSSVariableValue('--color-white', '--color-gray-100')`,
-		}),
+			source: dedent`getCSSVariableValue('--color-white', '--color-gray-100')`
+		})
 	],
 	render() {
 		const [white, gray100] = getCSSVariableValue('--color-white', '--color-gray-100')
@@ -94,7 +94,7 @@ export const MultipleVariables: Story = {
 		const [white, gray100] = getCSSVariableValue('--color-white', '--color-gray-100')
 		await expect(white).toBe('#fff')
 		await expect(gray100).toBe('oklch(96.7% 0.003 264.542)')
-	},
+	}
 }
 
 function WithElementDemo() {
@@ -122,21 +122,21 @@ export const FromElement: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets CSS variable values from a specific element when passed as the first argument.',
-		},
+			story: 'Gets CSS variable values from a specific element when passed as the first argument.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`const element = canvas.getByTestId('subject')
-getCSSVariableValue(element, '--text-red-100')`,
-		}),
+getCSSVariableValue(element, '--text-red-100')`
+		})
 	],
 	render: () => <WithElementDemo />,
 	play: async ({ canvas }) => {
 		const element = canvas.getByTestId('subject')
 		await expect(getCSSVariableValue(element, '--text-red-100')).toEqual(['red'])
-	},
+	}
 }
 
 export const VariableDoesNotExist: Story = {
@@ -144,14 +144,14 @@ export const VariableDoesNotExist: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Returns empty string for each requested variable that is not defined.',
-		},
+			story: 'Returns empty string for each requested variable that is not defined.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`getCSSVariableValue('--nonexistent-var')`,
-		}),
+			source: dedent`getCSSVariableValue('--nonexistent-var')`
+		})
 	],
 	render() {
 		const [value] = getCSSVariableValue('--nonexistent-var')
@@ -164,5 +164,5 @@ export const VariableDoesNotExist: Story = {
 	play: async () => {
 		const [value] = getCSSVariableValue('--nonexistent-var')
 		await expect(value).toBe('')
-	},
+	}
 }

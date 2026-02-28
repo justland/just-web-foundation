@@ -13,10 +13,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'React hook that returns the current value of an attribute on a target element and a setter to update it. Stays in sync when the attribute changes elsewhere.',
-		},
+				'React hook that returns the current value of an attribute on a target element and a setter to update it. Stays in sync when the attribute changes elsewhere.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -29,15 +29,15 @@ export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Observe and set an attribute on document.documentElement. Pass null to setValue to remove the attribute.',
+				'Observe and set an attribute on document.documentElement. Pass null to setValue to remove the attribute.'
 		},
 		source: {
 			code: dedent`
 				const [value, setValue] = useAttribute('data-theme')
 				setValue('dark')
 				setValue(null) // removes attribute
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -78,22 +78,22 @@ export const BasicUsage: Story = {
 			await userEvent.click(canvas.getByRole('button', { name: 'Remove' }))
 			await expect(canvas.getByTestId('current-value')).toHaveTextContent('(not set)')
 		})
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Observe and set an attribute on a specific element by passing it as the second argument.',
+				'Observe and set an attribute on a specific element by passing it as the second argument.'
 		},
 		source: {
 			code: dedent`
 				const [element, setElement] = useState<HTMLDivElement | null>(null)
 				const [value, setValue] = useAttribute('data-foo', element ?? undefined)
 				return <div ref={setElement}>...</div>
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -138,22 +138,22 @@ export const CustomElement: Story = {
 			await userEvent.click(canvas.getByRole('button', { name: 'Remove' }))
 			await expect(canvas.getByTestId('current-value')).toHaveTextContent('(not set)')
 		})
-	},
+	}
 }
 
 export const SyncFromElsewhere: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'The hook stays in sync when the attribute is changed outside of setValue (e.g. by another component or direct DOM mutation).',
+				'The hook stays in sync when the attribute is changed outside of setValue (e.g. by another component or direct DOM mutation).'
 		},
 		source: {
 			code: dedent`
 				const [value] = useAttribute('data-theme')
 				// When something else does element.setAttribute('data-theme', 'x'),
 				// value updates to 'x' automatically
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -187,13 +187,13 @@ export const SyncFromElsewhere: Story = {
 		await expect(canvas.getByTestId('current-value')).toHaveTextContent('synced')
 		await userEvent.click(btn)
 		await expect(canvas.getByTestId('current-value')).toHaveTextContent('(not set)')
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code },
+		source: { code }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

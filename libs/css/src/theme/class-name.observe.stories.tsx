@@ -7,7 +7,7 @@ import { ToggleAttributeButton } from '../testing/toggle-attribute-button.js'
 
 const meta = {
 	title: 'theme/observeThemeByClassName',
-	tags: ['autodocs', 'new', 'version:0.1'],
+	tags: ['autodocs', 'new', 'version:0.1']
 } satisfies Meta
 
 export default meta
@@ -22,10 +22,10 @@ export const BasicUsage: Story = {
 			const observer = observeThemeByClassName({
 				themes: {
 					light: 'light',
-					dark: 'dark',
+					dark: 'dark'
 				},
 				handler: (value) =>
-					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`])
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -55,7 +55,7 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const WithDifferentAttributeValues: Story = {
@@ -66,10 +66,10 @@ export const WithDifferentAttributeValues: Story = {
 			const observer = observeThemeByClassName({
 				themes: {
 					light: 'light-theme',
-					dark: 'dark-theme',
+					dark: 'dark-theme'
 				},
 				handler: (value) =>
-					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`]),
+					setLog((prev) => [...prev, `theme: ${value === undefined ? '(undefined)' : value}`])
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -99,7 +99,7 @@ export const WithDifferentAttributeValues: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: (undefined)')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const WithDefaultTheme: Story = {
@@ -110,10 +110,10 @@ export const WithDefaultTheme: Story = {
 			const observer = observeThemeByClassName({
 				themes: {
 					light: 'light',
-					dark: 'dark',
+					dark: 'dark'
 				},
 				handler: (value) => setLog((prev) => [...prev, `theme: ${value}`]),
-				defaultTheme: 'light',
+				defaultTheme: 'light'
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -143,5 +143,5 @@ export const WithDefaultTheme: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getAllByText('theme: light').length).toBe(2)
 		})
-	},
+	}
 }

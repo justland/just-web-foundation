@@ -13,9 +13,9 @@ const meta = {
 	tags: ['autodocs', 'version:0.5'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'A utility function to get attribute values from DOM element',
-		},
-	}),
+			component: 'A utility function to get attribute values from DOM element'
+		}
+	})
 } satisfies Meta<typeof getAttribute>
 
 export default meta
@@ -25,17 +25,17 @@ type Story = StoryObj<StoryArgs>
 export const BasicUsage: Story = {
 	name: 'Get Document Root Attribute',
 	args: {
-		attributeName: 'data-custom',
+		attributeName: 'data-custom'
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets the value of an attribute from document root',
-		},
+			story: 'Gets the value of an attribute from document root'
+		}
 	}),
 	loaders: [
 		({ args: { attributeName } }) => {
 			document.documentElement.setAttribute(attributeName, 'test-value')
-		},
+		}
 	],
 	render(props: StoryArgs) {
 		const value = getAttribute(props.attributeName)
@@ -49,18 +49,18 @@ export const BasicUsage: Story = {
 				</pre>
 			</div>
 		)
-	},
+	}
 }
 
 export const SpecificElement: Story = {
 	name: 'Get Specific Element Attribute',
 	args: {
-		attributeName: 'data-custom',
+		attributeName: 'data-custom'
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets an attribute value from a specific element',
-		},
+			story: 'Gets an attribute value from a specific element'
+		}
 	}),
 	render(props: StoryArgs) {
 		const element = document.createElement('div')
@@ -76,18 +76,18 @@ export const SpecificElement: Story = {
 				</pre>
 			</div>
 		)
-	},
+	}
 }
 
 export const NonExistentAttribute: Story = {
 	name: 'Get Non-existent Attribute',
 	args: {
-		attributeName: 'data-non-existent',
+		attributeName: 'data-non-existent'
 	},
 	parameters: defineDocsParam({
 		description: {
-			story: 'Returns null when trying to get a non-existent attribute',
-		},
+			story: 'Returns null when trying to get a non-existent attribute'
+		}
 	}),
 	render(props: StoryArgs) {
 		const value = getAttribute(props.attributeName)
@@ -101,5 +101,5 @@ export const NonExistentAttribute: Story = {
 				</pre>
 			</div>
 		)
-	},
+	}
 }

@@ -4,7 +4,7 @@ import { clsx } from '@just-web/toolkits'
 function textTheme(renderProps?: JustClassNameFnProps) {
 	return {
 		...renderProps,
-		className: clsx(renderProps?.className, 'text-emerald-800 dark:text-emerald-200'),
+		className: clsx(renderProps?.className, 'text-emerald-800 dark:text-emerald-200')
 	}
 }
 

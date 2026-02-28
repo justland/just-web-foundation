@@ -3,7 +3,7 @@ import {
 	type FnToArgTypes,
 	StoryCard,
 	showSource,
-	withStoryCard,
+	withStoryCard
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { useEffect, useState } from 'react'
@@ -16,10 +16,10 @@ const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.',
-		},
+				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -30,11 +30,11 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observe `prefers-color-scheme` changes.',
+			story: 'Observe `prefers-color-scheme` changes.'
 		},
 		source: {
-			code: 'observePrefersColorScheme((value) => { ... }): () => void',
-		},
+			code: 'observePrefersColorScheme((value) => { ... }): () => void'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -54,9 +54,9 @@ export const BasicUsage: Story = {
 						it.
 					</p>
 				</div>
-			),
+			)
 		}),
-		showSource(),
+		showSource()
 	],
 	render: () => {
 		const [scheme, setScheme] = useState(getPrefersColorScheme())
@@ -68,11 +68,11 @@ export const BasicUsage: Story = {
 				Your system is currently set to: <strong>{scheme}</strong> mode
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

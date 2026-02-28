@@ -14,10 +14,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility that determines the current theme based on element class name against a themes map.',
-		},
+				'A utility that determines the current theme based on element class name against a themes map.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -26,15 +26,15 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	light: ['light', 'text-black', 'bg-white'],
-	dark: ['dark', 'text-white', 'bg-black'],
+	dark: ['dark', 'text-white', 'bg-black']
 } as const
 
 export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Get the current theme from document class names.',
-		},
+			story: 'Get the current theme from document class names.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -44,8 +44,8 @@ export const BasicUsage: Story = {
 				  themes: { light: 'light', dark: 'dark' },
 				  theme: 'dark',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [currentTheme, setCurrentTheme] = useState<string | undefined>()
@@ -53,7 +53,7 @@ export const BasicUsage: Story = {
 		useEffect(() => {
 			const theme = getThemeByClassName({
 				themes: { light: 'light', dark: 'dark' },
-				theme: 'dark',
+				theme: 'dark'
 			})
 			setCurrentTheme(theme)
 		}, [])
@@ -90,15 +90,15 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const DefaultTheme: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when class name is not found.',
-		},
+			story: 'Falls back to default theme when class name is not found.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -106,18 +106,18 @@ export const DefaultTheme: Story = {
 			source: dedent`
 				document.documentElement.classList.remove('light', 'dark')
 				getThemeByClassName({ themes, theme: 'dark' })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		() => {
 			document.documentElement.classList.remove('light', 'dark')
 			const theme = getThemeByClassName({
 				themes,
-				theme: 'dark',
+				theme: 'dark'
 			})
 			return { theme }
-		},
+		}
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.className
@@ -135,21 +135,21 @@ export const DefaultTheme: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets theme from a specific element.',
-		},
+			story: 'Gets theme from a specific element.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`getThemeByClassName({ themes, theme: 'dark', element: myElement })`,
-		}),
+			source: dedent`getThemeByClassName({ themes, theme: 'dark', element: myElement })`
+		})
 	],
 	render: () => {
 		const [currentTheme, setCurrentTheme] = useState<string | undefined>()
@@ -165,7 +165,7 @@ export const CustomElement: Story = {
 								setThemeByClassName({
 									themes,
 									theme,
-									element: customElementRef.current ?? undefined,
+									element: customElementRef.current ?? undefined
 								})
 								setCurrentTheme(theme)
 							}}
@@ -178,7 +178,7 @@ export const CustomElement: Story = {
 					ref={customElementRef}
 					className={twMerge(
 						'p-4 border rounded-md border-gray-300 mb-4',
-						currentTheme ? (themes[currentTheme as keyof typeof themes] as any) : '',
+						currentTheme ? (themes[currentTheme as keyof typeof themes] as any) : ''
 					)}
 				>
 					Current theme: {currentTheme}
@@ -197,15 +197,15 @@ export const CustomElement: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('Current theme: dark')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const InvalidTheme: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when no theme class is present.',
-		},
+			story: 'Falls back to default theme when no theme class is present.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -215,27 +215,27 @@ export const InvalidTheme: Story = {
 					themes: { light: 'not-exist-theme-light', dark: 'not-exist-theme-dark' },
 					theme: 'dark',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const theme = getThemeByClassName({
 			themes: {
 				light: 'not-exist-theme-light',
-				dark: 'not-exist-theme-dark',
+				dark: 'not-exist-theme-dark'
 			},
-			theme: 'dark',
+			theme: 'dark'
 		})
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="p-4 border rounded-md border-gray-300 mb-4">Current theme: {theme}</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

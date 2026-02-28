@@ -14,10 +14,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				"A utility that sets the theme by applying the theme's value to a data attribute on an element.",
-		},
+				"A utility that sets the theme by applying the theme's value to a data attribute on an element."
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	light: 'light',
-	dark: 'dark',
+	dark: 'dark'
 } as const
 
 const ATTRIBUTE_NAME = 'data-theme'
@@ -40,7 +40,7 @@ export const BasicUsage: Story = {
 					<code>setThemeByDataAttribute</code> by default sets the theme on{' '}
 					<code>document.documentElement</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -49,8 +49,8 @@ export const BasicUsage: Story = {
 					themes: { light: 'light', dark: 'dark' },
 					theme: ${'<value>'},
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [dataTheme] = useAttribute(ATTRIBUTE_NAME)
@@ -65,7 +65,7 @@ export const BasicUsage: Story = {
 								setThemeByDataAttribute({
 									themes,
 									theme,
-									attributeName: ATTRIBUTE_NAME,
+									attributeName: ATTRIBUTE_NAME
 								})
 							}}
 						>
@@ -93,7 +93,7 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const WithThemeArray: Story = {
@@ -108,7 +108,7 @@ export const WithThemeArray: Story = {
 					</p>
 					<p>The rest of the values are ignored.</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -120,14 +120,14 @@ export const WithThemeArray: Story = {
 					},
 					theme: ${'<value>'}
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [dataTheme] = useAttribute(ATTRIBUTE_NAME)
 		const themesWithArrays = {
 			light: ['light', 'app:text-gray-100', 'app:bg-gray-800'],
-			dark: ['dark', 'app:text-gray-800', 'app:bg-gray-100'],
+			dark: ['dark', 'app:text-gray-800', 'app:bg-gray-100']
 		} as const
 
 		return (
@@ -140,7 +140,7 @@ export const WithThemeArray: Story = {
 								setThemeByDataAttribute({
 									themes: themesWithArrays,
 									theme,
-									attributeName: ATTRIBUTE_NAME,
+									attributeName: ATTRIBUTE_NAME
 								})
 							}}
 						>
@@ -168,7 +168,7 @@ export const WithThemeArray: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const WithCustomElement: Story = {
@@ -176,9 +176,9 @@ export const WithCustomElement: Story = {
 	parameters: {
 		...defineDocsParam({
 			description: {
-				story: 'Set theme on a specific element via the element option.',
-			},
-		}),
+				story: 'Set theme on a specific element via the element option.'
+			}
+		})
 	},
 	decorators: [
 		withStoryCard({
@@ -187,7 +187,7 @@ export const WithCustomElement: Story = {
 					The data attribute is set on the target div below instead of{' '}
 					<code>document.documentElement</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`setThemeByDataAttribute({
@@ -195,8 +195,8 @@ export const WithCustomElement: Story = {
 				element: myElement,
 				themes: { light: 'light', dark: 'dark' },
 				theme: ${'<value>'}
-			})`,
-		}),
+			})`
+		})
 	],
 	render: () => {
 		const customElementRef = useRef<HTMLDivElement>(null)
@@ -221,7 +221,7 @@ export const WithCustomElement: Story = {
 										themes,
 										theme,
 										attributeName: ATTRIBUTE_NAME,
-										element: el,
+										element: el
 									})
 									setSelectedTheme(theme)
 								}
@@ -255,11 +255,11 @@ export const WithCustomElement: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

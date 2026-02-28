@@ -14,10 +14,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Observes a data attribute (e.g. data-theme) and invokes a handler when the theme value changes.',
-		},
+				'Observes a data attribute (e.g. data-theme) and invokes a handler when the theme value changes.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	light: 'light',
-	dark: 'dark',
+	dark: 'dark'
 } as const
 
 const ATTRIBUTE_NAME = 'data-theme'
@@ -35,8 +35,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observe theme changes when data-theme attribute is toggled.',
-		},
+			story: 'Observe theme changes when data-theme attribute is toggled.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -47,8 +47,8 @@ export const BasicUsage: Story = {
 				  themes: { light: 'light', dark: 'dark' },
 				  handler: (value) => setLog(prev => [...prev, \`data-theme: \${value}\`]),
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [dataTheme] = useAttribute(ATTRIBUTE_NAME)
@@ -57,7 +57,7 @@ export const BasicUsage: Story = {
 			const observer = observeThemeByDataAttributes({
 				attributeName: ATTRIBUTE_NAME,
 				themes,
-				handler: () => {},
+				handler: () => {}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -72,7 +72,7 @@ export const BasicUsage: Story = {
 								setThemeByDataAttribute({
 									attributeName: ATTRIBUTE_NAME,
 									themes,
-									theme,
+									theme
 								})
 							}
 						>
@@ -108,15 +108,15 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('(none)')
 		})
-	},
+	}
 }
 
 export const WithDifferentAttributeValues: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Theme keys can map to different attribute values (e.g. light-theme, dark-theme).',
-		},
+			story: 'Theme keys can map to different attribute values (e.g. light-theme, dark-theme).'
+		}
 	}),
 	decorators: [withStoryCard()],
 	render: () => {
@@ -127,7 +127,7 @@ export const WithDifferentAttributeValues: Story = {
 			const observer = observeThemeByDataAttributes({
 				attributeName: ATTRIBUTE_NAME,
 				themes: customThemes,
-				handler: () => {},
+				handler: () => {}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -142,7 +142,7 @@ export const WithDifferentAttributeValues: Story = {
 								setThemeByDataAttribute({
 									attributeName: ATTRIBUTE_NAME,
 									themes: customThemes,
-									theme,
+									theme
 								})
 							}
 						>
@@ -178,7 +178,7 @@ export const WithDifferentAttributeValues: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('(none)')
 		})
-	},
+	}
 }
 
 export const WithDefaultTheme: Story = {
@@ -186,8 +186,8 @@ export const WithDefaultTheme: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When attribute is removed, handler receives options.theme instead of null.',
-		},
+			story: 'When attribute is removed, handler receives options.theme instead of null.'
+		}
 	}),
 	decorators: [withStoryCard()],
 	render: () => {
@@ -198,7 +198,7 @@ export const WithDefaultTheme: Story = {
 				attributeName: ATTRIBUTE_NAME,
 				themes,
 				handler: () => {},
-				theme: 'light',
+				theme: 'light'
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -213,7 +213,7 @@ export const WithDefaultTheme: Story = {
 								setThemeByDataAttribute({
 									attributeName: ATTRIBUTE_NAME,
 									themes,
-									theme,
+									theme
 								})
 							}
 						>
@@ -249,7 +249,7 @@ export const WithDefaultTheme: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('(none)')
 		})
-	},
+	}
 }
 
 export const WithAllowCustom: Story = {
@@ -258,8 +258,8 @@ export const WithAllowCustom: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Observe theme with allowCustom: unknown attribute values are passed to the handler as-is.',
-		},
+				'Observe theme with allowCustom: unknown attribute values are passed to the handler as-is.'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -271,7 +271,7 @@ export const WithAllowCustom: Story = {
 						<code>custom</code>, <code>brand-blue</code>).
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -281,8 +281,8 @@ export const WithAllowCustom: Story = {
 				  allowCustom: true,
 				  handler: (value) => setLog(prev => [...prev, \`data-theme: \${value}\`]),
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [dataTheme] = useAttribute(ATTRIBUTE_NAME)
@@ -292,7 +292,7 @@ export const WithAllowCustom: Story = {
 				attributeName: ATTRIBUTE_NAME,
 				themes: { light: 'light', dark: 'dark' },
 				handler: () => {},
-				allowCustom: true,
+				allowCustom: true
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -305,7 +305,7 @@ export const WithAllowCustom: Story = {
 							setThemeByDataAttribute({
 								attributeName: ATTRIBUTE_NAME,
 								themes: { light: 'light', dark: 'dark' },
-								theme: 'light',
+								theme: 'light'
 							})
 						}
 					>
@@ -338,15 +338,15 @@ export const WithAllowCustom: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('custom')
 		})
-	},
+	}
 }
 
 export const WithCustomElement: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observe theme on a specific element via the element option.',
-		},
+			story: 'Observe theme on a specific element via the element option.'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -355,7 +355,7 @@ export const WithCustomElement: Story = {
 					The data attribute is observed on the target div below instead of{' '}
 					<code>document.documentElement</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`observeThemeByDataAttributes({
@@ -363,8 +363,8 @@ export const WithCustomElement: Story = {
 				themes: { light: 'light', dark: 'dark' },
 				handler: (value) => ...,
 				element: myElement,
-			})`,
-		}),
+			})`
+		})
 	],
 	render: () => {
 		const customElementRef = useRef<HTMLDivElement>(null)
@@ -382,7 +382,7 @@ export const WithCustomElement: Story = {
 				attributeName: ATTRIBUTE_NAME,
 				themes,
 				handler: () => {},
-				element: el,
+				element: el
 			})
 			return () => observer.disconnect()
 		}, [customElement])
@@ -400,7 +400,7 @@ export const WithCustomElement: Story = {
 										attributeName: ATTRIBUTE_NAME,
 										themes,
 										theme,
-										element: el,
+										element: el
 									})
 								}
 							}}
@@ -430,11 +430,11 @@ export const WithCustomElement: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('element-data-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

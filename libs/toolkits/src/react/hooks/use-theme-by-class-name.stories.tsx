@@ -15,10 +15,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'React hook that returns the current theme (from element class) and a setter. Subscribes to class changes on the element so the returned theme stays in sync.',
-		},
+				'React hook that returns the current theme (from element class) and a setter. Subscribes to class changes on the element so the returned theme stays in sync.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -29,7 +29,7 @@ export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Observe and set theme by class name on document.documentElement. The hook reads the first matching theme class and setTheme updates the element class list.',
+				'Observe and set theme by class name on document.documentElement. The hook reads the first matching theme class and setTheme updates the element class list.'
 		},
 		source: {
 			code: dedent`
@@ -37,14 +37,14 @@ export const BasicUsage: Story = {
 				const [theme, setTheme] = useThemeByClassName({ themes, theme: 'light' })
 				setTheme('dark')
 				setTheme('light')
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [theme, setTheme] = useThemeByClassName({
 			themes: THEMES,
-			theme: 'light',
+			theme: 'light'
 		})
 
 		return (
@@ -70,14 +70,14 @@ export const BasicUsage: Story = {
 			await userEvent.click(canvas.getByRole('button', { name: 'Set light' }))
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
 		})
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Observe and set theme by class name on a specific element by passing it in options.element.',
+				'Observe and set theme by class name on a specific element by passing it in options.element.'
 		},
 		source: {
 			code: dedent`
@@ -88,8 +88,8 @@ export const CustomElement: Story = {
 					element: element ?? undefined,
 				})
 				return <div ref={setElement}>...</div>
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -97,7 +97,7 @@ export const CustomElement: Story = {
 		const [theme, setTheme] = useThemeByClassName({
 			themes: THEMES,
 			theme: 'light',
-			element: element ?? undefined,
+			element: element ?? undefined
 		})
 
 		return (
@@ -130,28 +130,28 @@ export const CustomElement: Story = {
 			await userEvent.click(canvas.getByRole('button', { name: 'Set light' }))
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
 		})
-	},
+	}
 }
 
 export const SyncFromElsewhere: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'The hook stays in sync when the element class is changed outside of setTheme (e.g. by another component or direct DOM mutation).',
+				'The hook stays in sync when the element class is changed outside of setTheme (e.g. by another component or direct DOM mutation).'
 		},
 		source: {
 			code: dedent`
 				const [theme] = useThemeByClassName({ themes, theme: 'light' })
 				// When something else adds/removes theme classes on the element,
 				// theme updates automatically
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [theme] = useThemeByClassName({
 			themes: THEMES,
-			theme: 'light',
+			theme: 'light'
 		})
 
 		const toggleExternally = () => {
@@ -184,13 +184,13 @@ export const SyncFromElsewhere: Story = {
 		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		await userEvent.click(btn)
 		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code },
+		source: { code }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

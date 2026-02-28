@@ -16,7 +16,7 @@ function mergeProps(context: MyButtonRenderProps, { className, ...props }: MyBut
 	return {
 		...context,
 		...props,
-		className: resolveClassName(context, className),
+		className: resolveClassName(context, className)
 	}
 }
 

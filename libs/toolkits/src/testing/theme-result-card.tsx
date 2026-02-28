@@ -22,7 +22,7 @@ function formatValue(value: unknown): string {
 export function ThemeResultCard({
 	result,
 	title,
-	'data-testid': dataTestId,
+	'data-testid': dataTestId
 }: ThemeResultCardProps) {
 	return (
 		<StoryCard title={title} data-testid={dataTestId} appearance="output">

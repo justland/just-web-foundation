@@ -18,7 +18,7 @@ import type { CSSProperties } from './css_properties.ts'
  * ```
  */
 export function toDOMStyle(
-	style: CSSProperties | undefined,
+	style: CSSProperties | undefined
 ): Partial<CSSStyleDeclaration> | undefined {
 	if (style === undefined) return undefined
 

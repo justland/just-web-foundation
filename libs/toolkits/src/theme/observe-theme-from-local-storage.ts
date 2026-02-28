@@ -31,12 +31,12 @@ export type ObserveThemeFromLocalStorageResult<Themes extends ThemeMap> = ThemeR
 export function observeThemeFromLocalStorage<Themes extends ThemeMap>(
 	options: ThemeStorageOptions<Themes> & {
 		handler: (result: ObserveThemeFromLocalStorageResult<Themes>) => void
-	},
+	}
 ): { disconnect: () => void } {
 	const store = localStorageThemeStore<Themes>(options.storageKey)
 	return store.subscribe({
 		themes: options.themes,
 		theme: options.theme,
-		handler: options.handler,
+		handler: options.handler
 	})
 }

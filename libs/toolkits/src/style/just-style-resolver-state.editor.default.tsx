@@ -7,8 +7,8 @@ function boxTheme(renderProps?: JustStyleFnProps) {
 			...renderProps?.style,
 			padding: '0.5rem',
 			border: '1px solid rgb(203 213 225)',
-			borderRadius: '0.25rem',
-		},
+			borderRadius: '0.25rem'
+		}
 	}
 }
 

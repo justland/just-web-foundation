@@ -17,7 +17,7 @@
  */
 export function rem2px(
 	rem: number | string,
-	options?: { base?: number | undefined; precision?: number | undefined },
+	options?: { base?: number | undefined; precision?: number | undefined }
 ): number {
 	const { base = 16, precision = 4 } = options ?? {}
 

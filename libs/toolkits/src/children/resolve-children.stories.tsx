@@ -9,9 +9,9 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function to resolve children from render props, supporting both static and function-based children resolution.',
-		},
-	}),
+				'A utility function to resolve children from render props, supporting both static and function-based children resolution.'
+		}
+	})
 } satisfies Meta<typeof resolveChildren>
 
 export default meta
@@ -24,14 +24,14 @@ export const StaticChildren: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves children when provided as a static value. The provided value is used as the children.',
-		},
+				'Resolves children when provided as a static value. The provided value is used as the children.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: `resolveChildren({ children: 'Default' }, 'Override content')`,
-		}),
+			source: `resolveChildren({ children: 'Default' }, 'Override content')`
+		})
 	],
 	render() {
 		const result = resolveChildren({ children: 'Default' }, 'Override content')
@@ -40,7 +40,7 @@ export const StaticChildren: Story = {
 				<div>Result: {result}</div>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const ChildrenFunction: Story = {
@@ -49,28 +49,28 @@ export const ChildrenFunction: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves children when provided as a function. The function receives the render props and returns the children.',
-		},
+				'Resolves children when provided as a function. The function receives the render props and returns the children.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
 		resolveChildren({ children: 'Default', count: 42 }, (rp) => \`Computed: \${rp.count}\`)
-		`,
-		}),
+		`
+		})
 	],
 	render() {
 		const result = resolveChildren(
 			{ children: 'Default', count: 42 },
-			(rp) => `Computed: ${rp.count}`,
+			(rp) => `Computed: ${rp.count}`
 		)
 		return (
 			<StoryCard appearance="output">
 				<div>Result: {result}</div>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const UndefinedChildren: Story = {
@@ -85,11 +85,11 @@ export const UndefinedChildren: Story = {
 						<code>children</code> property from the <code>renderProps</code>.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
-			source: `resolveChildren({ children: 'From render props' }, undefined)`,
-		}),
+			source: `resolveChildren({ children: 'From render props' }, undefined)`
+		})
 	],
 	render() {
 		const result = resolveChildren({ children: 'From render props' }, undefined)
@@ -98,7 +98,7 @@ export const UndefinedChildren: Story = {
 				<div>Result: {result}</div>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const FunctionReturnsUndefined: Story = {
@@ -111,11 +111,11 @@ export const FunctionReturnsUndefined: Story = {
 					When <code>children</code> is a function that returns <code>undefined</code>, it returns{' '}
 					<code>undefined</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
-			source: `resolveChildren({ children: 'Default' }, () => undefined)`,
-		}),
+			source: `resolveChildren({ children: 'Default' }, () => undefined)`
+		})
 	],
 	render() {
 		const result = resolveChildren({ children: 'Default' }, () => undefined)
@@ -124,5 +124,5 @@ export const FunctionReturnsUndefined: Story = {
 				{result === undefined ? '(undefined)' : '(not undefined)'}
 			</StoryCard>
 		)
-	},
+	}
 }

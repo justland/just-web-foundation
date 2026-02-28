@@ -15,7 +15,7 @@ export type ClassNameThemeStore<Themes extends ThemeMap> = {
 }
 
 function classNameThemeStoreForElement<Themes extends ThemeMap>(
-	element: Element,
+	element: Element
 ): ClassNameThemeStore<Themes> {
 	function get(options: ThemeStoreGetOptions<Themes>): keyof Themes | undefined {
 		const className = element.className
@@ -33,7 +33,7 @@ function classNameThemeStoreForElement<Themes extends ThemeMap>(
 		if (!theme) return
 
 		const allThemeClasses = Object.values(options.themes).flatMap((v) =>
-			Array.isArray(v) ? [...v] : [v],
+			Array.isArray(v) ? [...v] : [v]
 		)
 		const current = element.className.trim()
 		const currentClasses = current ? current.split(/\s+/) : []
@@ -68,12 +68,12 @@ function classNameThemeStoreForElement<Themes extends ThemeMap>(
 						}
 					}
 					options.handler(options.theme as string | undefined)
-				},
+				}
 			},
-			element,
+			element
 		)
 		return {
-			disconnect: () => observer.disconnect(),
+			disconnect: () => observer.disconnect()
 		}
 	}
 
@@ -102,14 +102,14 @@ const storeCache = new WeakMap<Element, ClassNameThemeStore<any>>()
  * ```
  */
 export function classNameThemeStore<Themes extends ThemeMap>(
-	element?: Element | null | undefined,
+	element?: Element | null | undefined
 ): ClassNameThemeStore<Themes> {
 	const el = element ?? (typeof document !== 'undefined' ? document.documentElement : null)
 	if (!el) {
 		return {
 			get: () => undefined,
 			set: () => {},
-			subscribe: () => ({ disconnect: () => {} }),
+			subscribe: () => ({ disconnect: () => {} })
 		}
 	}
 	let store = storeCache.get(el)

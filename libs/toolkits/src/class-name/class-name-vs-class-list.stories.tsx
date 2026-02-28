@@ -35,10 +35,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Performance comparison: toggling element classes via classList (add/remove each) vs rebuilding className from an array.',
-		},
+				'Performance comparison: toggling element classes via classList (add/remove each) vs rebuilding className from an array.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -47,7 +47,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	light: ['light', 'text-black', 'bg-white'],
-	dark: ['dark', 'text-white', 'bg-black'],
+	dark: ['dark', 'text-white', 'bg-black']
 } as const
 
 /** Longer theme array: more themes and more classes per theme. */
@@ -62,7 +62,7 @@ const themesLong: ThemeMap = {
 		'p-4',
 		'm-2',
 		'font-sans',
-		'antialiased',
+		'antialiased'
 	],
 	dark: [
 		'dark',
@@ -74,7 +74,7 @@ const themesLong: ThemeMap = {
 		'p-6',
 		'm-4',
 		'font-sans',
-		'antialiased',
+		'antialiased'
 	],
 	accent: [
 		'accent',
@@ -86,7 +86,7 @@ const themesLong: ThemeMap = {
 		'p-3',
 		'm-1',
 		'font-medium',
-		'subpixel-antialiased',
+		'subpixel-antialiased'
 	],
 	neutral: [
 		'neutral',
@@ -98,7 +98,7 @@ const themesLong: ThemeMap = {
 		'p-2',
 		'm-0',
 		'font-normal',
-		'antialiased',
+		'antialiased'
 	],
 	warm: [
 		'warm',
@@ -110,8 +110,8 @@ const themesLong: ThemeMap = {
 		'p-5',
 		'm-3',
 		'font-semibold',
-		'antialiased',
-	],
+		'antialiased'
+	]
 }
 
 const PERFORMANCE_ITERATIONS = 10_000
@@ -124,8 +124,8 @@ export const PerformanceTest: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Compare classList (add/remove per class) vs className (array rebuild). Runs two benchmarks: 2 themes × 3 classes and 5 themes × 10 classes. Fewer DOM writes with className tend to scale better with more theme classes.',
-		},
+				'Compare classList (add/remove per class) vs className (array rebuild). Runs two benchmarks: 2 themes × 3 classes and 5 themes × 10 classes. Fewer DOM writes with className tend to scale better with more theme classes.'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -141,8 +141,8 @@ export const PerformanceTest: Story = {
 						classes.
 					</p>
 				</>
-			),
-		}),
+			)
+		})
 	],
 	render: function PerformanceTestRender() {
 		const [result, setResult] = useState<{
@@ -175,7 +175,7 @@ export const PerformanceTest: Story = {
 
 			setResult((r) => ({
 				...r,
-				small: { classListMs: classListMsSmall, classNameMs: classNameMsSmall },
+				small: { classListMs: classListMsSmall, classNameMs: classNameMsSmall }
 			}))
 
 			// Long: 5 themes × 10 classes
@@ -196,7 +196,7 @@ export const PerformanceTest: Story = {
 			document.body.removeChild(el)
 			setResult((r) => ({
 				...r,
-				long: { classListMs: classListMsLong, classNameMs: classNameMsLong },
+				long: { classListMs: classListMsLong, classNameMs: classNameMsLong }
 			}))
 		}, [])
 
@@ -226,5 +226,5 @@ export const PerformanceTest: Story = {
 				</StoryCard>
 			</div>
 		)
-	},
+	}
 }

@@ -4,7 +4,7 @@ import type { JustChildren, JustChildrenFnProps } from './just-children.ts'
 
 export function resolveChildren<RenderProps extends AnyRecord = AnyRecord>(
 	renderProps: JustChildrenFnProps<RenderProps>,
-	children?: JustChildren<RenderProps>,
+	children?: JustChildren<RenderProps>
 ): ReactNode | undefined {
 	if (typeof children === 'function') {
 		return children(renderProps)

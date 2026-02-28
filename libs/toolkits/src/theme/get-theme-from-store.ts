@@ -21,7 +21,7 @@ export type GetThemeFromStoreOptions<Themes extends ThemeMap> = {
  * ```
  */
 export async function getThemeFromStore<Themes extends ThemeMap>(
-	options: GetThemeFromStoreOptions<Themes>,
+	options: GetThemeFromStoreOptions<Themes>
 ): Promise<ThemeResult<Themes>> {
 	const raw = await options.store.get()
 	if (raw && raw.theme in options.themes) return raw
@@ -33,7 +33,7 @@ export async function getThemeFromStore<Themes extends ThemeMap>(
 	return options.theme != null
 		? {
 				theme: options.theme,
-				value: options.themes[options.theme],
+				value: options.themes[options.theme]
 			}
 		: undefined
 }

@@ -43,6 +43,6 @@ export function observeThemeByDataAttributes<Themes extends ThemeMap>(options: {
 		themes: options.themes,
 		theme: options.theme,
 		allowCustom: options.allowCustom,
-		handler: options.handler,
+		handler: options.handler
 	})
 }

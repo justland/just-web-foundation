@@ -11,10 +11,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Converts React-style CSS properties to DOM style properties (camelCase → kebab-case). Handles standard and custom properties (--*).',
-		},
+				'Converts React-style CSS properties to DOM style properties (camelCase → kebab-case). Handles standard and custom properties (--*).'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>
 function StyleDemo({
 	style,
 	domStyle,
-	title,
+	title
 }: {
 	style: CSSProperties | undefined
 	domStyle: Record<string, string | null> | undefined
@@ -80,19 +80,19 @@ export const BasicUsage: Story = {
 					Given a React-style CSS object, returns a DOM-style object suitable for use with{' '}
 					<code>element.style.setProperty(key, value)</code> or similar.
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const style: CSSProperties = {
 			backgroundColor: 'lightblue',
 			color: 'darkblue',
 			padding: '1rem',
-			borderRadius: '8px',
+			borderRadius: '8px'
 		}
 		const domStyle = toDomStyle(style)
 		return <StyleDemo style={style} domStyle={domStyle} title="React-style → DOM style" />
-	},
+	}
 }
 
 export const CamelCaseToKebabCase: Story = {
@@ -104,8 +104,8 @@ export const CamelCaseToKebabCase: Story = {
 					Standard CSS property keys are converted from React camelCase to DOM kebab-case (e.g.{' '}
 					<code>backgroundColor</code> → <code>background-color</code>).
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const style: CSSProperties = {
@@ -113,7 +113,7 @@ export const CamelCaseToKebabCase: Story = {
 			fontSize: '1.2rem',
 			fontWeight: 'bold',
 			marginTop: '0.5rem',
-			paddingLeft: '1rem',
+			paddingLeft: '1rem'
 		}
 		const domStyle = toDomStyle(style)
 		return (
@@ -123,7 +123,7 @@ export const CamelCaseToKebabCase: Story = {
 				title="CamelCase keys become kebab-case in output"
 			/>
 		)
-	},
+	}
 }
 
 export const CustomPropertiesPreserved: Story = {
@@ -135,8 +135,8 @@ export const CustomPropertiesPreserved: Story = {
 					Keys that start with <code>--</code> are custom properties; they are left unchanged and
 					not converted to kebab-case.
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const style: CSSProperties = {
@@ -148,7 +148,7 @@ export const CustomPropertiesPreserved: Story = {
 			borderWidth: 'var(--border-width)',
 			borderStyle: 'solid',
 			padding: '1rem',
-			color: 'white',
+			color: 'white'
 		}
 		const domStyle = toDomStyle(style)
 		return (
@@ -158,7 +158,7 @@ export const CustomPropertiesPreserved: Story = {
 				title="--* keys unchanged; standard keys still converted"
 			/>
 		)
-	},
+	}
 }
 
 export const StandardAndCustomInOneObject: Story = {
@@ -170,8 +170,8 @@ export const StandardAndCustomInOneObject: Story = {
 					A single style object can contain both standard properties (converted to kebab-case) and
 					custom properties (kept as-is).
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const style: CSSProperties = {
@@ -183,7 +183,7 @@ export const StandardAndCustomInOneObject: Story = {
 			fontSize: '1.1rem',
 			fontWeight: '600',
 			color: 'white',
-			boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+			boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
 		}
 		const domStyle = toDomStyle(style)
 		return (
@@ -193,7 +193,7 @@ export const StandardAndCustomInOneObject: Story = {
 				title="One object: standard + custom properties"
 			/>
 		)
-	},
+	}
 }
 
 export const UndefinedInput: Story = {
@@ -206,8 +206,8 @@ export const UndefinedInput: Story = {
 					When the style argument is <code>undefined</code>, the function returns{' '}
 					<code>undefined</code> (no object).
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const domStyle = toDomStyle(undefined)
@@ -218,7 +218,7 @@ export const UndefinedInput: Story = {
 				title="Input: undefined → Output: undefined"
 			/>
 		)
-	},
+	}
 }
 
 export const EmptyObject: Story = {
@@ -231,20 +231,20 @@ export const EmptyObject: Story = {
 					When the style argument is an empty object <code>{'{}'}</code>, the function returns an
 					empty object.
 				</p>
-			),
-		}),
+			)
+		})
 	],
 	render() {
 		const style: CSSProperties = {}
 		const domStyle = toDomStyle(style)
 		return <StyleDemo style={style} domStyle={domStyle} title="Input: {} → Output: {}" />
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

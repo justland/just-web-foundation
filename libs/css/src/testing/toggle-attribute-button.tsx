@@ -18,7 +18,7 @@ export const ToggleAttributeButton = forwardRef<
 				target.setAttribute(attr, newValue)
 			}
 		},
-		[ref, values],
+		[ref, values]
 	)
 
 	return (

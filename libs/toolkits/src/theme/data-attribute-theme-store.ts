@@ -23,10 +23,10 @@ export type DataAttributeThemeStore<Themes extends ThemeMap> = {
 
 function dataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 	attributeName: `data-${string}`,
-	element: Element,
+	element: Element
 ): DataAttributeThemeStore<Themes> {
 	function get(
-		options: DataAttributeThemeStoreGetOptions<Themes>,
+		options: DataAttributeThemeStoreGetOptions<Themes>
 	): keyof Themes | string | undefined {
 		const value = getDataAttribute(attributeName, element) ?? undefined
 		const theme = findKey(options.themes, (theme) => options.themes[theme] === value)
@@ -67,12 +67,12 @@ function dataAttributeThemeStoreForElement<Themes extends ThemeMap>(
 					if (options.allowCustom) {
 						options.handler(value)
 					}
-				},
+				}
 			} as Record<`data-${string}`, (value: string | null) => void>,
-			element,
+			element
 		)
 		return {
-			disconnect: () => observer.disconnect(),
+			disconnect: () => observer.disconnect()
 		}
 	}
 
@@ -103,14 +103,14 @@ const elementStores = new WeakMap<Element, Map<string, DataAttributeThemeStore<a
  */
 export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	attributeName: `data-${string}`,
-	element?: Element | null | undefined,
+	element?: Element | null | undefined
 ): DataAttributeThemeStore<Themes> {
 	const el = element ?? (typeof document !== 'undefined' ? document.documentElement : null)
 	if (!el) {
 		return {
 			get: () => undefined,
 			set: () => {},
-			subscribe: () => ({ disconnect: () => {} }),
+			subscribe: () => ({ disconnect: () => {} })
 		}
 	}
 	if (element == null) {

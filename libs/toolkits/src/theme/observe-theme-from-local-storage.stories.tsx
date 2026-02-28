@@ -14,10 +14,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Observes the theme stored in localStorage and invokes a handler with the current theme. The handler is called once on start and when another tab/window changes the same storage key.',
-		},
+				'Observes the theme stored in localStorage and invokes a handler with the current theme. The handler is called once on start and when another tab/window changes the same storage key.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 const STORAGE_KEY = 'theme-observe'
@@ -34,7 +34,7 @@ const STORAGE_KEY = 'theme-observe'
 function ObserveThemeDemo({
 	storageKey,
 	themes: themesOption,
-	theme: defaultTheme,
+	theme: defaultTheme
 }: {
 	storageKey: string
 	themes: typeof themes
@@ -48,11 +48,11 @@ function ObserveThemeDemo({
 		const options = defineThemeStorageOptions({
 			themes: themesOption,
 			theme: defaultTheme ?? undefined,
-			storageKey,
+			storageKey
 		})
 		const observer = observeThemeFromLocalStorage({
 			...options,
-			handler: setResult,
+			handler: setResult
 		})
 		return () => observer.disconnect()
 	}, [storageKey, defaultTheme, themesOption])
@@ -74,7 +74,7 @@ export const BasicUsage: Story = {
 				<p>
 					Handler is called once on start with the current theme from <code>localStorage</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -84,19 +84,19 @@ export const BasicUsage: Story = {
 					storageKey: 'theme-observe',
 					handler: (result) => console.log('Theme:', result?.theme, result?.value),
 				})
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		() => {
 			const options = defineThemeStorageOptions({
 				themes,
 				theme: 'grayscale',
-				storageKey: STORAGE_KEY,
+				storageKey: STORAGE_KEY
 			})
 			setThemeToLocalStorage(options)
 			return { options }
-		},
+		}
 	],
 	render: (_, { loaded: { options } }) => {
 		return (
@@ -109,25 +109,25 @@ export const BasicUsage: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('theme: grayscale')
-	},
+	}
 }
 
 export const Disconnect: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Call disconnect() to stop observing and remove the storage listener.',
-		},
+			story: 'Call disconnect() to stop observing and remove the storage listener.'
+		}
 	}),
 	loaders: [
 		() => {
 			const options = defineThemeStorageOptions({
 				themes,
 				theme: 'grayscale',
-				storageKey: 'theme-disconnect',
+				storageKey: 'theme-disconnect'
 			})
 			setThemeToLocalStorage(options)
 			return { options }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard(),
@@ -141,15 +141,15 @@ export const Disconnect: Story = {
 				})
 				observer.disconnect()
 				setThemeToLocalStorage({ ...options, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { options } }) => {
 		const [theme, setTheme] = useState<string | undefined>(undefined)
 		useEffect(() => {
 			const observer = observeThemeFromLocalStorage({
 				...options,
-				handler: (result) => setTheme(result?.theme),
+				handler: (result) => setTheme(result?.theme)
 			})
 
 			observer.disconnect()
@@ -163,7 +163,7 @@ export const Disconnect: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('theme')).toHaveTextContent('grayscale')
-	},
+	}
 }
 
 export const ThemeNotExists: Story = {
@@ -174,11 +174,11 @@ export const ThemeNotExists: Story = {
 			const options = defineThemeStorageOptions({
 				themes,
 				theme: 'grayscale',
-				storageKey: 'theme-not-exists',
+				storageKey: 'theme-not-exists'
 			})
 			setThemeToLocalStorage({ ...options, theme: null })
 			return { options }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -186,7 +186,7 @@ export const ThemeNotExists: Story = {
 				<p>
 					Handler receives <code>theme</code> when nothing is stored at the key.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -196,8 +196,8 @@ export const ThemeNotExists: Story = {
 					storageKey: 'theme-not-exists',
 					handler: (result) => console.log('Theme:', result?.theme, result?.value),
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { options } }) => {
 		return (
@@ -210,11 +210,11 @@ export const ThemeNotExists: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('theme: grayscale')
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

@@ -13,10 +13,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store that reads and writes theme via a data attribute on an element. The store provides get, set, and subscribe for the given attribute name and element.',
-		},
+				'Theme store that reads and writes theme via a data attribute on an element. The store provides get, set, and subscribe for the given attribute name and element.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 const ATTR = 'data-theme-cs' as const
@@ -33,7 +33,7 @@ const ATTR = 'data-theme-cs' as const
 function StoreGetDemo({
 	attributeName,
 	themes: themesOption,
-	theme: themeFallback,
+	theme: themeFallback
 }: {
 	attributeName: `data-${string}`
 	themes: typeof themes
@@ -52,7 +52,7 @@ function StoreGetDemo({
 							value:
 								result in themesOption
 									? themesOption[result as keyof typeof themes]
-									: String(result),
+									: String(result)
 						}
 					: undefined
 			}
@@ -64,8 +64,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Create a store with an attribute name, set a theme, then get and display the result.',
-		},
+			story: 'Create a store with an attribute name, set a theme, then get and display the result.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -74,15 +74,15 @@ export const BasicUsage: Story = {
 				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes: { default: 'text-white', grayscale: 'text-gray-100' }, theme: 'default' })
 				const theme = store.get({ themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		() => {
 			const store = dataAttributeThemeStore<typeof themes>(ATTR)
 			store.set({ themes, theme: 'default' })
 			return { attributeName: ATTR }
-		},
+		}
 	],
 	render: (_, { loaded: { attributeName } }) => {
 		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="default" />
@@ -90,7 +90,7 @@ export const BasicUsage: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: default')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-white')
-	},
+	}
 }
 
 export const GetWithDefault: Story = {
@@ -99,14 +99,14 @@ export const GetWithDefault: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When the attribute is missing or does not match a theme, store.get() returns the default theme from options.',
-		},
+				'When the attribute is missing or does not match a theme, store.get() returns the default theme from options.'
+		}
 	}),
 	loaders: [
 		() => {
 			document.documentElement.removeAttribute(ATTR)
 			return { attributeName: ATTR }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -115,7 +115,7 @@ export const GetWithDefault: Story = {
 					<code>store.get(&#123; themes, theme: &#39;grayscale&#39; &#125;)</code> returns grayscale
 					when the attribute is not set.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -124,8 +124,8 @@ export const GetWithDefault: Story = {
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 					theme: 'grayscale',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { attributeName } }) => {
 		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="grayscale" />
@@ -133,7 +133,7 @@ export const GetWithDefault: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-gray-100')
-	},
+	}
 }
 
 export const SetThenGet: Story = {
@@ -144,7 +144,7 @@ export const SetThenGet: Story = {
 			const store = dataAttributeThemeStore<typeof themes>(ATTR)
 			store.set({ themes, theme: 'grayscale' })
 			return { attributeName: ATTR }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -152,15 +152,15 @@ export const SetThenGet: Story = {
 				<p>
 					<code>store.set()</code> writes the attribute; <code>store.get()</code> reads it back.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
 				const store = dataAttributeThemeStore('data-theme')
 				store.set({ themes, theme: 'grayscale' })
 				const theme = store.get({ themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { attributeName } }) => {
 		return <StoreGetDemo attributeName={attributeName} themes={themes} theme="default" />
@@ -168,13 +168,13 @@ export const SetThenGet: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-gray-100')
-	},
+	}
 }
 
 function StoreSubscribeDemo({
 	attributeName,
 	themes: themesOption,
-	theme: themeFallback,
+	theme: themeFallback
 }: {
 	attributeName: `data-${string}`
 	themes: typeof themes
@@ -187,7 +187,7 @@ function StoreSubscribeDemo({
 		const observer = store.subscribe({
 			themes: themesOption,
 			theme: themeFallback,
-			handler: setResult,
+			handler: setResult
 		})
 		return () => observer.disconnect()
 	}, [attributeName, themeFallback, themesOption])
@@ -200,7 +200,7 @@ function StoreSubscribeDemo({
 				result != null
 					? {
 							theme: result,
-							value: result in themesOption ? themesOption[result as keyof typeof themes] : result,
+							value: result in themesOption ? themesOption[result as keyof typeof themes] : result
 						}
 					: undefined
 			}
@@ -213,13 +213,13 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler once with the current theme and when the attribute changes.',
-		},
+				'store.subscribe() calls the handler once with the current theme and when the attribute changes.'
+		}
 	}),
 	loaders: [
 		() => {
 			return { attributeName: ATTR }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard(),
@@ -232,8 +232,8 @@ export const Subscribe: Story = {
 					handler: (theme) => console.log('Theme:', theme),
 				})
 				observer.disconnect()
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { attributeName } }) => {
 		return <StoreSubscribeDemo attributeName={attributeName} themes={themes} theme="default" />
@@ -242,12 +242,12 @@ export const Subscribe: Story = {
 		const store = dataAttributeThemeStore<typeof themes>(ATTR)
 		store.set({ themes, theme: 'grayscale' })
 		await waitFor(() =>
-			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale'),
+			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale')
 		)
 		await expect(canvas.getByTestId('store-subscribe-result-value')).toHaveTextContent(
-			'text-gray-100',
+			'text-gray-100'
 		)
-	},
+	}
 }
 
 export const SameAttributeReturnsCachedStore: Story = {
@@ -256,15 +256,15 @@ export const SameAttributeReturnsCachedStore: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Calling dataAttributeThemeStore with the same attribute name (and no element) returns the same store instance.',
-		},
+				'Calling dataAttributeThemeStore with the same attribute name (and no element) returns the same store instance.'
+		}
 	}),
 	loaders: [
 		() => {
 			const store1 = dataAttributeThemeStore<typeof themes>('data-theme-cache')
 			const store2 = dataAttributeThemeStore<typeof themes>('data-theme-cache')
 			return { sameReference: store1 === store2 }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -273,15 +273,15 @@ export const SameAttributeReturnsCachedStore: Story = {
 					Two calls with the same <code>attributeName</code> (and default element) return the same
 					store.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
 				const store1 = dataAttributeThemeStore('data-theme')
 				const store2 = dataAttributeThemeStore('data-theme')
 				store1 === store2
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { sameReference } }) => {
 		return (
@@ -289,18 +289,18 @@ export const SameAttributeReturnsCachedStore: Story = {
 				title="Same store reference"
 				result={{
 					theme: sameReference ? 'true' : 'false',
-					value: String(sameReference),
+					value: String(sameReference)
 				}}
 			/>
 		)
 	},
 	play: async ({ loaded: { sameReference } }) => {
 		await expect(sameReference).toBe(true)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

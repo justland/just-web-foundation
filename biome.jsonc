@@ -21,8 +21,8 @@
 	},
 	"javascript": {
 		"formatter": {
-			"lineWidth": 100
-			// "trailingCommas": "none"
+			"lineWidth": 100,
+			"trailingCommas": "none"
 		}
 	},
 	"overrides": [

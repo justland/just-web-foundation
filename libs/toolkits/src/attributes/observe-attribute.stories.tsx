@@ -12,15 +12,15 @@ const meta: Meta<FnToArgTypes<typeof observeAttributes, ['element']>> = {
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'Observes attribute changes on an element and calls corresponding handlers.',
-		},
+			component: 'Observes attribute changes on an element and calls corresponding handlers.'
+		}
 	}),
 	argTypes: {
 		element: {
-			control: false,
-		},
+			control: false
+		}
 	},
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes a single attribute change on the document root element.',
+			story: 'Observes a single attribute change on the document root element.'
 		},
 		source: {
 			code: dedent`
@@ -39,8 +39,8 @@ export const BasicUsage: Story = {
 				})
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -50,7 +50,7 @@ export const BasicUsage: Story = {
 			const observer = observeAttributes({
 				'data-theme': (value) => {
 					setLog((prev) => [...prev, `data-theme: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -70,13 +70,13 @@ export const BasicUsage: Story = {
 		await userEvent.click(btn)
 		await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument()
 		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
-	},
+	}
 }
 
 export const MultipleAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes multiple attributes simultaneously.',
+			story: 'Observes multiple attributes simultaneously.'
 		},
 		source: {
 			code: dedent`
@@ -86,8 +86,8 @@ export const MultipleAttributes: Story = {
 				})
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -100,7 +100,7 @@ export const MultipleAttributes: Story = {
 				},
 				'aria-label': (value) => {
 					setLog((prev) => [...prev, `aria-label: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -131,13 +131,13 @@ export const MultipleAttributes: Story = {
 			await expect(canvas.getByText('aria-label: test-value')).toBeInTheDocument()
 			await expect(canvas.getByText('aria-label: null')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes attribute changes on a custom element instead of the document root.',
+			story: 'Observes attribute changes on a custom element instead of the document root.'
 		},
 		source: {
 			code: dedent`
@@ -149,8 +149,8 @@ export const CustomElement: Story = {
 				)
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -163,9 +163,9 @@ export const CustomElement: Story = {
 				{
 					'data-anything': (value) => {
 						setLog((prev) => [...prev, `data-anything: ${value}`])
-					},
+					}
 				},
-				customElementRef.current,
+				customElementRef.current
 			)
 			return () => observer.disconnect()
 		}, [customElementRef])
@@ -195,7 +195,7 @@ export const CustomElement: Story = {
 		await expect(canvas.getByText('data-anything: null')).toBeInTheDocument()
 		const dataAnything2 = element.getAttribute('data-anything')
 		await expect(dataAnything2).toBeNull()
-	},
+	}
 }
 
 const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute }, ref) => {
@@ -212,7 +212,7 @@ const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute
 				target.setAttribute(attr, newValue)
 			}
 		},
-		[ref],
+		[ref]
 	)
 
 	return (
@@ -229,7 +229,7 @@ const ToggleButton = forwardRef<HTMLElement, { attribute: string }>(({ attribute
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code },
+		source: { code }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

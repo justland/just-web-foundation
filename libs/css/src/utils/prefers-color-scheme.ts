@@ -20,7 +20,7 @@ import { ctx } from '../globals.ctx.ts'
  * ```
  */
 export function observePrefersColorScheme<T extends string>(
-	themes: Record<T, (value: T | null) => void>,
+	themes: Record<T, (value: T | null) => void>
 ) {
 	const removers = mapKey(themes, (t) => {
 		const m = ctx.matchMedia(`(prefers-color-scheme: ${t as string})`)

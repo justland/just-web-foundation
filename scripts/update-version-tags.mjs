@@ -166,7 +166,7 @@ function validateTypeScriptSyntax(filePath) {
 
 		execSync(command, {
 			stdio: 'pipe',
-			cwd: process.cwd(),
+			cwd: process.cwd()
 		})
 		return true
 	} catch (error) {
@@ -200,7 +200,7 @@ function main() {
 		processed: 0,
 		updated: 0,
 		errors: 0,
-		skipped: 0,
+		skipped: 0
 	}
 
 	for (const storyFile of storyFiles) {
@@ -218,7 +218,7 @@ function main() {
 			// Extract version from package.json
 			const version = extractVersionFromPackageJson(packageJsonPath)
 			console.info(
-				`  📦 Found version: ${version} (from ${path.relative(process.cwd(), packageJsonPath)})`,
+				`  📦 Found version: ${version} (from ${path.relative(process.cwd(), packageJsonPath)})`
 			)
 
 			// Update the file
@@ -286,7 +286,7 @@ function main() {
 		console.info('\n✅ Version tags updated successfully!')
 		console.info('🔍 You can verify the changes by running:')
 		console.info(
-			'   grep -r "version:" . --include="*.stories.tsx" | grep -E "version:[0-9]+\\.[0-9]+"',
+			'   grep -r "version:" . --include="*.stories.tsx" | grep -E "version:[0-9]+\\.[0-9]+"'
 		)
 	}
 
@@ -305,5 +305,5 @@ export {
 	findPackageJson,
 	findStoryFilesWithVersionNext,
 	updateVersionTagsInFile,
-	validateTypeScriptSyntax,
+	validateTypeScriptSyntax
 }

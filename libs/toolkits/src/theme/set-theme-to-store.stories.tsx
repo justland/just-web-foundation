@@ -6,7 +6,7 @@ import {
 	getThemeFromStore,
 	setThemeToStore,
 	type ThemeResult,
-	type ThemeStore,
+	type ThemeStore
 } from '#just-web/toolkits'
 import { ShowThemeFromStore } from '../testing/show-theme-from-store.tsx'
 
@@ -16,10 +16,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Sets the theme in a generic store (sync or async). Clears when theme is null or undefined.',
-		},
+				'Sets the theme in a generic store (sync or async). Clears when theme is null or undefined.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 function createInMemoryStore(initial: ThemeResult<typeof themes>): ThemeStore<typeof themes> {
@@ -39,7 +39,7 @@ function createInMemoryStore(initial: ThemeResult<typeof themes>): ThemeStore<ty
 		},
 		set(result) {
 			value = result
-		},
+		}
 	}
 }
 
@@ -47,8 +47,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Sets theme in an in-memory store then reads it back.',
-		},
+			story: 'Sets theme in an in-memory store then reads it back.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -57,15 +57,15 @@ export const BasicUsage: Story = {
 				const store = createInMemoryStore(undefined)
 				await setThemeToStore({ store, themes, theme: 'grayscale' })
 				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		async () => {
 			const store = createInMemoryStore(undefined)
 			await setThemeToStore({ store, themes, theme: 'grayscale' })
 			return { store }
-		},
+		}
 	],
 	render: (_, { loaded: { store } }) => {
 		return <ShowThemeFromStore store={store} themes={themes} theme="default" />
@@ -76,7 +76,7 @@ export const BasicUsage: Story = {
 		const result = await getThemeFromStore({ store, themes, theme: 'default' })
 		await expect(result?.theme).toBe('grayscale')
 		await expect(result?.value).toBe('text-gray-100')
-	},
+	}
 }
 
 export const ClearStore: Story = {
@@ -89,7 +89,7 @@ export const ClearStore: Story = {
 					cleared (writes <code>undefined</code>). A subsequent get with no default theme returns{' '}
 					<code>undefined</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -97,8 +97,8 @@ export const ClearStore: Story = {
 				await setThemeToStore({ store, themes, theme: 'grayscale' })
 				await setThemeToStore({ store, themes, theme: null })
 				const result = await getThemeFromStore({ store, themes })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		async () => {
@@ -106,7 +106,7 @@ export const ClearStore: Story = {
 			await setThemeToStore({ store, themes, theme: 'grayscale' })
 			await setThemeToStore({ store, themes, theme: null })
 			return { store }
-		},
+		}
 	],
 	render: (_, { loaded: { store } }) => (
 		<ShowThemeFromStore store={store} themes={themes} data-testid="result" />
@@ -117,7 +117,7 @@ export const ClearStore: Story = {
 		await setThemeToStore({ store, themes, theme: null })
 		const result = await getThemeFromStore({ store, themes })
 		expect(result).toBeUndefined()
-	},
+	}
 }
 
 function createAsyncSetStore(initial: ThemeResult<typeof themes>): ThemeStore<typeof themes> {
@@ -129,7 +129,7 @@ function createAsyncSetStore(initial: ThemeResult<typeof themes>): ThemeStore<ty
 		set(result) {
 			value = result
 			return Promise.resolve()
-		},
+		}
 	}
 }
 
@@ -142,22 +142,22 @@ export const AsyncSet: Story = {
 					When <code>store.set</code> returns a Promise, <code>setThemeToStore</code> awaits it
 					before resolving.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
 				const store = createAsyncSetStore(undefined)
 				await setThemeToStore({ store, themes, theme: 'grayscale' })
 				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		async () => {
 			const store = createAsyncSetStore(undefined)
 			await setThemeToStore({ store, themes, theme: 'grayscale' })
 			return { store }
-		},
+		}
 	],
 	render: (_, { loaded: { store } }) => (
 		<ShowThemeFromStore store={store} themes={themes} theme="default" data-testid="result" />
@@ -168,5 +168,5 @@ export const AsyncSet: Story = {
 		const result = await getThemeFromStore({ store, themes, theme: 'default' })
 		expect(result?.theme).toBe('grayscale')
 		expect(result?.value).toBe('text-gray-100')
-	},
+	}
 }

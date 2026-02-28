@@ -10,10 +10,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Appends a suffix to an ID if the ID is defined. Useful for propagating ids (e.g. data-testid, key, or aria attributes) from parent to sub-components so selectors and keys stay consistent and predictable.',
-		},
+				'Appends a suffix to an ID if the ID is defined. Useful for propagating ids (e.g. data-testid, key, or aria attributes) from parent to sub-components so selectors and keys stay consistent and predictable.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -24,8 +24,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Append a suffix to a defined ID. Returns the combined id with a hyphen.',
-		},
+			story: 'Append a suffix to a defined ID. Returns the combined id with a hyphen.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -33,14 +33,14 @@ export const BasicUsage: Story = {
 			source: dedent`
 				appendId('card', 'title')   // 'card-title'
 				appendId('form', 'submit')  // 'form-submit'
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const examples = [
 			{ id: 'card', suffix: 'title' },
 			{ id: 'form', suffix: 'submit' },
-			{ id: 'list', suffix: 'item-0' },
+			{ id: 'list', suffix: 'item-0' }
 		]
 		return (
 			<StoryCard appearance="output">
@@ -48,7 +48,7 @@ export const BasicUsage: Story = {
 					{examples
 						.map(
 							({ id, suffix }) =>
-								`appendId('${id}', '${suffix}') → ${JSON.stringify(appendId(id, suffix))}`,
+								`appendId('${id}', '${suffix}') → ${JSON.stringify(appendId(id, suffix))}`
 						)
 						.join('\n')}
 				</pre>
@@ -58,7 +58,7 @@ export const BasicUsage: Story = {
 	play: async () => {
 		await expect(appendId('card', 'title')).toBe('card-title')
 		await expect(appendId('form', 'submit')).toBe('form-submit')
-	},
+	}
 }
 
 export const DataTestIdAndKeyPropagation: Story = {
@@ -67,8 +67,8 @@ export const DataTestIdAndKeyPropagation: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Pass a root id (e.g. from props) down and use appendId for data-testid, key, or other ids so sub-components get stable, predictable identifiers without manual concatenation.',
-		},
+				'Pass a root id (e.g. from props) down and use appendId for data-testid, key, or other ids so sub-components get stable, predictable identifiers without manual concatenation.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -90,8 +90,8 @@ export const DataTestIdAndKeyPropagation: Story = {
 				  )
 				}
 				// <Card id="product-card" /> → data-testid="product-card", "product-card-title", "product-card-item-0", ...
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		const id = 'product-card'
@@ -113,7 +113,7 @@ export const DataTestIdAndKeyPropagation: Story = {
 		const id = 'product-card'
 		await expect(appendId(id, 'title')).toBe('product-card-title')
 		await expect(appendId(id, 'item-0')).toBe('product-card-item-0')
-	},
+	}
 }
 
 export const WhenIdUndefined: Story = {
@@ -122,8 +122,8 @@ export const WhenIdUndefined: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When the id is undefined, appendId returns undefined. Use this when the parent does not set an id (e.g. optional data-testid) so sub-components do not render stray ids.',
-		},
+				'When the id is undefined, appendId returns undefined. Use this when the parent does not set an id (e.g. optional data-testid) so sub-components do not render stray ids.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -131,8 +131,8 @@ export const WhenIdUndefined: Story = {
 			source: dedent`
 				appendId(undefined, 'title')  // undefined
 				appendId(undefined, 'item')   // undefined
-			`,
-		}),
+			`
+		})
 	],
 	render() {
 		return (
@@ -148,5 +148,5 @@ export const WhenIdUndefined: Story = {
 	play: async () => {
 		await expect(appendId(undefined, 'title')).toBeUndefined()
 		await expect(appendId(undefined, 'item')).toBeUndefined()
-	},
+	}
 }

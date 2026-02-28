@@ -12,7 +12,7 @@ import { getAttribute } from './get-attribute.ts'
  */
 export function getDataAttribute(
 	qualifiedName: DataAttribute,
-	element?: Element | null | undefined,
+	element?: Element | null | undefined
 ) {
 	return getAttribute(qualifiedName, element)
 }

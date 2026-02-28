@@ -14,10 +14,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				"A utility that sets the theme by applying the theme's class name(s) to an element, removing other theme classes first.",
-		},
+				"A utility that sets the theme by applying the theme's class name(s) to an element, removing other theme classes first."
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -33,7 +33,7 @@ export const BasicUsage: Story = {
 					<code>setThemeByClassName</code> by default sets the theme on{' '}
 					<code>document.documentElement</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -41,8 +41,8 @@ export const BasicUsage: Story = {
 					themes: { light: 'your-light-class', dark: 'your-dark-class' },
 					theme: ${'<value>'}
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [className] = useAttribute('class')
@@ -56,7 +56,7 @@ export const BasicUsage: Story = {
 							onPress={() => {
 								setThemeByClassName({
 									themes: { light: 'your-light-class', dark: 'your-dark-class' },
-									theme,
+									theme
 								})
 							}}
 						>
@@ -81,7 +81,7 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('class-name')).toHaveTextContent('your-dark-class')
 		})
-	},
+	}
 }
 
 export const WithThemeArray: Story = {
@@ -94,7 +94,7 @@ export const WithThemeArray: Story = {
 						When a theme value is an array, <strong>all</strong> values are applied as class names.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -105,14 +105,14 @@ export const WithThemeArray: Story = {
 					},
 					theme: ${'<value>'}
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [className] = useAttribute('class')
 		const themesWithArrays = {
 			light: ['your-light-class', 'app:text-gray-100', 'app:bg-gray-800'],
-			dark: ['your-dark-class', 'app:text-gray-800', 'app:bg-gray-100'],
+			dark: ['your-dark-class', 'app:text-gray-800', 'app:bg-gray-100']
 		} as const
 
 		return (
@@ -124,7 +124,7 @@ export const WithThemeArray: Story = {
 							onPress={() => {
 								setThemeByClassName({
 									themes: themesWithArrays,
-									theme,
+									theme
 								})
 							}}
 						>
@@ -143,17 +143,17 @@ export const WithThemeArray: Story = {
 			const btn = canvas.getByRole('button', { name: 'light' })
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('class-name')).toHaveTextContent(
-				'your-light-class app:text-gray-100 app:bg-gray-800',
+				'your-light-class app:text-gray-100 app:bg-gray-800'
 			)
 		})
 		await step('dark', async () => {
 			const btn = canvas.getByRole('button', { name: 'dark' })
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('class-name')).toHaveTextContent(
-				'your-dark-class app:text-gray-800 app:bg-gray-100',
+				'your-dark-class app:text-gray-800 app:bg-gray-100'
 			)
 		})
-	},
+	}
 }
 
 export const WithCustomElement: Story = {
@@ -161,9 +161,9 @@ export const WithCustomElement: Story = {
 	parameters: {
 		...defineDocsParam({
 			description: {
-				story: 'Set theme on a specific element via the element option.',
-			},
-		}),
+				story: 'Set theme on a specific element via the element option.'
+			}
+		})
 	},
 	decorators: [
 		withStoryCard({
@@ -172,15 +172,15 @@ export const WithCustomElement: Story = {
 					Theme classes are applied to the target div below instead of{' '}
 					<code>document.documentElement</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`setThemeByClassName({
 				themes: { light: 'your-light-class', dark: 'your-dark-class' },
 				theme: ${'<value>'},
 				element: myElement,
-			})`,
-		}),
+			})`
+		})
 	],
 	render: () => {
 		const customElementRef = useRef<HTMLDivElement>(null)
@@ -204,7 +204,7 @@ export const WithCustomElement: Story = {
 									setThemeByClassName({
 										themes: { light: 'your-light-class', dark: 'your-dark-class' },
 										theme,
-										element: el,
+										element: el
 									})
 									setSelectedTheme(theme)
 								}
@@ -238,11 +238,11 @@ export const WithCustomElement: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

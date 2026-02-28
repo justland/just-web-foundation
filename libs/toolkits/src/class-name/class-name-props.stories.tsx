@@ -10,7 +10,7 @@ import source from './class-name-props.ts?raw'
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
 	tags: ['type', 'version:next', '!test'],
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -18,7 +18,7 @@ export default meta
 export const Specification: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
 	decorators: [
 		withStoryCard({
@@ -27,10 +27,10 @@ export const Specification: StoryObj = {
 					<code>ClassNameProps</code> describes the standard type of the <code>className</code>{' '}
 					property.
 				</p>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 export const BasicUsage: StoryObj = {
@@ -38,17 +38,17 @@ export const BasicUsage: StoryObj = {
 	parameters: defineDocsParam({ source: { code } }),
 	decorators: [
 		withStoryCard({
-			content: <p>Use it by itself or combine with other props.</p>,
+			content: <p>Use it by itself or combine with other props.</p>
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(BasicUsage, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: BasicUsage.parameters?.['docs']?.['source']?.code,
+	code: BasicUsage.parameters?.['docs']?.['source']?.code
 })

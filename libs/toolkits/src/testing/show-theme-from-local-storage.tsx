@@ -1,19 +1,19 @@
 import {
 	getThemeFromLocalStorage,
 	type ThemeMap,
-	type ThemeStorageOptions,
+	type ThemeStorageOptions
 } from '#just-web/toolkits'
 import { ThemeResultCard } from './theme-result-card.tsx'
 
 export function ShowThemeFromLocalStorage<Themes extends ThemeMap>({
 	storageKey,
 	themes,
-	theme,
+	theme
 }: ThemeStorageOptions<Themes>) {
 	const result = getThemeFromLocalStorage({
 		storageKey,
 		theme,
-		themes,
+		themes
 	})
 	return <ThemeResultCard title="Theme from localStorage" result={result} />
 }

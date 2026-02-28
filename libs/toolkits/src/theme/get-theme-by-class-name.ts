@@ -39,6 +39,6 @@ export function getThemeByClassName<Themes extends ThemeMap>(options: {
 	const store = classNameThemeStore<Themes>(options.element)
 	return store.get({
 		themes: options.themes,
-		theme: options.theme,
+		theme: options.theme
 	})
 }

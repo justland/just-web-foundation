@@ -21,7 +21,7 @@ export function ThemeStoreDemo<Themes extends ThemeMap>({
 	store,
 	themes,
 	theme,
-	'data-testid': dataTestId = 'theme-store-demo',
+	'data-testid': dataTestId = 'theme-store-demo'
 }: ThemeStoreDemoProps<Themes>) {
 	const [observedResult, setObservedResult] = useState<
 		{ theme: keyof Themes; value: Themes[keyof Themes] } | undefined
@@ -35,7 +35,7 @@ export function ThemeStoreDemo<Themes extends ThemeMap>({
 			store,
 			themes,
 			theme,
-			handler: setObservedResult,
+			handler: setObservedResult
 		})
 		return () => observer.disconnect()
 	}, [store, themes, theme])

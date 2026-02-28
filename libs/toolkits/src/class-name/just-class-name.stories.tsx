@@ -18,10 +18,10 @@ const meta: Meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'`JustClassName` extends the basic `className` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `className`.',
-		},
+				'`JustClassName` extends the basic `className` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `className`.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -65,16 +65,16 @@ export const Specification: StoryObj = {
 						</ul>
 					</ul>
 				</>
-			),
-		}),
-	],
+			)
+		})
+	]
 }
 
 export const JustClassNameProps: StoryObj = {
 	name: 'JustClassNameProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codePropsDefault },
+		source: { code: codePropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -89,26 +89,26 @@ export const JustClassNameProps: StoryObj = {
 						It is a ready-made type for the typical <code>className</code> props use case.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustClassNameProps, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: JustClassNameProps.parameters?.['docs']?.['source']?.code,
+	code: JustClassNameProps.parameters?.['docs']?.['source']?.code
 })
 
 export const JustClassName: StoryObj = {
 	name: 'JustClassName',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeDefault },
+		source: { code: codeDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -134,25 +134,25 @@ export const JustClassName: StoryObj = {
 						render props or return a completely different.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustClassName, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
-		'@repobuddy/storybook': repobuddyStorybook,
+		'@repobuddy/storybook': repobuddyStorybook
 	},
-	code: JustClassName.parameters?.['docs']?.['source']?.code,
+	code: JustClassName.parameters?.['docs']?.['source']?.code
 })
 
 export const JustClassNameFnProps: StoryObj = {
 	name: 'JustClassNameFnProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeResolverStateDefault },
+		source: { code: codeResolverStateDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -164,18 +164,18 @@ export const JustClassNameFnProps: StoryObj = {
 					</p>
 					<p>It is useful when you want to create a composable function.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustClassNameFnProps, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
-		'@repobuddy/storybook': repobuddyStorybook,
+		'@repobuddy/storybook': repobuddyStorybook
 	},
-	code: JustClassNameFnProps.parameters?.['docs']?.['source']?.code,
+	code: JustClassNameFnProps.parameters?.['docs']?.['source']?.code
 })
 
 export const NonInteractiveComponent: StoryObj = {
@@ -183,9 +183,9 @@ export const NonInteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustClassName` without a type parameter: render props is `AnyRecord & { className?: string }`. Accepts string, function, or undefined.',
+				'Using `JustClassName` without a type parameter: render props is `AnyRecord & { className?: string }`. Accepts string, function, or undefined.'
 		},
-		source: { code: codePropsDefault },
+		source: { code: codePropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -208,20 +208,20 @@ export const NonInteractiveComponent: StoryObj = {
 					</p>
 					<p>You can also return a completely new class name by returning different value.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(NonInteractiveComponent, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
 	defaultEditorOptions: {},
-	code: NonInteractiveComponent.parameters?.['docs']?.['source']?.code,
+	code: NonInteractiveComponent.parameters?.['docs']?.['source']?.code
 })
 
 export const InteractiveComponent: StoryObj = {
@@ -229,9 +229,9 @@ export const InteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustClassName<RenderProps>` with a type parameter: the function receives typed render props (`RenderProps & { className?: string | undefined }`), enabling autocomplete and type checking for custom render props fields.',
+				'Using `JustClassName<RenderProps>` with a type parameter: the function receives typed render props (`RenderProps & { className?: string | undefined }`), enabling autocomplete and type checking for custom render props fields.'
 		},
-		source: { code: codeTyped },
+		source: { code: codeTyped }
 	}),
 	decorators: [
 		withStoryCard({
@@ -244,26 +244,26 @@ export const InteractiveComponent: StoryObj = {
 					</p>
 					<p>You can use it to customize the class name based on the render props.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
+		showSource()
 	],
-	play() {},
+	play() {}
 }
 
 makeLiveEditStory(InteractiveComponent, {
 	availableImports: {
 		'@repobuddy/storybook': repobuddyStorybook,
 		'@just-web/toolkits': toolkits,
-		react: React,
+		react: React
 	},
-	code: InteractiveComponent.parameters?.['docs']?.['source']?.code,
+	code: InteractiveComponent.parameters?.['docs']?.['source']?.code
 })
 
 export const ClassNameVSDefaultClassName: StoryObj = {
 	name: 'className vs defaultClassName',
 	parameters: defineDocsParam({
-		source: { code: codeDefaultClassName },
+		source: { code: codeDefaultClassName }
 	}),
 	decorators: [
 		withStoryCard({
@@ -279,10 +279,10 @@ export const ClassNameVSDefaultClassName: StoryObj = {
 					</p>
 					<p>The key benefit is that you can compose your style and logic:</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(ClassNameVSDefaultClassName, {
@@ -290,16 +290,16 @@ makeLiveEditStory(ClassNameVSDefaultClassName, {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
 		react: React,
-		clsx: { default: clsx },
+		clsx: { default: clsx }
 	},
 	defaultEditorOptions: {},
-	code: ClassNameVSDefaultClassName.parameters?.['docs']?.['source']?.code,
+	code: ClassNameVSDefaultClassName.parameters?.['docs']?.['source']?.code
 })
 
 export const Source: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

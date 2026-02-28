@@ -9,9 +9,9 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function to resolve style from render props, supporting both object and function-based style resolution.',
-		},
-	}),
+				'A utility function to resolve style from render props, supporting both object and function-based style resolution.'
+		}
+	})
 } satisfies Meta<typeof resolveStyle>
 
 export default meta
@@ -24,28 +24,28 @@ export const StyleObject: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves style when provided as an object. Merges style with the provided style (override wins).',
-		},
+				'Resolves style when provided as an object. Merges style with the provided style (override wins).'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
 		resolveStyle({ style: { padding: '0.5rem', color: 'red' } }, { fontWeight: 'bold' })
-		`,
-		}),
+		`
+		})
 	],
 	render() {
 		const result = resolveStyle(
 			{ style: { padding: '0.5rem', color: 'red' } },
-			{ fontWeight: 'bold' },
+			{ fontWeight: 'bold' }
 		)
 		return (
 			<StoryCard appearance="output">
 				<pre>{JSON.stringify(result, null, 2)}</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const StyleFunction: Story = {
@@ -54,8 +54,8 @@ export const StyleFunction: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Resolves style when provided as a function. The function receives the render props and returns the style.',
-		},
+				'Resolves style when provided as a function. The function receives the render props and returns the style.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -64,19 +64,19 @@ export const StyleFunction: Story = {
 		resolveStyle({ style: { padding: '0.5rem' }, isActive: true }, (s) =>
 			s.isActive ? { ...s.style, color: 'green' } : s.style,
 		)
-		`,
-		}),
+		`
+		})
 	],
 	render() {
 		const result = resolveStyle({ style: { padding: '0.5rem' }, isActive: true }, (s) =>
-			s.isActive ? { ...s.style, color: 'green' } : s.style,
+			s.isActive ? { ...s.style, color: 'green' } : s.style
 		)
 		return (
 			<StoryCard appearance="output">
 				<pre>{JSON.stringify(result, null, 2)}</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const UndefinedStyle: Story = {
@@ -91,11 +91,11 @@ export const UndefinedStyle: Story = {
 						property from the <code>renderProps</code>.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
-			source: dedent`resolveStyle({ style: { padding: '0.5rem' } }, undefined)`,
-		}),
+			source: dedent`resolveStyle({ style: { padding: '0.5rem' } }, undefined)`
+		})
 	],
 	render() {
 		const result = resolveStyle({ style: { padding: '0.5rem' } }, undefined)
@@ -104,7 +104,7 @@ export const UndefinedStyle: Story = {
 				<pre>{JSON.stringify(result, null, 2)}</pre>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const FunctionReturnsUndefined: Story = {
@@ -117,11 +117,11 @@ export const FunctionReturnsUndefined: Story = {
 					When <code>style</code> is a function that returns <code>undefined</code>, it returns{' '}
 					<code>undefined</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
-			source: `resolveStyle({ style: { padding: '0.5rem' } }, () => undefined)`,
-		}),
+			source: `resolveStyle({ style: { padding: '0.5rem' } }, () => undefined)`
+		})
 	],
 	render() {
 		const result = resolveStyle({ style: { padding: '0.5rem' } }, () => undefined)
@@ -130,5 +130,5 @@ export const FunctionReturnsUndefined: Story = {
 				{result === undefined ? '(undefined)' : '(not undefined)'}
 			</StoryCard>
 		)
-	},
+	}
 }

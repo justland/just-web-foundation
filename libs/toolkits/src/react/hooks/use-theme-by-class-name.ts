@@ -39,7 +39,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 	const [theme, setThemeState] = useState<keyof Themes | undefined>(() =>
 		element
 			? getThemeByClassName({ themes: options.themes, theme: options.theme, element })
-			: options.theme,
+			: options.theme
 	)
 
 	useEffect(() => {
@@ -54,12 +54,12 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 						getThemeByClassName({
 							themes: options.themes,
 							theme: options.theme,
-							element,
-						}),
+							element
+						})
 					)
-				},
+				}
 			},
-			element,
+			element
 		)
 		return () => observer.disconnect()
 	}, [element, options.themes, options.theme])
@@ -70,7 +70,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 				setThemeByClassName({ themes: options.themes, theme: themeKey, element })
 			}
 		},
-		[element, options.themes],
+		[element, options.themes]
 	)
 
 	return [theme, setTheme]

@@ -18,19 +18,19 @@ export default mergeConfig(config, {
 			'@repobuddy/storybook',
 			'@repobuddy/storybook/storybook-dark-mode',
 			'dedent',
-			'storybook-addon-code-editor',
-		],
+			'storybook-addon-code-editor'
+		]
 	},
 	plugins: [
 		tailwindcss(),
 		storybookTest({
-			configDir: join(dirname, '.storybook'),
+			configDir: join(dirname, '.storybook')
 		}),
 		storybookVis(),
-		browserTestPreset({ includeGeneralTests: true }),
+		browserTestPreset({ includeGeneralTests: true })
 	],
 	test: {
 		name: 'css',
-		setupFiles: ['./vitest.setup.ts'],
-	},
+		setupFiles: ['./vitest.setup.ts']
+	}
 })

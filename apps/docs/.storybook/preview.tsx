@@ -13,20 +13,20 @@ const preview: Preview = {
 	parameters: defineParameters(
 		{
 			docs: {
-				codePanel: true,
+				codePanel: true
 			},
 			options: {
 				storySort: {
-					order: ['Overview', '@just-web/css', '@just-web/types'],
-				},
-			},
+					order: ['Overview', '@just-web/css', '@just-web/types']
+				}
+			}
 		},
 		defineDarkModeParam({
 			classTarget: 'html',
 			stylePreview: true,
-			darkClass: ['dark', 'bg-black', 'text-white'],
-		}),
-	),
+			darkClass: ['dark', 'bg-black', 'text-white']
+		})
+	)
 }
 
 export default preview

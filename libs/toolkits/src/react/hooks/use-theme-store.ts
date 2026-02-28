@@ -45,7 +45,7 @@ export function useThemeStore<Themes extends ThemeMap>(options: {
 			store,
 			themes,
 			theme,
-			handler: setResult,
+			handler: setResult
 		})
 		return () => observer.disconnect()
 	}, [store, themes, theme])
@@ -54,7 +54,7 @@ export function useThemeStore<Themes extends ThemeMap>(options: {
 		(themeKey: keyof Themes) => {
 			setThemeToStore({ store, themes, theme: themeKey })
 		},
-		[store, themes],
+		[store, themes]
 	)
 
 	return [result?.theme, setTheme]

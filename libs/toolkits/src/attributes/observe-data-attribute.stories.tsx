@@ -16,15 +16,15 @@ const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Observes changes to `data-*` attributes on an element and calls corresponding handlers.',
-		},
+				'Observes changes to `data-*` attributes on an element and calls corresponding handlers.'
+		}
 	}),
 	argTypes: {
 		element: {
-			control: false,
-		},
+			control: false
+		}
 	},
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes a single data-* attribute change on the document root element.',
+			story: 'Observes a single data-* attribute change on the document root element.'
 		},
 		source: {
 			code: dedent`
@@ -43,8 +43,8 @@ export const BasicUsage: Story = {
 				})
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -54,7 +54,7 @@ export const BasicUsage: Story = {
 			const observer = observeDataAttributes({
 				'data-theme': (value) => {
 					setLog((prev) => [...prev, `data-theme: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -67,7 +67,7 @@ export const BasicUsage: Story = {
 							setThemeByDataAttribute({
 								attributeName: 'data-theme',
 								themes: testValueThemes,
-								theme: 'test-value',
+								theme: 'test-value'
 							})
 						}
 					>
@@ -88,13 +88,13 @@ export const BasicUsage: Story = {
 		await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument()
 		await userEvent.click(clearBtn)
 		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
-	},
+	}
 }
 
 export const MultipleAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes multiple data-* attributes simultaneously.',
+			story: 'Observes multiple data-* attributes simultaneously.'
 		},
 		source: {
 			code: dedent`
@@ -104,8 +104,8 @@ export const MultipleAttributes: Story = {
 				})
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -118,7 +118,7 @@ export const MultipleAttributes: Story = {
 				},
 				'data-color-scheme': (value) => {
 					setLog((prev) => [...prev, `data-color-scheme: ${value}`])
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -131,7 +131,7 @@ export const MultipleAttributes: Story = {
 							setThemeByDataAttribute({
 								attributeName: 'data-theme',
 								themes: testValueThemes,
-								theme: 'test-value',
+								theme: 'test-value'
 							})
 						}
 					>
@@ -145,7 +145,7 @@ export const MultipleAttributes: Story = {
 							setThemeByDataAttribute({
 								attributeName: 'data-color-scheme',
 								themes: testValueThemes,
-								theme: 'test-value',
+								theme: 'test-value'
 							})
 						}
 					>
@@ -177,13 +177,13 @@ export const MultipleAttributes: Story = {
 			await userEvent.click(clearBtn)
 			await expect(canvas.getByText('data-color-scheme: null')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Observes data-* attribute changes on a custom element instead of the document root.',
+			story: 'Observes data-* attribute changes on a custom element instead of the document root.'
 		},
 		source: {
 			code: dedent`
@@ -196,8 +196,8 @@ export const CustomElement: Story = {
 
 				// cleanup
 				observer.disconnect()
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
@@ -210,9 +210,9 @@ export const CustomElement: Story = {
 				{
 					'data-theme': (value) => {
 						setLog((prev) => [...prev, `data-theme: ${value}`])
-					},
+					}
 				},
-				customElementRef.current,
+				customElementRef.current
 			)
 			return () => observer.disconnect()
 		}, [customElementRef])
@@ -227,7 +227,7 @@ export const CustomElement: Story = {
 								attributeName: 'data-theme',
 								themes: testValueThemes,
 								theme: 'test-value',
-								element: el,
+								element: el
 							})
 						}}
 					>
@@ -262,13 +262,13 @@ export const CustomElement: Story = {
 		await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
 		const dataTheme2 = element.getAttribute('data-theme')
 		await expect(dataTheme2).toBeNull()
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code },
+		source: { code }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

@@ -16,10 +16,10 @@ const meta: Meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'`JustStyle` extends the basic `style` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `style`.',
-		},
+				'`JustStyle` extends the basic `style` type with a callback to invert the flow on control. This allows the consumer to fully control the resulting `style`.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -63,16 +63,16 @@ export const Specification: StoryObj = {
 						</ul>
 					</ul>
 				</>
-			),
-		}),
-	],
+			)
+		})
+	]
 }
 
 export const JustStylePropsStory: StoryObj = {
 	name: 'JustStyleProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codePropsDefault },
+		source: { code: codePropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -87,26 +87,26 @@ export const JustStylePropsStory: StoryObj = {
 						It is a ready-made type for the typical <code>style</code> props use case.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustStylePropsStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
-	code: JustStylePropsStory.parameters?.['docs']?.['source']?.code,
+	code: JustStylePropsStory.parameters?.['docs']?.['source']?.code
 })
 
 export const JustStyleStory: StoryObj = {
 	name: 'JustStyle',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeDefault },
+		source: { code: codeDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -132,25 +132,25 @@ export const JustStyleStory: StoryObj = {
 						props or return a completely different object.
 					</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustStyleStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
-		'@repobuddy/storybook': repobuddyStorybook,
+		'@repobuddy/storybook': repobuddyStorybook
 	},
-	code: JustStyleStory.parameters?.['docs']?.['source']?.code,
+	code: JustStyleStory.parameters?.['docs']?.['source']?.code
 })
 
 export const JustStyleFnPropsStory: StoryObj = {
 	name: 'JustStyleFnProps',
 	tags: ['type'],
 	parameters: defineDocsParam({
-		source: { code: codeResolverStateDefault },
+		source: { code: codeResolverStateDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -162,18 +162,18 @@ export const JustStyleFnPropsStory: StoryObj = {
 					</p>
 					<p>It is useful when you want to create a composable function.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(JustStyleFnPropsStory, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
-		'@repobuddy/storybook': repobuddyStorybook,
+		'@repobuddy/storybook': repobuddyStorybook
 	},
-	code: JustStyleFnPropsStory.parameters?.['docs']?.['source']?.code,
+	code: JustStyleFnPropsStory.parameters?.['docs']?.['source']?.code
 })
 
 export const NonInteractiveComponent: StoryObj = {
@@ -181,9 +181,9 @@ export const NonInteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustStyle` without a type parameter: render props is `AnyRecord & { style?: CSSProperties }`. Accepts object, function, or undefined.',
+				'Using `JustStyle` without a type parameter: render props is `AnyRecord & { style?: CSSProperties }`. Accepts object, function, or undefined.'
 		},
-		source: { code: codePropsDefault },
+		source: { code: codePropsDefault }
 	}),
 	decorators: [
 		withStoryCard({
@@ -205,20 +205,20 @@ export const NonInteractiveComponent: StoryObj = {
 					</p>
 					<p>You can also return a completely new style by returning a different value.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 makeLiveEditStory(NonInteractiveComponent, {
 	availableImports: {
 		'@just-web/toolkits': toolkits,
 		'@repobuddy/storybook': repobuddyStorybook,
-		react: React,
+		react: React
 	},
 	defaultEditorOptions: {},
-	code: NonInteractiveComponent.parameters?.['docs']?.['source']?.code,
+	code: NonInteractiveComponent.parameters?.['docs']?.['source']?.code
 })
 
 export const InteractiveComponent: StoryObj = {
@@ -226,9 +226,9 @@ export const InteractiveComponent: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using `JustStyle<RenderProps>` with a type parameter: the function receives typed render props (`RenderProps & { style?: CSSProperties }`), enabling autocomplete and type checking for custom render props fields.',
+				'Using `JustStyle<RenderProps>` with a type parameter: the function receives typed render props (`RenderProps & { style?: CSSProperties }`), enabling autocomplete and type checking for custom render props fields.'
 		},
-		source: { code: codeTyped },
+		source: { code: codeTyped }
 	}),
 	decorators: [
 		withStoryCard({
@@ -241,26 +241,26 @@ export const InteractiveComponent: StoryObj = {
 					</p>
 					<p>You can use it to customize the style based on the render props.</p>
 				</>
-			),
+			)
 		}),
-		showSource(),
+		showSource()
 	],
-	play() {},
+	play() {}
 }
 
 makeLiveEditStory(InteractiveComponent, {
 	availableImports: {
 		'@repobuddy/storybook': repobuddyStorybook,
 		'@just-web/toolkits': toolkits,
-		react: React,
+		react: React
 	},
-	code: InteractiveComponent.parameters?.['docs']?.['source']?.code,
+	code: InteractiveComponent.parameters?.['docs']?.['source']?.code
 })
 
 export const Source: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

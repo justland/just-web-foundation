@@ -11,12 +11,12 @@ export type LocalStorageThemeStore<Themes extends ThemeMap> = {
 	set(
 		options: LocalStorageThemeStoreOptions<Themes> & {
 			theme?: keyof Themes | null | undefined
-		},
+		}
 	): void
 	subscribe(
 		options: LocalStorageThemeStoreOptions<Themes> & {
 			handler: (result: ThemeResult<Themes>) => void
-		},
+		}
 	): { disconnect: () => void }
 }
 
@@ -42,7 +42,7 @@ export type LocalStorageThemeStore<Themes extends ThemeMap> = {
 const storeCache = new Map<string, LocalStorageThemeStore<ThemeMap>>()
 
 export function localStorageThemeStore<Themes extends ThemeMap>(
-	storageKey: string,
+	storageKey: string
 ): LocalStorageThemeStore<Themes> {
 	let store = storeCache.get(storageKey) as LocalStorageThemeStore<Themes> | undefined
 	if (store) return store
@@ -50,7 +50,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 		const defaultTheme = options.theme
 			? {
 					theme: options.theme,
-					value: options.themes[options.theme],
+					value: options.themes[options.theme]
 				}
 			: undefined
 		if (!window?.localStorage) return defaultTheme
@@ -71,7 +71,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 	function set(
 		options: LocalStorageThemeStoreOptions<Themes> & {
 			theme?: keyof Themes | null | undefined
-		},
+		}
 	): void {
 		if (!window?.localStorage) return
 
@@ -85,8 +85,8 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 				storageKey,
 				JSON.stringify({
 					theme: options.theme,
-					value: options.themes[options.theme],
-				}),
+					value: options.themes[options.theme]
+				})
 			)
 		} catch {
 			// Ignore quota or other storage errors
@@ -96,7 +96,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 	function subscribe(
 		options: LocalStorageThemeStoreOptions<Themes> & {
 			handler: (result: ThemeResult<Themes>) => void
-		},
+		}
 	): { disconnect: () => void } {
 		const { handler, ...storageOptions } = options
 
@@ -122,7 +122,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 		return {
 			disconnect: () => {
 				window.removeEventListener('storage', onStorage)
-			},
+			}
 		}
 	}
 

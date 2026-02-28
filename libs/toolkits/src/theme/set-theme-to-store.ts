@@ -24,13 +24,13 @@ export type SetThemeToStoreOptions<Themes extends ThemeMap> = {
  * ```
  */
 export async function setThemeToStore<Themes extends ThemeMap>(
-	options: SetThemeToStoreOptions<Themes>,
+	options: SetThemeToStoreOptions<Themes>
 ): Promise<void> {
 	const result: ThemeResult<Themes> =
 		options.theme != null
 			? {
 					theme: options.theme,
-					value: options.themes[options.theme],
+					value: options.themes[options.theme]
 				}
 			: undefined
 	await Promise.resolve(options.store.set?.(result))

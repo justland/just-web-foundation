@@ -11,12 +11,12 @@ export type SessionStorageThemeStore<Themes extends ThemeMap> = {
 	set(
 		options: SessionStorageThemeStoreOptions<Themes> & {
 			theme?: keyof Themes | null | undefined
-		},
+		}
 	): void
 	subscribe(
 		options: SessionStorageThemeStoreOptions<Themes> & {
 			handler: (result: ThemeResult<Themes>) => void
-		},
+		}
 	): { disconnect: () => void }
 }
 
@@ -42,7 +42,7 @@ export type SessionStorageThemeStore<Themes extends ThemeMap> = {
 const storeCache = new Map<string, SessionStorageThemeStore<ThemeMap>>()
 
 export function sessionStorageThemeStore<Themes extends ThemeMap>(
-	storageKey: string,
+	storageKey: string
 ): SessionStorageThemeStore<Themes> {
 	let store = storeCache.get(storageKey) as SessionStorageThemeStore<Themes> | undefined
 	if (store) return store
@@ -50,7 +50,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		const defaultTheme = options.theme
 			? {
 					theme: options.theme,
-					value: options.themes[options.theme],
+					value: options.themes[options.theme]
 				}
 			: undefined
 		if (!window?.sessionStorage) return defaultTheme
@@ -71,7 +71,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	function set(
 		options: SessionStorageThemeStoreOptions<Themes> & {
 			theme?: keyof Themes | null | undefined
-		},
+		}
 	): void {
 		if (!window?.sessionStorage) return
 
@@ -85,8 +85,8 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 				storageKey,
 				JSON.stringify({
 					theme: options.theme,
-					value: options.themes[options.theme],
-				}),
+					value: options.themes[options.theme]
+				})
 			)
 		} catch {
 			// Ignore quota or other storage errors
@@ -96,7 +96,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	function subscribe(
 		options: SessionStorageThemeStoreOptions<Themes> & {
 			handler: (result: ThemeResult<Themes>) => void
-		},
+		}
 	): { disconnect: () => void } {
 		const { handler, ...storageOptions } = options
 
@@ -122,7 +122,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		return {
 			disconnect: () => {
 				window.removeEventListener('storage', onStorage)
-			},
+			}
 		}
 	}
 

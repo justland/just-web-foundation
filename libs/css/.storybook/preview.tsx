@@ -12,19 +12,19 @@ const preview: Preview = {
 			controls: {
 				matchers: {
 					color: /(background|color)$/i,
-					date: /Date$/i,
-				},
+					date: /Date$/i
+				}
 			},
 			docs: {
-				codePanel: true,
-			},
+				codePanel: true
+			}
 		},
 		defineDarkModeParam({
 			classTarget: 'html',
 			stylePreview: true,
-			darkClass: ['dark', 'bg-black', 'text-white'],
-		}),
-	),
+			darkClass: ['dark', 'bg-black', 'text-white']
+		})
+	)
 }
 
 export default preview

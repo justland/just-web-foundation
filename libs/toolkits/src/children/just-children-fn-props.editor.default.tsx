@@ -7,7 +7,7 @@ type CardRenderProps = { label: string }
 function Card({ children, ...rest }: JustChildrenProps<CardRenderProps>) {
 	const renderProps: JustChildrenFnProps<CardRenderProps> = {
 		label: 'Item',
-		children: 'Default content',
+		children: 'Default content'
 	}
 	return (
 		<div {...rest}>

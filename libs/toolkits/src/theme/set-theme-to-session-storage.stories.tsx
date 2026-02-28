@@ -13,10 +13,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Sets the theme key in sessionStorage. Writes only when the theme is in the themes map; removes the storage item by passing null or undefined to the theme option.',
-		},
+				'Sets the theme key in sessionStorage. Writes only when the theme is in the themes map; removes the storage item by passing null or undefined to the theme option.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -27,8 +27,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Writes the theme to sessionStorage',
-		},
+			story: 'Writes the theme to sessionStorage'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -39,20 +39,20 @@ export const BasicUsage: Story = {
 					theme: 'default',
 					storageKey: 'theme'
 				})
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		() => {
 			const options = defineThemeStorageOptions({
 				themes: { default: 'text-white', grayscale: 'text-gray-100' },
 				theme: 'default',
-				storageKey: 'theme',
+				storageKey: 'theme'
 			})
 
 			setThemeToSessionStorage(options)
 			return { options }
-		},
+		}
 	],
 	render: (_, { loaded: { options } }) => {
 		return <ShowThemeFromSessionStorage {...options} />
@@ -61,7 +61,7 @@ export const BasicUsage: Story = {
 		const stored = getThemeFromSessionStorage(options)
 		await expect(stored?.theme).toBe('default')
 		await expect(stored?.value).toBe('text-white')
-	},
+	}
 }
 
 export const RemoveTheme: Story = {
@@ -71,16 +71,16 @@ export const RemoveTheme: Story = {
 			setThemeToSessionStorage({
 				themes: { default: 'default', grayscale: 'grayscale' },
 				theme: 'grayscale',
-				storageKey: 'remove-theme',
+				storageKey: 'remove-theme'
 			})
 			const options = defineThemeStorageOptions({
 				themes: { default: 'default', grayscale: 'grayscale' },
 				theme: null,
-				storageKey: 'remove-theme',
+				storageKey: 'remove-theme'
 			})
 			setThemeToSessionStorage(options)
 			return { options }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -90,7 +90,7 @@ export const RemoveTheme: Story = {
 						Removes the theme from sessionStorage by passing <code>null</code> to the theme option
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -99,8 +99,8 @@ export const RemoveTheme: Story = {
 					theme: null,
 					storageKey: 'remove-theme',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { options } }) => {
 		return <ShowThemeFromSessionStorage {...options} />
@@ -108,10 +108,10 @@ export const RemoveTheme: Story = {
 	play: async ({ loaded: { options } }) => {
 		const stored = getThemeFromSessionStorage({
 			...options,
-			storageKey: 'remove-theme',
+			storageKey: 'remove-theme'
 		})
 		await expect(stored).toBeUndefined()
-	},
+	}
 }
 
 export const WithThemeArray: Story = {
@@ -121,22 +121,22 @@ export const WithThemeArray: Story = {
 			setThemeToSessionStorage({
 				themes: {
 					default: ['text-white', 'bg-white'],
-					grayscale: ['text-gray-100', 'bg-gray-100'],
+					grayscale: ['text-gray-100', 'bg-gray-100']
 				},
 				theme: 'default',
-				storageKey: 'theme-array',
+				storageKey: 'theme-array'
 			})
 			return {
 				options: defineThemeStorageOptions({
 					themes: {
 						default: ['text-white', 'bg-white'],
-						grayscale: ['text-gray-100', 'bg-gray-100'],
+						grayscale: ['text-gray-100', 'bg-gray-100']
 					},
 					theme: 'default',
-					storageKey: 'theme-array',
-				}),
+					storageKey: 'theme-array'
+				})
 			}
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -144,7 +144,7 @@ export const WithThemeArray: Story = {
 				<>
 					<p>Writes the theme to sessionStorage when the theme value is an array</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -156,8 +156,8 @@ export const WithThemeArray: Story = {
 					theme: 'default',
 					storageKey: 'theme-array',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { options } }) => {
 		return <ShowThemeFromSessionStorage {...options} />
@@ -165,15 +165,15 @@ export const WithThemeArray: Story = {
 	play: async ({ loaded: { options } }) => {
 		const stored = getThemeFromSessionStorage({
 			...options,
-			storageKey: 'theme-array',
+			storageKey: 'theme-array'
 		})
 		await expect(stored?.theme).toBe('default')
 		await expect(stored?.value).toEqual(['text-white', 'bg-white'])
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

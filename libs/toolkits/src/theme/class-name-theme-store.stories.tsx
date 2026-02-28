@@ -13,10 +13,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store that reads and writes theme via element class names. The store provides get, set, and subscribe for the given element (or document.documentElement when omitted).',
-		},
+				'Theme store that reads and writes theme via element class names. The store provides get, set, and subscribe for the given element (or document.documentElement when omitted).'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -25,12 +25,12 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 function StoreGetDemo({
 	themes: themesOption,
-	theme: themeFallback,
+	theme: themeFallback
 }: {
 	themes: typeof themes
 	theme?: keyof typeof themes
@@ -50,8 +50,8 @@ export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Create a store (default element), set a theme, then get and display the result.',
-		},
+			story: 'Create a store (default element), set a theme, then get and display the result.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -60,15 +60,15 @@ export const BasicUsage: Story = {
 				const store = classNameThemeStore()
 				store.set({ themes: { default: 'text-white', grayscale: 'text-gray-100' }, theme: 'default' })
 				const theme = store.get({ themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	loaders: [
 		() => {
 			const store = classNameThemeStore<typeof themes>()
 			store.set({ themes, theme: 'default' })
 			return {}
-		},
+		}
 	],
 	render: () => {
 		return <StoreGetDemo themes={themes} theme="default" />
@@ -76,7 +76,7 @@ export const BasicUsage: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: default')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-white')
-	},
+	}
 }
 
 export const GetWithDefault: Story = {
@@ -85,8 +85,8 @@ export const GetWithDefault: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When no matching class is on the element, store.get() returns the default theme from options.',
-		},
+				'When no matching class is on the element, store.get() returns the default theme from options.'
+		}
 	}),
 	loaders: [
 		() => {
@@ -97,7 +97,7 @@ export const GetWithDefault: Story = {
 				.replace(/\s+/g, ' ')
 				.trim()
 			return {}
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -106,7 +106,7 @@ export const GetWithDefault: Story = {
 					<code>store.get(&#123; themes, theme: &#39;grayscale&#39; &#125;)</code> returns grayscale
 					when no theme class is present.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -115,8 +115,8 @@ export const GetWithDefault: Story = {
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 					theme: 'grayscale',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		return <StoreGetDemo themes={themes} theme="grayscale" />
@@ -124,7 +124,7 @@ export const GetWithDefault: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-gray-100')
-	},
+	}
 }
 
 export const SetThenGet: Story = {
@@ -135,7 +135,7 @@ export const SetThenGet: Story = {
 			const store = classNameThemeStore<typeof themes>()
 			store.set({ themes, theme: 'grayscale' })
 			return {}
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
@@ -144,15 +144,15 @@ export const SetThenGet: Story = {
 					<code>store.set()</code> applies theme classes; <code>store.get()</code> reads the current
 					theme.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
 				const store = classNameThemeStore()
 				store.set({ themes, theme: 'grayscale' })
 				const theme = store.get({ themes, theme: 'default' })
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		return <StoreGetDemo themes={themes} theme="default" />
@@ -160,12 +160,12 @@ export const SetThenGet: Story = {
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: text-gray-100')
-	},
+	}
 }
 
 function StoreSubscribeDemo({
 	themes: themesOption,
-	theme: themeFallback,
+	theme: themeFallback
 }: {
 	themes: typeof themes
 	theme?: keyof typeof themes
@@ -177,7 +177,7 @@ function StoreSubscribeDemo({
 		const observer = store.subscribe({
 			themes: themesOption,
 			theme: themeFallback,
-			handler: setResult,
+			handler: setResult
 		})
 		return () => observer.disconnect()
 	}, [themeFallback, themesOption])
@@ -200,8 +200,8 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler once with the current theme and when the class attribute changes.',
-		},
+				'store.subscribe() calls the handler once with the current theme and when the class attribute changes.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -214,8 +214,8 @@ export const Subscribe: Story = {
 					handler: (theme) => console.log('Theme:', theme),
 				})
 				observer.disconnect()
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		return <StoreSubscribeDemo themes={themes} theme="default" />
@@ -225,12 +225,12 @@ export const Subscribe: Story = {
 		store.set({ themes, theme: 'grayscale' })
 
 		await waitFor(() =>
-			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale'),
+			expect(canvas.getByTestId('store-subscribe-result-theme')).toHaveTextContent('grayscale')
 		)
 		await expect(canvas.getByTestId('store-subscribe-result-value')).toHaveTextContent(
-			'text-gray-100',
+			'text-gray-100'
 		)
-	},
+	}
 }
 
 export const SameElementReturnsCachedStore: Story = {
@@ -239,27 +239,27 @@ export const SameElementReturnsCachedStore: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Calling classNameThemeStore with the same element (or both undefined for documentElement) returns the same store instance.',
-		},
+				'Calling classNameThemeStore with the same element (or both undefined for documentElement) returns the same store instance.'
+		}
 	}),
 	loaders: [
 		() => {
 			const store1 = classNameThemeStore<typeof themes>()
 			const store2 = classNameThemeStore<typeof themes>()
 			return { sameReference: store1 === store2 }
-		},
+		}
 	],
 	decorators: [
 		withStoryCard({
-			content: <p>Two calls with the same element return the same store (cached by element).</p>,
+			content: <p>Two calls with the same element return the same store (cached by element).</p>
 		}),
 		showSource({
 			source: dedent`
 				const store1 = classNameThemeStore()
 				const store2 = classNameThemeStore()
 				store1 === store2
-			`,
-		}),
+			`
+		})
 	],
 	render: (_, { loaded: { sameReference } }) => {
 		return (
@@ -267,18 +267,18 @@ export const SameElementReturnsCachedStore: Story = {
 				title="Same store reference"
 				result={{
 					theme: sameReference ? 'true' : 'false',
-					value: String(sameReference),
+					value: String(sameReference)
 				}}
 			/>
 		)
 	},
 	play: async ({ loaded: { sameReference } }) => {
 		await expect(sameReference).toBe(true)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

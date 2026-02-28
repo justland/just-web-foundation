@@ -6,7 +6,7 @@ import {
 	getThemeFromStore,
 	type ThemeMap,
 	type ThemeResult,
-	type ThemeStore,
+	type ThemeStore
 } from '#just-web/toolkits'
 import { ShowThemeFromStore } from '../testing/show-theme-from-store.tsx'
 
@@ -16,10 +16,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Gets the theme from a generic store (sync or async). Validates against the themes map and uses the default theme when missing or invalid.',
-		},
+				'Gets the theme from a generic store (sync or async). Validates against the themes map and uses the default theme when missing or invalid.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -28,11 +28,11 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 function createSyncStore<Themes extends ThemeMap>(
-	initial?: ThemeResult<Themes> | undefined,
+	initial?: ThemeResult<Themes> | undefined
 ): ThemeStore<Themes> {
 	let value = initial
 	return {
@@ -41,12 +41,12 @@ function createSyncStore<Themes extends ThemeMap>(
 		},
 		set(result) {
 			value = result
-		},
+		}
 	}
 }
 
 function createAsyncStore<Themes extends ThemeMap>(
-	initial?: ThemeResult<Themes> | undefined,
+	initial?: ThemeResult<Themes> | undefined
 ): ThemeStore<Themes> {
 	let value = initial
 	return {
@@ -55,7 +55,7 @@ function createAsyncStore<Themes extends ThemeMap>(
 		},
 		set(result) {
 			value = result
-		},
+		}
 	}
 }
 
@@ -72,7 +72,7 @@ export const SyncStore: Story = {
 						Validates against the themes map and uses the default theme when missing or invalid.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -81,8 +81,8 @@ export const SyncStore: Story = {
 					store: { get: () => store },
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createSyncStore({ theme: 'grayscale', value: 'text-gray-100' })
@@ -93,7 +93,7 @@ export const SyncStore: Story = {
 		await expect(resultTheme).toHaveTextContent('grayscale')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('text-gray-100')
-	},
+	}
 }
 
 export const AsyncStore: Story = {
@@ -105,7 +105,7 @@ export const AsyncStore: Story = {
 					When <code>store.get()</code> returns a Promise, <code>getThemeFromStore</code> awaits it
 					and returns the resolved theme.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -114,8 +114,8 @@ export const AsyncStore: Story = {
 					store: { get: () => Promise.resolve(store) },
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createAsyncStore({ theme: 'grayscale', value: 'text-gray-100' })
@@ -126,13 +126,13 @@ export const AsyncStore: Story = {
 		await expect(resultTheme).toHaveTextContent('grayscale')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('text-gray-100')
-	},
+	}
 }
 
 export const DefaultTheme: Story = {
 	decorators: [
 		withStoryCard({
-			content: <p>Uses the default theme when the stored value is missing or invalid.</p>,
+			content: <p>Uses the default theme when the stored value is missing or invalid.</p>
 		}),
 		showSource({
 			source: dedent`
@@ -141,8 +141,8 @@ export const DefaultTheme: Story = {
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 					theme: 'grayscale',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createSyncStore(undefined)
@@ -155,7 +155,7 @@ export const DefaultTheme: Story = {
 		await expect(result).toHaveTextContent('grayscale')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('text-gray-100')
-	},
+	}
 }
 
 export const NoDefaultTheme: Story = {
@@ -166,7 +166,7 @@ export const NoDefaultTheme: Story = {
 					Returns <code>undefined</code> when the stored value is missing and no default theme is
 					provided.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -174,8 +174,8 @@ export const NoDefaultTheme: Story = {
 					store: { get: () => undefined },
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createSyncStore()
@@ -186,7 +186,7 @@ export const NoDefaultTheme: Story = {
 		await expect(result).toHaveTextContent('undefined')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('undefined')
-	},
+	}
 }
 
 export const DefaultThemeNull: Story = {
@@ -197,7 +197,7 @@ export const DefaultThemeNull: Story = {
 					When <code>theme</code> is explicitly <code>null</code> and the store is empty or invalid,
 					result is <code>undefined</code> (same as no default theme).
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -206,8 +206,8 @@ export const DefaultThemeNull: Story = {
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 					theme: null,
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createSyncStore(undefined)
@@ -218,12 +218,12 @@ export const DefaultThemeNull: Story = {
 		await expect(result).toHaveTextContent('undefined')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('undefined')
-	},
+	}
 }
 
 const themesWithArray = {
 	default: 'a',
-	other: ['b', 'c'] as const,
+	other: ['b', 'c'] as const
 } as const
 
 export const ThemeMapArrayValue: Story = {
@@ -235,7 +235,7 @@ export const ThemeMapArrayValue: Story = {
 					When the themes map has array values (<code>readonly string[]</code>), a valid stored
 					result with that value is returned as-is.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -244,13 +244,13 @@ export const ThemeMapArrayValue: Story = {
 					store: { get: () => ({ theme: 'other', value: ['b', 'c'] }) },
 					themes,
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createSyncStore({
 			theme: 'other',
-			value: themesWithArray.other,
+			value: themesWithArray.other
 		})
 		return <ShowThemeFromStore store={store} themes={themesWithArray} data-testid="result" />
 	},
@@ -259,7 +259,7 @@ export const ThemeMapArrayValue: Story = {
 		await expect(resultTheme).toHaveTextContent('other')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('[b, c]')
-	},
+	}
 }
 
 export const InvalidStoredValue: Story = {
@@ -271,7 +271,7 @@ export const InvalidStoredValue: Story = {
 					Returns <code>theme</code> (if provided) or <code>undefined</code> when the stored value
 					is invalid.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -279,14 +279,14 @@ export const InvalidStoredValue: Story = {
 					store: { get: () => 'something else' as any },
 					themes: { default: 'text-white', grayscale: 'text-gray-100' },
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		return (
 			<ShowThemeFromStore
 				store={{
-					get: () => 'something else' as any,
+					get: () => 'something else' as any
 				}}
 				themes={themes}
 				theme="grayscale"
@@ -308,9 +308,9 @@ export const InvalidStoredValue: Story = {
 		await getThemeFromStore({
 			store: { get: () => 'something else' as any },
 			themes,
-			theme: 'grayscale',
+			theme: 'grayscale'
 		})
 		console.warn = originalWarn
 		expect(warnings).toContain('The stored theme value is invalid')
-	},
+	}
 }

@@ -4,7 +4,7 @@ import type { JustClassName, JustClassNameFnProps } from './just-class-name.ts'
 
 export function resolveClassName<RenderProps extends AnyRecord = AnyRecord>(
 	renderProps: JustClassNameFnProps<RenderProps>,
-	className?: JustClassName<RenderProps>,
+	className?: JustClassName<RenderProps>
 ) {
 	return typeof className === 'function'
 		? className(renderProps)

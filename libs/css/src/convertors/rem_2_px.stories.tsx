@@ -5,8 +5,8 @@ const meta = {
 	title: 'convertors/rem2px',
 	tags: ['version:0.6'],
 	parameters: {
-		layout: 'centered',
-	},
+		layout: 'centered'
+	}
 } satisfies Meta
 
 export default meta
@@ -19,7 +19,7 @@ export const BasicUsage: Story = {
 			{ input: 1, expected: '16.0000' },
 			{ input: 2, expected: '32.0000' },
 			{ input: 0.5, expected: '8.0000' },
-			{ input: 1.5, expected: '24.0000' },
+			{ input: 1.5, expected: '24.0000' }
 		]
 
 		return (
@@ -40,7 +40,7 @@ export const BasicUsage: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const StringInput: Story = {
@@ -49,7 +49,7 @@ export const StringInput: Story = {
 			{ input: '1rem', expected: '16.0000' },
 			{ input: '2rem', expected: '32.0000' },
 			{ input: '1.5', expected: '24.0000' },
-			{ input: '0.5313rem', expected: '8.5008' },
+			{ input: '0.5313rem', expected: '8.5008' }
 		]
 
 		return (
@@ -70,7 +70,7 @@ export const StringInput: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const CustomBase: Story = {
@@ -79,7 +79,7 @@ export const CustomBase: Story = {
 			{ input: 1, base: 20, expected: '20.0000' },
 			{ input: 2, base: 20, expected: '40.0000' },
 			{ input: 0.5, base: 20, expected: '10.0000' },
-			{ input: 1.5, base: 20, expected: '30.0000' },
+			{ input: 1.5, base: 20, expected: '30.0000' }
 		]
 
 		return (
@@ -100,7 +100,7 @@ export const CustomBase: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const CustomPrecision: Story = {
@@ -125,7 +125,7 @@ export const CustomPrecision: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const AllOptions: Story = {
@@ -134,7 +134,7 @@ export const AllOptions: Story = {
 			{ input: 1, base: 18, precision: 2 },
 			{ input: 1.5, base: 18, precision: 3 },
 			{ input: '2rem', base: 18, precision: 1 },
-			{ input: 0.5, base: 18, precision: 0 },
+			{ input: 0.5, base: 18, precision: 0 }
 		]
 
 		return (
@@ -156,5 +156,5 @@ export const AllOptions: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }

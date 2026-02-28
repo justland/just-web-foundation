@@ -5,7 +5,7 @@ import dedent from 'dedent'
 const meta = {
 	title: 'Types/Placement',
 	tags: ['code-only', 'version:next'],
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -14,23 +14,23 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Basic usage of Placement type with a single placement value.',
+			story: 'Basic usage of Placement type with a single placement value.'
 		},
 		source: {
 			code: dedent`
 				import type { Placement } from '@just-web/types'
 
 				const placement: Placement = 'top'
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }
 
 export const AllPlacementValues: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'All available placement values in the Placement type.',
+			story: 'All available placement values in the Placement type.'
 		},
 		source: {
 			code: dedent`
@@ -66,17 +66,17 @@ export const AllPlacementValues: Story = {
 				const end: Placement = 'end'
 				const endTop: Placement = 'end top'
 				const endBottom: Placement = 'end bottom'
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }
 
 export const ComponentUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Using Placement type in component props for positioning elements like tooltips, popovers, or dropdowns.',
+				'Using Placement type in component props for positioning elements like tooltips, popovers, or dropdowns.'
 		},
 		source: {
 			code: dedent`
@@ -98,8 +98,8 @@ export const ComponentUsage: Story = {
 				// Usage
 				<Tooltip placement="top" content="Tooltip content" />
 				<Tooltip placement="bottom start" content="Another tooltip" />
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

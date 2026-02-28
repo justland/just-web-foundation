@@ -10,10 +10,9 @@ const meta = {
 	tags: ['autodocs', 'new', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
-			component:
-				'A utility function that determines the current theme based on element class name.',
-		},
-	}),
+			component: 'A utility function that determines the current theme based on element class name.'
+		}
+	})
 } satisfies Meta
 
 export default meta
@@ -23,20 +22,20 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Demonstrates how `getThemeByClassName` gets the current theme based on class names.',
-		},
+			story: 'Demonstrates how `getThemeByClassName` gets the current theme based on class names.'
+		}
 	}),
 	render: () => {
 		const [currentTheme, setCurrentTheme] = useState<string>()
 		const themes = {
 			light: 'light',
-			dark: 'dark',
+			dark: 'dark'
 		}
 
 		useEffect(() => {
 			const theme = getThemeByClassName({
 				themes,
-				defaultTheme: 'dark',
+				defaultTheme: 'dark'
 			})
 			setCurrentTheme(theme)
 		}, [])
@@ -77,24 +76,24 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('current-theme')).toHaveTextContent('light')
 		})
-	},
+	}
 }
 
 export const DefaultTheme: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when class name is not found.',
-		},
+			story: 'Falls back to default theme when class name is not found.'
+		}
 	}),
 	loaders: [
 		() => {
 			document.documentElement.classList.remove('light', 'dark')
 			const theme = getThemeByClassName({
 				themes,
-				defaultTheme: 'dark',
+				defaultTheme: 'dark'
 			})
 			return { theme }
-		},
+		}
 	],
 	render: (_, { loaded: { theme } }) => {
 		const value = document.documentElement.className
@@ -110,14 +109,14 @@ export const DefaultTheme: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('dark')
-	},
+	}
 }
 
 export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Gets theme from specific element.',
-		},
+			story: 'Gets theme from specific element.'
+		}
 	}),
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
@@ -137,13 +136,13 @@ export const CustomElement: Story = {
 				const result = getThemeByClassName({
 					themes,
 					defaultTheme: 'dark',
-					element: customElementRef.current,
+					element: customElementRef.current
 				})
 
 				setCurrentTheme(result)
 				setLog((prev) => [...prev, `theme: ${result}`])
 			},
-			[customElementRef.current],
+			[customElementRef.current]
 		)
 
 		return (
@@ -176,31 +175,31 @@ export const CustomElement: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByText('theme: dark')).toBeInTheDocument()
 		})
-	},
+	}
 }
 
 export const InvalidTheme: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Falls back to default theme when class name is not found.',
-		},
+			story: 'Falls back to default theme when class name is not found.'
+		}
 	}),
 	render: () => {
 		const theme = getThemeByClassName({
 			themes: {
 				light: 'not-exist-theme-light',
-				dark: 'not-exist-theme-dark',
+				dark: 'not-exist-theme-dark'
 			},
-			defaultTheme: 'dark',
+			defaultTheme: 'dark'
 		})
 		return <div>Current theme: {theme}</div>
-	},
+	}
 }
 
 const themes = {
 	light: 'light-theme',
-	dark: 'dark-theme',
+	dark: 'dark-theme'
 }
 
 type ThemeButtonProps<Theme extends string> = {
@@ -212,7 +211,7 @@ type ThemeButtonProps<Theme extends string> = {
 function ThemeButton<Theme extends string>({
 	theme,
 	onChange,
-	currentTheme,
+	currentTheme
 }: ThemeButtonProps<Theme>) {
 	return (
 		<button

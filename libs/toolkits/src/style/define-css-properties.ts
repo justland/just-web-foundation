@@ -17,7 +17,7 @@ import type { CSSProperties } from './css-properties.ts'
  * ```
  */
 export function defineCSSProperties<TLength = 0 | (string & {}), TTime = string & {}>(
-	style: CSSProperties<TLength, TTime>,
+	style: CSSProperties<TLength, TTime>
 ) {
 	return style as CSSProperties
 }

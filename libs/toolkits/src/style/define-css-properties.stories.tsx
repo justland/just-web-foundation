@@ -11,10 +11,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Helper function to define CSS properties with type checking, including custom properties (--*).',
-		},
+				'Helper function to define CSS properties with type checking, including custom properties (--*).'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta<typeof defineCSSProperties>
 
 export default meta
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>
 export const Specification: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
 	decorators: [
 		withStoryCard({
@@ -32,10 +32,10 @@ export const Specification: Story = {
 				<p>
 					<code>defineCSSProperties</code> is a helper function to define <code>CSSProperties</code>
 				</p>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 export const WithCustomProperties: Story = {
@@ -46,8 +46,8 @@ export const WithCustomProperties: Story = {
 				color: 'red',
 				fontSize: '16px',
 				'--custom-property': '10px'
-			})`,
-		},
+			})`
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -55,21 +55,21 @@ export const WithCustomProperties: Story = {
 				<p>
 					A helper function to define <code>CSSProperties</code> with custom properties.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`const style = defineCSSProperties({
 				color: 'red',
 				fontSize: '16px',
 				'--custom-property': '10px'
-			})`,
-		}),
+			})`
+		})
 	],
 	render() {
 		const style = defineCSSProperties({
 			color: 'red',
 			fontSize: '16px',
-			'--custom-property': '10px',
+			'--custom-property': '10px'
 		})
 		return <StoryCard appearance="output">{JSON.stringify(style, null, 2)}</StoryCard>
 	},
@@ -77,12 +77,12 @@ export const WithCustomProperties: Story = {
 		const style = defineCSSProperties({
 			color: 'red',
 			fontSize: '16px',
-			'--custom-property': '10px',
+			'--custom-property': '10px'
 		})
 		await expect(style).toEqual({
 			color: 'red',
 			fontSize: '16px',
-			'--custom-property': '10px',
+			'--custom-property': '10px'
 		})
-	},
+	}
 }

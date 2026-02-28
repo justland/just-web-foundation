@@ -31,6 +31,6 @@ export function observeThemeByClassName<Themes extends ThemeMap>(options: {
 	return store.subscribe({
 		themes: options.themes,
 		theme: options.theme,
-		handler: options.handler,
+		handler: options.handler
 	})
 }

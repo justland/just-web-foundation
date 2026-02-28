@@ -17,7 +17,7 @@ type DefaultTime = string & {}
 export interface JustStyleProps<
 	RenderProps extends AnyRecord = AnyRecord,
 	TLength = DefaultLength,
-	TTime = DefaultTime,
+	TTime = DefaultTime
 > {
 	style?: JustStyle<RenderProps, TLength, TTime> | undefined
 }
@@ -36,10 +36,10 @@ export interface JustStyleProps<
 export type JustStyle<
 	RenderProps extends AnyRecord = AnyRecord,
 	TLength = DefaultLength,
-	TTime = DefaultTime,
+	TTime = DefaultTime
 > =
 	| ((
-			renderProps: JustStyleFnProps<RenderProps, TLength, TTime>,
+			renderProps: JustStyleFnProps<RenderProps, TLength, TTime>
 	  ) => CSSProperties<TLength, TTime> | undefined)
 	| CSSProperties<TLength, TTime>
 	| undefined
@@ -54,7 +54,7 @@ export type JustStyle<
 export type JustStyleFnProps<
 	RenderProps extends AnyRecord = AnyRecord,
 	TLength = DefaultLength,
-	TTime = DefaultTime,
+	TTime = DefaultTime
 > = RenderProps & {
 	style?: CSSProperties<TLength, TTime> | undefined
 }

@@ -11,10 +11,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Helper to define theme storage options with inferred Themes type. Without it, you must declare the themes map separately and use typeof or a manual type for ThemeStorageOptions.',
-		},
+				'Helper to define theme storage options with inferred Themes type. Without it, you must declare the themes map separately and use typeof or a manual type for ThemeStorageOptions.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -26,8 +26,8 @@ export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'defineThemeStorageOptions infers the Themes type from the themes object, so theme is typed as the union of theme keys (e.g. "light" | "dark" | "system"). The result can be passed to setThemeToLocalStorage and getThemeFromLocalStorage.',
-		},
+				'defineThemeStorageOptions infers the Themes type from the themes object, so theme is typed as the union of theme keys (e.g. "light" | "dark" | "system"). The result can be passed to setThemeToLocalStorage and getThemeFromLocalStorage.'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -42,7 +42,7 @@ export const BasicUsage: Story = {
 						manual type for <code>ThemeStorageOptions</code>.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -55,7 +55,7 @@ export const BasicUsage: Story = {
 				// options is typed as ThemeStorageOptions<{ default: string, grayscale: string }>
 				// options.theme is typed as "default" | "grayscale" | null | undefined
 				// options.themes is typed as { default: string, grayscale: string }
-			`,
+			`
 		}),
 		withStoryCard({
 			content: (
@@ -65,7 +65,7 @@ export const BasicUsage: Story = {
 						options object.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -80,14 +80,14 @@ export const BasicUsage: Story = {
 				//   readonly default: 'theme-default'
 				//   readonly grayscale: 'theme-grayscale'
 				// }
-			`,
+			`
 		}),
 		withStoryCard({
 			content: (
 				<>
 					<p>Using type declaration and satisfies keyword are more verbose.</p>
 				</>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -108,14 +108,14 @@ export const BasicUsage: Story = {
 
 				// satisfies.theme is typed as 'default'
 				// satisfies.themes is typed as { default: string; grayscale: string }
-			`,
-		}),
+			`
+		})
 	],
 	play: () => {
 		const options = defineThemeStorageOptions({
 			themes: { default: 'theme-default', grayscale: 'theme-grayscale' },
 			theme: 'default',
-			storageKey: 'theme',
+			storageKey: 'theme'
 		})
 
 		testType.equal<typeof options.theme, 'default' | 'grayscale' | null | undefined>(true)
@@ -124,7 +124,7 @@ export const BasicUsage: Story = {
 		const asConst = {
 			storageKey: 'theme',
 			themes: { default: 'theme-default', grayscale: 'theme-grayscale' },
-			theme: 'default',
+			theme: 'default'
 		} as const
 
 		testType.equal<typeof asConst.theme, 'default'>(true)
@@ -139,7 +139,7 @@ export const BasicUsage: Story = {
 		const typeDeclaration: ThemeStorageOptions<{ default: string; grayscale: string }> = {
 			storageKey: 'theme',
 			themes: { default: 'theme-default', grayscale: 'theme-grayscale' },
-			theme: 'default',
+			theme: 'default'
 		}
 
 		testType.equal<typeof typeDeclaration.theme, 'default' | 'grayscale' | null | undefined>(true)
@@ -148,16 +148,16 @@ export const BasicUsage: Story = {
 		const satisfies = {
 			storageKey: 'theme',
 			themes: { default: 'theme-default', grayscale: 'theme-grayscale' },
-			theme: 'default',
+			theme: 'default'
 		} satisfies ThemeStorageOptions<{ default: string; grayscale: string }>
 
 		testType.equal<typeof satisfies.theme, 'default'>(true)
 		testType.equal<typeof satisfies.themes, { default: string; grayscale: string }>(true)
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

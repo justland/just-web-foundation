@@ -10,7 +10,7 @@ import source from './css-properties.ts?raw'
 const meta: Meta<toolkits.CSSProperties> = {
 	title: 'style/CSSProperties',
 	tags: ['type', 'version:next', '!test'],
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -18,7 +18,7 @@ export default meta
 export const Specification: StoryObj = {
 	tags: ['source'],
 	parameters: defineDocsParam({
-		source: { code: source },
+		source: { code: source }
 	}),
 	decorators: [
 		withStoryCard({
@@ -27,10 +27,10 @@ export const Specification: StoryObj = {
 					<code>CSSProperties</code> extends CSS properties to support custom properties (
 					<code>--*</code>).
 				</p>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 export const SupportCustomProperties: StoryObj = {
@@ -41,8 +41,8 @@ export const SupportCustomProperties: StoryObj = {
 				color: 'red',
 				'--custom-property': '10px',
 			}
-			`,
-		},
+			`
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -50,10 +50,10 @@ export const SupportCustomProperties: StoryObj = {
 				<p>
 					Use standard properties and custom properties with the <code>--</code> prefix.
 				</p>
-			),
+			)
 		}),
-		showSource(),
-	],
+		showSource()
+	]
 }
 
 export const AcceptsReactCSSProperties: StoryObj = {
@@ -65,13 +65,13 @@ export const AcceptsReactCSSProperties: StoryObj = {
 				<p>
 					<code>CSSProperties</code> accepts <code>React.CSSProperties</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
 			const justStyle: CSSProperties = reactStyle
-		`,
-		}),
+		`
+		})
 	],
 	render: () => {
 		const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
@@ -81,5 +81,5 @@ export const AcceptsReactCSSProperties: StoryObj = {
 		testType.canAssign<typeof reactStyle, typeof justStyle>(true)
 
 		return <div />
-	},
+	}
 }

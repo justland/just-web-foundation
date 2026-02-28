@@ -7,7 +7,7 @@ import {
 	observeThemeFromStore,
 	setThemeToStore,
 	type ThemeResult,
-	type ThemeStore,
+	type ThemeStore
 } from '#just-web/toolkits'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 
@@ -17,10 +17,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Observes theme from a generic store. Calls handler once on load and when the store notifies (if subscribe is provided).',
-		},
+				'Observes theme from a generic store. Calls handler once on load and when the store notifies (if subscribe is provided).'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -29,11 +29,11 @@ type Story = StoryObj<typeof meta>
 
 const themes = {
 	default: 'text-white',
-	grayscale: 'text-gray-100',
+	grayscale: 'text-gray-100'
 } as const
 
 function createInMemoryStoreWithSubscribe(
-	initial: ThemeResult<typeof themes>,
+	initial: ThemeResult<typeof themes>
 ): ThemeStore<typeof themes> {
 	let value = initial
 	const listeners: Array<() => void> = []
@@ -51,14 +51,14 @@ function createInMemoryStoreWithSubscribe(
 				const i = listeners.indexOf(handler)
 				if (i !== -1) listeners.splice(i, 1)
 			}
-		},
+		}
 	}
 }
 
 function ObserveThemeFromStoreDemo({
 	store,
 	themes: themesOption,
-	theme: defaultTheme,
+	theme: defaultTheme
 }: {
 	store: ThemeStore<typeof themes>
 	themes: typeof themes
@@ -71,7 +71,7 @@ function ObserveThemeFromStoreDemo({
 			store,
 			themes: themesOption,
 			theme: defaultTheme ?? undefined,
-			handler: setResult,
+			handler: setResult
 		})
 		return () => observer.disconnect()
 	}, [store, defaultTheme, themesOption])
@@ -94,7 +94,7 @@ export const BasicUsage: Story = {
 					Handler is called once on start with the current theme from the store. If the store
 					provides <code>subscribe</code>, handler is called again when the store changes.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -106,27 +106,27 @@ export const BasicUsage: Story = {
 				  handler: (result) => setResult(result),
 				})
 				observer.disconnect()
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createInMemoryStoreWithSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		return <ObserveThemeFromStoreDemo store={store} themes={themes} theme="default" />
 	},
 	play: async () => {
 		const store = createInMemoryStoreWithSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		const results: ThemeResult<typeof themes>[] = []
 		const observer = observeThemeFromStore({
 			store,
 			themes,
 			theme: 'default',
-			handler: (r) => results.push(r),
+			handler: (r) => results.push(r)
 		})
 		await new Promise((r) => setTimeout(r, 0))
 		await setThemeToStore({ store, themes, theme: 'default' })
@@ -136,11 +136,11 @@ export const BasicUsage: Story = {
 		await expect(results[0]?.theme).toBe('grayscale')
 		const afterSet = results[results.length - 1]
 		await expect(afterSet?.theme).toBe('default')
-	},
+	}
 }
 
 function createStoreWithoutSubscribe(
-	initial: ThemeResult<typeof themes>,
+	initial: ThemeResult<typeof themes>
 ): ThemeStore<typeof themes> {
 	let value = initial
 	return {
@@ -149,7 +149,7 @@ function createStoreWithoutSubscribe(
 		},
 		set(result) {
 			value = result
-		},
+		}
 	}
 }
 
@@ -162,7 +162,7 @@ export const StoreWithoutSubscribe: Story = {
 					When the store has no <code>subscribe</code>, the handler is called once with the initial
 					theme from <code>getThemeFromStore</code> and is not called again when the store changes.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -170,27 +170,27 @@ export const StoreWithoutSubscribe: Story = {
 				const results = []
 				observeThemeFromStore({ store, themes, theme: 'default', handler: (r) => results.push(r) })
 				// results.length === 1
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createStoreWithoutSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		return <ObserveThemeFromStoreDemo store={store} themes={themes} theme="default" />
 	},
 	play: async () => {
 		const store = createStoreWithoutSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		const results: ThemeResult<typeof themes>[] = []
 		const observer = observeThemeFromStore({
 			store,
 			themes,
 			theme: 'default',
-			handler: (r) => results.push(r),
+			handler: (r) => results.push(r)
 		})
 		await new Promise((r) => setTimeout(r, 0))
 		await setThemeToStore({ store, themes, theme: 'default' })
@@ -199,7 +199,7 @@ export const StoreWithoutSubscribe: Story = {
 		expect(results.length).toBe(1)
 		expect(results[0]?.theme).toBe('grayscale')
 		expect(results[0]?.value).toBe('text-gray-100')
-	},
+	}
 }
 
 export const DisconnectStopsUpdates: Story = {
@@ -210,7 +210,7 @@ export const DisconnectStopsUpdates: Story = {
 				<p>
 					After <code>disconnect()</code>, the handler is no longer called when the store updates.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -219,27 +219,27 @@ export const DisconnectStopsUpdates: Story = {
 				observer.disconnect()
 				await setThemeToStore({ store, themes, theme: 'default' })
 				// handler not called again
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const store = createInMemoryStoreWithSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		return <ObserveThemeFromStoreDemo store={store} themes={themes} theme="default" />
 	},
 	play: async () => {
 		const store = createInMemoryStoreWithSubscribe({
 			theme: 'grayscale',
-			value: 'text-gray-100',
+			value: 'text-gray-100'
 		})
 		const results: ThemeResult<typeof themes>[] = []
 		const observer = observeThemeFromStore({
 			store,
 			themes,
 			theme: 'default',
-			handler: (r) => results.push(r),
+			handler: (r) => results.push(r)
 		})
 		await new Promise((r) => setTimeout(r, 0))
 		expect(results.length).toBe(1)
@@ -254,5 +254,5 @@ export const DisconnectStopsUpdates: Story = {
 		await setThemeToStore({ store, themes, theme: 'grayscale' })
 		await new Promise((r) => setTimeout(r, 0))
 		expect(results.length).toBe(2)
-	},
+	}
 }

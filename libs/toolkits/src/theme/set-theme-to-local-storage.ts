@@ -24,11 +24,11 @@ import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
  * ```
  */
 export function setThemeToLocalStorage<Themes extends ThemeMap>(
-	options: ThemeStorageOptions<Themes>,
+	options: ThemeStorageOptions<Themes>
 ): void {
 	const store = localStorageThemeStore<Themes>(options.storageKey)
 	store.set({
 		themes: options.themes,
-		theme: options.theme,
+		theme: options.theme
 	})
 }

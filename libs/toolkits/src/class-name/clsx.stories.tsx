@@ -3,7 +3,7 @@ import {
 	type FnToArgTypes,
 	StoryCard,
 	showSource,
-	withStoryCard,
+	withStoryCard
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
@@ -12,7 +12,7 @@ import { clsx } from '#just-web/toolkits'
 const meta: Meta<FnToArgTypes<typeof clsx>> = {
 	title: 'class-name/clsx',
 	tags: ['func', 'version:next'],
-	render: () => <></>,
+	render: () => <></>
 }
 
 export default meta
@@ -35,20 +35,20 @@ export const Overview: Story = {
 						<code>className</code> strings conditionally from strings, objects, and arrays.
 					</p>
 				</>
-			),
+			)
 		}),
 		showSource({
-			source: dedent`function clsx(...inputs: ClassValue[]): string`,
-		}),
-	],
+			source: dedent`function clsx(...inputs: ClassValue[]): string`
+		})
+	]
 }
 
 export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Combine multiple class name strings. Falsy values are ignored.',
-		},
+			story: 'Combine multiple class name strings. Falsy values are ignored.'
+		}
 	}),
 	decorators: [withStoryCard(), showSource({ source: dedent`clsx('base', 'active', 'rounded')` })],
 	render() {
@@ -59,7 +59,7 @@ export const BasicUsage: Story = {
 				</div>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const ConditionalClasses: Story = {
@@ -68,8 +68,8 @@ export const ConditionalClasses: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Use objects for conditional classes: keys are class names, values are conditions. Only truthy values are included.',
-		},
+				'Use objects for conditional classes: keys are class names, values are conditions. Only truthy values are included.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -77,8 +77,8 @@ export const ConditionalClasses: Story = {
 			source: dedent`clsx('btn', {
 		'btn-active': isActive,
 		'btn-disabled': isDisabled,
-	})`,
-		}),
+	})`
+		})
 	],
 	render() {
 		const isActive = true
@@ -90,13 +90,13 @@ export const ConditionalClasses: Story = {
 					<code>
 						{clsx('btn', {
 							'btn-active': isActive,
-							'btn-disabled': isDisabled,
+							'btn-disabled': isDisabled
 						})}
 					</code>
 				</div>
 			</StoryCard>
 		)
-	},
+	}
 }
 
 export const MixedInputs: Story = {
@@ -104,14 +104,14 @@ export const MixedInputs: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'clsx accepts strings, objects, and arrays. Falsy entries are filtered out.',
-		},
+			story: 'clsx accepts strings, objects, and arrays. Falsy entries are filtered out.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
-			source: dedent`clsx('base', ['a', null, 'b'], { active: true, hidden: false })`,
-		}),
+			source: dedent`clsx('base', ['a', null, 'b'], { active: true, hidden: false })`
+		})
 	],
 	render() {
 		return (
@@ -121,5 +121,5 @@ export const MixedInputs: Story = {
 				</div>
 			</StoryCard>
 		)
-	},
+	}
 }

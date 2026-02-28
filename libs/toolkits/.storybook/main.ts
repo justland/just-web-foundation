@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	staticDirs: [
-		...getCodeEditorStaticDirs(__filename),
+		...getCodeEditorStaticDirs(__filename)
 		// getExtraStaticDir('monaco-editor/esm')
 	],
 	addons: [
@@ -20,26 +20,26 @@ const config: StorybookConfig = {
 		defineStorybookVis({
 			visProjects: [
 				{
-					snapshotRootDir: '__vis__/linux',
+					snapshotRootDir: '__vis__/linux'
 				},
 				{
-					snapshotRootDir: '__vis__/local',
-				},
-			],
-		}),
+					snapshotRootDir: '__vis__/local'
+				}
+			]
+		})
 	],
 	framework: {
 		name: '@storybook/react-vite',
-		options: {},
+		options: {}
 	},
 	features: {
-		backgrounds: true,
+		backgrounds: true
 	},
 	tags: {
 		unit: {
 			defaultFilterSelection:
-				process.env['NODE_ENV'] !== 'development' ? 'exclude' : (undefined as any),
-		},
-	},
+				process.env['NODE_ENV'] !== 'development' ? 'exclude' : (undefined as any)
+		}
+	}
 }
 export default config

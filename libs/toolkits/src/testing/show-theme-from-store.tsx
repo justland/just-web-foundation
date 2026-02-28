@@ -6,7 +6,7 @@ export function ShowThemeFromStore<Themes extends ThemeMap>({
 	store,
 	themes,
 	theme,
-	'data-testid': dataTestId = 'theme-from-store',
+	'data-testid': dataTestId = 'theme-from-store'
 }: {
 	store: ThemeStore<Themes>
 	themes: Themes

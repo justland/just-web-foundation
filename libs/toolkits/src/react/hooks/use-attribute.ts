@@ -21,10 +21,10 @@ export function useAttribute(
 	attributeName: string,
 	element: Element | undefined = typeof document !== 'undefined'
 		? document.documentElement
-		: undefined,
+		: undefined
 ): [string | null, (value: string | null) => void] {
 	const [value, setValueState] = useState<string | null>(
-		() => element?.getAttribute(attributeName) ?? null,
+		() => element?.getAttribute(attributeName) ?? null
 	)
 
 	useEffect(() => {
@@ -36,9 +36,9 @@ export function useAttribute(
 			{
 				[attributeName]: (next) => {
 					setValueState(next)
-				},
+				}
 			},
-			element,
+			element
 		)
 		return () => observer.disconnect()
 	}, [element, attributeName])
@@ -52,7 +52,7 @@ export function useAttribute(
 				element.setAttribute(attributeName, next)
 			}
 		},
-		[element, attributeName],
+		[element, attributeName]
 	)
 
 	return [value, setValue]

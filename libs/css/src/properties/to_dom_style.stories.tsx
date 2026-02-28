@@ -5,7 +5,7 @@ import { toDOMStyle } from '#just-web/css'
 
 const meta = {
 	title: 'CSS Properties/toDOMStyle',
-	tags: ['new', 'version:0.4'],
+	tags: ['new', 'version:0.4']
 } satisfies Meta
 
 export default meta
@@ -62,11 +62,11 @@ export const BasicUsage: Story = {
 			backgroundColor: 'lightblue',
 			color: 'darkblue',
 			padding: '1rem',
-			borderRadius: '8px',
+			borderRadius: '8px'
 		}
 
 		return <DemoComponent style={style} title="Basic CSS Properties" />
-	},
+	}
 }
 
 export const CamelCaseConversion: Story = {
@@ -77,11 +77,11 @@ export const CamelCaseConversion: Story = {
 			fontWeight: 'bold',
 			textAlign: 'center',
 			marginTop: '0.5rem',
-			paddingLeft: '1rem',
+			paddingLeft: '1rem'
 		}
 
 		return <DemoComponent style={style} title="CamelCase to kebab-case Conversion" />
-	},
+	}
 }
 
 export const CustomProperties: Story = {
@@ -95,11 +95,11 @@ export const CustomProperties: Story = {
 			borderWidth: 'var(--border-width)',
 			borderStyle: 'solid',
 			padding: '1rem',
-			color: 'white',
+			color: 'white'
 		}
 
 		return <DemoComponent style={style} title="Custom CSS Properties (CSS Variables)" />
-	},
+	}
 }
 
 export const MixedProperties: Story = {
@@ -114,21 +114,21 @@ export const MixedProperties: Story = {
 			fontWeight: '600',
 			textAlign: 'center',
 			color: 'white',
-			boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+			boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
 		}
 
 		return <DemoComponent style={style} title="Mixed Standard and Custom Properties" />
-	},
+	}
 }
 
 export const UndefinedInput: Story = {
 	render() {
 		return <DemoComponent style={undefined} title="Undefined Input" />
-	},
+	}
 }
 
 export const EmptyObject: Story = {
 	render() {
 		return <DemoComponent style={{}} title="Empty Style Object" />
-	},
+	}
 }

@@ -41,6 +41,6 @@ export function setThemeByClassName<Themes extends ThemeMap>(options: {
 	const store = classNameThemeStore<Themes>(options.element)
 	store.set({
 		themes: options.themes,
-		theme: options.theme,
+		theme: options.theme
 	})
 }

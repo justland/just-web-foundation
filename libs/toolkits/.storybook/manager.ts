@@ -6,6 +6,6 @@ addons.setConfig({
 	tagBadges,
 	theme: {
 		...themes.normal,
-		brandTitle: '@just-web/toolkits',
-	},
+		brandTitle: '@just-web/toolkits'
+	}
 })

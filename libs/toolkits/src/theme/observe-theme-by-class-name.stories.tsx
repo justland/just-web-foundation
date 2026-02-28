@@ -10,7 +10,7 @@ import source from './observe-theme-by-class-name.ts?raw'
 
 const themes = {
 	light: ['your-light-class', 'app:text-black', 'app:bg-white'],
-	dark: ['your-dark-class', 'app:text-white', 'app:bg-black'],
+	dark: ['your-dark-class', 'app:text-white', 'app:bg-black']
 } as const
 
 const classThemes = { light: 'your-light-class', dark: 'your-dark-class' } as const
@@ -21,10 +21,10 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Observes element class changes and invokes a handler when the theme (by class) changes.',
-		},
+				'Observes element class changes and invokes a handler when the theme (by class) changes.'
+		}
 	}),
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -39,7 +39,7 @@ export const BasicUsage: Story = {
 				<p>
 					Observe theme changes on <code>document.documentElement.className</code>.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -47,8 +47,8 @@ export const BasicUsage: Story = {
 				  themes: { light: 'your-light-class', dark: 'your-dark-class' },
 				  handler: (value) => setTheme(value)
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [theme, setTheme] = useState<string>()
@@ -60,7 +60,7 @@ export const BasicUsage: Story = {
 				handler: (value) => {
 					setTheme(value)
 					setClassName(document.documentElement.className)
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -94,7 +94,7 @@ export const BasicUsage: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const WithThemeArray: Story = {
@@ -102,8 +102,8 @@ export const WithThemeArray: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Theme keys can map to different class values (e.g. your-light-theme, your-dark-theme).',
-		},
+				'Theme keys can map to different class values (e.g. your-light-theme, your-dark-theme).'
+		}
 	}),
 	decorators: [
 		withStoryCard({
@@ -112,7 +112,7 @@ export const WithThemeArray: Story = {
 					When a theme value is an array, only the <strong>first</strong> value is used to determine
 					the theme.
 				</p>
-			),
+			)
 		}),
 		showSource({
 			source: dedent`
@@ -123,8 +123,8 @@ export const WithThemeArray: Story = {
 					},
 					handler: (value) => setTheme(value),
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [theme, setTheme] = useState<string>()
@@ -136,7 +136,7 @@ export const WithThemeArray: Story = {
 				handler: (value) => {
 					setTheme(value)
 					setClassName(document.documentElement.className)
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -170,7 +170,7 @@ export const WithThemeArray: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('theme')).toHaveTextContent('dark')
 		})
-	},
+	}
 }
 
 export const WithDefaultTheme: Story = {
@@ -178,8 +178,8 @@ export const WithDefaultTheme: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When class is cleared, handler receives options.theme instead of undefined.',
-		},
+			story: 'When class is cleared, handler receives options.theme instead of undefined.'
+		}
 	}),
 	decorators: [
 		withStoryCard(),
@@ -190,8 +190,8 @@ export const WithDefaultTheme: Story = {
 				  handler: (value) => setTheme(value),
 				  theme: 'light',
 				})
-			`,
-		}),
+			`
+		})
 	],
 	render: () => {
 		const [theme, setTheme] = useState<string>()
@@ -203,7 +203,7 @@ export const WithDefaultTheme: Story = {
 				themes: classThemes,
 				handler: (value) => {
 					setTheme(value)
-				},
+				}
 			})
 			return () => observer.disconnect()
 		}, [])
@@ -217,7 +217,7 @@ export const WithDefaultTheme: Story = {
 							onPress={() =>
 								setThemeByClassName({
 									themes: classThemes,
-									theme: t,
+									theme: t
 								})
 							}
 						>
@@ -257,11 +257,11 @@ export const WithDefaultTheme: Story = {
 			await userEvent.click(btn)
 			await expect(canvas.getByTestId('theme')).toHaveTextContent('unset')
 		})
-	},
+	}
 }
 
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),
-	decorators: [showSource()],
+	decorators: [showSource()]
 }

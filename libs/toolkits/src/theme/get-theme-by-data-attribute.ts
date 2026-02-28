@@ -51,6 +51,6 @@ export function getThemeByDataAttribute<Themes extends ThemeMap>(options: {
 	return store.get({
 		themes: options.themes,
 		theme: options.theme,
-		allowCustom: options.allowCustom,
+		allowCustom: options.allowCustom
 	}) as keyof Themes | string | undefined
 }

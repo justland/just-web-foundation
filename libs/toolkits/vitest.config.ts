@@ -20,19 +20,19 @@ export default mergeConfig(config, {
 			'dedent',
 			'storybook-addon-code-editor',
 			'zustand/vanilla',
-			'jotai',
-		],
+			'jotai'
+		]
 	},
 	plugins: [
 		tailwindcss(),
 		storybookTest({
-			configDir: join(dirname, '.storybook'),
+			configDir: join(dirname, '.storybook')
 		}),
 		storybookVis(),
-		browserTestPreset({ includeGeneralTests: true }),
+		browserTestPreset({ includeGeneralTests: true })
 	],
 	test: {
 		name: 'toolkits',
-		setupFiles: ['./vitest.setup.ts'],
-	},
+		setupFiles: ['./vitest.setup.ts']
+	}
 })
