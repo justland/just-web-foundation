@@ -50,7 +50,8 @@
 	},
 	"dependencies": {
 		"@just-web/css": "workspace:^",
-		"@just-web/types": "workspace:^"
+		"@just-web/types": "workspace:^",
+		"clsx": "^2.1.1"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.25.0",

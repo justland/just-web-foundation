@@ -34,4 +34,15 @@ export default defineConfig([
 			emitDtsOnly: true,
 		},
 	},
+	{
+		entry: ['./node_modules/clsx/clsx.d.mts'],
+		clean: true,
+		outDir: '.editor/clsx',
+		outputOptions: {
+			file: '.editor/clsx/index.d.mts',
+		},
+		dts: {
+			emitDtsOnly: true,
+		},
+	},
 ])

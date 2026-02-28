@@ -226,6 +226,9 @@ importers:
       '@just-web/types':
         specifier: workspace:^
         version: link:../types
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.25.0
