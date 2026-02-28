@@ -7,7 +7,7 @@ import type { CreateTuple } from 'type-plus'
  * @param props - CSS custom property names to retrieve, must be in the format `--property-name`
  * @returns Array of property values corresponding to the requested custom properties
  */
-export function getCSSPropValues<Props extends Array<`--${string}`>>(
+export function getCSSVariableValue<Props extends Array<`--${string}`>>(
 	element: HTMLElement,
 	...props: Props
 ): CreateTuple<Props['length'], string>
@@ -17,15 +17,15 @@ export function getCSSPropValues<Props extends Array<`--${string}`>>(
  * @param props - CSS custom property names to retrieve, must be in the format `--property-name`
  * @returns Array of property values corresponding to the requested custom properties
  */
-export function getCSSPropValues<Props extends Array<`--${string}`>>(
+export function getCSSVariableValue<Props extends Array<`--${string}`>>(
 	...props: Props
 ): CreateTuple<Props['length'], string>
-export function getCSSPropValues<Props extends Array<`--${string}`>>(
+export function getCSSVariableValue<Props extends Array<`--${string}`>>(
 	element: unknown,
 	...props: Props
 ) {
 	if (typeof element === 'string') {
-		return getCSSPropValues(globalThis.document.body, element as `--${string}`, ...props)
+		return getCSSVariableValue(globalThis.document.body, element as `--${string}`, ...props)
 	}
 	const style = globalThis.getComputedStyle(element as HTMLElement)
 	return props.map((v) => style.getPropertyValue(v)) as any
