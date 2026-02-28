@@ -13,9 +13,8 @@ const config: StorybookConfig = {
 	],
 	addons: [
 		'@storybook/addon-docs',
-		'@storybook/addon-themes',
 		'@storybook/addon-vitest',
-		// '@storybook-community/storybook-dark-mode',
+		'@storybook-community/storybook-dark-mode',
 		'storybook-addon-tag-badges',
 		'storybook-addon-code-editor',
 		defineStorybookVis({
