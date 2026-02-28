@@ -29,7 +29,7 @@ export default mergeConfig(config, {
 		browserTestPreset({ includeGeneralTests: true }),
 	],
 	test: {
-		name: 'css',
+		name: 'toolkits',
 		setupFiles: ['./vitest.setup.ts'],
 	},
 })
