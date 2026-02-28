@@ -1,4 +1,4 @@
-import type { CSSProperties } from '../style/css-properties.ts'
+import type { CSSProperties } from './css-properties.ts'
 
 /**
  * Converts React-style CSS properties to DOM style properties.
@@ -6,23 +6,25 @@ import type { CSSProperties } from '../style/css-properties.ts'
  * ensuring proper formatting for DOM style application.
  *
  * @param style - React-style CSS properties object
- * @returns CSSStyleDeclaration compatible object for DOM style application
+ * @returns DOM style properties object
  *
  * @example
  * ```ts
- * const domStyle = toDOMStyle({
+ * const domStyle = toDomStyle({
  *   backgroundColor: 'red',
  *   '--custom-color': '#ff0000'
  * })
- * element.style = domStyle
+ * if (domStyle && element.style) {
+ *   for (const [key, value] of Object.entries(domStyle)) {
+ *     element.style.setProperty(key, value)
+ *   }
+ * }
  * ```
  */
-export function toDOMStyle(
-	style: CSSProperties | undefined,
-): Partial<CSSStyleDeclaration> | undefined {
+export function toDomStyle(style: CSSProperties | undefined) {
 	if (style === undefined) return undefined
 
-	const result = {} as any
+	const result: Record<string, string | null> = {}
 
 	for (const [key, value] of Object.entries(style)) {
 		result[
