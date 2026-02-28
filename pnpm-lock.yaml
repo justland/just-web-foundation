@@ -5,8 +5,13 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  react-dom: ^18.3.1
   react: ^18.3.1
+  react-dom: ^18.3.1
+
+patchedDependencies:
+  storybook-addon-code-editor:
+    hash: e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda
+    path: patches/storybook-addon-code-editor.patch
 
 importers:
 
@@ -192,7 +197,7 @@ importers:
         version: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       storybook-addon-code-editor:
         specifier: ^6.1.2
-        version: 6.1.2(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        version: 6.1.2(patch_hash=e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda)(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       storybook-addon-tag-badges:
         specifier: ^3.0.6
         version: 3.0.6(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -286,7 +291,7 @@ importers:
         version: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       storybook-addon-code-editor:
         specifier: ^6.1.2
-        version: 6.1.2(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        version: 6.1.2(patch_hash=e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda)(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       storybook-addon-tag-badges:
         specifier: ^3.0.6
         version: 3.0.6(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -367,7 +372,7 @@ importers:
         version: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       storybook-addon-code-editor:
         specifier: ^6.1.2
-        version: 6.1.2(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        version: 6.1.2(patch_hash=e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda)(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       storybook-addon-tag-badges:
         specifier: ^3.0.6
         version: 3.0.6(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -14998,7 +15003,7 @@ snapshots:
 
   stdin-discarder@0.2.2: {}
 
-  storybook-addon-code-editor@6.1.2(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+  storybook-addon-code-editor@6.1.2(patch_hash=e558bf47817e3eeede4bbfbef9b2eca55c03740cd9d000426a380043c8803bda)(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
     dependencies:
       '@babel/standalone': 7.28.5
       monaco-editor: 0.52.2
