@@ -1,23 +1,55 @@
-import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import { defineDocsParam, type FnToArgTypes, showDocSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
 import { observeAttributes } from '#just-web/toolkits'
 import { LogPanel } from '../testing/log-panel.tsx'
+import code from './observe-attribute.ts?raw'
 
-const meta = {
-	title: 'utils/observeAttributes',
-	tags: ['autodocs', 'version:0.5'],
-} satisfies Meta
+const meta: Meta<FnToArgTypes<typeof observeAttributes, ['element']>> = {
+	title: 'attributes/observeAttributes',
+	tags: ['autodocs', 'version:next'],
+	parameters: defineDocsParam({
+		description: {
+			component: 'Observes attribute changes on an element and calls corresponding handlers.',
+		},
+	}),
+	argTypes: {
+		element: {
+			control: false,
+		},
+	},
+	render: () => <></>,
+}
 
 export default meta
 
-export const BasicUsage: StoryObj = {
+type Story = StoryObj<typeof meta>
+
+export const Source: Story = {
+	tags: ['source'],
+	parameters: defineDocsParam({
+		source: { code },
+	}),
+	decorators: [showDocSource()],
+}
+
+export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story: 'Observes a single attribute change on the document root element.',
 		},
+		source: {
+			code: dedent`
+				const observer = observeAttributes({
+					'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
+				})
+				// cleanup: observer.disconnect()
+			`,
+		},
 	}),
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 
@@ -48,12 +80,22 @@ export const BasicUsage: StoryObj = {
 	},
 }
 
-export const MultipleAttributes: StoryObj = {
+export const MultipleAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story: 'Observes multiple attributes simultaneously.',
 		},
+		source: {
+			code: dedent`
+				const observer = observeAttributes({
+					'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
+					'aria-label': (value) => setLog((prev) => [...prev, \`aria-label: \${value}\`]),
+				})
+				// cleanup: observer.disconnect()
+			`,
+		},
 	}),
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 
@@ -98,16 +140,24 @@ export const MultipleAttributes: StoryObj = {
 	},
 }
 
-export const CustomElement: StoryObj = {
-	args: {
-		attributes: ['data-theme'],
-		element: 'custom',
-	},
+export const CustomElement: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story: 'Observes attribute changes on a custom element instead of the document root.',
 		},
+		source: {
+			code: dedent`
+				const observer = observeAttributes(
+					{
+						'data-theme': (value) => setLog((prev) => [...prev, \`data-theme: \${value}\`]),
+					},
+					customElementRef.current,
+				)
+				// cleanup: observer.disconnect()
+			`,
+		},
 	}),
+	decorators: [withStoryCard(), showDocSource({ placement: 'before' })],
 	render: () => {
 		const [log, setLog] = useState<string[]>([])
 		const customElementRef = useRef<HTMLDivElement>(null)

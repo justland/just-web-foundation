@@ -1,5 +1,3 @@
-import { ctx } from '../testing/globals.ctx.ts'
-
 /**
  * Observes attributes changes on an element and calls corresponding handlers.
  *
@@ -20,7 +18,7 @@ import { ctx } from '../testing/globals.ctx.ts'
  */
 export function observeAttributes<T extends string>(
 	handlers: Record<string, (value: T | null) => void>,
-	element: Element | undefined = ctx.getDocumentElement(),
+	element: Element | undefined = globalThis.document.documentElement,
 ) {
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
