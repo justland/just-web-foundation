@@ -6,6 +6,16 @@
  */
 export type ThemeMap = Record<string, string | readonly string[]>
 
+export type ThemeResult<Themes extends ThemeMap> =
+	| { theme: keyof Themes; value: Themes[keyof Themes] }
+	| undefined
+
+export type ThemeStore<Themes extends ThemeMap> = {
+	get(): ThemeResult<Themes> | Promise<ThemeResult<Themes>>
+	set(result: ThemeResult<Themes>): void | Promise<void>
+	subscribe?(handler: () => void): () => void
+}
+
 export type ThemeStorageOptions<Themes extends ThemeMap = ThemeMap> = {
 	storageKey: string
 	themes: Themes
