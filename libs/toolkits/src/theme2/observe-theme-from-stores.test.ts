@@ -9,7 +9,7 @@ const themeMap = {
 
 describe('observeThemeFromStores', () => {
 	it('calls handler immediately with current theme from stores', async () => {
-		const store = inMemoryThemeStore({ themeMap })
+		const store = inMemoryThemeStore<typeof themeMap>()
 		store.set?.(themeResult('grayscale', themeMap))
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores([store], 'current', handler)
@@ -21,7 +21,7 @@ describe('observeThemeFromStores', () => {
 	})
 
 	it('calls handler when store emits change', async () => {
-		const store = inMemoryThemeStore({ themeMap })
+		const store = inMemoryThemeStore<typeof themeMap>()
 		const handler = vi.fn()
 		observeThemeFromStores([store], 'current', handler)
 		await vi.waitFor(() => {
@@ -35,7 +35,7 @@ describe('observeThemeFromStores', () => {
 	})
 
 	it('unsubscribe stops notifications', async () => {
-		const store = inMemoryThemeStore({ themeMap })
+		const store = inMemoryThemeStore<typeof themeMap>()
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores([store], 'current', handler)
 		await vi.waitFor(() => {
@@ -49,7 +49,7 @@ describe('observeThemeFromStores', () => {
 	})
 
 	it('when store has no subscribe, skips it but still receives updates from store with subscribe', async () => {
-		const store = inMemoryThemeStore({ themeMap })
+		const store = inMemoryThemeStore<typeof themeMap>()
 		const storeWithoutSubscribe = { get: () => undefined, set: (_entry: unknown) => {} }
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores(
