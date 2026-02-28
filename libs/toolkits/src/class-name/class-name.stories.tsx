@@ -1,14 +1,16 @@
 import { defineDocsParam } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
-import * as css from '#just-web/toolkits'
+import * as toolkits from '#just-web/toolkits'
 
-export default {
-	title: 'props/ClassNameProps',
-	tags: ['version:0.1', 'autodocs', 'new'],
+const meta: Meta<toolkits.ClassNameProps> = {
+	title: 'class-name/ClassNameProps',
+	tags: ['type', 'version:0.1', 'autodocs', 'new'],
 	render: () => <div />,
-} satisfies Meta
+}
+
+export default meta
 
 export const Example: StoryObj = {
 	tags: ['!test', 'editor'],
@@ -17,7 +19,9 @@ export const Example: StoryObj = {
 			story: 'The `className` property accepts a string value for CSS class names.',
 		},
 		source: {
-			code: dedent`import type { ClassNameProps } from '@just-web/foundation'
+			code: dedent`
+			import type { ClassNameProps } from '@just-web/toolkits'
+			import type { PropsWithChildren } from 'react'
 
 			interface MyComponentProps extends PropsWithChildren<ClassNameProps> {}
 
@@ -32,7 +36,7 @@ export const Example: StoryObj = {
 
 makeLiveEditStory(Example, {
 	availableImports: {
-		'@just-web/foundation': css,
+		'@just-web/toolkits': toolkits,
 	},
 	code: Example.parameters?.['docs']?.['source']?.code,
 })
