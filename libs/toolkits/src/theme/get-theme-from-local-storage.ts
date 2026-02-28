@@ -1,4 +1,4 @@
-import { tryParseJSON } from '../_internal/utils/try-parse-json.ts'
+import { createLocalStorageThemeStore } from './create-local-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -32,24 +32,9 @@ export function getThemeFromLocalStorage<Themes extends ThemeMap>(
 			value: Themes[keyof Themes]
 	  }
 	| undefined {
-	const defaultTheme = options.theme
-		? {
-				theme: options.theme,
-				value: options.themes[options.theme],
-			}
-		: undefined
-	if (!window?.localStorage) return defaultTheme
-
-	try {
-		const stored = window.localStorage.getItem(options.storageKey)
-
-		const theme = tryParseJSON<{
-			theme: keyof Themes
-			value: Themes[keyof Themes]
-		}>(stored)
-		if (!theme) return defaultTheme
-		return theme
-	} catch {
-		return defaultTheme
-	}
+	const store = createLocalStorageThemeStore<Themes>(options.storageKey)
+	return store.get({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }

@@ -1,3 +1,4 @@
+import { createLocalStorageThemeStore } from './create-local-storage-theme-store.ts'
 import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
 
 /**
@@ -9,7 +10,7 @@ import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
  * @param options - Configuration options
  * @param options.themes - Record mapping theme keys to their values (used to validate the theme key)
  * @param options.theme - Theme key to store
- * @param options.key - localStorage key to write (defaults to `'theme'`)
+ * @param options.storageKey - localStorage key to write (defaults to `'theme'`)
  *
  * @example
  * ```ts
@@ -18,29 +19,16 @@ import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
  * setThemeToLocalStorage({
  *   themes,
  *   theme: 'dark',
- *   key: 'app-theme'
+ *   storageKey: 'app-theme'
  * })
  * ```
  */
 export function setThemeToLocalStorage<Themes extends ThemeMap>(
 	options: ThemeStorageOptions<Themes>,
 ): void {
-	if (!window?.localStorage) return
-
-	try {
-		if (!options.theme) {
-			window.localStorage.removeItem(options.storageKey)
-			return
-		}
-
-		window.localStorage.setItem(
-			options.storageKey,
-			JSON.stringify({
-				theme: options.theme,
-				value: options.themes[options.theme],
-			}),
-		)
-	} catch {
-		// Ignore quota or other storage errors
-	}
+	const store = createLocalStorageThemeStore<Themes>(options.storageKey)
+	store.set({
+		themes: options.themes,
+		theme: options.theme,
+	})
 }

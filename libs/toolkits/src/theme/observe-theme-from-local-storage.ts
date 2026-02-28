@@ -1,12 +1,7 @@
-import { getThemeFromLocalStorage } from './get-theme-from-local-storage.ts'
-import type { ThemeMap, ThemeStorageOptions } from './theme.types.ts'
+import { createLocalStorageThemeStore } from './create-local-storage-theme-store.ts'
+import type { ThemeMap, ThemeResult, ThemeStorageOptions } from './theme.types.ts'
 
-export type ObserveThemeFromLocalStorageResult<Themes extends ThemeMap> =
-	| {
-			theme: keyof Themes
-			value: Themes[keyof Themes]
-	  }
-	| undefined
+export type ObserveThemeFromLocalStorageResult<Themes extends ThemeMap> = ThemeResult<Themes>
 
 /**
  * Observes changes to the theme stored in localStorage and calls a handler when it changes.
@@ -38,31 +33,10 @@ export function observeThemeFromLocalStorage<Themes extends ThemeMap>(
 		handler: (result: ObserveThemeFromLocalStorageResult<Themes>) => void
 	},
 ): { disconnect: () => void } {
-	const { handler, ...storageOptions } = options
-
-	const notify = () => {
-		handler(getThemeFromLocalStorage(storageOptions))
-	}
-
-	if (typeof window === 'undefined' || !window.localStorage) {
-		// No storage: still call handler with default once, return no-op disconnect
-		handler(getThemeFromLocalStorage(storageOptions))
-		return { disconnect: () => {} }
-	}
-
-	notify()
-
-	const onStorage = (e: StorageEvent) => {
-		if (e.key === storageOptions.storageKey && e.storageArea === window.localStorage) {
-			notify()
-		}
-	}
-
-	window.addEventListener('storage', onStorage)
-
-	return {
-		disconnect: () => {
-			window.removeEventListener('storage', onStorage)
-		},
-	}
+	const store = createLocalStorageThemeStore<Themes>(options.storageKey)
+	return store.subscribe({
+		themes: options.themes,
+		theme: options.theme,
+		handler: options.handler,
+	})
 }
