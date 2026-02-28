@@ -2,7 +2,8 @@ import { defineParameters } from '@repobuddy/storybook'
 import { withThemeByClassName } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
 import { setupMonaco } from 'storybook-addon-code-editor'
-import ToolkitTypes from '../.editor/index.d.mts?raw'
+import ToolkitTypes from '../.editor/just_web_toolkits/index.d.mts?raw'
+import RepobuddyStorybookTypes from '../.editor/repobuddy_storybook/index.d.mts?raw'
 
 import './tailwind.css'
 import './tailwind.repobuddy-storybook.css'
@@ -16,6 +17,10 @@ setupMonaco({
 		monaco.languages.typescript.typescriptDefaults.addExtraLib(
 			ToolkitTypes,
 			'file:///node_modules/@just-web/toolkits/index.d.ts',
+		)
+		monaco.languages.typescript.typescriptDefaults.addExtraLib(
+			RepobuddyStorybookTypes,
+			'file:///node_modules/@repobuddy/storybook/index.d.ts',
 		)
 	},
 })
