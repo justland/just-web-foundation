@@ -37,11 +37,9 @@ const config: StorybookConfig = {
 	},
 	tags: {
 		unit: {
-			defaultFilterSelection: 'exclude',
+			defaultFilterSelection:
+				process.env['NODE_ENV'] !== 'development' ? 'exclude' : (undefined as any),
 		},
-		// internal: {
-		// 	defaultFilterSelection: 'exclude',
-		// },
 	},
 }
 export default config
