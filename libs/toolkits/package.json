@@ -16,13 +16,18 @@
 	},
 	"exports": {
 		".": {
-			"types": "./dist/index.d.mts",
+			"types": [
+				"./dist/index.d.mts",
+				"./src/index.ts"
+			],
+			"source": "./src/index.ts",
 			"style": "./tailwind.css",
 			"default": "./dist/index.mjs"
 		},
 		"./package.json": "./package.json"
 	},
 	"main": "./dist/index.cjs",
+	"source": "./src/index.ts",
 	"types": "./dist/index.d.cts",
 	"files": [
 		"cjs",
