@@ -2,6 +2,7 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import type { CSSProperties as ReactCSSProperties } from 'react'
+import { expect } from 'storybook/test'
 import { testType } from 'type-plus'
 import type * as toolkits from '#just-web/toolkits'
 import type { CSSProperties } from '#just-web/toolkits'
@@ -73,13 +74,13 @@ export const AcceptsReactCSSProperties: StoryObj = {
 		`
 		})
 	],
-	render: () => {
+	play: async () => {
 		const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
 		const justStyle: CSSProperties = reactStyle
 
 		testType.canAssign<typeof justStyle, typeof reactStyle>(true)
 		testType.canAssign<typeof reactStyle, typeof justStyle>(true)
-
-		return <div />
+		const keys: Array<keyof CSSProperties> = ['backgroundColor', '--custom-property']
+		await expect(keys).toEqual(['backgroundColor', '--custom-property'])
 	}
 }

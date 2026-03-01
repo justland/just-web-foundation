@@ -46,7 +46,8 @@
 		"!**/*.mdx"
 	],
 	"scripts": {
-		"build": "tsdown",
+		"build": "run-p build:tsdown test:types",
+		"build:tsdown": "tsdown",
 		"build-doc": "storybook build -o ../../docs/foundation",
 		"build:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.css",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
@@ -56,6 +57,7 @@
 		"nuke": "rimraf node_modules",
 		"sb": "storybook dev -p 6206",
 		"test": "vitest run",
+		"test:types": "tsc --noEmit",
 		"w": "vitest"
 	},
 	"dependencies": {
@@ -79,6 +81,7 @@
 		"@vitest/coverage-v8": "^4.0.18",
 		"dedent": "^1.7.1",
 		"jotai": "^2.18.0",
+		"npm-run-all2": "^8.0.4",
 		"react": "catalog:",
 		"react-aria-components": "^1.15.1",
 		"react-dom": "catalog:",

@@ -275,6 +275,9 @@ importers:
       jotai:
         specifier: ^2.18.0
         version: 2.18.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.13)(react@18.3.1)
+      npm-run-all2:
+        specifier: ^8.0.4
+        version: 8.0.4
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -5805,6 +5808,11 @@ packages:
   npm-run-all2@7.0.2:
     resolution: {integrity: sha512-7tXR+r9hzRNOPNTvXegM+QzCuMjzUIIq66VDunL6j60O4RrExx32XUhlrS7UK4VcdGw5/Wxzb3kfNcFix9JKDA==}
     engines: {node: ^18.17.0 || >=20.5.0, npm: '>= 9'}
+    hasBin: true
+
+  npm-run-all2@8.0.4:
+    resolution: {integrity: sha512-wdbB5My48XKp2ZfJUlhnLVihzeuA1hgBnqB2J9ahV77wLS+/YAJAlN8I+X3DIFIPZ3m5L7nplmlbhNiFDmXRDA==}
+    engines: {node: ^20.5.0 || >=22.0.0, npm: '>= 10'}
     hasBin: true
 
   npm-run-path@6.0.0:
@@ -13794,6 +13802,17 @@ snapshots:
       shell-quote: 1.8.2
       which: 5.0.0
 
+  npm-run-all2@8.0.4:
+    dependencies:
+      ansi-styles: 6.2.3
+      cross-spawn: 7.0.6
+      memorystream: 0.3.1
+      picomatch: 4.0.3
+      pidtree: 0.6.0
+      read-package-json-fast: 4.0.0
+      shell-quote: 1.8.2
+      which: 5.0.0
+
   npm-run-path@6.0.0:
     dependencies:
       path-key: 4.0.0
@@ -15880,13 +15899,13 @@ snapshots:
 
   wrap-ansi@8.1.0:
     dependencies:
-      ansi-styles: 6.2.1
+      ansi-styles: 6.2.3
       string-width: 5.1.2
       strip-ansi: 7.1.0
 
   wrap-ansi@9.0.0:
     dependencies:
-      ansi-styles: 6.2.1
+      ansi-styles: 6.2.3
       string-width: 7.2.0
       strip-ansi: 7.1.0
 
