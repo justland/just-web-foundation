@@ -7,10 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-	staticDirs: [
-		...getCodeEditorStaticDirs(__filename)
-		// getExtraStaticDir('monaco-editor/esm')
-	],
+	staticDirs: [...getCodeEditorStaticDirs(__filename)],
 	addons: [
 		'@storybook/addon-docs',
 		'@storybook/addon-vitest',
