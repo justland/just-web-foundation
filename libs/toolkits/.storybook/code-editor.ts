@@ -1,7 +1,7 @@
 import type { setupMonaco } from 'storybook-addon-code-editor'
 import ClsxTypes from '../.editor/clsx/index.d.mts?raw'
 import ToolkitTypes from '../.editor/just_web_toolkits/index.d.mts?raw'
-import ThemeTypes from '../.editor/just_web_toolkits/theme/index.d.mts?raw'
+import ThemeTypes from '../.editor/just_web_toolkits/theme.d.mts?raw'
 import RepobuddyStorybookTypes from '../.editor/repobuddy_storybook/index.d.mts?raw'
 import TypePlusTypes from '../.editor/type_plus/index.d.mts?raw'
 

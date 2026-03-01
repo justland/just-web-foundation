@@ -13,8 +13,8 @@
 	"type": "module",
 	"imports": {
 		"#just-web/toolkits": "./src/index.ts",
-		"#just-web/toolkits/react": "./src/react/index.ts",
-		"#just-web/toolkits/theme": "./src/theme/index.ts"
+		"#just-web/toolkits/react": "./src/react.ts",
+		"#just-web/toolkits/theme": "./src/theme.ts"
 	},
 	"exports": {
 		".": {
@@ -28,21 +28,21 @@
 		},
 		"./react": {
 			"types": [
-				"./dist/react/index.d.mts",
-				"./src/react/index.ts"
+				"./dist/react.d.mts",
+				"./src/react.ts"
 			],
-			"source": "./src/react/index.ts",
-			"default": "./dist/react/index.mjs"
+			"source": "./src/react.ts",
+			"default": "./dist/react.mjs"
 		},
-		"./package.json": "./package.json",
 		"./theme": {
 			"types": [
-				"./dist/theme/index.d.mts",
-				"./src/theme/index.ts"
+				"./dist/theme.d.mts",
+				"./src/theme.ts"
 			],
-			"source": "./src/theme/index.ts",
-			"default": "./dist/theme/index.mjs"
-		}
+			"source": "./src/theme.ts",
+			"default": "./dist/theme.mjs"
+		},
+		"./package.json": "./package.json"
 	},
 	"main": "./dist/index.cjs",
 	"source": "./src/index.ts",
