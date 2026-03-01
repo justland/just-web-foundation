@@ -4,9 +4,13 @@ import dedent from 'dedent'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import {
+	classNameThemeStore,
 	composeThemeStores,
+	dataAttributeThemeStore,
 	inMemoryThemeStore,
+	localStorageThemeStore,
 	type ThemeEntry,
+	type ThemeMap,
 	themeEntry
 } from '#just-web/toolkits/theme'
 import { Button } from '../testing/button.tsx'
@@ -71,7 +75,7 @@ export const Playground: Story = {
 			<div className="flex flex-col gap-2">
 				<ThemeStoreDemo2 store={store} themes={themes} />
 				<ThemeResultCard title="Observed (store1.subscribe())" result={result1} />
-				<ThemeResultCard title="Observed (store2.subscribe()	)" result={result2} />
+				<ThemeResultCard title="Observed (store2.subscribe())" result={result2} />
 			</div>
 		)
 	},
@@ -453,6 +457,98 @@ export const SubscribeUnsubscribe: Story = {
 		await userEvent.click(canvas.getByTestId('unsubscribe'))
 		await userEvent.click(canvas.getByTestId('write-current'))
 		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('grayscale')
+	}
+}
+
+export const StoreFactoryPattern: Story = {
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Accepts store factory tuples [factory] or [factory, options]. Each position has its own type for options autocomplete.'
+		},
+		source: {
+			code: dedent`
+				composeThemeStores(themes, [
+				  [classNameThemeStore, { element: document.body }],
+				  [dataAttributeThemeStore, { attributeName: 'data-theme', element: document.body }],
+				  [localStorageThemeStore, { storageKey: 'my-theme-key' }]
+				], { defaultTheme: 'current' })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(
+			() =>
+				composeThemeStores(
+					themes,
+					[
+						[classNameThemeStore, { element: document.body }],
+						[
+							dataAttributeThemeStore,
+							{
+								attributeName: 'data-theme',
+								element: document.body
+							}
+						],
+						[localStorageThemeStore, { storageKey: 'my-theme-key' }]
+					],
+					{ defaultTheme: 'current' }
+				),
+			[]
+		)
+		return <ThemeStoreDemo2 store={store} themes={themes} />
+	}
+}
+
+/** Custom factory with options — demonstrates generic F for user-defined factories. */
+function createInitializedThemeStore<Themes extends ThemeMap>(
+	themes: Themes,
+	options: { initialTheme?: keyof Themes }
+) {
+	const store = inMemoryThemeStore(themes)
+	if (options.initialTheme !== undefined) {
+		store.write?.(themeEntry(options.initialTheme, themes))
+	}
+	return store
+}
+
+export const CustomStoreFactory: Story = {
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Custom store factory with options. The F generic infers the factory type, enabling options autocomplete for user-defined factories.'
+		},
+		source: {
+			code: dedent`
+				function createInitializedThemeStore(themes, options: { initialTheme?: keyof Themes }) {
+				  const store = inMemoryThemeStore(themes)
+				  if (options.initialTheme) store.write?.(themeEntry(options.initialTheme, themes))
+				  return store
+				}
+				composeThemeStores(themes, [
+				  [createInitializedThemeStore, { initialTheme: 'grayscale' }]
+				], { defaultTheme: 'current' })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(
+			() =>
+				composeThemeStores(themes, [[createInitializedThemeStore, { initialTheme: 'grayscale' }]], {
+					defaultTheme: 'current'
+				}),
+			[]
+		)
+		return <ThemeStoreDemo2 store={store} themes={themes} />
+	},
+	play: async ({ canvas }) => {
+		await waitFor(() =>
+			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
+		)
 	}
 }
 

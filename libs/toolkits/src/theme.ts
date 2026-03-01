@@ -9,4 +9,5 @@ export * from './theme/theme-store/data-attribute-theme-store/data-attribute-the
 export * from './theme/theme-store/in-memory-theme-store/in-memory-theme-store.ts'
 export * from './theme/theme-store/local-storage-theme-store/local-storage-theme-store.ts'
 export * from './theme/theme-store/session-storage-theme-store/session-storage-theme-store.ts'
-export * from './theme/theme-store/theme-store.types.ts'
+export type * from './theme/theme-store/theme-store.types.ts'
+export type * from './theme/theme-store/theme-store-factory.types.ts'
