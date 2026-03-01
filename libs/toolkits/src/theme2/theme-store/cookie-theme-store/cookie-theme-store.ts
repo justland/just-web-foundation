@@ -6,13 +6,13 @@ import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type GetThemeFromCookieOptions = {
+export interface GetThemeFromCookieOptions {
 	cookieName?: string | undefined
 }
 
-export type CookieThemeStoreOptions<Themes extends ThemeMap> = {
-	cookieName: string
+export interface CookieThemeStoreOptions<Themes extends ThemeMap> {
 	themes: Themes
+	cookieName: string
 	path?: string | undefined
 	maxAge?: number | undefined
 	sameSite?: 'lax' | 'strict' | 'none' | undefined

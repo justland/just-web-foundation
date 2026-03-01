@@ -42,7 +42,7 @@ export const Playground: Story = {
 			code: dedent`
 				const store1 = inMemoryThemeStore<typeof themes>()
 				const store2 = inMemoryThemeStore<typeof themes>()
-				const store = composeThemeStores([store1, store2], 'current', themes)
+				const store = composeThemeStores([store1, store2], themes, 'current')
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		}
@@ -54,7 +54,7 @@ export const Playground: Story = {
 		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themes),
+			() => composeThemeStores([store1, store2], themes, 'current'),
 			[store1, store2]
 		)
 
@@ -89,7 +89,7 @@ export const ReadAllEmptyNoDefault: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = composeThemeStores([store1, store2], undefined, themes)
+				const store = composeThemeStores([store1, store2], themes, undefined)
 				const result = await store.read()
 			`
 		})
@@ -99,8 +99,8 @@ export const ReadAllEmptyNoDefault: Story = {
 			() =>
 				composeThemeStores(
 					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
-					undefined,
-					themes
+					themes,
+					undefined
 				),
 			[]
 		)
@@ -135,7 +135,7 @@ export const ReadAllEmptyWithDefault: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = composeThemeStores([store1, store2], 'grayscale', themes)
+				const store = composeThemeStores([store1, store2], themes, 'grayscale')
 				const result = await store.read()
 			`
 		})
@@ -145,8 +145,8 @@ export const ReadAllEmptyWithDefault: Story = {
 			() =>
 				composeThemeStores(
 					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
-					'grayscale',
-					themes
+					themes,
+					'grayscale'
 				),
 			[]
 		)
@@ -185,7 +185,7 @@ export const ReadWaterfallFirstHasValue: Story = {
 			const store1 = inMemoryThemeStore<typeof themes>()
 			const store2 = inMemoryThemeStore<typeof themes>()
 			store1.write?.(themeEntry('grayscale', themes))
-			return { store: composeThemeStores([store1, store2], 'current', themes) }
+			return { store: composeThemeStores([store1, store2], themes, 'current') }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
@@ -221,7 +221,7 @@ export const ReadWaterfallFirstEmptySecondHasValue: Story = {
 			const store1 = inMemoryThemeStore<typeof themes>()
 			const store2 = inMemoryThemeStore<typeof themes>()
 			store2.write?.(themeEntry('high-contrast', themes))
-			return { store: composeThemeStores([store1, store2], 'current', themes) }
+			return { store: composeThemeStores([store1, store2], themes, 'current') }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
@@ -258,7 +258,7 @@ export const ReadSkipsStoreWithoutRead: Story = {
 			storeWithRead.write?.(themeEntry('grayscale', themes))
 			const storeWithoutRead = { write: (_entry: unknown) => {} }
 			return {
-				store: composeThemeStores([storeWithoutRead, storeWithRead] as any, 'current', themes)
+				store: composeThemeStores([storeWithoutRead, storeWithRead] as any, themes, 'current')
 			}
 		}
 	],
@@ -294,7 +294,7 @@ export const WriteToAllStores: Story = {
 		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themes),
+			() => composeThemeStores([store1, store2], themes, 'current'),
 			[store1, store2]
 		)
 		return <ThemeStoreDemo2 store={store} themes={themes} />
@@ -321,8 +321,8 @@ export const SubscribeNoInitialNotify: Story = {
 			() =>
 				composeThemeStores(
 					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
-					'current',
-					themes
+					themes,
+					'current'
 				),
 			[]
 		)
@@ -356,7 +356,7 @@ export const SubscribeReNotifyOnChildEmit: Story = {
 		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themes),
+			() => composeThemeStores([store1, store2], themes, 'current'),
 			[store1, store2]
 		)
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
@@ -399,7 +399,7 @@ export const SubscribeUnsubscribe: Story = {
 		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themes),
+			() => composeThemeStores([store1, store2], themes, 'current'),
 			[store1, store2]
 		)
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)

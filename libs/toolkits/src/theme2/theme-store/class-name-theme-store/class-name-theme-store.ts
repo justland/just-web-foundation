@@ -8,8 +8,8 @@ import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
 export type ClassNameThemeStoreOptions<Themes extends ThemeMap> = {
-	element?: Element | null
 	themes: Themes
+	element?: Element | null
 }
 
 /**

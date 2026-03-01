@@ -19,6 +19,6 @@ export type AsyncThemeStore<Themes extends ThemeMap = ThemeMap> = {
 		| undefined
 	write?: ((entry: ThemeEntry<Themes> | undefined) => void | Promise<void>) | undefined
 	subscribe?:
-		| ((handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void)
+		| ((handler: (entry: ThemeEntry<Themes> | undefined | null) => void) => () => void)
 		| undefined
 }

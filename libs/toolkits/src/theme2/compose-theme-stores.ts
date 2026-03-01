@@ -23,14 +23,14 @@ type StoreWithSubscribe<Themes extends ThemeMap> = RequiredPick<
  *   called when a child store emits.
  *
  * @param stores - Array of theme stores
- * @param defaultTheme - Fallback theme key when all stores return empty
  * @param themes - ThemeMap for synthesizing fallback ThemeEntry
+ * @param defaultTheme - Fallback theme key when all stores return empty
  * @returns AsyncThemeStore
  */
 export function composeThemeStores<Themes extends ThemeMap>(
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
-	defaultTheme: keyof Themes | undefined,
-	themes: Themes
+	themes: Themes,
+	defaultTheme: keyof Themes | undefined
 ): Required<AsyncThemeStore<Themes>> {
 	const withRead = stores.filter((s): s is StoreWithRead<Themes> => typeof s.read === 'function')
 

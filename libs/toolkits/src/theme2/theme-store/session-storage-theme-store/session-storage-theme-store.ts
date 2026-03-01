@@ -6,8 +6,8 @@ import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
 export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
-	storageKey: string
 	themes: Themes
+	storageKey: string
 }
 
 /**

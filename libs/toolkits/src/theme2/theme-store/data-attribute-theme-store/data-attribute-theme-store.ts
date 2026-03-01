@@ -8,10 +8,10 @@ import type { ThemeMap } from '../../theme-map.types.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type DataAttributeThemeStoreOptions<Themes extends ThemeMap> = {
+export interface DataAttributeThemeStoreOptions<Themes extends ThemeMap> {
+	themes: Themes
 	attributeName: `data-${string}`
 	element?: Element | null
-	themes: Themes
 }
 
 /**
