@@ -1,5 +1,5 @@
 import { findKey } from 'type-plus'
-import type { ThemeMap } from '../../theme.types.ts'
+import type { ThemeMap } from '../../theme-map.types.ts'
 
 /**
  * Resolves theme key from class name string by matching against theme map.

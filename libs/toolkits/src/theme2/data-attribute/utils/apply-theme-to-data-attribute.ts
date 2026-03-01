@@ -1,5 +1,5 @@
-import type { ThemeMap } from '../../theme.types.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
+import type { ThemeMap } from '../../theme-map.types.ts'
 
 /**
  * Applies theme to element by setting or removing a data attribute.

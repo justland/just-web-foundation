@@ -1,4 +1,4 @@
-import type { ThemeMap } from './theme.types.ts'
+import type { ThemeMap } from './theme-map.types.ts'
 
 /**
  * Theme entry is a pair of theme key and theme value.
