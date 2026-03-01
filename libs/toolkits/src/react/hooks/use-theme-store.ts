@@ -19,7 +19,7 @@ import { setThemeToStores } from '../../theme/utils/set-theme-to-stores.ts'
  *
  * @example
  * ```tsx
- * const store = inMemoryThemeStore({ themes })
+ * const store = inMemoryThemeStore(themes)
  * const themes = { light: 'theme-light', dark: 'theme-dark' }
  * const [theme, setTheme] = useThemeStore({ store, themes, theme: 'light' })
  *

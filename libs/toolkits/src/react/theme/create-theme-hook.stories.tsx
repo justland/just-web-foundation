@@ -41,7 +41,7 @@ export const Playground: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme, setTheme] = useTheme()
 				setTheme('high-contrast')
@@ -51,7 +51,7 @@ export const Playground: Story = {
 	decorators: [withStoryCard(), showSource()],
 	loaders: [
 		async () => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = inMemoryThemeStore(themes)
 			const useTheme = createThemeHook({
 				stores: [store],
 				themes,
@@ -101,7 +101,7 @@ export const OverrideDefaultTheme: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme] = useTheme('high-contrast') // theme === 'high-contrast' when store empty
 			`
@@ -110,7 +110,7 @@ export const OverrideDefaultTheme: Story = {
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		function Demo() {
-			const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+			const store = useMemo(() => inMemoryThemeStore(themes), [themes])
 			const useTheme = useMemo(
 				() =>
 					createThemeHook({
@@ -143,7 +143,7 @@ export const StoryWithValue: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				store.write?.(themeEntry('grayscale', themes))
 				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme] = useTheme() // theme === 'grayscale'
@@ -153,7 +153,7 @@ export const StoryWithValue: Story = {
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const store = useMemo(() => {
-			const s = inMemoryThemeStore<typeof themes>()
+			const s = inMemoryThemeStore(themes)
 			s.write?.(themeEntry('grayscale', themes))
 			return s
 		}, [])
@@ -204,7 +204,7 @@ export const ThemeMapStringValue: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store = useMemo(() => inMemoryThemeStore(themes), [themes])
 		const useTheme = useMemo(
 			() =>
 				createThemeHook({
@@ -260,7 +260,7 @@ export const ThemeMapArrayValues: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themesArray>(), [])
+		const store = useMemo(() => inMemoryThemeStore(themesArray), [themesArray])
 		const useTheme = useMemo(
 			() =>
 				createThemeHook({

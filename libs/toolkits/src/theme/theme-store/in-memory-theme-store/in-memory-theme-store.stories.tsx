@@ -46,13 +46,13 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
+		const store = inMemoryThemeStore(themes)
 		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
@@ -80,14 +80,14 @@ export const ThemeMapOption: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				store.write(themeResult('current', themes))
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = inMemoryThemeStore(themes)
 			store.write(themeEntry('current', themes))
 			return { store }
 		}
@@ -132,13 +132,13 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = inMemoryThemeStore(themes)
 			store.write(themeEntry('current', themes))
 			return { store }
 		}
@@ -193,13 +193,13 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themesArray>()
+			const store = inMemoryThemeStore(themesArray)
 			store.write(themeEntry('grayscale', themesArray))
 			return { store }
 		}
@@ -236,7 +236,7 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				store.write(themeResult('grayscale', themes))
 				const result = store.read()
 			`
@@ -244,7 +244,7 @@ export const Read: Story = {
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = inMemoryThemeStore(themes)
 			store.write(themeEntry('grayscale', themes))
 			return { store }
 		}
@@ -279,13 +279,13 @@ export const ReadWhenEmpty: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				const theme = store.read() // undefined when empty
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
+		const store = inMemoryThemeStore(themes)
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -314,13 +314,13 @@ export const WriteStory: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				store.write(themeResult('high-contrast', themes))
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
+		const store = inMemoryThemeStore(themes)
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | undefined>(() => {
 			const r = store.read()
 			return r?.theme
@@ -375,7 +375,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
@@ -383,7 +383,7 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store = useMemo(() => inMemoryThemeStore(themes), [themes])
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useEffect(() => {
@@ -441,7 +441,7 @@ export const SubscribeUnsubscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = inMemoryThemeStore(themes)
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
 				store.write(themeResult('grayscale', themes))
 				unsubscribe()
@@ -450,7 +450,7 @@ export const SubscribeUnsubscribe: Story = {
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store = useMemo(() => inMemoryThemeStore(themes), [themes])
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const unSubRef = useRef<(() => void) | null>(null)
 

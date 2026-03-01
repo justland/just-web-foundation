@@ -10,21 +10,21 @@ const themeMap = {
 
 describe('getThemeFromStores', () => {
 	it('when all stores are empty, returns defaultTheme', async () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
+		const store = inMemoryThemeStore(themeMap)
 		const result = await getThemeFromStores([store], 'current')
 		expect(result).toBe('current')
 	})
 
 	it('when first store has value, returns it', async () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
+		const store = inMemoryThemeStore(themeMap)
 		store.write?.(themeEntry('grayscale', themeMap))
 		const result = await getThemeFromStores([store], 'current')
 		expect(result).toBe('grayscale')
 	})
 
 	it('when first store is empty and second has value, waterfall returns second', async () => {
-		const store1 = inMemoryThemeStore<typeof themeMap>()
-		const store2 = inMemoryThemeStore<typeof themeMap>()
+		const store1 = inMemoryThemeStore(themeMap)
+		const store2 = inMemoryThemeStore(themeMap)
 		store2.write?.(themeEntry('grayscale', themeMap))
 		const result = await getThemeFromStores([store1, store2], 'current')
 		expect(result).toBe('grayscale')
@@ -37,7 +37,7 @@ describe('getThemeFromStores', () => {
 	})
 
 	it('when store has no read, is skipped in waterfall', async () => {
-		const storeWithRead = inMemoryThemeStore<typeof themeMap>()
+		const storeWithRead = inMemoryThemeStore(themeMap)
 		storeWithRead.write?.(themeEntry('grayscale', themeMap))
 		const storeWithoutRead = { write: (_entry: unknown) => {} }
 		const result = await getThemeFromStores([storeWithoutRead, storeWithRead] as any, 'current')
@@ -45,7 +45,7 @@ describe('getThemeFromStores', () => {
 	})
 
 	it('when defaultTheme is undefined and all empty, returns undefined', async () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
+		const store = inMemoryThemeStore(themeMap)
 		const result = await getThemeFromStores([store], undefined)
 		expect(result).toBeUndefined()
 	})

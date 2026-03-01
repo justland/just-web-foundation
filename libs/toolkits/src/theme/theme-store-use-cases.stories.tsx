@@ -150,7 +150,7 @@ export const WithBackendStore: Story = {
 function createInMemoryStoreWithSubscribe(
 	initial: ThemeEntry<typeof themes> | undefined
 ): ThemeStore<typeof themes> {
-	const store = inMemoryThemeStore<typeof themes>()
+	const store = inMemoryThemeStore(themes)
 	if (initial) store.write(initial)
 	return store
 }
@@ -166,7 +166,7 @@ export const InMemoryStore: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore()
+				const store = inMemoryThemeStore(themes)
 				store.write(themeEntry('grayscale', themes))
 				const theme = await getThemeFromStores([store], 'default')
 			`
@@ -174,10 +174,10 @@ export const InMemoryStore: Story = {
 	],
 	render: () => {
 		const store = useMemo(() => {
-			const s = inMemoryThemeStore<typeof themes>()
+			const s = inMemoryThemeStore(themes)
 			s.write(themeEntry('grayscale', themes))
 			return s
-		}, [])
+		}, [themes])
 		return <ShowThemeFromStore store={store} themes={themes} theme="default" data-testid="result" />
 	},
 	play: async ({ canvas }) => {
