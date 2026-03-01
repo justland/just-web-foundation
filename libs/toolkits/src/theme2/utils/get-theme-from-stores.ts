@@ -1,7 +1,7 @@
-import type { ThemeEntry } from './theme-entry.types.ts'
-import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import type { ThemeEntry } from '../theme-entry.types.ts'
+import type { ThemeMap } from '../theme-map.types.ts'
+import type { AsyncThemeStore } from '../theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../theme-store/theme-store.types.ts'
 
 type StoreWithRead<Themes extends ThemeMap> = (ThemeStore<Themes> | AsyncThemeStore<Themes>) & {
 	read: () => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>
@@ -24,7 +24,7 @@ export async function getThemeFromStores<Themes extends ThemeMap>(
 	const withRead = stores.filter((s): s is StoreWithRead<Themes> => typeof s.read === 'function')
 
 	for (const store of withRead) {
-		const result = await Promise.resolve(store.read!())
+		const result = await Promise.resolve(store.read())
 		if (result !== undefined && result !== null) {
 			return result.theme
 		}

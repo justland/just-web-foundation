@@ -1,15 +1,13 @@
+import type { RequiredPick } from 'type-plus'
+import type { ThemeMap } from '../theme-map.types.ts'
+import type { AsyncThemeStore } from '../theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../theme-store/theme-store.types.ts'
 import { getThemeFromStores } from './get-theme-from-stores.ts'
-import type { ThemeEntry } from './theme-entry.types.ts'
-import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
-type StoreWithSubscribe<Themes extends ThemeMap> = (
-	| ThemeStore<Themes>
-	| AsyncThemeStore<Themes>
-) & {
-	subscribe: (handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void
-}
+type StoreWithSubscribe<Themes extends ThemeMap> = RequiredPick<
+	AsyncThemeStore<Themes>,
+	'subscribe'
+>
 
 /**
  * Subscribes to stores that have a subscribe method.
@@ -49,11 +47,11 @@ export function observeThemeFromStores<Themes extends ThemeMap>(
 	// Initial notify
 	scheduleNotify()
 
-	const unsubs = withSubscribe.map((s) => s.subscribe!((_result) => scheduleNotify()))
+	const unSubs = withSubscribe.map((s) => s.subscribe!((_result) => scheduleNotify()))
 
 	return () => {
-		for (const unsub of unsubs) {
-			unsub()
+		for (const unSub of unSubs) {
+			unSub()
 		}
 	}
 }

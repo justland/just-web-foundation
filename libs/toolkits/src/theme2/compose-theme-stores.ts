@@ -1,10 +1,10 @@
 import type { Required, RequiredPick } from 'type-plus'
-import { setThemeToStores } from './set-theme-to-stores.ts'
 import { themeEntry } from './theme-entry.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { ThemeMap } from './theme-map.types.ts'
 import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import { setThemeToStores } from './utils/set-theme-to-stores.ts'
 
 type StoreWithRead<Themes extends ThemeMap> = RequiredPick<AsyncThemeStore<Themes>, 'read'>
 

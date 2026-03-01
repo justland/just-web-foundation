@@ -1,7 +1,4 @@
 export * from './compose-theme-stores.ts'
-export * from './get-theme-from-stores.ts'
-export * from './observe-theme-from-stores.ts'
-export * from './set-theme-to-stores.ts'
 export * from './theme-entry.ts'
 export type * from './theme-entry.types.ts'
 export type * from './theme-map.types.ts'
