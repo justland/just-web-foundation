@@ -3,8 +3,8 @@ import { observeThemeFromStores } from './observe-theme-from-stores.ts'
 import { setThemeToStores } from './set-theme-to-stores.ts'
 import { themeEntry } from './theme-entry.ts'
 import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import type { AsyncThemeStore } from './types/async-theme-store.types.ts'
+import type { ThemeStore } from './types/theme-store.types.ts'
 
 function createSharedChannel<Themes extends ThemeMap>(
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],

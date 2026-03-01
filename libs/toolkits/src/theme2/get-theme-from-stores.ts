@@ -1,7 +1,7 @@
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import type { AsyncThemeStore } from './types/async-theme-store.types.ts'
+import type { ThemeStore } from './types/theme-store.types.ts'
 
 type StoreWithRead<Themes extends ThemeMap> = (ThemeStore<Themes> | AsyncThemeStore<Themes>) & {
 	read: () => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>

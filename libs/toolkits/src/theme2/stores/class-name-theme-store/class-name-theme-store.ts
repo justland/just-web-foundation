@@ -4,8 +4,8 @@ import { applyThemeToClassName } from '../../class-name/apply-theme-to-class-nam
 import { resolveThemeFromClassName } from '../../class-name/resolve-theme-from-class-name.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
+import { dummyThemeStore } from '../../theme-store/dummy-theme-store.ts'
 import type { ThemeStore } from '../../types/theme-store.types.ts'
-import { dummyThemeStore } from '../dummy-theme-store.ts'
 
 export type ClassNameThemeStoreOptions<Themes extends ThemeMap> = {
 	element?: Element | null
@@ -48,22 +48,11 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 			applyThemeToClassName(element, entry, themeMap)
 		},
 		subscribe(handler) {
-			let lastEmitted: keyof Themes | undefined | null = null
 			const observer = observeAttributes(
 				{
 					class: (value) => {
 						const theme = value ? resolveThemeFromClassName(value, themeMap) : undefined
-						const entry = theme ? themeEntry(theme, themeMap) : undefined
-						const key = theme ?? undefined
-
-						if (lastEmitted === null) {
-							lastEmitted = key
-							handler(entry)
-							return
-						}
-						if (lastEmitted === key) return
-						lastEmitted = key
-						handler(entry)
+						handler(theme ? themeEntry(theme, themeMap) : undefined)
 					}
 				},
 				element
