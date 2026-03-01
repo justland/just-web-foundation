@@ -58,8 +58,7 @@ export const Playground: Story = {
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
-		store.write(themeEntry('grayscale', themeMap))
+		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -496,26 +495,43 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
+		const storeRef = useRef<ReturnType<typeof classNameThemeStore<typeof themeMap>> | null>(null)
 		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
+		useLayoutEffect(() => {
+			storeRef.current = classNameThemeStore<typeof themeMap>({ themeMap })
+		}, [])
+
 		useEffect(() => {
-			const store = classNameThemeStore<typeof themeMap>({ themeMap })
+			const store = storeRef.current
+			if (!store) return
 			return store.subscribe!(setResult)
 		}, [])
 
 		const displayTheme = result?.theme ?? 'current'
 		return (
-			<ThemeResultCard
-				title="store.subscribe() receives"
-				data-testid="store-subscribe-result"
-				result={themeEntry(displayTheme, themeMap)}
-			/>
+			<div className="flex flex-col gap-4">
+				<div className="flex flex-wrap gap-2">
+					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
+						<Button
+							key={theme}
+							data-testid={`write-${theme}`}
+							onClick={() => storeRef.current?.write(themeEntry(theme, themeMap))}
+						>
+							write({theme})
+						</Button>
+					))}
+				</div>
+				<ThemeResultCard
+					title="store.subscribe() receives"
+					data-testid="store-subscribe-result"
+					result={themeEntry(displayTheme, themeMap)}
+				/>
+			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
-		store.write(themeEntry('high-contrast', themeMap))
-
+		await userEvent.click(canvas.getByTestId('write-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
 		)
@@ -561,12 +577,12 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		useEffect(() => {
 			const store = storeRef.current
 			if (!store) return
-			const unsub = store.subscribe!((entry) => {
+			const unSub = store.subscribe!((entry) => {
 				setInvocationCount((c) => c + 1)
 				setObserved(entry)
 			})
 			store.write(themeEntry('grayscale', themeMap))
-			return unsub
+			return unSub
 		}, [])
 
 		const displayTheme = observed?.theme ?? '(none)'
@@ -613,12 +629,13 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// No initial notify - write(grayscale) in useEffect triggers mutation but we skip first observation
-		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('0')
+		// write(grayscale) in useEffect triggers mutation → handler runs (MutationObserver only fires on changes)
+		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1')
+		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
 
-		// Change theme: handler SHOULD run
+		// Change theme: handler SHOULD run again
 		await userEvent.click(canvas.getByTestId('change-to-high-contrast'))
-		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('2'))
 		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('high-contrast')
 	}
 }

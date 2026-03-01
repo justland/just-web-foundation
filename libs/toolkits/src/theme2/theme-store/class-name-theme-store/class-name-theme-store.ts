@@ -56,10 +56,6 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 						const entry = theme ? themeEntry(theme, themeMap) : undefined
 						const key = theme ?? undefined
 
-						if (lastEmitted === null) {
-							lastEmitted = key
-							return
-						}
 						if (lastEmitted === key) return
 						lastEmitted = key
 						handler(entry)
