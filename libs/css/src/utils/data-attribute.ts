@@ -3,7 +3,7 @@ import { getAttribute, observeAttributes } from './attribute.ts'
 
 export function getDataAttribute<T extends `data-${string}`>(
 	qualifiedName: T,
-	element: Element | undefined = ctx.getDocumentElement(),
+	element: Element | undefined = ctx.getDocumentElement()
 ) {
 	return getAttribute(qualifiedName, element)
 }
@@ -31,7 +31,7 @@ export function getDataAttribute<T extends `data-${string}`>(
  */
 export function observeDataAttributes<T extends string, K extends `data-${string}`>(
 	handlers: Record<K, (value: T | null) => void>,
-	element?: Element | undefined,
+	element?: Element | undefined
 ) {
 	return observeAttributes(handlers, element)
 }

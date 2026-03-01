@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="theme2/Introduction" />
+
+# theme2
+
+The **theme2** module provides theme store factories and utilities for managing application themes. Each store reads and writes theme state through different backends (in-memory, localStorage, sessionStorage, class names, data attributes, or custom async implementations).
+
+## ThemeMap
+
+All ThemeStore factories accept a `themeMap` option that defines valid theme keys and their values. See [ThemeMap](?path=/story/theme2-thememap--source) for the type definition and value variations (`string` vs `string[]`).
+
+## Store types
+
+- **inMemoryThemeStore** – Transient state; no persistence
+- **localStorageThemeStore** – Persists across sessions; cross-tab sync
+- **sessionStorageThemeStore** – Persists per tab
+- **classNameThemeStore** – Reads/writes via element class names
+- **dataAttributeThemeStore** – Reads/writes via data attributes
+- **createThemeHook** – React hook that subscribes to stores and returns `[theme, setTheme]`

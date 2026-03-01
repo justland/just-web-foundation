@@ -6,15 +6,15 @@ const meta = {
 	title: 'convertors/px2num',
 	tags: ['version:0.7'],
 	parameters: {
-		layout: 'centered',
-	},
+		layout: 'centered'
+	}
 } satisfies Meta
 
 export default meta
 
 function RenderTestCases({
 	title,
-	testcases,
+	testcases
 }: {
 	title: string
 	testcases: {
@@ -54,15 +54,15 @@ export const BasicUsage: Story = {
 			{ input: 16, expected: 16 },
 			{ input: 32, expected: 32 },
 			{ input: 8, expected: 8 },
-			{ input: 24, expected: 24 },
-		],
+			{ input: 24, expected: 24 }
+		]
 	},
 	render: RenderTestCases,
 	play: async ({ args: { testcases } }) => {
 		for (const testcase of testcases) {
 			await expect(px2num(testcase.input)).toBe(testcase.expected)
 		}
-	},
+	}
 }
 
 export const StringInput: Story = {
@@ -72,15 +72,15 @@ export const StringInput: Story = {
 			{ input: '16px', expected: 16 },
 			{ input: '32px', expected: 32 },
 			{ input: '24', expected: 24 },
-			{ input: '8.5px', expected: 8.5 },
-		],
+			{ input: '8.5px', expected: 8.5 }
+		]
 	},
 	render: RenderTestCases,
 	play: async ({ args: { testcases } }) => {
 		for (const testcase of testcases) {
 			await expect(px2num(testcase.input)).toBe(testcase.expected)
 		}
-	},
+	}
 }
 
 export const DecimalValues: Story = {
@@ -90,15 +90,15 @@ export const DecimalValues: Story = {
 			{ input: '12.5px', expected: 12.5 },
 			{ input: '0.5px', expected: 0.5 },
 			{ input: '1.75px', expected: 1.75 },
-			{ input: '100.25px', expected: 100.25 },
-		],
+			{ input: '100.25px', expected: 100.25 }
+		]
 	},
 	render: RenderTestCases,
 	play: async ({ args: { testcases } }) => {
 		for (const testcase of testcases) {
 			await expect(px2num(testcase.input)).toBe(testcase.expected)
 		}
-	},
+	}
 }
 
 export const EdgeCases: Story = {
@@ -110,15 +110,15 @@ export const EdgeCases: Story = {
 			{ input: '1px', expected: 1 },
 			{ input: 1, expected: 1 },
 			{ input: '1000px', expected: 1000 },
-			{ input: 1000, expected: 1000 },
-		],
+			{ input: 1000, expected: 1000 }
+		]
 	},
 	render: RenderTestCases,
 	play: async ({ args: { testcases } }) => {
 		for (const testcase of testcases) {
 			await expect(px2num(testcase.input)).toBe(testcase.expected)
 		}
-	},
+	}
 }
 
 export const MixedInputs: Story = {
@@ -129,15 +129,15 @@ export const MixedInputs: Story = {
 			{ input: '16px', description: 'String with px suffix', expected: 16 },
 			{ input: '16', description: 'String without px suffix', expected: 16 },
 			{ input: 32.5, description: 'Decimal number', expected: 32.5 },
-			{ input: '32.5px', description: 'Decimal string with px', expected: 32.5 },
-		],
+			{ input: '32.5px', description: 'Decimal string with px', expected: 32.5 }
+		]
 	},
 	render: RenderTestCases,
 	play: async ({ args: { testcases } }) => {
 		for (const testcase of testcases) {
 			await expect(px2num(testcase.input)).toBe(testcase.expected)
 		}
-	},
+	}
 }
 
 export const Validation: Story = {
@@ -151,7 +151,7 @@ export const Validation: Story = {
 			{ input: '16.5.5px', expected: 16.5, description: 'Invalid decimal format' },
 			{ input: ' 16px ', expected: 16, description: 'Whitespace around value' },
 			{ input: '16PX', expected: 16, description: 'Uppercase PX' },
-			{ input: '16Px', expected: 16, description: 'Mixed case Px' },
+			{ input: '16Px', expected: 16, description: 'Mixed case Px' }
 		]
 
 		return (
@@ -177,14 +177,18 @@ export const Validation: Story = {
 								>
 									({description})
 								</span>
-								{!isValid && <span className="text-xs text-red-500 dark:text-red-400">Expected: {expected}</span>}
+								{!isValid && (
+									<span className="text-xs text-red-500 dark:text-red-400">
+										Expected: {expected}
+									</span>
+								)}
 							</div>
 						)
 					})}
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const TypeValidation: Story = {
@@ -196,7 +200,7 @@ export const TypeValidation: Story = {
 			{ input: false, description: 'boolean false' },
 			{ input: [], description: 'empty array' },
 			{ input: {}, description: 'empty object' },
-			{ input: () => {}, description: 'function' },
+			{ input: () => {}, description: 'function' }
 		]
 
 		return (
@@ -219,21 +223,27 @@ export const TypeValidation: Story = {
 								key={description}
 								className="flex items-center space-x-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded"
 							>
-								<code className="text-sm">px2num({Array.isArray(input) ? '[]' : String(input)})</code>
+								<code className="text-sm">
+									px2num({Array.isArray(input) ? '[]' : String(input)})
+								</code>
 								<span>→</span>
 								{error ? (
-									<code className="text-sm font-mono text-red-600 dark:text-red-400">Error: {error}</code>
+									<code className="text-sm font-mono text-red-600 dark:text-red-400">
+										Error: {error}
+									</code>
 								) : (
 									<code className="text-sm font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
 								)}
-								<span className="text-sm text-yellow-600 dark:text-yellow-400">({description})</span>
+								<span className="text-sm text-yellow-600 dark:text-yellow-400">
+									({description})
+								</span>
 							</div>
 						)
 					})}
 				</div>
 			</div>
 		)
-	},
+	}
 }
 
 export const PerformanceTest: Story = {
@@ -241,7 +251,7 @@ export const PerformanceTest: Story = {
 		const testCases = [
 			{ count: 1000, input: '16px' },
 			{ count: 1000, input: 16 },
-			{ count: 1000, input: '123.456px' },
+			{ count: 1000, input: '123.456px' }
 		]
 
 		return (
@@ -277,5 +287,5 @@ export const PerformanceTest: Story = {
 				</div>
 			</div>
 		)
-	},
+	}
 }

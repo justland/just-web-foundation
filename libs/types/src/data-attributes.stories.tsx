@@ -1,11 +1,11 @@
-import { defineDocsParam, showDocSource } from '@repobuddy/storybook'
+import { defineDocsParam, showSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 
 const meta = {
 	title: 'Types/DataAttributeProps',
 	tags: ['code-only'],
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export default meta
@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Basic usage of DataAttributeProps with predefined attributes.',
+			story: 'Basic usage of DataAttributeProps with predefined attributes.'
 		},
 		source: {
 			code: dedent`
@@ -24,16 +24,16 @@ export const BasicUsage: Story = {
 					'data-metrics': 'button-click',
 					'data-testid': 'submit-button'
 				}
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()]
 }
 
 export const CustomDataAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'Using custom data-* attributes with any value type.',
+			story: 'Using custom data-* attributes with any value type.'
 		},
 		source: {
 			code: dedent`
@@ -46,16 +46,16 @@ export const CustomDataAttributes: Story = {
 					'data-count': 42,
 					'data-enabled': true
 				}
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()]
 }
 
 export const OptionalAttributes: Story = {
 	parameters: defineDocsParam({
 		description: {
-			story: 'All attributes are optional, allowing for flexible usage.',
+			story: 'All attributes are optional, allowing for flexible usage.'
 		},
 		source: {
 			code: dedent`
@@ -63,8 +63,8 @@ export const OptionalAttributes: Story = {
 
 				// All attributes are optional
 				const props: DataAttributeProps = {}
-			`,
-		},
+			`
+		}
 	}),
-	decorators: [showDocSource()],
+	decorators: [showSource()]
 }

@@ -17,13 +17,17 @@ import type { CSSProperties } from './css_properties.ts'
  * element.style = domStyle
  * ```
  */
-export function toDOMStyle(style: CSSProperties | undefined): Partial<CSSStyleDeclaration> | undefined {
+export function toDOMStyle(
+	style: CSSProperties | undefined
+): Partial<CSSStyleDeclaration> | undefined {
 	if (style === undefined) return undefined
 
 	const result = {} as any
 
 	for (const [key, value] of Object.entries(style)) {
-		result[key.startsWith('--') ? key : key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)] = value
+		result[
+			key.startsWith('--') ? key : key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)
+		] = value
 	}
 
 	return result

@@ -1,0 +1,35 @@
+/**
+ * A map of theme keys to their class name values.
+ *
+ * When the value is an array, the first value is expected to be the main value.
+ * The rest of the values are expected to be additional values that are used along with the main value.
+ */
+export type ThemeMap = Record<string, string | readonly string[]>
+
+export type ThemeResult<Themes extends ThemeMap> =
+	| { theme: keyof Themes; value: Themes[keyof Themes] }
+	| undefined
+
+export type ThemeStore<Themes extends ThemeMap> = {
+	get(): ThemeResult<Themes> | Promise<ThemeResult<Themes>>
+	set?(result: ThemeResult<Themes>): void | Promise<void>
+	subscribe?(handler: () => void): () => void
+}
+
+/** Options for store get(): themes map and optional fallback theme key. */
+export type ThemeStoreGetOptions<Themes extends ThemeMap> = {
+	themes: Themes
+	theme?: keyof Themes | undefined
+}
+
+/** Options for store set(): themes map and theme key to set. */
+export type ThemeStoreSetOptions<Themes extends ThemeMap> = {
+	themes: Themes
+	theme: keyof Themes
+}
+
+export type ThemeStorageOptions<Themes extends ThemeMap = ThemeMap> = {
+	storageKey: string
+	themes: Themes
+	theme?: keyof Themes | null | undefined
+}

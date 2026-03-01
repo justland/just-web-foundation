@@ -7,21 +7,21 @@ import * as types from './index.js'
 export default {
 	title: 'Playground',
 	tags: ['code-only'],
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export const DataAttributeProps: StoryObj = {
 	tags: ['editor'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'The data-attribute property accepts a string value for data attributes.',
-		},
-	}),
+			story: 'The data-attribute property accepts a string value for data attributes.'
+		}
+	})
 }
 
 makeLiveEditStory(DataAttributeProps, {
 	availableImports: {
-		'@just-web/types': types,
+		'@just-web/types': types
 	},
 	code: dedent`import type { DataAttributeProps } from '@just-web/types'
 
@@ -29,5 +29,5 @@ makeLiveEditStory(DataAttributeProps, {
 		return <div data-attribute={dataAttribute}>Try it out in the Live code editor panel</div>
 	}
 
-	export default () => <Component data-attribute="test" />`,
+	export default () => <Component data-attribute="test" />`
 })

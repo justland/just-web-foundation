@@ -8,5 +8,5 @@ export const ctx = {
 	_reset() {
 		this.matchMedia = globalThis.matchMedia
 		this.getDocumentElement = () => globalThis.document.documentElement
-	},
+	}
 }

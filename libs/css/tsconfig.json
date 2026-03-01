@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"rewriteRelativeImportExtensions": true
 	},
-	"include": [".storybook/*", "src", "*.ts"]
+	"include": [".storybook/*", "src", "types", "*.ts"]
 }

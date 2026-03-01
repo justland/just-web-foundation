@@ -1,0 +1,13 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { MDXBadges } from 'storybook-addon-tag-badges/manager-helpers'
+import AsyncThemeStoreTypesStoriesMeta from './async-theme-store.types.stories'
+
+<Meta title="theme2/theme-store/AsyncThemeStore" />
+
+# AsyncThemeStore <MDXBadges of={AsyncThemeStoreTypesStoriesMeta} />
+
+`AsyncThemeStore` is an interface that defines async/sync methods to read, write, and subscribe to theme state.
+All methods are optional.
+Data flow participation is inferred from which methods you implement.
+
+Use for remote persistence, polling, or WebSocket-based sync.

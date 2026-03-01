@@ -14,14 +14,14 @@ const config: StorybookConfig = {
 		'@storybook/addon-vitest',
 		'@storybook-community/storybook-dark-mode',
 		'storybook-addon-code-editor',
-		'storybook-addon-tag-badges',
+		'storybook-addon-tag-badges'
 	],
 	framework: {
 		name: '@storybook/react-vite',
-		options: {},
+		options: {}
 	},
 	features: {
-		backgrounds: true,
-	},
+		backgrounds: true
+	}
 }
 export default config

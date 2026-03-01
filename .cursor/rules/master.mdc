@@ -38,6 +38,7 @@ Rules are organized into three main categories:
 
 Rules for AI agent behavior and management:
 
+- [Check Fix](mdc:.cursor/rules/agents/check-fix.mdc) - Run `check:fix` after code changes to fix style errors
 - [Commit Summary](mdc:.cursor/rules/agents/commit-summary.mdc) - Add a "Commit Message" section in agent response
 - [Cursor Rules](mdc:.cursor/rules/agents/cursor-rules.mdc) - Rule for managing cursor rules
 - [Rule Usage](mdc:.cursor/rules/agents/rule-usage.mdc) - Add a "Rules Applied" section in agent response

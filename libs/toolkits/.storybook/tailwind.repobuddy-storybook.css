@@ -1,0 +1,4 @@
+@import "@repobuddy/storybook/tailwind" layer(repobuddy-storybook);
+@import "../tailwind.variant.css";
+
+@source "../node_modules/@repobuddy/storybook/src/**";

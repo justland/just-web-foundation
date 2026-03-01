@@ -1,0 +1,19 @@
+{
+	"root": false,
+	"extends": "//",
+	"files": {
+		"includes": ["!.editor"]
+	},
+	"overrides": [
+		{
+			"includes": ["**/augments/**/*.ts"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		}
+	]
+}
