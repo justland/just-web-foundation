@@ -48,11 +48,22 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 			applyThemeToClassName(element, entry, themeMap)
 		},
 		subscribe(handler) {
+			let lastEmitted: keyof Themes | undefined | null = null
 			const observer = observeAttributes(
 				{
 					class: (value) => {
 						const theme = value ? resolveThemeFromClassName(value, themeMap) : undefined
-						handler(theme ? themeEntry(theme, themeMap) : undefined)
+						const entry = theme ? themeEntry(theme, themeMap) : undefined
+						const key = theme ?? undefined
+
+						if (lastEmitted === null) {
+							lastEmitted = key
+							handler(entry)
+							return
+						}
+						if (lastEmitted === key) return
+						lastEmitted = key
+						handler(entry)
 					}
 				},
 				element

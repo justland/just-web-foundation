@@ -508,6 +508,98 @@ export const Subscribe: Story = {
 	}
 }
 
+export const SubscribeOnlyWhenThemeChanges: Story = {
+	name: 'subscribe: only when themeEntry changes',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'The handler is only invoked when the resolved themeEntry changes. Writing the same theme again does not trigger the handler.'
+		}
+	}),
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				const store = localStorageThemeStore({ storageKey: 'theme', themeMap })
+				store.subscribe((entry) => {
+					invocationCount++
+					setObserved(entry)
+				})
+				store.write(themeEntry('grayscale', themeMap)) // handler runs
+				store.write(themeEntry('grayscale', themeMap)) // handler NOT run (same theme)
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.localStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
+	render: () => {
+		const store = useMemo(
+			() =>
+				localStorageThemeStore<typeof themeMap>({
+					storageKey: STORAGE_KEY,
+					themeMap
+				}),
+			[]
+		)
+		const [invocationCount, setInvocationCount] = useState(0)
+		const [observed, setObserved] = useState<ThemeEntry<typeof themeMap> | undefined | null>(null)
+
+		useEffect(() => {
+			return store.subscribe!((entry) => {
+				setInvocationCount((c) => c + 1)
+				setObserved(entry)
+			})
+		}, [store])
+
+		const displayTheme = observed?.theme ?? '(none)'
+		return (
+			<div className="flex flex-col gap-4" data-testid="subscribe-only-when-theme-changes">
+				<StoryCard title="Handler invocations" appearance="output">
+					<pre data-testid="invocation-count" className="font-mono">
+						{invocationCount}
+					</pre>
+				</StoryCard>
+				<StoryCard title="Observed theme" appearance="output">
+					<pre data-testid="observed-theme" className="font-mono">
+						{displayTheme}
+					</pre>
+				</StoryCard>
+				<div className="flex flex-wrap gap-2">
+					<Button
+						data-testid="write-grayscale-twice"
+						onPress={() => {
+							store.write(themeEntry('grayscale', themeMap))
+							store.write(themeEntry('grayscale', themeMap))
+						}}
+					>
+						write(grayscale) twice
+					</Button>
+					<Button
+						data-testid="write-high-contrast"
+						onPress={() => store.write(themeEntry('high-contrast', themeMap))}
+					>
+						write(high-contrast)
+					</Button>
+				</div>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		// subscribe() calls handler(read()) initially - count=1, observed=undefined or from storage
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
+
+		// write(grayscale) twice: first write notifies (count=2), second write should NOT notify (count stays 2)
+		await userEvent.click(canvas.getByTestId('write-grayscale-twice'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('2'))
+		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
+	}
+}
+
 export const SubscribeUnsubscribe: Story = {
 	name: 'subscribe: unsubscribe',
 	tags: ['props'],

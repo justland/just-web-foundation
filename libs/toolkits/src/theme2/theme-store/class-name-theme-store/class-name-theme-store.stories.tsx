@@ -522,6 +522,112 @@ export const Subscribe: Story = {
 	}
 }
 
+export const SubscribeOnlyWhenThemeChanges: Story = {
+	name: 'subscribe: only when themeEntry changes',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'The handler is only invoked when the resolved themeEntry changes. Adding non-theme classes does not trigger the handler.'
+		}
+	}),
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				const store = classNameThemeStore({ themeMap, element: targetElement })
+				store.subscribe((entry) => {
+					invocationCount++
+					setObserved(entry)
+				})
+				// Adding element.classList.add('app-other') does NOT invoke handler
+				// store.write(themeEntry('grayscale')) DOES invoke when theme changes
+			`
+		})
+	],
+	render: () => {
+		const targetRef = useRef<HTMLDivElement | null>(null)
+		const storeRef = useRef<ReturnType<typeof classNameThemeStore<typeof themeMap>> | null>(null)
+		const [invocationCount, setInvocationCount] = useState(0)
+		const [observed, setObserved] = useState<ThemeEntry<typeof themeMap> | undefined | null>(null)
+
+		useLayoutEffect(() => {
+			const el = targetRef.current
+			if (!el) return
+			const store = classNameThemeStore<typeof themeMap>({ themeMap, element: el })
+			storeRef.current = store
+		}, [])
+
+		useEffect(() => {
+			const store = storeRef.current
+			if (!store) return
+			const unsub = store.subscribe!((entry) => {
+				setInvocationCount((c) => c + 1)
+				setObserved(entry)
+			})
+			store.write(themeEntry('grayscale', themeMap))
+			return unsub
+		}, [])
+
+		const displayTheme = observed?.theme ?? '(none)'
+		return (
+			<div className="flex flex-col gap-4" data-testid="subscribe-only-when-theme-changes">
+				<div
+					ref={targetRef}
+					data-testid="target-element"
+					className="rounded border border-gray-300 p-2"
+				>
+					Target element
+				</div>
+				<StoryCard title="Handler invocations" appearance="output">
+					<pre data-testid="invocation-count" className="font-mono">
+						{invocationCount}
+					</pre>
+				</StoryCard>
+				<StoryCard title="Observed theme" appearance="output">
+					<pre data-testid="observed-theme" className="font-mono">
+						{displayTheme}
+					</pre>
+				</StoryCard>
+				<div className="flex flex-wrap gap-2">
+					<Button
+						data-testid="add-non-theme-class"
+						onPress={() => targetRef.current?.classList.add('app-other')}
+					>
+						Add non-theme class
+					</Button>
+					<Button
+						data-testid="change-to-high-contrast"
+						onPress={() => storeRef.current?.write(themeEntry('high-contrast', themeMap))}
+					>
+						Change to high-contrast
+					</Button>
+					<Button
+						data-testid="change-to-current"
+						onPress={() => storeRef.current?.write(themeEntry('current', themeMap))}
+					>
+						Change to current
+					</Button>
+				</div>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		// Initial: write(grayscale) in useLayoutEffect triggers mutation, handler runs (count=1)
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
+		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
+
+		// Add non-theme class: mutation fires but theme unchanged, handler should NOT run
+		await userEvent.click(canvas.getByTestId('add-non-theme-class'))
+		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1')
+
+		// Change theme: handler SHOULD run
+		await userEvent.click(canvas.getByTestId('change-to-high-contrast'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('2'))
+		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('high-contrast')
+	}
+}
+
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),

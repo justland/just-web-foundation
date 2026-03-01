@@ -41,6 +41,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	}
 
 	const handlers = new Set<(theme: ThemeEntry<Themes> | undefined) => void>()
+	let lastNotifiedKey: keyof Themes | undefined = read()?.theme ?? undefined
 
 	function read() {
 		const stored = window.sessionStorage.getItem(storageKey)
@@ -51,6 +52,9 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 
 	function notify() {
 		const result = read()
+		const key = result?.theme ?? undefined
+		if (key === lastNotifiedKey) return
+		lastNotifiedKey = key
 		for (const h of handlers) h(result)
 	}
 
