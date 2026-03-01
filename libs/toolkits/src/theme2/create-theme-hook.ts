@@ -1,11 +1,13 @@
 import { useCallback, useSyncExternalStore } from 'react'
 import { observeThemeFromStores } from './observe-theme-from-stores.ts'
 import { setThemeToStores } from './set-theme-to-stores.ts'
-import type { StoreEntry, ThemeMap } from './theme.types.ts'
 import { themeEntry } from './theme-entry.ts'
+import type { ThemeMap } from './theme-map.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
 function createSharedChannel<Themes extends ThemeMap>(
-	stores: StoreEntry<Themes>[],
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
 	defaultTheme: keyof Themes | undefined,
 	themeMap: Themes
 ) {
@@ -47,7 +49,7 @@ const channelsByStores = new WeakMap<
 >()
 
 function getOrCreateChannel<Themes extends ThemeMap>(
-	stores: StoreEntry<Themes>[],
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
 	effectiveDefault: keyof Themes | undefined,
 	themeMap: Themes
 ) {
@@ -70,7 +72,7 @@ function getOrCreateChannel<Themes extends ThemeMap>(
 }
 
 export function createThemeHook<Themes extends ThemeMap>(options: {
-	stores: StoreEntry<Themes>[]
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[]
 	defaultTheme?: keyof Themes | undefined
 	themeMap: Themes
 }): (

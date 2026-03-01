@@ -1,4 +1,5 @@
-import type { AsyncThemeStore, ThemeMap } from '../../theme.types.ts'
+import type { ThemeMap } from '../theme-map.types.ts'
+import type { AsyncThemeStore } from './async-theme-store.types.ts'
 
 /**
  * Creates an AsyncThemeStore from user-provided get, set, and/or subscribe implementations.

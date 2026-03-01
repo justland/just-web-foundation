@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { inMemoryThemeStore, type ThemeResult, themeResult } from '../../index.ts'
+import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './in-memory-theme-store.ts?raw'
 
@@ -87,7 +87,7 @@ export const ThemeMapOption: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore<typeof themeMap>()
-			store.set(themeResult('current', themeMap))
+			store.set(themeEntry('current', themeMap))
 			return { store }
 		}
 	],
@@ -138,7 +138,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore<typeof themeMap>()
-			store.set(themeResult('current', themeMap))
+			store.set(themeEntry('current', themeMap))
 			return { store }
 		}
 	],
@@ -199,7 +199,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore<typeof themeMapArray>()
-			store.set(themeResult('grayscale', themeMapArray))
+			store.set(themeEntry('grayscale', themeMapArray))
 			return { store }
 		}
 	],
@@ -244,7 +244,7 @@ export const Get: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore<typeof themeMap>()
-			store.set(themeResult('grayscale', themeMap))
+			store.set(themeEntry('grayscale', themeMap))
 			return { store }
 		}
 	],
@@ -331,7 +331,7 @@ export const SetStory: Story = {
 							key={theme}
 							data-testid={`set-${theme}`}
 							onClick={() => {
-								store.set(themeResult(theme, themeMap))
+								store.set(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -380,7 +380,7 @@ export const Subscribe: Story = {
 	],
 	render: () => {
 		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => {
 			return store.subscribe(setResult)
@@ -392,13 +392,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="set-high-contrast"
-						onClick={() => store.set(themeResult('high-contrast', themeMap))}
+						onClick={() => store.set(themeEntry('high-contrast', themeMap))}
 					>
 						set('high-contrast')
 					</Button>
 					<Button
 						data-testid="set-current"
-						onClick={() => store.set(themeResult('current', themeMap))}
+						onClick={() => store.set(themeEntry('current', themeMap))}
 					>
 						set('current')
 					</Button>
@@ -406,7 +406,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeResult(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themeMap)}
 				/>
 			</div>
 		)
@@ -447,7 +447,7 @@ export const SubscribeUnsubscribe: Story = {
 	],
 	render: () => {
 		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 		const unSubRef = useRef<(() => void) | null>(null)
 
 		useEffect(() => {
@@ -465,13 +465,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="set-grayscale"
-						onClick={() => store.set(themeResult('grayscale', themeMap))}
+						onClick={() => store.set(themeEntry('grayscale', themeMap))}
 					>
 						set('grayscale')
 					</Button>
 					<Button
 						data-testid="set-current"
-						onClick={() => store.set(themeResult('current', themeMap))}
+						onClick={() => store.set(themeEntry('current', themeMap))}
 					>
 						set('current')
 					</Button>
@@ -488,7 +488,7 @@ export const SubscribeUnsubscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
 					data-testid="store-subscribe-result"
-					result={themeResult(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themeMap)}
 				/>
 			</div>
 		)

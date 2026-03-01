@@ -1,8 +1,9 @@
 import type { Required } from 'type-plus'
 import { observeAttributes } from '../../../attributes/observe-attribute.ts'
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
-import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
 import { themeEntry } from '../../theme-entry.ts'
+import type { ThemeMap } from '../../theme-map.types.ts'
+import type { ThemeStore } from '../../theme-store/theme-store.types.ts'
 import { applyThemeToClassName } from '../utils/apply-theme-to-class-name.ts'
 import { resolveThemeFromClassName } from '../utils/resolve-theme-from-class-name.ts'
 

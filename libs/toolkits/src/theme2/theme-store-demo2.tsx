@@ -2,12 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { Button } from '../testing/button.tsx'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
 import { appendId } from '../utils/append-id.ts'
-import type { StoreEntry, ThemeMap } from './theme.types.ts'
 import { themeEntry } from './theme-entry.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
+import type { ThemeMap } from './theme-map.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
-	store: StoreEntry<Themes>
+	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	/** Theme keys to show as "Set X" buttons. Defaults to first 3 keys from themes. */
 	setThemeKeys?: (keyof Themes)[]

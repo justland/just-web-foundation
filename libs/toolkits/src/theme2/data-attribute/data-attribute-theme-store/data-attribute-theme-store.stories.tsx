@@ -6,12 +6,7 @@ import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import {
-	dataAttributeThemeStore,
-	type ThemeResult,
-	type ThemeStore,
-	themeResult
-} from '../../index.ts'
+import { dataAttributeThemeStore, type ThemeEntry, type ThemeStore } from '../../index.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './data-attribute-theme-store.ts?raw'
@@ -76,7 +71,7 @@ export const Playground: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set(themeResult('grayscale', themeMap))
+		store.set(themeEntry('grayscale', themeMap))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -116,7 +111,7 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeResult('current', themeMap))
+			store.set(themeEntry('current', themeMap))
 			return {}
 		}
 	],
@@ -177,7 +172,7 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = createStore({ element: document.body })
-			store.set(themeResult('high-contrast', themeMap))
+			store.set(themeEntry('high-contrast', themeMap))
 			return {}
 		}
 	],
@@ -313,7 +308,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeResult('current', themeMap))
+			store.set(themeEntry('current', themeMap))
 			return {}
 		}
 	],
@@ -448,7 +443,7 @@ export const Get: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeResult('grayscale', themeMap))
+			store.set(themeEntry('grayscale', themeMap))
 			return {}
 		}
 	],
@@ -504,7 +499,7 @@ export const SetStory: Story = {
 							key={theme}
 							data-testid={`set-${theme}`}
 							onClick={() => {
-								store.set(themeResult(theme, themeMap))
+								store.set(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -555,7 +550,7 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
-		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => {
 			const store = createStore()
@@ -567,13 +562,13 @@ export const Subscribe: Story = {
 			<ThemeResultCard
 				title="store.subscribe() receives"
 				data-testid="store-subscribe-result"
-				result={themeResult(displayTheme, themeMap)}
+				result={themeEntry(displayTheme, themeMap)}
 			/>
 		)
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set(themeResult('high-contrast', themeMap))
+		store.set(themeEntry('high-contrast', themeMap))
 
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

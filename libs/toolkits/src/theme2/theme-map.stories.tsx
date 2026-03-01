@@ -2,7 +2,7 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { ThemeResultCard } from '../testing/theme-result-card.tsx'
-import { themeResult } from './index.ts'
+import { themeEntry } from './index.ts'
 import source from './theme-map.types.ts?raw'
 
 const meta = {
@@ -53,7 +53,7 @@ export const StringValue: Story = {
 			<ThemeResultCard
 				title="themeResult('current', themeMap)"
 				data-testid="string-result"
-				result={themeResult('current', themeMapString)}
+				result={themeEntry('current', themeMapString)}
 			/>
 		</div>
 	)
@@ -98,7 +98,7 @@ export const ArrayValue: Story = {
 			<ThemeResultCard
 				title="themeResult('grayscale', themeMap)"
 				data-testid="array-result"
-				result={themeResult('grayscale', themeMapArray)}
+				result={themeEntry('grayscale', themeMapArray)}
 			/>
 		</div>
 	)
@@ -144,12 +144,12 @@ export const Mixed: Story = {
 			<ThemeResultCard
 				title="themeResult('current', themeMap)"
 				data-testid="mixed-string-result"
-				result={themeResult('current', themeMapMixed)}
+				result={themeEntry('current', themeMapMixed)}
 			/>
 			<ThemeResultCard
 				title="themeResult('grayscale', themeMap)"
 				data-testid="mixed-array-result"
-				result={themeResult('grayscale', themeMapMixed)}
+				result={themeEntry('grayscale', themeMapMixed)}
 			/>
 		</div>
 	)

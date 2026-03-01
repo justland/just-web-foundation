@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
-import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { asyncThemeStore, type ThemeResult, themeResult } from '../../index.ts'
-import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
+import { ThemeResultCard } from '../../testing/theme-result-card.tsx'
+import { asyncThemeStore, type ThemeEntry, themeEntry } from '../index.ts'
+import { ThemeStoreDemo2 } from '../theme-store-demo2.tsx'
 import source from './async-theme-store.ts?raw'
 
 const meta = {
@@ -56,8 +56,8 @@ export const Playground: Story = {
 	],
 	render: () => {
 		const store = useMemo(() => {
-			let wrote: ThemeResult<typeof themeMap> | undefined
-			let notify: ((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+			let wrote: ThemeEntry<typeof themeMap> | undefined
+			let notify: ((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 			return asyncThemeStore({
 				get: async () => wrote,
 				set: async (entry) => {
@@ -142,11 +142,11 @@ export const ThemeMapStringValue: Story = {
 		})
 	],
 	render: () => {
-		const wroteRef = useRef<ThemeResult<typeof themeMap> | undefined>(
-			themeResult('current', themeMap)
+		const wroteRef = useRef<ThemeEntry<typeof themeMap> | undefined>(
+			themeEntry('current', themeMap)
 		)
 		const notifyRef = useRef<
-			((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+			((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 		>(undefined)
 		const store = useMemo(
 			() =>
@@ -194,14 +194,14 @@ export const ThemeMapArrayValues: Story = {
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'themeMap values can be string[]. ThemeResult.value can be the full array.'
+			story: 'themeMap values can be string[]. ThemeEntry.value can be the full array.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> is the full
+					Each theme can map to <code>string[]</code>. <code>ThemeEntry.value</code> is the full
 					array.
 				</p>
 			)
@@ -223,11 +223,11 @@ export const ThemeMapArrayValues: Story = {
 		})
 	],
 	render: () => {
-		const wroteRef = useRef<ThemeResult<typeof themeMapArray> | undefined>(
-			themeResult('grayscale', themeMapArray)
+		const wroteRef = useRef<ThemeEntry<typeof themeMapArray> | undefined>(
+			themeEntry('grayscale', themeMapArray)
 		)
 		const notifyRef = useRef<
-			((v: ThemeResult<typeof themeMapArray> | undefined | null) => void) | undefined
+			((v: ThemeEntry<typeof themeMapArray> | undefined | null) => void) | undefined
 		>(undefined)
 		const store = useMemo(
 			() =>
@@ -366,14 +366,14 @@ export const SetStory: Story = {
 					get: async () => wrote,
 					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) }
 				})
-				await store.set?.(themeResult('high-contrast', themeMap))
+				await store.set?.(themeEntry('high-contrast', themeMap))
 			`
 		})
 	],
 	render: () => {
-		const wroteRef = useRef<ThemeResult<typeof themeMap> | undefined>(undefined)
+		const wroteRef = useRef<ThemeEntry<typeof themeMap> | undefined>(undefined)
 		const notifyRef = useRef<
-			((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+			((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 		>(undefined)
 		const store = useMemo(
 			() =>
@@ -421,7 +421,7 @@ export const SetStory: Story = {
 							type="button"
 							data-testid={`set-${theme}`}
 							onClick={async () => {
-								await store.set?.(themeResult(theme, themeMap))
+								await store.set?.(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 							className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
@@ -468,14 +468,14 @@ export const Subscribe: Story = {
 					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
 					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
 				})
-				return store.subscribe((themeResult) => console.log('Theme:', themeResult))
+				return store.subscribe((themeEntry) => console.log('Theme:', themeEntry))
 			`
 		})
 	],
 	render: () => {
-		const wroteRef = useRef<ThemeResult<typeof themeMap> | undefined>(undefined)
+		const wroteRef = useRef<ThemeEntry<typeof themeMap> | undefined>(undefined)
 		const notifyRef = useRef<
-			((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+			((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 		>(undefined)
 		const store = useMemo(
 			() =>
@@ -494,7 +494,7 @@ export const Subscribe: Story = {
 				}),
 			[]
 		)
-		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => store.subscribe?.(setResult), [store])
 
@@ -505,7 +505,7 @@ export const Subscribe: Story = {
 					<button
 						type="button"
 						data-testid="set-high-contrast"
-						onClick={() => store.set?.(themeResult('high-contrast', themeMap))}
+						onClick={() => store.set?.(themeEntry('high-contrast', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
 						set('high-contrast')
@@ -513,7 +513,7 @@ export const Subscribe: Story = {
 					<button
 						type="button"
 						data-testid="set-current"
-						onClick={() => store.set?.(themeResult('current', themeMap))}
+						onClick={() => store.set?.(themeEntry('current', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
 						set('current')
@@ -522,7 +522,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeResult(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themeMap)}
 				/>
 			</div>
 		)
@@ -554,16 +554,16 @@ export const SubscribeUnsubscribe: Story = {
 			source: dedent`
 				const store = asyncThemeStore({ set, subscribe })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				await store.set?.(themeResult('grayscale', themeMap))
+				await store.set?.(themeEntry('grayscale', themeMap))
 				unsubscribe()
-				await store.set?.(themeResult('current', themeMap)) // handler not called
+				await store.set?.(themeEntry('current', themeMap)) // handler not called
 			`
 		})
 	],
 	render: () => {
-		const wroteRef = useRef<ThemeResult<typeof themeMap> | undefined>(undefined)
+		const wroteRef = useRef<ThemeEntry<typeof themeMap> | undefined>(undefined)
 		const notifyRef = useRef<
-			((v: ThemeResult<typeof themeMap> | undefined | null) => void) | undefined
+			((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 		>(undefined)
 		const store = useMemo(
 			() =>
@@ -582,7 +582,7 @@ export const SubscribeUnsubscribe: Story = {
 				}),
 			[]
 		)
-		const [result, setResult] = useState<ThemeResult<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 		const unSubRef = useRef<(() => void) | undefined>(undefined)
 
 		useEffect(() => {
@@ -601,7 +601,7 @@ export const SubscribeUnsubscribe: Story = {
 					<button
 						type="button"
 						data-testid="set-grayscale"
-						onClick={() => store.set?.(themeResult('grayscale', themeMap))}
+						onClick={() => store.set?.(themeEntry('grayscale', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
 						set('grayscale')
@@ -609,7 +609,7 @@ export const SubscribeUnsubscribe: Story = {
 					<button
 						type="button"
 						data-testid="set-current"
-						onClick={() => store.set?.(themeResult('current', themeMap))}
+						onClick={() => store.set?.(themeEntry('current', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
 						set('current')
@@ -629,7 +629,7 @@ export const SubscribeUnsubscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
 					data-testid="store-subscribe-result"
-					result={themeResult(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themeMap)}
 				/>
 			</div>
 		)
@@ -679,8 +679,8 @@ export const SetOnly: Story = {
 					if (entry) events.push(entry.theme)
 				}
 			})
-			await store.set?.(themeResult('high-contrast', themeMap))
-			await store.set?.(themeResult('next', themeMap))
+			await store.set?.(themeEntry('high-contrast', themeMap))
+			await store.set?.(themeEntry('next', themeMap))
 			return { events }
 		}
 	],

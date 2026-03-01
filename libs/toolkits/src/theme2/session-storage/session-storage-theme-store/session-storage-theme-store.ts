@@ -1,7 +1,8 @@
 import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
-import type { ThemeMap, ThemeStore } from '../../theme.types.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
+import type { ThemeMap } from '../../theme-map.types.ts'
+import type { ThemeStore } from '../../theme-store/theme-store.types.ts'
 import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 
 export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {

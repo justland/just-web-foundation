@@ -1,8 +1,13 @@
 import { getThemeFromStores } from './get-theme-from-stores.ts'
-import type { StoreEntry, ThemeMap } from './theme.types.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
+import type { ThemeMap } from './theme-map.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
-type StoreWithSubscribe<Themes extends ThemeMap> = StoreEntry<Themes> & {
+type StoreWithSubscribe<Themes extends ThemeMap> = (
+	| ThemeStore<Themes>
+	| AsyncThemeStore<Themes>
+) & {
 	subscribe: (handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void
 }
 
@@ -18,7 +23,7 @@ type StoreWithSubscribe<Themes extends ThemeMap> = StoreEntry<Themes> & {
  * @returns Unsubscribe function
  */
 export function observeThemeFromStores<Themes extends ThemeMap>(
-	stores: StoreEntry<Themes>[],
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
 	defaultTheme: keyof Themes | undefined,
 	handler: (theme: keyof Themes | undefined) => void
 ): () => void {

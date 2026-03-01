@@ -1,7 +1,9 @@
-import type { StoreEntry, ThemeMap } from './theme.types.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
+import type { ThemeMap } from './theme-map.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
-type StoreWithGet<Themes extends ThemeMap> = StoreEntry<Themes> & {
+type StoreWithGet<Themes extends ThemeMap> = (ThemeStore<Themes> | AsyncThemeStore<Themes>) & {
 	get: () => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>
 }
 
@@ -16,7 +18,7 @@ type StoreWithGet<Themes extends ThemeMap> = StoreEntry<Themes> & {
  * @returns Resolved theme key or defaultTheme
  */
 export async function getThemeFromStores<Themes extends ThemeMap>(
-	stores: StoreEntry<Themes>[],
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
 	defaultTheme: keyof Themes | undefined
 ): Promise<keyof Themes | undefined> {
 	const withGet = stores.filter((s): s is StoreWithGet<Themes> => typeof s.get === 'function')
