@@ -4,8 +4,17 @@ import dedent from 'dedent'
 import { useMemo } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { createThemeHook } from '#just-web/toolkits/react'
-import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
+import {
+	classNameThemeStore,
+	composeThemeStores,
+	dataAttributeThemeStore,
+	inMemoryThemeStore,
+	localStorageThemeStore,
+	themeEntry
+} from '#just-web/toolkits/theme'
 import { Button } from '../../testing/button.tsx'
+import { ThemeStoreDemo2 } from '../../testing/theme/theme-store-demo.tsx'
+import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import code from './create-theme-hook.ts?raw'
 
 type Theme = 'current' | 'grayscale' | 'high-contrast'
@@ -42,7 +51,7 @@ export const Playground: Story = {
 		source: {
 			code: dedent`
 				const store = inMemoryThemeStore(themes)
-				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 				const [theme, setTheme] = useTheme()
 				setTheme('high-contrast')
 			`
@@ -52,11 +61,7 @@ export const Playground: Story = {
 	loaders: [
 		async () => {
 			const store = inMemoryThemeStore(themes)
-			const useTheme = createThemeHook({
-				stores: [store],
-				themes,
-				defaultTheme: 'current'
-			})
+			const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 			return { store, useTheme }
 		}
 	],
@@ -92,50 +97,6 @@ export const Playground: Story = {
 	}
 }
 
-export const OverrideDefaultTheme: Story = {
-	tags: ['use-case'],
-	parameters: defineDocsParam({
-		description: {
-			story:
-				'Pass an override default theme to useTheme(). When stores are empty, that override is used instead of the configured defaultTheme.'
-		},
-		source: {
-			code: dedent`
-				const store = inMemoryThemeStore(themes)
-				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
-				const [theme] = useTheme('high-contrast') // theme === 'high-contrast' when store empty
-			`
-		}
-	}),
-	decorators: [withStoryCard(), showSource()],
-	render: () => {
-		function Demo() {
-			const store = useMemo(() => inMemoryThemeStore(themes), [themes])
-			const useTheme = useMemo(
-				() =>
-					createThemeHook({
-						stores: [store],
-						themes,
-						defaultTheme: 'current'
-					}),
-				[store]
-			)
-			const [theme] = useTheme('high-contrast')
-			return (
-				<StoryCard title="Theme with override default" appearance="output">
-					<pre data-testid="current-theme" className="font-mono">
-						{theme ?? '(none)'}
-					</pre>
-				</StoryCard>
-			)
-		}
-		return <Demo />
-	},
-	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('high-contrast')
-	}
-}
-
 export const StoryWithValue: Story = {
 	parameters: defineDocsParam({
 		description: {
@@ -145,7 +106,7 @@ export const StoryWithValue: Story = {
 			code: dedent`
 				const store = inMemoryThemeStore(themes)
 				store.write?.(themeEntry('grayscale', themes))
-				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 				const [theme] = useTheme() // theme === 'grayscale'
 			`
 		}
@@ -154,16 +115,11 @@ export const StoryWithValue: Story = {
 	render: () => {
 		const store = useMemo(() => {
 			const s = inMemoryThemeStore(themes)
-			s.write?.(themeEntry('grayscale', themes))
+			s.write(themeEntry('grayscale', themes))
 			return s
 		}, [])
 		const useTheme = useMemo(
-			() =>
-				createThemeHook({
-					stores: [store],
-					themes,
-					defaultTheme: 'current'
-				}),
+			() => createThemeHook(themes, [store], { defaultTheme: 'current' }),
 			[store]
 		)
 		const [theme] = useTheme()
@@ -198,7 +154,7 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 			`
 		}
 	}),
@@ -206,12 +162,7 @@ export const ThemeMapStringValue: Story = {
 	render: () => {
 		const store = useMemo(() => inMemoryThemeStore(themes), [themes])
 		const useTheme = useMemo(
-			() =>
-				createThemeHook({
-					stores: [store],
-					themes,
-					defaultTheme: 'current'
-				}),
+			() => createThemeHook(themes, [store], { defaultTheme: 'current' }),
 			[store]
 		)
 
@@ -254,21 +205,15 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 			`
 		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore(themesArray), [themesArray])
 		const useTheme = useMemo(
-			() =>
-				createThemeHook({
-					stores: [store],
-					themes: themesArray,
-					defaultTheme: 'current'
-				}),
-			[store]
+			() => createThemeHook(themesArray, [[inMemoryThemeStore]], { defaultTheme: 'current' }),
+			[]
 		)
 
 		function Demo() {
@@ -285,6 +230,241 @@ export const ThemeMapArrayValues: Story = {
 	},
 	play: async ({ canvas }) => {
 		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('current')
+	}
+}
+const themesStoreFactory = {
+	current: 'theme-current',
+	grayscale: 'theme-grayscale',
+	'high-contrast': 'theme-high-contrast'
+} as const
+
+export const StoresConcrete: Story = {
+	name: 'stores: concrete stores',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Accepts concrete stores.'
+		},
+		source: {
+			code: dedent`
+				createThemeHook(themes, [
+					classNameThemeStore(themes),
+					dataAttributeThemeStore(themes, { attributeName: 'data-theme' }),
+					localStorageThemeStore(themes, { storageKey: 'my-theme-key' })
+				], { defaultTheme: 'current' })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(
+			() =>
+				composeThemeStores(
+					themesStoreFactory,
+					[
+						classNameThemeStore(themesStoreFactory),
+						dataAttributeThemeStore(themesStoreFactory, { attributeName: 'data-theme' }),
+						localStorageThemeStore(themesStoreFactory, { storageKey: 'my-theme-key' })
+					],
+					{ defaultTheme: 'current' }
+				),
+			[]
+		)
+		return <ThemeStoreDemo2 store={store} themes={themesStoreFactory} />
+	}
+}
+
+export const StoreFactoryPattern: Story = {
+	name: 'stores: factory tuples',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Accepts store factory tuples [factory] or [factory, options]. Each position has its own type for options autocomplete.'
+		},
+		source: {
+			code: dedent`
+				createThemeHook(themes, [
+				  [classNameThemeStore, { element: document.body }],
+				  [dataAttributeThemeStore, { attributeName: 'data-theme', element: document.body }],
+				  [localStorageThemeStore, { storageKey: 'my-theme-key' }]
+				], { defaultTheme: 'current' })
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const store = useMemo(
+			() =>
+				composeThemeStores(
+					themesStoreFactory,
+					[
+						[classNameThemeStore, { element: document.body }],
+						[
+							dataAttributeThemeStore,
+							{
+								attributeName: 'data-theme',
+								element: document.body
+							}
+						],
+						[localStorageThemeStore, { storageKey: 'my-theme-key' }]
+					],
+					{ defaultTheme: 'current' }
+				),
+			[]
+		)
+		return <ThemeStoreDemo2 store={store} themes={themesStoreFactory} />
+	}
+}
+
+/** Custom factory with options — same pattern as composeThemeStores CustomStoreFactory. */
+function createInitializedThemeStore<Themes extends ThemeMap>(
+	themes: Themes,
+	options: { initialTheme?: keyof Themes }
+) {
+	const store = inMemoryThemeStore(themes)
+	if (options.initialTheme !== undefined) {
+		store.write?.(themeEntry(options.initialTheme, themes))
+	}
+	return store
+}
+
+export const CustomStoreFactory: Story = {
+	name: 'stores: custom store factory',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Custom store factory with options. The F generic infers the factory type, enabling options autocomplete for user-defined factories. Same StoreFactoryPattern as composeThemeStores.'
+		},
+		source: {
+			code: dedent`
+				function createInitializedThemeStore(themes, options: { initialTheme?: keyof Themes }) {
+				  const store = inMemoryThemeStore(themes)
+				  if (options.initialTheme) store.write?.(themeEntry(options.initialTheme, themes))
+				  return store
+				}
+				const useTheme = createThemeHook(
+				  themes,
+				  [[createInitializedThemeStore, { initialTheme: 'grayscale' }]],
+				  { defaultTheme: 'current' }
+				)
+				const [theme] = useTheme() // theme === 'grayscale' (from factory init)
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		const useTheme = useMemo(
+			() =>
+				createThemeHook(themes, [[createInitializedThemeStore, { initialTheme: 'grayscale' }]], {
+					defaultTheme: 'current'
+				}),
+			[]
+		)
+
+		function Demo() {
+			const [theme, setTheme] = useTheme()
+			return (
+				<div className="flex flex-col gap-4 font-sans">
+					<div className="flex flex-wrap gap-2">
+						<Button onPress={() => setTheme('current')}>Set current</Button>
+						<Button onPress={() => setTheme('grayscale')}>Set grayscale</Button>
+						<Button onPress={() => setTheme('high-contrast')}>Set high-contrast</Button>
+					</div>
+					<StoryCard title="Theme (factory-initialized)" appearance="output">
+						<pre data-testid="current-theme" className="font-mono">
+							{theme ?? '(none)'}
+						</pre>
+					</StoryCard>
+				</div>
+			)
+		}
+		return <Demo />
+	},
+	play: async ({ canvas }) => {
+		await waitFor(
+			() => expect(canvas.getByTestId('current-theme')).toHaveTextContent('grayscale'),
+			{ timeout: 2000 }
+		)
+	}
+}
+
+export const DefaultTheme: Story = {
+	name: 'defaultTheme',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'When stores are empty, useTheme() returns the configured defaultTheme. No override is passed.'
+		},
+		source: {
+			code: dedent`
+				const store = inMemoryThemeStore(themes)
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
+				const [theme] = useTheme() // theme === 'current' when store empty
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		function Demo() {
+			const useTheme = useMemo(
+				() => createThemeHook(themes, [[inMemoryThemeStore]], { defaultTheme: 'current' }),
+				[]
+			)
+			const [theme] = useTheme()
+			return (
+				<StoryCard title="Theme with default (no override)" appearance="output">
+					<pre data-testid="current-theme" className="font-mono">
+						{theme ?? '(none)'}
+					</pre>
+				</StoryCard>
+			)
+		}
+		return <Demo />
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('current')
+	}
+}
+
+export const DefaultThemeOverriddenInHook: Story = {
+	name: 'defaultTheme: overridden in hook',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Pass an override default theme to useTheme(). When stores are empty, that override is used instead of the configured defaultTheme.'
+		},
+		source: {
+			code: dedent`
+				const store = inMemoryThemeStore(themes)
+				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
+				const [theme] = useTheme('high-contrast') // theme === 'high-contrast' when store empty
+			`
+		}
+	}),
+	decorators: [withStoryCard(), showSource()],
+	render: () => {
+		function Demo() {
+			const useTheme = useMemo(
+				() => createThemeHook(themes, [[inMemoryThemeStore]], { defaultTheme: 'current' }),
+				[]
+			)
+			const [theme] = useTheme('high-contrast')
+			return (
+				<StoryCard title="Theme with override default" appearance="output">
+					<pre data-testid="current-theme" className="font-mono">
+						{theme ?? '(none)'}
+					</pre>
+				</StoryCard>
+			)
+		}
+		return <Demo />
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('current-theme')).toHaveTextContent('high-contrast')
 	}
 }
 

@@ -56,7 +56,7 @@ export function composeThemeStores<
 		store7?: ComposeThemeStoreEntry<Themes, G>,
 		store8?: ComposeThemeStoreEntry<Themes, H>
 	],
-	options?: ComposeThemeStoresOptions<Themes>
+	options?: ComposeThemeStoresOptions<Themes> | undefined
 ): Required<AsyncThemeStore<Themes>> {
 	const { defaultTheme } = options ?? {}
 	const resolved = resolveStores(themes, stores)
