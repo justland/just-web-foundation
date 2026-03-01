@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useMemo } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
+import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { Button } from '../../testing/button.tsx'
-import { inMemoryThemeStore, themeEntry } from '../../theme/index.ts'
 import { createThemeHook } from '../index.ts'
 import code from './create-theme-hook.ts?raw'
 

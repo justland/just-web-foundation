@@ -2,8 +2,8 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useState } from 'react'
+import { type AsyncThemeStore, type ThemeEntry, themeEntry } from '#just-web/toolkits/theme'
 import { ThemeResultCard } from '../../testing/theme-result-card.tsx'
-import { type AsyncThemeStore, type ThemeEntry, themeEntry } from '../index.ts'
 import source from './async-theme-store.types.ts?raw'
 
 const meta = {

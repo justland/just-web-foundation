@@ -1,6 +1,7 @@
 import type { setupMonaco } from 'storybook-addon-code-editor'
 import ClsxTypes from '../.editor/clsx/index.d.mts?raw'
 import ToolkitTypes from '../.editor/just_web_toolkits/index.d.mts?raw'
+import ThemeTypes from '../.editor/just_web_toolkits/theme/index.d.mts?raw'
 import RepobuddyStorybookTypes from '../.editor/repobuddy_storybook/index.d.mts?raw'
 import TypePlusTypes from '../.editor/type_plus/index.d.mts?raw'
 
@@ -14,6 +15,10 @@ export const onMonacoLoad: NonNullable<Parameters<typeof setupMonaco>[0]['onMona
 	monaco.languages.typescript.typescriptDefaults.addExtraLib(
 		ToolkitTypes,
 		'file:///node_modules/@just-web/toolkits/index.d.ts'
+	)
+	monaco.languages.typescript.typescriptDefaults.addExtraLib(
+		ThemeTypes,
+		'file:///node_modules/@just-web/toolkits/theme.d.ts'
 	)
 	monaco.languages.typescript.typescriptDefaults.addExtraLib(
 		RepobuddyStorybookTypes,

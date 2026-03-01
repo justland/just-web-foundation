@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig([
 	{
-		entry: ['src/index.ts', 'src/react/index.ts'],
+		entry: ['src/index.ts', 'src/react/index.ts', 'src/theme/index.ts'],
 		format: ['esm', 'cjs'],
 		clean: true,
 		dts: true,
@@ -10,7 +10,7 @@ export default defineConfig([
 		unbundle: true
 	},
 	{
-		entry: ['src/index.ts'],
+		entry: ['src/index.ts', 'src/theme/index.ts'],
 		format: ['es'],
 		outDir: '.editor/just_web_toolkits',
 		clean: true,

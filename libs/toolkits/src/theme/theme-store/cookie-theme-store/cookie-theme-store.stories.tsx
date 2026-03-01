@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useMemo } from 'react'
 import { expect } from 'storybook/test'
+import { cookieThemeStore, getThemeFromCookie, themeEntry } from '#just-web/toolkits/theme'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { cookieThemeStore, getThemeFromCookie, themeEntry } from '../../index.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './cookie-theme-store.ts?raw'
 

@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
+import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '#just-web/toolkits/theme'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './in-memory-theme-store.ts?raw'
 

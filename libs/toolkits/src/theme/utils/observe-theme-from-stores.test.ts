@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { inMemoryThemeStore, themeEntry } from '../index.ts'
+import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { observeThemeFromStores } from './observe-theme-from-stores.ts'
 
 const themeMap = {

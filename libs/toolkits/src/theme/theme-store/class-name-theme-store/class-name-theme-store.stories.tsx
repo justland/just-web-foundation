@@ -4,10 +4,14 @@ import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
+import {
+	classNameThemeStore,
+	type ThemeEntry,
+	type ThemeStore,
+	themeEntry
+} from '#just-web/toolkits/theme'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { classNameThemeStore, type ThemeEntry, type ThemeStore } from '../../index.ts'
-import { themeEntry } from '../../theme-entry.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './class-name-theme-store.ts?raw'
 
