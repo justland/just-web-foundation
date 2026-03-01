@@ -9,20 +9,20 @@ import type { ThemeStore } from '../theme-store.types.ts'
 
 export type ClassNameThemeStoreOptions<Themes extends ThemeMap> = {
 	element?: Element | null
-	themeMap: Themes
+	themes: Themes
 }
 
 /**
  * Creates a theme store that reads and writes via element class names.
  *
  * @param options.element - Element to operate on (defaults to document.documentElement)
- * @param options.themeMap - Record mapping theme keys to class name(s)
+ * @param options.themes - Record mapping theme keys to class name(s)
  * @returns ThemeStore
  *
  * @example
  * ```ts
  * const store = classNameThemeStore({
- *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
+ *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.read() // returns themeResult from element.className
  * store.write(themeEntry('grayscale', themeMap))
@@ -36,24 +36,24 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 
 	if (!element) return dummyThemeStore
 
-	const { themeMap } = options
+	const { themes } = options
 
 	return {
 		read() {
-			const theme = resolveThemeFromClassName(element.className, themeMap)
+			const theme = resolveThemeFromClassName(element.className, themes)
 			if (theme === undefined) return undefined
-			return themeEntry(theme, themeMap)
+			return themeEntry(theme, themes)
 		},
 		write(entry) {
-			applyThemeToClassName(element, entry, themeMap)
+			applyThemeToClassName(element, entry, themes)
 		},
 		subscribe(handler) {
 			let lastEmitted: keyof Themes | undefined | null = null
 			const observer = observeAttributes(
 				{
 					class: (value) => {
-						const theme = value ? resolveThemeFromClassName(value, themeMap) : undefined
-						const entry = theme ? themeEntry(theme, themeMap) : undefined
+						const theme = value ? resolveThemeFromClassName(value, themes) : undefined
+						const entry = theme ? themeEntry(theme, themes) : undefined
 						const key = theme ?? undefined
 
 						if (lastEmitted === key) return

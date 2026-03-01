@@ -24,7 +24,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	next: 'theme-next',
 	grayscale: 'theme-grayscale',
@@ -52,9 +52,9 @@ export const Playground: Story = {
 			source: dedent`
 				const store = cookieThemeStore({
 					cookieName: 'app-theme',
-					themeMap,
+					themes
 				})
-				<ThemeStoreDemo2 store={store} themes={themeMap} />
+				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
@@ -67,13 +67,13 @@ export const Playground: Story = {
 	render: () => {
 		const store = useMemo(
 			() =>
-				cookieThemeStore<typeof themeMap>({
+				cookieThemeStore<typeof themes>({
 					cookieName: COOKIE_NAME,
-					themeMap
+					themes: themes
 				}),
 			[]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themeMap} />
+		return <ThemeStoreDemo2 store={store} themes={themes} />
 	}
 	// Play omitted: document.cookie can be restricted in Storybook test iframe (third-party context)
 }
@@ -93,25 +93,25 @@ export const CookieName: Story = {
 			source: dedent`
 				const store = cookieThemeStore({
 					cookieName: 'app-theme',
-					themeMap,
+					themes
 				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = cookieThemeStore<typeof themeMap>({
+			const store = cookieThemeStore<typeof themes>({
 				cookieName: COOKIE_NAME,
-				themeMap
+				themes: themes
 			})
-			store.write(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themeMap>({
+		const store = cookieThemeStore<typeof themes>({
 			cookieName: COOKIE_NAME,
-			themeMap
+			themes: themes
 		})
 		const result = store.read()
 		return (
@@ -122,7 +122,7 @@ export const CookieName: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'current', value: themeMap.current }}
+					result={result ?? { theme: 'current', value: themes.current }}
 				/>
 			</div>
 		)
@@ -145,32 +145,32 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({ cookieName: 'theme', themeMap })
+				const store = cookieThemeStore({ cookieName: 'theme', themes })
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = cookieThemeStore<typeof themeMap>({
+			const store = cookieThemeStore<typeof themes>({
 				cookieName: COOKIE_NAME,
-				themeMap
+				themes: themes
 			})
-			store.write(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themeMap>({
+		const store = cookieThemeStore<typeof themes>({
 			cookieName: COOKIE_NAME,
-			themeMap
+			themes: themes
 		})
 		const result = store.read()
 		return (
 			<ThemeResultCard
 				title="store.read() result"
 				data-testid="store-read-result"
-				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
+				result={result ?? { theme: 'grayscale', value: themes.grayscale }}
 			/>
 		)
 	},
@@ -194,7 +194,7 @@ export const ReadWhenEmpty: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({ cookieName: 'theme-get', themeMap })
+				const store = cookieThemeStore({ cookieName: 'theme-get', themes })
 				const theme = store.read() // undefined when empty
 			`
 		})
@@ -206,9 +206,9 @@ export const ReadWhenEmpty: Story = {
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themeMap>({
+		const store = cookieThemeStore<typeof themes>({
 			cookieName: COOKIE_NAME,
-			themeMap
+			themes: themes
 		})
 		const result = store.read()
 		return (
@@ -240,24 +240,24 @@ export const GetThemeFromCookie: Story = {
 		showSource({
 			source: dedent`
 				// With raw Cookie header (Express, Remix)
-				const theme = getThemeFromCookie(request.headers.get('Cookie') ?? '', themeMap)
+				const theme = getThemeFromCookie(request.headers.get('Cookie') ?? '', themes)
 
 				// With Next.js cookies()
 				const theme = getThemeFromCookie(
 				  (name) => cookies().get(name)?.value ?? undefined,
-				  themeMap
+				  themes
 				)
 			`
 		})
 	],
 	render: () => {
-		const cookieHeader = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(themeEntry('grayscale', themeMap)))}`
-		const result = getThemeFromCookie(cookieHeader, themeMap, { cookieName: COOKIE_NAME })
+		const cookieHeader = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(themeEntry('grayscale', themes)))}`
+		const result = getThemeFromCookie(cookieHeader, themes, { cookieName: COOKIE_NAME })
 		return (
 			<ThemeResultCard
 				title="getThemeFromCookie result"
 				data-testid="get-theme-result"
-				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
+				result={result ?? { theme: 'grayscale', value: themes.grayscale }}
 			/>
 		)
 	},

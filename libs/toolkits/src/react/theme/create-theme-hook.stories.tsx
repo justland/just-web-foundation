@@ -10,7 +10,7 @@ import code from './create-theme-hook.ts?raw'
 
 type Theme = 'current' | 'grayscale' | 'high-contrast'
 
-const themeMap = {
+const themes = {
 	current: 'current',
 	grayscale: 'grayscale',
 	'high-contrast': 'high-contrast'
@@ -41,8 +41,8 @@ export const Playground: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = createInMemoryThemeStore({ themeMap })
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+				const store = inMemoryThemeStore<typeof themes>()
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
 				const [theme, setTheme] = useTheme()
 				setTheme('high-contrast')
 			`
@@ -51,11 +51,11 @@ export const Playground: Story = {
 	decorators: [withStoryCard(), showSource()],
 	loaders: [
 		async () => {
-			const store = inMemoryThemeStore<typeof themeMap>()
+			const store = inMemoryThemeStore<typeof themes>()
 			const useTheme = createThemeHook({
 				stores: [store],
 				defaultTheme: 'current',
-				themes: themeMap
+				themes: themes
 			})
 			return { store, useTheme }
 		}
@@ -101,8 +101,8 @@ export const OverrideDefaultTheme: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = createInMemoryThemeStore({ themeMap })
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+				const store = inMemoryThemeStore<typeof themes>()
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
 				const [theme] = useTheme('high-contrast') // theme === 'high-contrast' when store empty
 			`
 		}
@@ -110,13 +110,13 @@ export const OverrideDefaultTheme: Story = {
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		function Demo() {
-			const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+			const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 			const useTheme = useMemo(
 				() =>
 					createThemeHook({
 						stores: [store],
 						defaultTheme: 'current',
-						themes: themeMap
+						themes: themes
 					}),
 				[store]
 			)
@@ -143,9 +143,9 @@ export const StoryWithValue: Story = {
 		},
 		source: {
 			code: dedent`
-				const store = createInMemoryThemeStore({ themeMap })
-				store.write?.(themeEntry('grayscale', themeMap))
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+				const store = inMemoryThemeStore<typeof themes>()
+				store.write?.(themeEntry('grayscale', themes))
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
 				const [theme] = useTheme() // theme === 'grayscale'
 			`
 		}
@@ -153,8 +153,8 @@ export const StoryWithValue: Story = {
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const store = useMemo(() => {
-			const s = inMemoryThemeStore<typeof themeMap>()
-			s.write?.(themeEntry('grayscale', themeMap))
+			const s = inMemoryThemeStore<typeof themes>()
+			s.write?.(themeEntry('grayscale', themes))
 			return s
 		}, [])
 		const useTheme = useMemo(
@@ -162,7 +162,7 @@ export const StoryWithValue: Story = {
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themes: themeMap
+					themes: themes
 				}),
 			[store]
 		)
@@ -184,33 +184,33 @@ export const StoryWithValue: Story = {
 }
 
 export const ThemeMapStringValue: Story = {
-	name: 'themeMap: string value',
+	name: 'themes: string value',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'themeMap values can be a single string per theme.'
+			story: 'themes values can be a single string per theme.'
 		},
 		source: {
 			code: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'current',
 					grayscale: 'grayscale',
-					'high-contrast': 'high-contrast',
+					'high-contrast': 'high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
 			`
 		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const useTheme = useMemo(
 			() =>
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themes: themeMap
+					themes: themes
 				}),
 			[store]
 		)
@@ -218,7 +218,7 @@ export const ThemeMapStringValue: Story = {
 		function Demo() {
 			const [theme] = useTheme()
 			return (
-				<StoryCard title="useTheme() with string themeMap" appearance="output">
+				<StoryCard title="useTheme() with string themes" appearance="output">
 					<pre data-testid="current-theme" className="font-mono">
 						{theme ?? '(none)'}
 					</pre>
@@ -232,41 +232,41 @@ export const ThemeMapStringValue: Story = {
 	}
 }
 
-const themeMapArray = {
+const themesArray = {
 	current: 'theme-current',
 	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
 	'high-contrast': 'theme-high-contrast'
 } as const
 
 export const ThemeMapArrayValues: Story = {
-	name: 'themeMap: array values',
+	name: 'themes: array values',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'themeMap values can be string[]. createThemeHook accepts both; theme keys work the same.'
+				'themes values can be string[]. createThemeHook accepts both; theme keys work the same.'
 		},
 		source: {
 			code: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast',
+					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themeMap })
+				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
 			`
 		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMapArray>(), [])
+		const store = useMemo(() => inMemoryThemeStore<typeof themesArray>(), [])
 		const useTheme = useMemo(
 			() =>
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themes: themeMapArray
+					themes: themesArray
 				}),
 			[store]
 		)
@@ -274,7 +274,7 @@ export const ThemeMapArrayValues: Story = {
 		function Demo() {
 			const [theme] = useTheme()
 			return (
-				<StoryCard title="useTheme() with array themeMap" appearance="output">
+				<StoryCard title="useTheme() with array themes" appearance="output">
 					<pre data-testid="current-theme" className="font-mono">
 						{theme ?? '(none)'}
 					</pre>

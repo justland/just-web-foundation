@@ -11,7 +11,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
 export type DataAttributeThemeStoreOptions<Themes extends ThemeMap> = {
 	attributeName: `data-${string}`
 	element?: Element | null
-	themeMap: Themes
+	themes: Themes
 }
 
 /**
@@ -19,14 +19,14 @@ export type DataAttributeThemeStoreOptions<Themes extends ThemeMap> = {
  *
  * @param options.attributeName - Data attribute name (e.g. `data-theme`)
  * @param options.element - Element to operate on (defaults to document.documentElement)
- * @param options.themeMap - Record mapping theme keys to attribute values
+ * @param options.themes - Record mapping theme keys to attribute values
  * @returns ThemeStore
  *
  * @example
  * ```ts
  * const store = dataAttributeThemeStore({
  *   attributeName: 'data-theme',
- *   themeMap: { current: 'current', grayscale: 'grayscale' },
+ *   themes: { current: 'current', grayscale: 'grayscale' },
  * })
  * store.read() // returns themeResult from data attribute
  * store.write(themeEntry('grayscale', themeMap))
@@ -37,16 +37,16 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	options: DataAttributeThemeStoreOptions<Themes>
 ) {
 	const element = options.element ?? document?.documentElement
-	const { attributeName, themeMap } = options
+	const { attributeName, themes } = options
 
 	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
 
 	return {
 		read() {
 			const value = getDataAttribute(attributeName, element)
-			const theme = resolveThemeFromDataAttribute(value, themeMap)
+			const theme = resolveThemeFromDataAttribute(value, themes)
 			if (theme === undefined) return undefined
-			return themeEntry(theme, themeMap)
+			return themeEntry(theme, themes)
 		},
 		write(entry) {
 			applyThemeToDataAttribute(element, attributeName, entry)
@@ -55,8 +55,8 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const observer = observeDataAttributes<string, `data-${string}`>(
 				{
 					[attributeName]: (value) => {
-						const theme = value ? resolveThemeFromDataAttribute(value, themeMap) : undefined
-						handler(theme ? themeEntry(theme, themeMap) : undefined)
+						const theme = value ? resolveThemeFromDataAttribute(value, themes) : undefined
+						handler(theme ? themeEntry(theme, themes) : undefined)
 					}
 				},
 				element

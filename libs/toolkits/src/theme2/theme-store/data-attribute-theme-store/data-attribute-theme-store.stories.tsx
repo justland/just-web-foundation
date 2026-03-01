@@ -17,7 +17,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store that reads and writes theme via a data attribute. Bakes themeMap at creation; read/write/subscribe use theme keys only.'
+				'Theme store that reads and writes theme via a data attribute. Bakes themes at creation; read/write/subscribe use theme keys only.'
 		}
 	}),
 	render: () => <></>
@@ -27,21 +27,21 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	next: 'theme-next',
 	grayscale: 'theme-grayscale',
 	'high-contrast': 'theme-high-contrast'
 } as const
 
-type ExampleTheme = keyof typeof themeMap
+type ExampleTheme = keyof typeof themes
 
 const attributeName = 'data-theme' as const
 
 function createStore(options?: { element?: Element }) {
 	return dataAttributeThemeStore({
 		attributeName,
-		themeMap,
+		themes,
 		...options
 	})
 }
@@ -60,19 +60,19 @@ export const Playground: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
-				<ThemeStoreDemo2 store={store} themes={themeMap} />
+				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
 	render: () => {
 		const store = createStore()
-		return <ThemeStoreDemo2 store={store} themes={themeMap} />
+		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.write(themeEntry('grayscale', themeMap))
+		store.write(themeEntry('grayscale', themes))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -96,15 +96,15 @@ export const ElementDefault: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast',
-				} as const;
+					'high-contrast': 'theme-high-contrast'
+				} as const
 
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
 			`
 		})
@@ -112,7 +112,7 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
@@ -131,7 +131,7 @@ export const ElementDefault: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'current', value: themeMap.current }}
+					result={result ?? { theme: 'current', value: themes.current }}
 				/>
 			</div>
 		)
@@ -156,16 +156,16 @@ export const ElementBody: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast',
-				} as const;
+					'high-contrast': 'theme-high-contrast'
+				} as const
 
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
-					element: document.body,
+					themes,
+					element: document.body
 				})
 			`
 		})
@@ -173,7 +173,7 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = createStore({ element: document.body })
-			store.write(themeEntry('high-contrast', themeMap))
+			store.write(themeEntry('high-contrast', themes))
 			return {}
 		}
 	],
@@ -192,7 +192,7 @@ export const ElementBody: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'high-contrast', value: themeMap['high-contrast'] }}
+					result={result ?? { theme: 'high-contrast', value: themes['high-contrast'] }}
 				/>
 			</div>
 		)
@@ -219,29 +219,29 @@ export const ElementCustom: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast',
-				} as const;
+					'high-contrast': 'theme-high-contrast'
+				} as const
 
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
-					element: targetElement,
+					themes,
+					element: targetElement
 				})
 			`
 		})
 	],
 	render: () => {
 		const targetRef = useRef<HTMLDivElement | null>(null)
-		const [store, setStore] = useState<Required<ThemeStore<typeof themeMap>> | null>(null)
+		const [store, setStore] = useState<Required<ThemeStore<typeof themes>> | null>(null)
 
 		useLayoutEffect(() => {
 			const el = targetRef.current
 			if (!el) return
 			const s = createStore({ element: el })
-			s.write(themeEntry('grayscale', themeMap))
+			s.write(themeEntry('grayscale', themes))
 			setStore(s)
 		}, [])
 
@@ -264,7 +264,7 @@ export const ElementCustom: Story = {
 						<ThemeResultCard
 							title="store.read() result"
 							data-testid="store-read-result"
-							result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
+							result={result ?? { theme: 'grayscale', value: themes.grayscale }}
 						/>
 					</>
 				) : (
@@ -282,11 +282,11 @@ export const ElementCustom: Story = {
 }
 
 export const ThemeMapStringValue: Story = {
-	name: 'themeMap: string value',
+	name: 'themes: string value',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'themeMap values can be a single string per theme.'
+			story: 'themes values can be a single string per theme.'
 		}
 	}),
 	decorators: [
@@ -295,15 +295,15 @@ export const ThemeMapStringValue: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast',
+					'high-contrast': 'theme-high-contrast'
 				} as const
 
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
 			`
 		})
@@ -311,7 +311,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
@@ -330,7 +330,7 @@ export const ThemeMapStringValue: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'current', value: themeMap.current }}
+					result={result ?? { theme: 'current', value: themes.current }}
 				/>
 			</div>
 		)
@@ -341,7 +341,7 @@ export const ThemeMapStringValue: Story = {
 	}
 }
 
-const themeMapArray = {
+const themesArray = {
 	current: 'theme-current',
 	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
 	'high-contrast': 'theme-high-contrast'
@@ -350,18 +350,18 @@ const themeMapArray = {
 function createStoreArray(options?: { element?: Element }) {
 	return dataAttributeThemeStore({
 		attributeName,
-		themeMap: themeMapArray,
+		themes: themesArray,
 		...options
 	})
 }
 
 export const ThemeMapArrayValues: Story = {
-	name: 'themeMap: array values',
+	name: 'themes: array values',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'themeMap values can be string[]. dataAttributeThemeStore uses only the first value for the attribute.'
+				'themes values can be string[]. dataAttributeThemeStore uses only the first value for the attribute.'
 		}
 	}),
 	decorators: [
@@ -375,15 +375,15 @@ export const ThemeMapArrayValues: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast',
+					'high-contrast': 'theme-high-contrast'
 				} as const
 
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
 			`
 		})
@@ -391,7 +391,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = createStoreArray()
-			store.write(themeEntry('grayscale', themeMapArray))
+			store.write(themeEntry('grayscale', themesArray))
 			return {}
 		}
 	],
@@ -410,7 +410,7 @@ export const ThemeMapArrayValues: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
+					result={result ?? { theme: 'grayscale', value: themesArray.grayscale }}
 				/>
 			</div>
 		)
@@ -437,7 +437,7 @@ export const Read: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
 				const result = store.read()
 			`
@@ -446,7 +446,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
@@ -457,7 +457,7 @@ export const Read: Story = {
 			<ThemeResultCard
 				title="store.read() result"
 				data-testid="store-read-result"
-				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
+				result={result ?? { theme: 'grayscale', value: themes.grayscale }}
 			/>
 		)
 	},
@@ -483,9 +483,9 @@ export const WriteStory: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
-				store.write(themeResult('high-contrast', themeMap))
+				store.write(themeResult('high-contrast', themes))
 			`
 		})
 	],
@@ -499,12 +499,12 @@ export const WriteStory: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
+					{(Object.keys(themes) as ExampleTheme[]).map((theme) => (
 						<Button
 							key={theme}
 							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.write(themeEntry(theme, themeMap))
+								store.write(themeEntry(theme, themes))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -517,8 +517,8 @@ export const WriteStory: Story = {
 					data-testid="store-write-result"
 					result={
 						currentTheme
-							? { theme: currentTheme, value: themeMap[currentTheme] }
-							: { theme: 'current', value: themeMap.current }
+							? { theme: currentTheme, value: themes[currentTheme] }
+							: { theme: 'current', value: themes.current }
 					}
 				/>
 			</div>
@@ -548,7 +548,7 @@ export const Subscribe: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore({
 					attributeName: 'data-theme',
-					themeMap,
+					themes
 				})
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
@@ -557,7 +557,7 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useEffect(() => {
 			const store = createStore()
@@ -569,13 +569,13 @@ export const Subscribe: Story = {
 			<ThemeResultCard
 				title="store.subscribe() receives"
 				data-testid="store-subscribe-result"
-				result={themeEntry(displayTheme, themeMap)}
+				result={themeEntry(displayTheme, themes)}
 			/>
 		)
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.write(themeEntry('high-contrast', themeMap))
+		store.write(themeEntry('high-contrast', themes))
 
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

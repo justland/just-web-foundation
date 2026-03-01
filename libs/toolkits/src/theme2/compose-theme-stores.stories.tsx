@@ -25,7 +25,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	grayscale: 'theme-grayscale',
 	'high-contrast': 'theme-high-contrast'
@@ -40,21 +40,21 @@ export const Playground: Story = {
 		},
 		source: {
 			code: dedent`
-				const store1 = inMemoryThemeStore<typeof themeMap>()
-				const store2 = inMemoryThemeStore<typeof themeMap>()
-				const store = composeThemeStores([store1, store2], 'current', themeMap)
-				<ThemeStoreDemo2 store={store} themes={themeMap} />
+				const store1 = inMemoryThemeStore<typeof themes>()
+				const store2 = inMemoryThemeStore<typeof themes>()
+				const store = composeThemeStores([store1, store2], 'current', themes)
+				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		}
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const [result1, setResult1] = useState<ThemeEntry<typeof themeMap>>()
-		const [result2, setResult2] = useState<ThemeEntry<typeof themeMap>>()
-		const store1 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const store2 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+		const [result1, setResult1] = useState<ThemeEntry<typeof themes>>()
+		const [result2, setResult2] = useState<ThemeEntry<typeof themes>>()
+		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themeMap),
+			() => composeThemeStores([store1, store2], 'current', themes),
 			[store1, store2]
 		)
 
@@ -64,7 +64,7 @@ export const Playground: Story = {
 		}, [store1, store2])
 		return (
 			<div className="flex flex-col gap-2">
-				<ThemeStoreDemo2 store={store} themes={themeMap} />
+				<ThemeStoreDemo2 store={store} themes={themes} />
 				<ThemeResultCard title="Observed (store1.subscribe())" result={result1} />
 				<ThemeResultCard title="Observed (store2.subscribe()	)" result={result2} />
 			</div>
@@ -89,7 +89,7 @@ export const ReadAllEmptyNoDefault: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = composeThemeStores([store1, store2], undefined, themeMap)
+				const store = composeThemeStores([store1, store2], undefined, themes)
 				const result = await store.read()
 			`
 		})
@@ -98,13 +98,13 @@ export const ReadAllEmptyNoDefault: Story = {
 		const store = useMemo(
 			() =>
 				composeThemeStores(
-					[inMemoryThemeStore<typeof themeMap>(), inMemoryThemeStore<typeof themeMap>()],
+					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
 					undefined,
-					themeMap
+					themes
 				),
 			[]
 		)
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap>>()
+		const [result, setResult] = useState<ThemeEntry<typeof themes>>()
 		useEffect(() => {
 			Promise.resolve(store.read?.()).then((r) => setResult(r ?? undefined))
 		}, [store])
@@ -135,7 +135,7 @@ export const ReadAllEmptyWithDefault: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = composeThemeStores([store1, store2], 'grayscale', themeMap)
+				const store = composeThemeStores([store1, store2], 'grayscale', themes)
 				const result = await store.read()
 			`
 		})
@@ -144,13 +144,13 @@ export const ReadAllEmptyWithDefault: Story = {
 		const store = useMemo(
 			() =>
 				composeThemeStores(
-					[inMemoryThemeStore<typeof themeMap>(), inMemoryThemeStore<typeof themeMap>()],
+					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
 					'grayscale',
-					themeMap
+					themes
 				),
 			[]
 		)
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap>>()
+		const [result, setResult] = useState<ThemeEntry<typeof themes>>()
 		useEffect(() => {
 			Promise.resolve(store.read?.()).then((r) => setResult(r ?? undefined))
 		}, [store])
@@ -182,14 +182,14 @@ export const ReadWaterfallFirstHasValue: Story = {
 	decorators: [withStoryCard(), showSource()],
 	loaders: [
 		() => {
-			const store1 = inMemoryThemeStore<typeof themeMap>()
-			const store2 = inMemoryThemeStore<typeof themeMap>()
-			store1.write?.(themeEntry('grayscale', themeMap))
-			return { store: composeThemeStores([store1, store2], 'current', themeMap) }
+			const store1 = inMemoryThemeStore<typeof themes>()
+			const store2 = inMemoryThemeStore<typeof themes>()
+			store1.write?.(themeEntry('grayscale', themes))
+			return { store: composeThemeStores([store1, store2], 'current', themes) }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap>>()
+		const [result, setResult] = useState<ThemeEntry<typeof themes>>()
 		useEffect(() => {
 			Promise.resolve(store.read?.()).then((r) => setResult(r ?? undefined))
 		}, [store])
@@ -218,14 +218,14 @@ export const ReadWaterfallFirstEmptySecondHasValue: Story = {
 	decorators: [withStoryCard(), showSource()],
 	loaders: [
 		() => {
-			const store1 = inMemoryThemeStore<typeof themeMap>()
-			const store2 = inMemoryThemeStore<typeof themeMap>()
-			store2.write?.(themeEntry('high-contrast', themeMap))
-			return { store: composeThemeStores([store1, store2], 'current', themeMap) }
+			const store1 = inMemoryThemeStore<typeof themes>()
+			const store2 = inMemoryThemeStore<typeof themes>()
+			store2.write?.(themeEntry('high-contrast', themes))
+			return { store: composeThemeStores([store1, store2], 'current', themes) }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap>>()
+		const [result, setResult] = useState<ThemeEntry<typeof themes>>()
 		useEffect(() => {
 			Promise.resolve(store.read?.()).then((r) => setResult(r ?? undefined))
 		}, [store])
@@ -254,16 +254,16 @@ export const ReadSkipsStoreWithoutRead: Story = {
 	decorators: [withStoryCard(), showSource()],
 	loaders: [
 		() => {
-			const storeWithRead = inMemoryThemeStore<typeof themeMap>()
-			storeWithRead.write?.(themeEntry('grayscale', themeMap))
+			const storeWithRead = inMemoryThemeStore<typeof themes>()
+			storeWithRead.write?.(themeEntry('grayscale', themes))
 			const storeWithoutRead = { write: (_entry: unknown) => {} }
 			return {
-				store: composeThemeStores([storeWithoutRead, storeWithRead] as any, 'current', themeMap)
+				store: composeThemeStores([storeWithoutRead, storeWithRead] as any, 'current', themes)
 			}
 		}
 	],
 	render: (_, { loaded: { store } }) => {
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap>>()
+		const [result, setResult] = useState<ThemeEntry<typeof themes>>()
 		useEffect(() => {
 			Promise.resolve(store.read?.()).then((r) => setResult(r ?? undefined))
 		}, [store])
@@ -291,13 +291,13 @@ export const WriteToAllStores: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store1 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const store2 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themeMap),
+			() => composeThemeStores([store1, store2], 'current', themes),
 			[store1, store2]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themeMap} />
+		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
 		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-high-contrast'))
@@ -320,13 +320,13 @@ export const SubscribeNoInitialNotify: Story = {
 		const store = useMemo(
 			() =>
 				composeThemeStores(
-					[inMemoryThemeStore<typeof themeMap>(), inMemoryThemeStore<typeof themeMap>()],
+					[inMemoryThemeStore<typeof themes>(), inMemoryThemeStore<typeof themes>()],
 					'current',
-					themeMap
+					themes
 				),
 			[]
 		)
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		useEffect(() => store.subscribe?.(setResult), [store])
 		return (
 			<div className="flex flex-col gap-4">
@@ -353,20 +353,20 @@ export const SubscribeReNotifyOnChildEmit: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store1 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const store2 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themeMap),
+			() => composeThemeStores([store1, store2], 'current', themes),
 			[store1, store2]
 		)
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		useEffect(() => store.subscribe?.(setResult), [store])
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store1.write?.(themeEntry('grayscale', themeMap))}
+						onClick={() => store1.write?.(themeEntry('grayscale', themes))}
 					>
 						Write grayscale (store1)
 					</Button>
@@ -396,13 +396,13 @@ export const SubscribeUnsubscribe: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const store1 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const store2 = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
+		const store1 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store2 = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
 		const store = useMemo(
-			() => composeThemeStores([store1, store2], 'current', themeMap),
+			() => composeThemeStores([store1, store2], 'current', themes),
 			[store1, store2]
 		)
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const unSubRef = useRef<(() => void) | null>(null)
 		useEffect(() => {
 			unSubRef.current = store.subscribe(setResult)
@@ -415,13 +415,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store1.write?.(themeEntry('grayscale', themeMap))}
+						onClick={() => store1.write?.(themeEntry('grayscale', themes))}
 					>
 						Write grayscale
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store1.write?.(themeEntry('current', themeMap))}
+						onClick={() => store1.write?.(themeEntry('current', themes))}
 					>
 						Write current
 					</Button>

@@ -15,7 +15,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMapString = {
+const themesString = {
 	current: 'theme-current',
 	grayscale: 'theme-grayscale'
 } as const
@@ -32,34 +32,34 @@ export const StringValue: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>themeMap</code> values can be a single string per theme (e.g.{' '}
+					<code>themes</code> values can be a single string per theme (e.g.{' '}
 					<code>{`{ current: 'theme-current' }`}</code>).
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale'
 				} as const
 
-				themeResult('current', themeMap)
+				themeResult('current', themes)
 			`
 		})
 	],
 	render: () => (
 		<div className="flex flex-col gap-4">
 			<ThemeResultCard
-				title="themeResult('current', themeMap)"
+				title="themeResult('current', themes)"
 				data-testid="string-result"
-				result={themeEntry('current', themeMapString)}
+				result={themeEntry('current', themesString)}
 			/>
 		</div>
 	)
 }
 
-const themeMapArray = {
+const themesArray = {
 	current: 'theme-current',
 	grayscale: ['theme-grayscale', 'app:bg-gray-100']
 } as const
@@ -77,34 +77,34 @@ export const ArrayValue: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>themeMap</code> values can be <code>readonly string[]</code> (e.g.{' '}
+					<code>themes</code> values can be <code>readonly string[]</code> (e.g.{' '}
 					<code>{`{ grayscale: ['theme-grayscale', 'app:bg-gray-100'] }`}</code>).
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: ['theme-grayscale', 'app:bg-gray-100']
 				} as const
 
-				themeResult('grayscale', themeMap)
+				themeResult('grayscale', themes)
 			`
 		})
 	],
 	render: () => (
 		<div className="flex flex-col gap-4">
 			<ThemeResultCard
-				title="themeResult('grayscale', themeMap)"
+				title="themeResult('grayscale', themes)"
 				data-testid="array-result"
-				result={themeEntry('grayscale', themeMapArray)}
+				result={themeEntry('grayscale', themesArray)}
 			/>
 		</div>
 	)
 }
 
-const themeMapMixed = {
+const themesMixed = {
 	current: 'theme-current',
 	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
 	'high-contrast': 'theme-high-contrast'
@@ -115,41 +115,41 @@ export const Mixed: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'A themeMap can mix string and string[] values.'
+			story: 'Themes can mix string and string[] values.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Mix string and array values in the same <code>themeMap</code>.
+					Mix string and array values in the same <code>themes</code>.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				themeResult('current', themeMap)
-				themeResult('grayscale', themeMap)
+				themeResult('current', themes)
+				themeResult('grayscale', themes)
 			`
 		})
 	],
 	render: () => (
 		<div className="flex flex-col gap-4">
 			<ThemeResultCard
-				title="themeResult('current', themeMap)"
+				title="themeResult('current', themes)"
 				data-testid="mixed-string-result"
-				result={themeEntry('current', themeMapMixed)}
+				result={themeEntry('current', themesMixed)}
 			/>
 			<ThemeResultCard
-				title="themeResult('grayscale', themeMap)"
+				title="themeResult('grayscale', themes)"
 				data-testid="mixed-array-result"
-				result={themeEntry('grayscale', themeMapMixed)}
+				result={themeEntry('grayscale', themesMixed)}
 			/>
 		</div>
 	)

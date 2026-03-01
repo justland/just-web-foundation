@@ -16,7 +16,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	grayscale: 'theme-grayscale'
 } as const
@@ -42,7 +42,7 @@ export const ReadOnly: Story = {
 		showSource({
 			source: dedent`
 				const store: ThemeStore = {
-					read: () => themeEntry('current', themeMap)
+					read: () => themeEntry('current', themes)
 				}
 				store.read()
 			`
@@ -50,8 +50,8 @@ export const ReadOnly: Story = {
 	],
 	render: () => {
 		const store = {
-			read: () => themeEntry('grayscale', themeMap)
-		} satisfies ThemeStore<typeof themeMap>
+			read: () => themeEntry('grayscale', themes)
+		} satisfies ThemeStore<typeof themes>
 
 		return (
 			<ThemeResultCard title="store.read()" data-testid="read-only-result" result={store.read()} />
@@ -77,20 +77,20 @@ export const WriteOnly: Story = {
 				const store: ThemeStore = {
 					write: (entry) => { /* persist */ }
 				}
-				store.write(themeEntry('grayscale', themeMap))
+				store.write(themeEntry('grayscale', themes))
 			`
 		})
 	],
 	render: () => {
-		const [entry, setEntry] = useState<ThemeEntry<typeof themeMap> | undefined>(undefined)
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined>(undefined)
 		const store = {
 			write: (entry) => {
 				setEntry(entry)
 			}
-		} satisfies ThemeStore<typeof themeMap>
+		} satisfies ThemeStore<typeof themes>
 
 		useEffect(() => {
-			store.write(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themes))
 		}, [])
 
 		return (
@@ -140,13 +140,13 @@ export const SubscribeOnly: Story = {
 		})
 	],
 	render: () => {
-		const [entry, setEntry] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
-			subscribe: (handler: (theme: ThemeEntry<typeof themeMap> | undefined | null) => void) => {
-				handler(themeEntry('grayscale', themeMap))
+			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined | null) => void) => {
+				handler(themeEntry('grayscale', themes))
 				return () => {}
 			}
-		} satisfies ThemeStore<typeof themeMap>
+		} satisfies ThemeStore<typeof themes>
 
 		useEffect(() => {
 			return store.subscribe(setEntry)

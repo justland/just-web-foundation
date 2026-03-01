@@ -16,7 +16,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	grayscale: 'theme-grayscale'
 } as const
@@ -43,17 +43,17 @@ export const ReadOnly: Story = {
 		showSource({
 			source: dedent`
 				const store: AsyncThemeStore = {
-					read: async () => themeEntry('grayscale', themeMap)
+					read: async () => themeEntry('grayscale', themes)
 				}
 				await store.read()
 			`
 		})
 	],
 	render: () => {
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
-			read: async () => themeEntry('grayscale', themeMap)
-		} satisfies AsyncThemeStore<typeof themeMap>
+			read: async () => themeEntry('grayscale', themes)
+		} satisfies AsyncThemeStore<typeof themes>
 
 		useEffect(() => {
 			void store.read?.().then(setResult)
@@ -88,20 +88,20 @@ export const WriteOnly: Story = {
 				const store: AsyncThemeStore = {
 					write: async (entry) => { /* persist */ }
 				}
-				await store.write?.(themeEntry('grayscale', themeMap))
+				await store.write?.(themeEntry('grayscale', themes))
 			`
 		})
 	],
 	render: () => {
-		const [entry, setEntry] = useState<ThemeEntry<typeof themeMap> | undefined>(undefined)
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined>(undefined)
 		const store = {
-			write: async (e: ThemeEntry<typeof themeMap> | undefined) => {
+			write: async (e: ThemeEntry<typeof themes> | undefined) => {
 				setEntry(e)
 			}
-		} satisfies AsyncThemeStore<typeof themeMap>
+		} satisfies AsyncThemeStore<typeof themes>
 
 		useEffect(() => {
-			void store.write?.(themeEntry('grayscale', themeMap))
+			void store.write?.(themeEntry('grayscale', themes))
 		}, [])
 
 		return (
@@ -148,13 +148,13 @@ export const SubscribeOnly: Story = {
 		})
 	],
 	render: () => {
-		const [entry, setEntry] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
-			subscribe: (handler: (theme: ThemeEntry<typeof themeMap> | undefined | null) => void) => {
-				handler(themeEntry('grayscale', themeMap))
+			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined | null) => void) => {
+				handler(themeEntry('grayscale', themes))
 				return () => {}
 			}
-		} satisfies AsyncThemeStore<typeof themeMap>
+		} satisfies AsyncThemeStore<typeof themes>
 
 		useEffect(() => {
 			return store.subscribe?.(setEntry)

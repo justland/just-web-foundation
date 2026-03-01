@@ -12,7 +12,7 @@ export type GetThemeFromCookieOptions = {
 
 export type CookieThemeStoreOptions<Themes extends ThemeMap> = {
 	cookieName: string
-	themeMap: Themes
+	themes: Themes
 	path?: string | undefined
 	maxAge?: number | undefined
 	sameSite?: 'lax' | 'strict' | 'none' | undefined
@@ -58,7 +58,7 @@ function deleteCookie(name: string, path = '/') {
  * supported (cookies have no StorageEvent).
  *
  * @param options.cookieName - Cookie name for theme storage
- * @param options.themeMap - Record mapping theme keys to values (for validation)
+ * @param options.themes - Record mapping theme keys to values (for validation)
  * @param options.path - Cookie path (default: '/')
  * @param options.maxAge - Cookie max-age in seconds
  * @param options.sameSite - Cookie sameSite attribute
@@ -69,7 +69,7 @@ function deleteCookie(name: string, path = '/') {
  * ```ts
  * const store = cookieThemeStore({
  *   cookieName: 'theme',
- *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
+ *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.read()
  * store.write(themeEntry('grayscale', themeMap))
@@ -79,7 +79,7 @@ function deleteCookie(name: string, path = '/') {
 export function cookieThemeStore<Themes extends ThemeMap>(
 	options: CookieThemeStoreOptions<Themes>
 ): Required<ThemeStore<Themes>> {
-	const { cookieName, themeMap, path = '/', maxAge, sameSite, secure } = options
+	const { cookieName, themes, path = '/', maxAge, sameSite, secure } = options
 
 	if (document.cookie === undefined) {
 		return dummyThemeStore
@@ -90,9 +90,9 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = getCookieValue(cookieName)
-		const theme = parseStoredTheme(stored, themeMap)
+		const theme = parseStoredTheme(stored, themes)
 		if (theme === undefined) return undefined
-		return themeEntry(theme, themeMap)
+		return themeEntry(theme, themes)
 	}
 
 	function notify() {
@@ -146,25 +146,25 @@ function getCookieFromHeader(cookieHeader: string, name: string): string | null 
  * a framework's cookie API (e.g. Next.js cookies()).
  *
  * @param cookieSource - Raw Cookie header string, or a getter (name) => value for framework APIs
- * @param themeMap - Record mapping theme keys to values (for validation)
+ * @param themes - Record mapping theme keys to values (for validation)
  * @param options - Optional cookie name (default: 'theme')
  * @returns ThemeEntry if valid cookie found, otherwise undefined
  *
  * @example
  * ```ts
  * // With raw Cookie header (Express, Remix, etc.)
- * const theme = getThemeFromCookie(request.headers.get('Cookie') ?? '', themeMap)
+ * const theme = getThemeFromCookie(request.headers.get('Cookie') ?? '', themes)
  *
  * // With Next.js cookies()
  * const theme = getThemeFromCookie(
  *   (name) => cookies().get(name)?.value ?? undefined,
- *   themeMap
+ *   themes
  * )
  * ```
  */
 export function getThemeFromCookie<Themes extends ThemeMap>(
 	cookieSource: string | null | undefined | ((name: string) => string | null | undefined),
-	themeMap: Themes,
+	themes: Themes,
 	options: GetThemeFromCookieOptions = {}
 ): ThemeEntry<Themes> | undefined {
 	const cookieName = options.cookieName ?? 'theme'
@@ -174,7 +174,7 @@ export function getThemeFromCookie<Themes extends ThemeMap>(
 			: cookieSource
 				? getCookieFromHeader(cookieSource, cookieName)
 				: null
-	const theme = parseStoredTheme(stored, themeMap)
+	const theme = parseStoredTheme(stored, themes)
 	if (theme === undefined) return undefined
-	return themeEntry(theme, themeMap)
+	return themeEntry(theme, themes)
 }

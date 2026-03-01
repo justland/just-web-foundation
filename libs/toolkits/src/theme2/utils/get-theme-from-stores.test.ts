@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { getThemeFromStores, inMemoryThemeStore, themeEntry } from './index.ts'
+import { inMemoryThemeStore, themeEntry } from '../index.ts'
+import { getThemeFromStores } from './get-theme-from-stores.ts'
 
 const themeMap = {
 	current: 'current',

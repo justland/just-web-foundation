@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import { inMemoryThemeStore, observeThemeFromStores, themeEntry } from './index.ts'
+import { inMemoryThemeStore, themeEntry } from '../index.ts'
+import { observeThemeFromStores } from './observe-theme-from-stores.ts'
 
 const themeMap = {
 	current: 'current',

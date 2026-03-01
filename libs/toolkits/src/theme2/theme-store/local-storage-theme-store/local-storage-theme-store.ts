@@ -7,7 +7,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
 
 export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
 	storageKey: string
-	themeMap: Themes
+	themes: Themes
 }
 
 /**
@@ -17,14 +17,14 @@ export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
  * Same-tab writes trigger manual notify (StorageEvent does not fire for same tab).
  *
  * @param options.storageKey - localStorage key
- * @param options.themeMap - Record mapping theme keys to values (for validation)
+ * @param options.themes - Record mapping theme keys to values (for validation)
  * @returns ThemeStore
  *
  * @example
  * ```ts
  * const store = localStorageThemeStore({
  *   storageKey: 'theme',
- *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
+ *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
  * store.read() // returns themeResult from localStorage
  * store.write(themeEntry('grayscale', themeMap))
@@ -34,7 +34,7 @@ export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
 export function localStorageThemeStore<Themes extends ThemeMap>(
 	options: LocalStorageThemeStoreOptions<Themes>
 ) {
-	const { storageKey, themeMap } = options
+	const { storageKey, themes } = options
 
 	if (typeof window === 'undefined' || !window.localStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>
@@ -45,9 +45,9 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = window.localStorage.getItem(storageKey)
-		const theme = parseStoredTheme(stored, themeMap)
+		const theme = parseStoredTheme(stored, themes)
 		if (theme === undefined) return undefined
-		return themeEntry(theme, themeMap)
+		return themeEntry(theme, themes)
 	}
 
 	function notify() {

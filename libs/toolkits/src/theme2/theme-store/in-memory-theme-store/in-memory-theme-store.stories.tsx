@@ -15,7 +15,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'In-memory theme store. Transient state; no persistence. Bakes themeMap at creation; read/write/subscribe use theme keys only.'
+				'In-memory theme store. Transient state; no persistence. Bakes themes at creation; read/write/subscribe use theme keys only.'
 		}
 	}),
 	render: () => <></>
@@ -25,14 +25,14 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const themeMap = {
+const themes = {
 	current: 'theme-current',
 	next: 'theme-next',
 	grayscale: 'theme-grayscale',
 	'high-contrast': 'theme-high-contrast'
 } as const
 
-type ExampleTheme = keyof typeof themeMap
+type ExampleTheme = keyof typeof themes
 
 export const Playground: Story = {
 	tags: ['playground'],
@@ -46,14 +46,14 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
-				<ThemeStoreDemo2 store={store} themes={themeMap} />
+				const store = inMemoryThemeStore<typeof themes>()
+				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
-		return <ThemeStoreDemo2 store={store} themes={themeMap} />
+		const store = inMemoryThemeStore<typeof themes>()
+		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
 		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
@@ -80,15 +80,15 @@ export const ThemeMapOption: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
-				store.write(themeResult('current', themeMap))
+				const store = inMemoryThemeStore<typeof themes>()
+				store.write(themeResult('current', themes))
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>()
-			store.write(themeEntry('current', themeMap))
+			const store = inMemoryThemeStore<typeof themes>()
+			store.write(themeEntry('current', themes))
 			return { store }
 		}
 	],
@@ -100,7 +100,7 @@ export const ThemeMapOption: Story = {
 					<ThemeResultCard
 						title="store.read() result"
 						data-testid="store-read-result"
-						result={result ?? { theme: 'current', value: themeMap.current }}
+						result={result ?? { theme: 'current', value: themes.current }}
 					/>
 				</StoryCard>
 			</div>
@@ -113,11 +113,11 @@ export const ThemeMapOption: Story = {
 }
 
 export const ThemeMapStringValue: Story = {
-	name: 'themeMap: string value',
+	name: 'themes: string value',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'themeMap values can be a single string per theme.'
+			story: 'themes values can be a single string per theme.'
 		}
 	}),
 	decorators: [
@@ -126,20 +126,20 @@ export const ThemeMapStringValue: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast',
+					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themeMap>()
+				const store = inMemoryThemeStore<typeof themes>()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>()
-			store.write(themeEntry('current', themeMap))
+			const store = inMemoryThemeStore<typeof themes>()
+			store.write(themeEntry('current', themes))
 			return { store }
 		}
 	],
@@ -150,7 +150,7 @@ export const ThemeMapStringValue: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'current', value: themeMap.current }}
+					result={result ?? { theme: 'current', value: themes.current }}
 				/>
 			</div>
 		)
@@ -161,19 +161,19 @@ export const ThemeMapStringValue: Story = {
 	}
 }
 
-const themeMapArray = {
+const themesArray = {
 	current: 'theme-current',
 	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
 	'high-contrast': 'theme-high-contrast'
 } as const
 
 export const ThemeMapArrayValues: Story = {
-	name: 'themeMap: array values',
+	name: 'themes: array values',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'themeMap values can be string[] for multiple tokens. ThemeResult.value stores the full array.'
+				'themes values can be string[] for multiple tokens. ThemeResult.value stores the full array.'
 		}
 	}),
 	decorators: [
@@ -187,20 +187,20 @@ export const ThemeMapArrayValues: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themeMap = {
+				const themes = {
 					current: 'theme-current',
 					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast',
+					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themeMap>()
+				const store = inMemoryThemeStore<typeof themes>()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMapArray>()
-			store.write(themeEntry('grayscale', themeMapArray))
+			const store = inMemoryThemeStore<typeof themesArray>()
+			store.write(themeEntry('grayscale', themesArray))
 			return { store }
 		}
 	],
@@ -211,7 +211,7 @@ export const ThemeMapArrayValues: Story = {
 				<ThemeResultCard
 					title="store.read() result"
 					data-testid="store-read-result"
-					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
+					result={result ?? { theme: 'grayscale', value: themesArray.grayscale }}
 				/>
 			</div>
 		)
@@ -236,16 +236,16 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
-				store.write(themeResult('grayscale', themeMap))
+				const store = inMemoryThemeStore<typeof themes>()
+				store.write(themeResult('grayscale', themes))
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themeMap>()
-			store.write(themeEntry('grayscale', themeMap))
+			const store = inMemoryThemeStore<typeof themes>()
+			store.write(themeEntry('grayscale', themes))
 			return { store }
 		}
 	],
@@ -255,7 +255,7 @@ export const Read: Story = {
 			<ThemeResultCard
 				title="store.read() result"
 				data-testid="store-read-result"
-				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
+				result={result ?? { theme: 'grayscale', value: themes.grayscale }}
 			/>
 		)
 	},
@@ -279,13 +279,13 @@ export const ReadWhenEmpty: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
+				const store = inMemoryThemeStore<typeof themes>()
 				const theme = store.read() // undefined when empty
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
+		const store = inMemoryThemeStore<typeof themes>()
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -314,13 +314,13 @@ export const WriteStory: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
-				store.write(themeResult('high-contrast', themeMap))
+				const store = inMemoryThemeStore<typeof themes>()
+				store.write(themeResult('high-contrast', themes))
 			`
 		})
 	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themeMap>()
+		const store = inMemoryThemeStore<typeof themes>()
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | undefined>(() => {
 			const r = store.read()
 			return r?.theme
@@ -329,12 +329,12 @@ export const WriteStory: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
+					{(Object.keys(themes) as ExampleTheme[]).map((theme) => (
 						<Button
 							key={theme}
 							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.write(themeEntry(theme, themeMap))
+								store.write(themeEntry(theme, themes))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -347,8 +347,8 @@ export const WriteStory: Story = {
 					data-testid="store-write-result"
 					result={
 						currentTheme
-							? { theme: currentTheme, value: themeMap[currentTheme] }
-							: { theme: 'current', value: themeMap.current }
+							? { theme: currentTheme, value: themes[currentTheme] }
+							: { theme: 'current', value: themes.current }
 					}
 				/>
 			</div>
@@ -375,7 +375,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
+				const store = inMemoryThemeStore<typeof themes>()
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
@@ -383,8 +383,8 @@ export const Subscribe: Story = {
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useEffect(() => {
 			return store.subscribe(setResult)
@@ -396,13 +396,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-high-contrast"
-						onClick={() => store.write(themeEntry('high-contrast', themeMap))}
+						onClick={() => store.write(themeEntry('high-contrast', themes))}
 					>
 						write('high-contrast')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themeMap))}
+						onClick={() => store.write(themeEntry('current', themes))}
 					>
 						write('current')
 					</Button>
@@ -410,7 +410,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themes)}
 				/>
 			</div>
 		)
@@ -441,17 +441,17 @@ export const SubscribeUnsubscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themeMap>()
+				const store = inMemoryThemeStore<typeof themes>()
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				store.write(themeResult('grayscale', themeMap))
+				store.write(themeResult('grayscale', themes))
 				unsubscribe()
-				store.write(themeResult('current', themeMap)) // handler not called
+				store.write(themeResult('current', themes)) // handler not called
 			`
 		})
 	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
-		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
+		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const unSubRef = useRef<(() => void) | null>(null)
 
 		useEffect(() => {
@@ -469,13 +469,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store.write(themeEntry('grayscale', themeMap))}
+						onClick={() => store.write(themeEntry('grayscale', themes))}
 					>
 						write('grayscale')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themeMap))}
+						onClick={() => store.write(themeEntry('current', themes))}
 					>
 						write('current')
 					</Button>
@@ -492,7 +492,7 @@ export const SubscribeUnsubscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themeMap)}
+					result={themeEntry(displayTheme, themes)}
 				/>
 			</div>
 		)
