@@ -37,7 +37,6 @@ export function inMemoryThemeStore<Themes extends ThemeMap>() {
 		},
 		subscribe(handler) {
 			listeners.add(handler)
-			handler(read())
 			return () => {
 				listeners.delete(handler)
 			}

@@ -74,7 +74,6 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 		},
 		subscribe(handler) {
 			handlers.add(handler)
-			handler(read())
 
 			const onStorage = (e: StorageEvent) => {
 				if (e.key === storageKey && e.storageArea === window.localStorage) notify()

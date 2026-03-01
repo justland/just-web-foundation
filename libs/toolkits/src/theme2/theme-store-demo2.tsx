@@ -12,8 +12,8 @@ export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	/** Theme keys to show as "Write X" buttons. Defaults to first 3 keys from themes. */
-	setThemeKeys?: (keyof Themes)[]
-	'data-testid'?: string
+	setThemeKeys?: (keyof Themes)[] | undefined
+	'data-testid'?: string | undefined
 }
 
 /**
@@ -34,6 +34,10 @@ export function ThemeStoreDemo2<Themes extends ThemeMap>({
 
 	const keys = (setThemeKeys ??
 		(Object.keys(themes) as (keyof Themes)[]).slice(0, 3)) as (keyof Themes)[]
+
+	useEffect(() => {
+		void Promise.resolve(store.read?.()).then((r) => setObservedResult(r ?? undefined))
+	}, [store])
 
 	useEffect(() => {
 		return store.subscribe?.(setObservedResult)

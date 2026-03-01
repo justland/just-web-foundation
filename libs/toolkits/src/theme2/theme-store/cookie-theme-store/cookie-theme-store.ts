@@ -128,7 +128,6 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 		},
 		subscribe(handler) {
 			handlers.add(handler)
-			handler(read())
 			return () => {
 				handlers.delete(handler)
 			}

@@ -539,7 +539,7 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when the data attribute changes.'
+				'store.subscribe() calls the handler when the data attribute changes (no initial notify).'
 		}
 	}),
 	decorators: [

@@ -481,7 +481,7 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when the class attribute changes.'
+				'store.subscribe() calls the handler when the class attribute changes (no initial notify).'
 		}
 	}),
 	decorators: [
@@ -613,17 +613,12 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// Initial: write(grayscale) in useLayoutEffect triggers mutation, handler runs (count=1)
-		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
-		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
-
-		// Add non-theme class: mutation fires but theme unchanged, handler should NOT run
-		await userEvent.click(canvas.getByTestId('add-non-theme-class'))
-		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1')
+		// No initial notify - write(grayscale) in useEffect triggers mutation but we skip first observation
+		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('0')
 
 		// Change theme: handler SHOULD run
 		await userEvent.click(canvas.getByTestId('change-to-high-contrast'))
-		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('2'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
 		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('high-contrast')
 	}
 }

@@ -74,7 +74,6 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		},
 		subscribe(handler) {
 			handlers.add(handler)
-			handler(read())
 
 			const onStorage = (e: StorageEvent) => {
 				if (e.key === storageKey && e.storageArea === window.sessionStorage) notify()

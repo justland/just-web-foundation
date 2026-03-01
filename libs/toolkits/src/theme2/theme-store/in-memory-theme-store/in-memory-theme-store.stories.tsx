@@ -368,8 +368,7 @@ export const Subscribe: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story:
-				'store.subscribe() calls the handler with the current theme immediately and when write() is called.'
+			story: 'store.subscribe() calls the handler when write() is called (no initial notify).'
 		}
 	}),
 	decorators: [
@@ -417,7 +416,7 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// Handler receives undefined initially, then we trigger multiple updates
+		// No initial notify; handler fires on first write
 		await userEvent.click(canvas.getByTestId('write-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

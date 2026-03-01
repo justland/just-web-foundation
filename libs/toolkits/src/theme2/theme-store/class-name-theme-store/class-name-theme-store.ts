@@ -58,7 +58,6 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 
 						if (lastEmitted === null) {
 							lastEmitted = key
-							handler(entry)
 							return
 						}
 						if (lastEmitted === key) return

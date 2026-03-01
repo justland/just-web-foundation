@@ -432,7 +432,7 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when storage changes in same tab.'
+				'store.subscribe() calls the handler when storage changes in same tab (no initial notify).'
 		}
 	}),
 	decorators: [
@@ -591,12 +591,12 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// subscribe() calls handler(read()) initially - count=1
-		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
+		// No initial notify - count starts at 0
+		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('0')
 
-		// write(grayscale) twice: first write notifies (count=2), second write should NOT notify (count stays 2)
+		// write(grayscale) twice: first write notifies (count=1), second write should NOT notify (count stays 1)
 		await userEvent.click(canvas.getByTestId('write-grayscale-twice'))
-		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('2'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
 		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
 	}
 }
