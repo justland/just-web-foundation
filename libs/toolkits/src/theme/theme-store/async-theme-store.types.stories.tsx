@@ -7,7 +7,7 @@ import { type AsyncThemeStore, type ThemeEntry, themeEntry } from '../index.ts'
 import source from './async-theme-store.types.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/AsyncThemeStore',
+	title: 'theme/theme-store/AsyncThemeStore',
 	tags: ['type', 'version:next'],
 	render: () => <></>
 } satisfies Meta

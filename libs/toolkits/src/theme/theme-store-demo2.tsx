@@ -17,7 +17,7 @@ export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 }
 
 /**
- * Demo component that uses theme2 store.read, store.write, and store.subscribe.
+ * Demo component that uses theme store.read, store.write, and store.subscribe.
  * Renders observed value, a one-time read result, and buttons to trigger read/write for showcasing behavior.
  * All interactive elements and result areas use data-testid for testing.
  */

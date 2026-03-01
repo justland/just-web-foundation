@@ -5,17 +5,16 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
+import { sessionStorageThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
-import source from './in-memory-theme-store.ts?raw'
+import source from './session-storage-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/inMemoryThemeStore',
+	title: 'theme/theme-store/sessionStorageThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
-			component:
-				'In-memory theme store. Transient state; no persistence. Bakes themes at creation; read/write/subscribe use theme keys only.'
+			component: 'Theme store backed by sessionStorage. Persists per tab. Bakes themes at creation.'
 		}
 	}),
 	render: () => <></>
@@ -34,6 +33,8 @@ const themes = {
 
 type ExampleTheme = keyof typeof themes
 
+const STORAGE_KEY = 'theme-ss-demo'
+
 export const Playground: Story = {
 	tags: ['playground'],
 	parameters: defineDocsParam({
@@ -46,13 +47,25 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({
+					storageKey: 'app-theme',
+					themes: themes
+				})
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
+		const store = sessionStorageThemeStore<typeof themes>({
+			storageKey: STORAGE_KEY,
+			themes: themes
+		})
 		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
@@ -66,43 +79,53 @@ export const Playground: Story = {
 	}
 }
 
-export const ThemeMapOption: Story = {
-	name: 'Themes type param',
+export const StorageKey: Story = {
+	name: 'storageKey',
 	tags: ['use-case', 'props'],
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Pass <code>Themes</code> as the type parameter to define valid theme keys and their
-					values.
+					Pass <code>options.storageKey</code> to determine the sessionStorage key used for
+					persistence per tab.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
-				store.write(themeResult('current', themes))
+				const store = sessionStorageThemeStore({
+					storageKey: 'app-theme',
+					themes: themes
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = sessionStorageThemeStore<typeof themes>({
+				storageKey: STORAGE_KEY,
+				themes: themes
+			})
 			store.write(themeEntry('current', themes))
-			return { store }
+			return {}
 		}
 	],
-	render: (_, { loaded: { store } }) => {
+	render: () => {
+		const store = sessionStorageThemeStore<typeof themes>({
+			storageKey: STORAGE_KEY,
+			themes: themes
+		})
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="store.read() after write" appearance="output">
-					<ThemeResultCard
-						title="store.read() result"
-						data-testid="store-read-result"
-						result={result ?? { theme: 'current', value: themes.current }}
-					/>
+				<StoryCard title="sessionStorage key" appearance="output">
+					<code>{STORAGE_KEY}</code>
 				</StoryCard>
+				<ThemeResultCard
+					title="store.read() result"
+					data-testid="store-read-result"
+					result={result ?? { theme: 'current', value: themes.current }}
+				/>
 			</div>
 		)
 	},
@@ -111,6 +134,8 @@ export const ThemeMapOption: Story = {
 		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
+
+const THEMEMAP_STORAGE_KEY = 'theme-ss-thememap'
 
 export const ThemeMapStringValue: Story = {
 	name: 'themes: string value',
@@ -132,13 +157,20 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({
+					storageKey: 'theme',
+					themes: themes
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			window.sessionStorage.removeItem(THEMEMAP_STORAGE_KEY)
+			const store = sessionStorageThemeStore<typeof themes>({
+				storageKey: THEMEMAP_STORAGE_KEY,
+				themes: themes
+			})
 			store.write(themeEntry('current', themes))
 			return { store }
 		}
@@ -172,16 +204,15 @@ export const ThemeMapArrayValues: Story = {
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
-			story:
-				'themes values can be string[] for multiple tokens. ThemeResult.value stores the full array.'
+			story: 'themes values can be string[]. Stored and retrieved value is the full array.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> is the full
-					array.
+					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> persists the
+					full array.
 				</p>
 			)
 		}),
@@ -193,13 +224,20 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({
+					storageKey: 'theme',
+					themes: themes
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themesArray>()
+			window.sessionStorage.removeItem(THEMEMAP_STORAGE_KEY)
+			const store = sessionStorageThemeStore<typeof themesArray>({
+				storageKey: THEMEMAP_STORAGE_KEY,
+				themes: themesArray
+			})
 			store.write(themeEntry('grayscale', themesArray))
 			return { store }
 		}
@@ -229,27 +267,33 @@ export const Read: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.read() reads the current theme from in-memory state.'
+			story: 'store.read() reads the current theme from sessionStorage.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
-				store.write(themeResult('grayscale', themes))
+				const store = sessionStorageThemeStore({ storageKey: 'theme', themes: themes })
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = inMemoryThemeStore<typeof themes>()
+			const store = sessionStorageThemeStore<typeof themes>({
+				storageKey: STORAGE_KEY,
+				themes: themes
+			})
 			store.write(themeEntry('grayscale', themes))
-			return { store }
+			return {}
 		}
 	],
-	render: (_, { loaded: { store } }) => {
+	render: () => {
+		const store = sessionStorageThemeStore<typeof themes>({
+			storageKey: STORAGE_KEY,
+			themes: themes
+		})
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -272,20 +316,29 @@ export const ReadWhenEmpty: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When no theme has been written, store.read() returns undefined.'
+			story: 'When nothing is stored at the key, store.read() returns undefined.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({ storageKey: 'theme-get', themes: themes })
 				const theme = store.read() // undefined when empty
 			`
 		})
 	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
+		const store = sessionStorageThemeStore<typeof themes>({
+			storageKey: STORAGE_KEY,
+			themes: themes
+		})
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -307,23 +360,32 @@ export const WriteStory: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.write() updates the in-memory theme and notifies subscribers.'
+			story: 'store.write() persists the theme to sessionStorage (per tab).'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({ storageKey: 'theme', themes: themes })
 				store.write(themeResult('high-contrast', themes))
 			`
 		})
 	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
 	render: () => {
-		const store = inMemoryThemeStore<typeof themes>()
-		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | undefined>(() => {
+		const store = sessionStorageThemeStore<typeof themes>({
+			storageKey: STORAGE_KEY,
+			themes: themes
+		})
+		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
 			const r = store.read()
-			return r?.theme
+			return r?.theme ?? null
 		})
 
 		return (
@@ -333,7 +395,7 @@ export const WriteStory: Story = {
 						<Button
 							key={theme}
 							data-testid={`write-${theme}`}
-							onClick={() => {
+							onPress={() => {
 								store.write(themeEntry(theme, themes))
 								setCurrentTheme(theme)
 							}}
@@ -368,26 +430,44 @@ export const Subscribe: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.subscribe() calls the handler when write() is called (no initial notify).'
+			story:
+				'store.subscribe() calls the handler when storage changes in same tab (no initial notify).'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({ storageKey: 'theme', themes: themes })
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
 			`
 		})
 	],
+	loaders: [
+		() => {
+			const store = sessionStorageThemeStore<typeof themes>({
+				storageKey: STORAGE_KEY,
+				themes: themes
+			})
+			store.write(themeEntry('grayscale', themes))
+			return {}
+		}
+	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store = useMemo(
+			() =>
+				sessionStorageThemeStore<typeof themes>({
+					storageKey: STORAGE_KEY,
+					themes: themes
+				}),
+			[]
+		)
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useEffect(() => {
-			return store.subscribe(setResult)
+			return store.subscribe!(setResult)
 		}, [store])
 
 		const displayTheme = result?.theme ?? 'current'
@@ -396,13 +476,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-high-contrast"
-						onClick={() => store.write(themeEntry('high-contrast', themes))}
+						onPress={() => store.write(themeEntry('high-contrast', themes))}
 					>
 						write('high-contrast')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themes))}
+						onPress={() => store.write(themeEntry('current', themes))}
 					>
 						write('current')
 					</Button>
@@ -416,7 +496,7 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// No initial notify; handler fires on first write
+		// Handler receives grayscale from loader, then we trigger multiple updates
 		await userEvent.click(canvas.getByTestId('write-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
@@ -425,6 +505,98 @@ export const Subscribe: Story = {
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('current')
 		)
+	}
+}
+
+export const SubscribeOnlyWhenThemeChanges: Story = {
+	name: 'subscribe: only when themeEntry changes',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'The handler is only invoked when the resolved themeEntry changes. Writing the same theme again does not trigger the handler.'
+		}
+	}),
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				const store = sessionStorageThemeStore({ storageKey: 'theme', themes: themes })
+				store.subscribe((entry) => {
+					invocationCount++
+					setObserved(entry)
+				})
+				store.write(themeEntry('grayscale', themes)) // handler runs
+				store.write(themeEntry('grayscale', themes)) // handler NOT run (same theme)
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
+	render: () => {
+		const store = useMemo(
+			() =>
+				sessionStorageThemeStore<typeof themes>({
+					storageKey: STORAGE_KEY,
+					themes: themes
+				}),
+			[]
+		)
+		const [invocationCount, setInvocationCount] = useState(0)
+		const [observed, setObserved] = useState<ThemeEntry<typeof themes> | undefined | null>(null)
+
+		useEffect(() => {
+			return store.subscribe!((entry) => {
+				setInvocationCount((c) => c + 1)
+				setObserved(entry)
+			})
+		}, [store])
+
+		const displayTheme = observed?.theme ?? '(none)'
+		return (
+			<div className="flex flex-col gap-4" data-testid="subscribe-only-when-theme-changes">
+				<StoryCard title="Handler invocations" appearance="output">
+					<pre data-testid="invocation-count" className="font-mono">
+						{invocationCount}
+					</pre>
+				</StoryCard>
+				<StoryCard title="Observed theme" appearance="output">
+					<pre data-testid="observed-theme" className="font-mono">
+						{displayTheme}
+					</pre>
+				</StoryCard>
+				<div className="flex flex-wrap gap-2">
+					<Button
+						data-testid="write-grayscale-twice"
+						onPress={() => {
+							store.write(themeEntry('grayscale', themes))
+							store.write(themeEntry('grayscale', themes))
+						}}
+					>
+						write(grayscale) twice
+					</Button>
+					<Button
+						data-testid="write-high-contrast"
+						onPress={() => store.write(themeEntry('high-contrast', themes))}
+					>
+						write(high-contrast)
+					</Button>
+				</div>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		// No initial notify - count starts at 0
+		await expect(canvas.getByTestId('invocation-count')).toHaveTextContent('0')
+
+		// write(grayscale) twice: first write notifies (count=1), second write should NOT notify (count stays 1)
+		await userEvent.click(canvas.getByTestId('write-grayscale-twice'))
+		await waitFor(() => expect(canvas.getByTestId('invocation-count')).toHaveTextContent('1'))
+		await expect(canvas.getByTestId('observed-theme')).toHaveTextContent('grayscale')
 	}
 }
 
@@ -441,7 +613,7 @@ export const SubscribeUnsubscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = inMemoryThemeStore<typeof themes>()
+				const store = sessionStorageThemeStore({ storageKey: 'theme', themes: themes })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
 				store.write(themeResult('grayscale', themes))
 				unsubscribe()
@@ -449,17 +621,30 @@ export const SubscribeUnsubscribe: Story = {
 			`
 		})
 	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(STORAGE_KEY)
+			return {}
+		}
+	],
 	render: () => {
-		const store = useMemo(() => inMemoryThemeStore<typeof themes>(), [])
+		const store = useMemo(
+			() =>
+				sessionStorageThemeStore<typeof themes>({
+					storageKey: STORAGE_KEY,
+					themes: themes
+				}),
+			[]
+		)
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
-		const unSubRef = useRef<(() => void) | null>(null)
+		const unsubRef = useRef<(() => void) | null>(null)
 
 		useEffect(() => {
-			if (unSubRef.current) return
-			unSubRef.current = store.subscribe!(setResult)
+			if (unsubRef.current) return
+			unsubRef.current = store.subscribe!(setResult)
 			return () => {
-				unSubRef.current?.()
-				unSubRef.current = null
+				unsubRef.current?.()
+				unsubRef.current = null
 			}
 		}, [store])
 
@@ -469,21 +654,21 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store.write(themeEntry('grayscale', themes))}
+						onPress={() => store.write(themeEntry('grayscale', themes))}
 					>
 						write('grayscale')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themes))}
+						onPress={() => store.write(themeEntry('current', themes))}
 					>
 						write('current')
 					</Button>
 					<Button
 						data-testid="unsubscribe"
-						onClick={() => {
-							unSubRef.current?.()
-							unSubRef.current = null
+						onPress={() => {
+							unsubRef.current?.()
+							unsubRef.current = null
 						}}
 					>
 						unsubscribe()

@@ -4,7 +4,7 @@ import dedent from 'dedent'
 import { useMemo } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../testing/button.tsx'
-import { inMemoryThemeStore, themeEntry } from '../../theme2/index.ts'
+import { inMemoryThemeStore, themeEntry } from '../../theme/index.ts'
 import { createThemeHook } from '../index.ts'
 import code from './create-theme-hook.ts?raw'
 

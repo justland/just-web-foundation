@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { themeEntry } from '../../theme2/theme-entry.ts'
-import type { ThemeMap } from '../../theme2/theme-map.types.ts'
-import type { AsyncThemeStore } from '../../theme2/theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from '../../theme2/theme-store/theme-store.types.ts'
-import { observeThemeFromStores } from '../../theme2/utils/observe-theme-from-stores.ts'
-import { setThemeToStores } from '../../theme2/utils/set-theme-to-stores.ts'
+import { themeEntry } from '../../theme/theme-entry.ts'
+import type { ThemeMap } from '../../theme/theme-map.types.ts'
+import type { AsyncThemeStore } from '../../theme/theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
+import { observeThemeFromStores } from '../../theme/utils/observe-theme-from-stores.ts'
+import { setThemeToStores } from '../../theme/utils/set-theme-to-stores.ts'
 
 /**
  * React hook that returns the current theme (from a theme store) and a setter.

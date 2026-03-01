@@ -7,7 +7,7 @@ import { type ThemeEntry, type ThemeStore, themeEntry } from '../index.ts'
 import source from './theme-store.types.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/ThemeStore',
+	title: 'theme/theme-store/ThemeStore',
 	tags: ['type', 'version:next'],
 	render: () => <></>
 } satisfies Meta

@@ -9,7 +9,7 @@ import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './cookie-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/cookieThemeStore',
+	title: 'theme/theme-store/cookieThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
@@ -31,7 +31,7 @@ const themes = {
 	'high-contrast': 'theme-high-contrast'
 } as const
 
-const COOKIE_NAME = 'theme2-cookie-demo'
+const COOKIE_NAME = 'theme-cookie-demo'
 
 function clearCookie(name: string) {
 	// biome-ignore lint/suspicious/noDocumentCookie: Needed for story cleanup

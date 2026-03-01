@@ -6,7 +6,7 @@ import { themeEntry } from './index.ts'
 import source from './theme-map.types.ts?raw'
 
 const meta = {
-	title: 'theme2/ThemeMap',
+	title: 'theme/ThemeMap',
 	tags: ['type', 'version:next'],
 	render: () => <></>
 } satisfies Meta

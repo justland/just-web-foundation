@@ -16,7 +16,7 @@ import { getThemeFromStores } from './utils/get-theme-from-stores.ts'
 import { setThemeToStores } from './utils/set-theme-to-stores.ts'
 
 const meta = {
-	title: 'theme2/ThemeStore use cases',
+	title: 'theme/ThemeStore use cases',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {

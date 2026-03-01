@@ -10,7 +10,7 @@ import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './local-storage-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/localStorageThemeStore',
+	title: 'theme/theme-store/localStorageThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
@@ -34,7 +34,7 @@ const themes = {
 
 type ExampleTheme = keyof typeof themes
 
-const STORAGE_KEY = 'theme2-ls-demo'
+const STORAGE_KEY = 'theme-ls-demo'
 
 export const Playground: Story = {
 	tags: ['playground'],
@@ -136,7 +136,7 @@ export const StorageKey: Story = {
 	}
 }
 
-const THEMEMAP_STORAGE_KEY = 'theme2-ls-thememap'
+const THEMEMAP_STORAGE_KEY = 'theme-ls-thememap'
 
 export const ThemeMapStringValue: Story = {
 	name: 'themes: string value',

@@ -10,7 +10,7 @@ import { composeThemeStores, inMemoryThemeStore, type ThemeEntry, themeEntry } f
 import { ThemeStoreDemo2 } from './theme-store-demo2.tsx'
 
 const meta = {
-	title: 'theme2/composeThemeStores',
+	title: 'theme/composeThemeStores',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {

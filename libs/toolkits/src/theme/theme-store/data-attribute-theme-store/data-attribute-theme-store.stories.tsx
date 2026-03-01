@@ -12,7 +12,7 @@ import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './data-attribute-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/dataAttributeThemeStore',
+	title: 'theme/theme-store/dataAttributeThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {

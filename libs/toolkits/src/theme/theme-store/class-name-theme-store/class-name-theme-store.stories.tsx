@@ -12,7 +12,7 @@ import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './class-name-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/theme-store/classNameThemeStore',
+	title: 'theme/theme-store/classNameThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
