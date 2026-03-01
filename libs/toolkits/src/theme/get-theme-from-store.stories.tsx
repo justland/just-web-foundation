@@ -2,13 +2,11 @@ import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import {
-	getThemeFromStore,
-	type ThemeMap,
-	type ThemeResult,
-	type ThemeStore
-} from '#just-web/toolkits'
 import { ShowThemeFromStore } from '../testing/show-theme-from-store.tsx'
+import type { ThemeEntry } from '../theme2/theme-entry.types.ts'
+import type { ThemeMap } from '../theme2/theme-map.types.ts'
+import type { AsyncThemeStore } from '../theme2/theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../theme2/theme-store/theme-store.types.ts'
 
 const meta = {
 	title: 'theme/getThemeFromStore',
@@ -16,7 +14,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Gets the theme from a generic store (sync or async). Validates against the themes map and uses the default theme when missing or invalid.'
+				'Gets the theme from stores using getThemeFromStores. Uses the default theme when all stores return empty.'
 		}
 	}),
 	render: () => <></>
@@ -32,29 +30,23 @@ const themes = {
 } as const
 
 function createSyncStore<Themes extends ThemeMap>(
-	initial?: ThemeResult<Themes> | undefined
+	initial?: ThemeEntry<Themes> | undefined
 ): ThemeStore<Themes> {
-	let value = initial
+	const value = initial
 	return {
-		get() {
+		read() {
 			return value
-		},
-		set(result) {
-			value = result
 		}
 	}
 }
 
 function createAsyncStore<Themes extends ThemeMap>(
-	initial?: ThemeResult<Themes> | undefined
-): ThemeStore<Themes> {
-	let value = initial
+	initial?: ThemeEntry<Themes> | undefined
+): AsyncThemeStore<Themes> {
+	const value = initial
 	return {
-		get() {
+		read() {
 			return Promise.resolve(value)
-		},
-		set(result) {
-			value = result
 		}
 	}
 }
@@ -268,17 +260,15 @@ export const InvalidStoredValue: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Returns <code>theme</code> (if provided) or <code>undefined</code> when the stored value
-					is invalid.
+					Uses default theme when the store returns empty or the resolved value has no valid theme
+					key.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const result = await getThemeFromStore({
-					store: { get: () => 'something else' as any },
-					themes: { default: 'text-white', grayscale: 'text-gray-100' },
-				})
+				const store = { read: () => undefined }
+				const theme = await getThemeFromStores([store], 'grayscale')
 			`
 		})
 	],
@@ -286,7 +276,7 @@ export const InvalidStoredValue: Story = {
 		return (
 			<ShowThemeFromStore
 				store={{
-					get: () => 'something else' as any
+					read: () => undefined
 				}}
 				themes={themes}
 				theme="grayscale"
@@ -299,18 +289,5 @@ export const InvalidStoredValue: Story = {
 		await expect(result).toHaveTextContent('grayscale')
 		const resultValue = await canvas.getByTestId('result-value')
 		await expect(resultValue).toHaveTextContent('text-gray-100')
-
-		const warnings: string[] = []
-		const originalWarn = console.warn
-		console.warn = (...args: unknown[]) => {
-			warnings.push(String(args[0]))
-		}
-		await getThemeFromStore({
-			store: { get: () => 'something else' as any },
-			themes,
-			theme: 'grayscale'
-		})
-		console.warn = originalWarn
-		expect(warnings).toContain('The stored theme value is invalid')
 	}
 }

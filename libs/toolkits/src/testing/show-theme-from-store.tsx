@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { getThemeFromStore, type ThemeMap, type ThemeStore } from '#just-web/toolkits'
+import type { ThemeMap } from '../theme2/theme-map.types.ts'
+import type { AsyncThemeStore } from '../theme2/theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../theme2/theme-store/theme-store.types.ts'
+import { getThemeFromStores } from '../theme2/utils/get-theme-from-stores.ts'
 import { ThemeResultCard } from './theme-result-card.tsx'
 
 export function ShowThemeFromStore<Themes extends ThemeMap>({
@@ -8,7 +11,7 @@ export function ShowThemeFromStore<Themes extends ThemeMap>({
 	theme,
 	'data-testid': dataTestId = 'theme-from-store'
 }: {
-	store: ThemeStore<Themes>
+	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	theme?: keyof Themes | null
 	'data-testid'?: string | undefined
@@ -16,10 +19,13 @@ export function ShowThemeFromStore<Themes extends ThemeMap>({
 	const [result, setResult] = useState<
 		{ theme: keyof Themes; value: Themes[keyof Themes] } | undefined
 	>(undefined)
+	const defaultTheme = theme ?? undefined
 
 	useEffect(() => {
-		getThemeFromStore({ store, themes, theme }).then(setResult)
-	}, [store, themes, theme])
+		getThemeFromStores([store], defaultTheme).then((themeKey) => {
+			setResult(themeKey ? { theme: themeKey, value: themes[themeKey] } : undefined)
+		})
+	}, [store, themes, defaultTheme])
 
 	return <ThemeResultCard title="Theme from store" data-testid={dataTestId} result={result} />
 }

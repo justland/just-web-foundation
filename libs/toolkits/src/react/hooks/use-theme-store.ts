@@ -1,24 +1,27 @@
 import { useCallback, useEffect, useState } from 'react'
-import { observeThemeFromStore } from '../../theme/observe-theme-from-store.ts'
-import { setThemeToStore } from '../../theme/set-theme-to-store.ts'
-import type { ThemeMap, ThemeStore } from '../../theme/theme.types.ts'
+import { themeEntry } from '../../theme2/theme-entry.ts'
+import type { ThemeMap } from '../../theme2/theme-map.types.ts'
+import type { AsyncThemeStore } from '../../theme2/theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../../theme2/theme-store/theme-store.types.ts'
+import { observeThemeFromStores } from '../../theme2/utils/observe-theme-from-stores.ts'
+import { setThemeToStores } from '../../theme2/utils/set-theme-to-stores.ts'
 
 /**
  * React hook that returns the current theme (from a theme store) and a setter.
- * Uses get-theme-from-store, set-theme-to-store, and observe-theme-from-store internally.
+ * Uses observeThemeFromStores and setThemeToStores internally.
  * Subscribes to store changes so the returned theme stays in sync.
  *
  * @param options - Configuration options
- * @param options.store - Theme store (get, set, optional subscribe)
+ * @param options.store - Theme store (read, write, optional subscribe)
  * @param options.themes - Record mapping theme keys to their class name values
- * @param options.defaultTheme - Fallback theme key when the store value is missing or invalid
+ * @param options.theme - Fallback theme key when the store value is missing or invalid
  * @returns Tuple of [currentTheme, setTheme]
  *
  * @example
  * ```tsx
- * const store = createThemeStore()
+ * const store = inMemoryThemeStore({ themes })
  * const themes = { light: 'theme-light', dark: 'theme-dark' }
- * const [theme, setTheme] = useThemeStore({ store, themes, defaultTheme: 'light' })
+ * const [theme, setTheme] = useThemeStore({ store, themes, theme: 'light' })
  *
  * return (
  *   <>
@@ -30,32 +33,25 @@ import type { ThemeMap, ThemeStore } from '../../theme/theme.types.ts'
  * ```
  */
 export function useThemeStore<Themes extends ThemeMap>(options: {
-	store: ThemeStore<Themes>
+	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	theme?: keyof Themes | undefined
 }): [keyof Themes | undefined, (theme: keyof Themes) => void] {
 	const { store, themes, theme } = options
 
-	const [result, setResult] = useState<
-		{ theme: keyof Themes; value: Themes[keyof Themes] } | undefined
-	>(undefined)
+	const [currentTheme, setCurrentTheme] = useState<keyof Themes | undefined>(undefined)
 
 	useEffect(() => {
-		const observer = observeThemeFromStore({
-			store,
-			themes,
-			theme,
-			handler: setResult
-		})
-		return () => observer.disconnect()
-	}, [store, themes, theme])
+		const unobserve = observeThemeFromStores([store], theme, setCurrentTheme)
+		return unobserve
+	}, [store, theme])
 
 	const setTheme = useCallback(
 		(themeKey: keyof Themes) => {
-			setThemeToStore({ store, themes, theme: themeKey })
+			setThemeToStores([store], themeEntry(themeKey, themes))
 		},
 		[store, themes]
 	)
 
-	return [result?.theme, setTheme]
+	return [currentTheme, setTheme]
 }

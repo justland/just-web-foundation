@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
-import { observeAttributes } from '../../attributes/observe-attribute.ts'
-import { getThemeByClassName } from '../../theme/get-theme-by-class-name.ts'
-import { setThemeByClassName } from '../../theme/set-theme-by-class-name.ts'
-import type { ThemeMap } from '../../theme/theme.types.ts'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { resolveThemeFromClassName } from '../../theme2/class-name/resolve-theme-from-class-name.ts'
+import { themeEntry } from '../../theme2/theme-entry.ts'
+import type { ThemeMap } from '../../theme2/theme-map.types.ts'
+import { classNameThemeStore } from '../../theme2/theme-store/class-name-theme-store/class-name-theme-store.ts'
+import { observeThemeFromStores } from '../../theme2/utils/observe-theme-from-stores.ts'
+import { setThemeToStores } from '../../theme2/utils/set-theme-to-stores.ts'
 
 /**
  * React hook that returns the current theme (from element class) and a setter.
@@ -36,41 +38,32 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 	const element =
 		options.element ?? (typeof document !== 'undefined' ? document.documentElement : undefined)
 
-	const [theme, setThemeState] = useState<keyof Themes | undefined>(() =>
-		element
-			? getThemeByClassName({ themes: options.themes, theme: options.theme, element })
-			: options.theme
+	const store = useMemo(
+		() => classNameThemeStore({ themes: options.themes, element: element ?? null }),
+		[element, options.themes]
 	)
+
+	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
+		if (element) {
+			const resolved = resolveThemeFromClassName(element.className, options.themes)
+			return resolved ?? options.theme
+		}
+		return options.theme
+	})
 
 	useEffect(() => {
 		if (!element) return
-
-		setThemeState(getThemeByClassName({ themes: options.themes, theme: options.theme, element }))
-
-		const observer = observeAttributes(
-			{
-				class: () => {
-					setThemeState(
-						getThemeByClassName({
-							themes: options.themes,
-							theme: options.theme,
-							element
-						})
-					)
-				}
-			},
-			element
-		)
-		return () => observer.disconnect()
-	}, [element, options.themes, options.theme])
+		const unobserve = observeThemeFromStores([store], options.theme, setThemeState)
+		return unobserve
+	}, [element, store, options.theme])
 
 	const setTheme = useCallback(
 		(themeKey: keyof Themes) => {
 			if (element) {
-				setThemeByClassName({ themes: options.themes, theme: themeKey, element })
+				setThemeToStores([store], themeEntry(themeKey, options.themes))
 			}
 		},
-		[element, options.themes]
+		[element, store, options.themes]
 	)
 
 	return [theme, setTheme]

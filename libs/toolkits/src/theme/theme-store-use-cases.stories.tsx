@@ -2,19 +2,19 @@ import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobudd
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { atom, createStore } from 'jotai'
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { createStore as createZustandStore } from 'zustand/vanilla'
-import {
-	getThemeFromStore,
-	observeThemeFromStore,
-	setThemeToStore,
-	type ThemeResult,
-	type ThemeStore
-} from '#just-web/toolkits'
 import { useThemeStore } from '#just-web/toolkits/react'
 import { ShowThemeFromStore } from '../testing/show-theme-from-store.tsx'
 import { ThemeStoreDemo } from '../testing/theme-store-demo.tsx'
+import { themeEntry } from '../theme2/theme-entry.ts'
+import type { ThemeEntry } from '../theme2/theme-entry.types.ts'
+import type { AsyncThemeStore } from '../theme2/theme-store/async-theme-store.types.ts'
+import { inMemoryThemeStore } from '../theme2/theme-store/in-memory-theme-store/in-memory-theme-store.ts'
+import type { ThemeStore } from '../theme2/theme-store/theme-store.types.ts'
+import { getThemeFromStores } from '../theme2/utils/get-theme-from-stores.ts'
+import { setThemeToStores } from '../theme2/utils/set-theme-to-stores.ts'
 
 const meta = {
 	title: 'theme/ThemeStore use cases',
@@ -38,22 +38,22 @@ const themes = {
 
 // --- Mock Backend API use case (simulated delay, no real HTTP) ---
 function createBackendStore(
-	initial: ThemeResult<typeof themes>,
+	initial: ThemeEntry<typeof themes> | undefined,
 	delayMs = 50
-): ThemeStore<typeof themes> {
+): AsyncThemeStore<typeof themes> {
 	let value = initial
-	const listeners: Array<() => void> = []
+	const listeners: Array<(entry: ThemeEntry<typeof themes> | undefined | null) => void> = []
 	return {
-		get() {
-			return new Promise<ThemeResult<typeof themes>>((resolve) => {
-				setTimeout(() => resolve(value), delayMs)
+		async read() {
+			return new Promise((resolve) => {
+				setTimeout(() => resolve(value ?? undefined), delayMs)
 			})
 		},
-		set(result) {
-			return new Promise<void>((resolve) => {
+		async write(entry) {
+			return new Promise((resolve) => {
 				setTimeout(() => {
-					value = result
-					for (const fn of listeners) fn()
+					value = entry ?? undefined
+					for (const fn of listeners) fn(entry ?? null)
 					resolve()
 				}, delayMs)
 			})
@@ -88,8 +88,8 @@ export const WithBackendStore: Story = {
 		showSource({
 			source: dedent`
 				const store = createBackendStore(undefined, 50)
-				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-				await setThemeToStore({ store, themes, theme: 'grayscale' })
+				const theme = await getThemeFromStores([store], 'default')
+				await setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})
 	],
@@ -148,39 +148,12 @@ export const WithBackendStore: Story = {
 	}
 }
 
-function createInMemoryStore(initial: ThemeResult<typeof themes>): ThemeStore<typeof themes> {
-	let value = initial
-	return {
-		get() {
-			return value
-		},
-		set(result) {
-			value = result
-		}
-	}
-}
-
 function createInMemoryStoreWithSubscribe(
-	initial: ThemeResult<typeof themes>
+	initial: ThemeEntry<typeof themes> | undefined
 ): ThemeStore<typeof themes> {
-	let value = initial
-	const listeners: Array<() => void> = []
-	return {
-		get() {
-			return value
-		},
-		set(result) {
-			value = result
-			for (const fn of listeners) fn()
-		},
-		subscribe(handler) {
-			listeners.push(handler)
-			return () => {
-				const i = listeners.indexOf(handler)
-				if (i !== -1) listeners.splice(i, 1)
-			}
-		}
-	}
+	const store = inMemoryThemeStore<typeof themes>()
+	if (initial) store.write(initial)
+	return store
 }
 
 export const InMemoryStore: Story = {
@@ -194,23 +167,18 @@ export const InMemoryStore: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = {
-				  get: () => ({ theme: 'grayscale', value: 'text-gray-100' }),
-				  set: () => {},
-				}
-				const result = await getThemeFromStore({
-				  store,
-				  themes: { default: 'text-white', grayscale: 'text-gray-100' },
-				  theme: 'default',
-				})
+				const store = inMemoryThemeStore()
+				store.write(themeEntry('grayscale', themes))
+				const theme = await getThemeFromStores([store], 'default')
 			`
 		})
 	],
 	render: () => {
-		const store = createInMemoryStore({
-			theme: 'grayscale',
-			value: 'text-gray-100'
-		})
+		const store = useMemo(() => {
+			const s = inMemoryThemeStore<typeof themes>()
+			s.write(themeEntry('grayscale', themes))
+			return s
+		}, [])
 		return <ShowThemeFromStore store={store} themes={themes} theme="default" data-testid="result" />
 	},
 	play: async ({ canvas }) => {
@@ -301,24 +269,26 @@ export const UseThemeStore: Story = {
 
 // --- React Context use case ---
 const ThemeContext = createContext<{
-	result: ThemeResult<typeof themes>
-	setResult: (r: ThemeResult<typeof themes>) => void
+	entry: ThemeEntry<typeof themes> | undefined
+	setEntry: (e: ThemeEntry<typeof themes> | undefined) => void
 } | null>(null)
 
 function useThemeStoreFromContext(): ThemeStore<typeof themes> {
 	const ctx = useContext(ThemeContext)
-	const listenersRef = useRef<Array<() => void>>([])
-	const resultRef = useRef<ThemeResult<typeof themes>>(undefined)
+	const listenersRef = useRef<Array<(entry: ThemeEntry<typeof themes> | undefined | null) => void>>(
+		[]
+	)
+	const entryRef = useRef<ThemeEntry<typeof themes> | undefined>(undefined)
 	if (!ctx) throw new Error('ThemeProvider required')
-	resultRef.current = ctx.result
+	entryRef.current = ctx.entry
 	return useMemo(
 		() => ({
-			get() {
-				return resultRef.current
+			read() {
+				return entryRef.current
 			},
-			set(result) {
-				ctx.setResult(result)
-				for (const fn of listenersRef.current) fn()
+			write(entry) {
+				ctx.setEntry(entry ?? undefined)
+				for (const fn of listenersRef.current) fn(entry ?? null)
 			},
 			subscribe(handler) {
 				listenersRef.current.push(handler)
@@ -333,27 +303,14 @@ function useThemeStoreFromContext(): ThemeStore<typeof themes> {
 }
 
 function ReactContextDemo() {
-	const [result, setResult] = useState<ThemeResult<typeof themes>>(undefined)
 	const store = useThemeStoreFromContext()
-	useEffect(() => {
-		const observer = observeThemeFromStore({
-			store,
-			themes,
-			theme: 'default',
-			handler: setResult
-		})
-		return () => observer.disconnect()
-	}, [store])
-	const setDefault = useCallback(() => {
-		setThemeToStore({ store, themes, theme: 'default' })
-	}, [store])
-	const setGrayscale = useCallback(() => {
-		setThemeToStore({ store, themes, theme: 'grayscale' })
-	}, [store])
+	const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+	const setDefault = useCallback(() => setTheme('default'), [setTheme])
+	const setGrayscale = useCallback(() => setTheme('grayscale'), [setTheme])
 	return (
 		<StoryCard title="Theme from React Context" appearance="output">
 			<p data-testid="context-theme">
-				theme: {result?.theme === undefined ? '(undefined)' : String(result?.theme)}
+				theme: {theme === undefined ? '(undefined)' : String(theme)}
 			</p>
 			<button type="button" onClick={setDefault}>
 				Set default
@@ -379,31 +336,31 @@ export const WithReactContext: Story = {
 		showSource({
 			source: dedent`
 				const store = useThemeStoreFromContext()
-				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-				await setThemeToStore({ store, themes, theme: 'grayscale' })
-				observeThemeFromStore({ store, themes, theme: 'default', handler: setResult })
+				const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+				setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})
 	],
 	render: () => {
-		const [result, setResult] = useState<ThemeResult<typeof themes>>({
-			theme: 'grayscale',
-			value: 'text-gray-100'
-		})
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined>(
+			themeEntry('grayscale', themes)
+		)
 		return (
-			<ThemeContext.Provider value={{ result, setResult }}>
+			<ThemeContext.Provider value={{ entry, setEntry }}>
 				<ReactContextDemo />
 			</ThemeContext.Provider>
 		)
 	},
 	play: async () => {
-		const resultState = { current: undefined as ThemeResult<typeof themes> }
-		const listenersRef = { current: [] as Array<() => void> }
+		const entryState = { current: undefined as ThemeEntry<typeof themes> | undefined }
+		const listenersRef = {
+			current: [] as Array<(e: ThemeEntry<typeof themes> | undefined | null) => void>
+		}
 		const store: ThemeStore<typeof themes> = {
-			get: () => resultState.current,
-			set: (r) => {
-				resultState.current = r
-				for (const fn of listenersRef.current) fn()
+			read: () => entryState.current,
+			write: (e) => {
+				entryState.current = e ?? undefined
+				for (const fn of listenersRef.current) fn(e ?? null)
 			},
 			subscribe: (h) => {
 				listenersRef.current.push(h)
@@ -413,29 +370,32 @@ export const WithReactContext: Story = {
 				}
 			}
 		}
-		await setThemeToStore({ store, themes, theme: 'grayscale' })
-		const got = await getThemeFromStore({ store, themes, theme: 'default' })
-		await expect(got?.theme).toBe('grayscale')
+		await setThemeToStores([store], themeEntry('grayscale', themes))
+		const got = await getThemeFromStores([store], 'default')
+		await expect(got).toBe('grayscale')
 	}
 }
 
 // --- Zustand use case ---
-function createZustandThemeStore(initial: ThemeResult<typeof themes>): {
+function createZustandThemeStore(initial: ThemeEntry<typeof themes> | undefined): {
 	store: ThemeStore<typeof themes>
 	zustandStore: ReturnType<typeof createZustandThemeStoreInner>
 } {
 	const zustandStore = createZustandThemeStoreInner(initial)
 	const store: ThemeStore<typeof themes> = {
-		get: () => zustandStore.getState().themeResult,
-		set: (result) => zustandStore.setState({ themeResult: result }),
-		subscribe: (handler) => zustandStore.subscribe(handler)
+		read: () => zustandStore.getState().entry,
+		write: (entry) => zustandStore.setState({ entry: entry ?? undefined }),
+		subscribe: (handler) =>
+			zustandStore.subscribe((state, prev) => {
+				if (state.entry !== prev?.entry) handler(state.entry ?? null)
+			})
 	}
 	return { store, zustandStore }
 }
 
-function createZustandThemeStoreInner(initial: ThemeResult<typeof themes>) {
-	return createZustandStore<{ themeResult: ThemeResult<typeof themes> }>(() => ({
-		themeResult: initial
+function createZustandThemeStoreInner(initial: ThemeEntry<typeof themes> | undefined) {
+	return createZustandStore<{ entry: ThemeEntry<typeof themes> | undefined }>(() => ({
+		entry: initial
 	}))
 }
 
@@ -453,28 +413,31 @@ export const WithZustand: Story = {
 		showSource({
 			source: dedent`
 				const { store } = createZustandThemeStore(undefined)
-				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-				await setThemeToStore({ store, themes, theme: 'grayscale' })
+				const theme = await getThemeFromStores([store], 'default')
+				await setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})
 	],
 	play: async () => {
 		const { store } = createZustandThemeStore(undefined)
-		await setThemeToStore({ store, themes, theme: 'grayscale' })
-		const result = await getThemeFromStore({ store, themes, theme: 'default' })
-		await expect(result?.theme).toBe('grayscale')
+		await setThemeToStores([store], themeEntry('grayscale', themes))
+		const result = await getThemeFromStores([store], 'default')
+		await expect(result).toBe('grayscale')
 	}
 }
 
 // --- Jotai use case ---
-function createJotaiThemeStore(initial: ThemeResult<typeof themes>): ThemeStore<typeof themes> {
-	const themeResultAtom = atom<ThemeResult<typeof themes>>(initial)
+function createJotaiThemeStore(
+	initial: ThemeEntry<typeof themes> | undefined
+): ThemeStore<typeof themes> {
+	const entryAtom = atom<ThemeEntry<typeof themes> | undefined>(initial)
 	const jotaiStore = createStore()
-	jotaiStore.set(themeResultAtom, initial)
+	jotaiStore.set(entryAtom, initial)
 	return {
-		get: () => jotaiStore.get(themeResultAtom),
-		set: (result) => jotaiStore.set(themeResultAtom, result),
-		subscribe: (handler) => jotaiStore.sub(themeResultAtom, () => handler())
+		read: () => jotaiStore.get(entryAtom),
+		write: (entry) => jotaiStore.set(entryAtom, entry ?? undefined),
+		subscribe: (handler) =>
+			jotaiStore.sub(entryAtom, () => handler(jotaiStore.get(entryAtom) ?? null))
 	}
 }
 
@@ -491,15 +454,15 @@ export const WithJotai: Story = {
 		showSource({
 			source: dedent`
 				const store = createJotaiThemeStore(undefined)
-				const result = await getThemeFromStore({ store, themes, theme: 'default' })
-				await setThemeToStore({ store, themes, theme: 'grayscale' })
+				const theme = await getThemeFromStores([store], 'default')
+				await setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})
 	],
 	play: async () => {
 		const store = createJotaiThemeStore(undefined)
-		await setThemeToStore({ store, themes, theme: 'grayscale' })
-		const result = await getThemeFromStore({ store, themes, theme: 'default' })
-		await expect(result?.theme).toBe('grayscale')
+		await setThemeToStores([store], themeEntry('grayscale', themes))
+		const result = await getThemeFromStores([store], 'default')
+		await expect(result).toBe('grayscale')
 	}
 }
