@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { MDXBadges } from 'storybook-addon-tag-badges/manager-helpers'
+import CreateThemeHookStoriesMeta from './create-theme-hook.stories'
+
+<Meta title="react/theme/createThemeHook" />
+
+# createThemeHook <MDXBadges of={CreateThemeHookStoriesMeta} />
+
+Factory that creates a React hook returning `[theme, setTheme]`. Subscribes to theme stores and keeps the returned theme in sync.
+
+## API
+
+```ts
+createThemeHook<Themes>(options: {
+  stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[]
+  themes: Themes
+  defaultTheme?: keyof Themes
+}): (overrideDefaultTheme?: keyof Themes) => [keyof Themes | undefined, (theme: keyof Themes) => void]
+```
+
+## Options
+
+- **stores** – One or more theme stores (in-memory, localStorage, className, etc.) to subscribe to and write to.
+- **themes** – ThemeMap defining theme keys and values. See [ThemeMap](?path=/story/theme-thememap--source).
+- **defaultTheme** – Default theme when stores are empty. Optional.
+
+## Return value
+
+The created hook returns a tuple `[theme, setTheme]`:
+
+- **theme** – Current theme key, or `undefined` when stores are empty and no default is set.
+- **setTheme** – Async function to update the theme across all stores.
+
+## Override default theme
+
+Pass an override to the hook when calling it: `useTheme('high-contrast')`. When stores are empty, the override is used instead of the configured `defaultTheme`.
+
+## See also
+
+- [theme/Introduction](?path=/story/theme-introduction--source) – Theme module overview
+- [ThemeMap](?path=/story/theme-thememap--source) – Theme key/value mapping

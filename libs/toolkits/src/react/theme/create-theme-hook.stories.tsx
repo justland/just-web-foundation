@@ -42,7 +42,7 @@ export const Playground: Story = {
 		source: {
 			code: dedent`
 				const store = inMemoryThemeStore<typeof themes>()
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
+				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme, setTheme] = useTheme()
 				setTheme('high-contrast')
 			`
@@ -54,8 +54,8 @@ export const Playground: Story = {
 			const store = inMemoryThemeStore<typeof themes>()
 			const useTheme = createThemeHook({
 				stores: [store],
-				defaultTheme: 'current',
-				themes: themes
+				themes,
+				defaultTheme: 'current'
 			})
 			return { store, useTheme }
 		}
@@ -102,7 +102,7 @@ export const OverrideDefaultTheme: Story = {
 		source: {
 			code: dedent`
 				const store = inMemoryThemeStore<typeof themes>()
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
+				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme] = useTheme('high-contrast') // theme === 'high-contrast' when store empty
 			`
 		}
@@ -115,8 +115,8 @@ export const OverrideDefaultTheme: Story = {
 				() =>
 					createThemeHook({
 						stores: [store],
-						defaultTheme: 'current',
-						themes: themes
+						themes,
+						defaultTheme: 'current'
 					}),
 				[store]
 			)
@@ -145,7 +145,7 @@ export const StoryWithValue: Story = {
 			code: dedent`
 				const store = inMemoryThemeStore<typeof themes>()
 				store.write?.(themeEntry('grayscale', themes))
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
+				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 				const [theme] = useTheme() // theme === 'grayscale'
 			`
 		}
@@ -161,8 +161,8 @@ export const StoryWithValue: Story = {
 			() =>
 				createThemeHook({
 					stores: [store],
-					defaultTheme: 'current',
-					themes: themes
+					themes,
+					defaultTheme: 'current'
 				}),
 			[store]
 		)
@@ -198,7 +198,7 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
+				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 			`
 		}
 	}),
@@ -209,8 +209,8 @@ export const ThemeMapStringValue: Story = {
 			() =>
 				createThemeHook({
 					stores: [store],
-					defaultTheme: 'current',
-					themes: themes
+					themes,
+					defaultTheme: 'current'
 				}),
 			[store]
 		)
@@ -254,7 +254,7 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const useTheme = createThemeHook({ stores: [store], defaultTheme: 'current', themes: themes })
+				const useTheme = createThemeHook({ stores: [store], themes, defaultTheme: 'current' })
 			`
 		}
 	}),
@@ -265,8 +265,8 @@ export const ThemeMapArrayValues: Story = {
 			() =>
 				createThemeHook({
 					stores: [store],
-					defaultTheme: 'current',
-					themes: themesArray
+					themes: themesArray,
+					defaultTheme: 'current'
 				}),
 			[store]
 		)
