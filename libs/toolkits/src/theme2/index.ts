@@ -1,5 +1,4 @@
 export * from './compose-theme-stores.ts'
-export * from './create-theme-hook.ts'
 export * from './get-theme-from-stores.ts'
 export * from './observe-theme-from-stores.ts'
 export * from './set-theme-to-stores.ts'
