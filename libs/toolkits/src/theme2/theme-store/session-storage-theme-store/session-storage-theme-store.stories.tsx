@@ -10,7 +10,7 @@ import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
 import source from './session-storage-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/session-storage/sessionStorageThemeStore',
+	title: 'theme2/theme-store/sessionStorageThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {

@@ -6,18 +6,18 @@ import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { classNameThemeStore, type ThemeEntry, type ThemeStore } from '../../index.ts'
+import { dataAttributeThemeStore, type ThemeEntry, type ThemeStore } from '../../index.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
-import source from './class-name-theme-store.ts?raw'
+import source from './data-attribute-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/class-name/classNameThemeStore',
+	title: 'theme2/theme-store/dataAttributeThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store that reads and writes theme via element class names. Bakes themeMap at creation; get/set/subscribe use theme keys only.'
+				'Theme store that reads and writes theme via a data attribute. Bakes themeMap at creation; get/set/subscribe use theme keys only.'
 		}
 	}),
 	render: () => <></>
@@ -36,6 +36,16 @@ const themeMap = {
 
 type ExampleTheme = keyof typeof themeMap
 
+const attributeName = 'data-theme' as const
+
+function createStore(options?: { element?: Element }) {
+	return dataAttributeThemeStore({
+		attributeName,
+		themeMap,
+		...options
+	})
+}
+
 export const Playground: Story = {
 	tags: ['playground'],
 	parameters: defineDocsParam({
@@ -47,17 +57,20 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 				<ThemeStoreDemo2 store={store} themes={themeMap} />
 			`
 		})
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		store.set(themeEntry('grayscale', themeMap))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
@@ -75,8 +88,8 @@ export const ElementDefault: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Theme is applied to <code>document.documentElement</code> (html) by default when{' '}
-					<code>options.element</code> is not specified.
+					Theme is applied to <code>document.documentElement</code> (html) via data attribute by
+					default when <code>options.element</code> is not specified.
 				</p>
 			)
 		}),
@@ -88,24 +101,31 @@ export const ElementDefault: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const;
 
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themeMap>({ themeMap })
+			const store = createStore()
 			store.set(themeEntry('current', themeMap))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		const result = store.get()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="html.className" appearance="output">
-					<code>{typeof document !== 'undefined' ? document.documentElement.className : ''}</code>
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute(attributeName) ?? '(empty)')
+							: ''}
+					</code>
 				</StoryCard>
 				<ThemeResultCard
 					title="store.get() result"
@@ -128,7 +148,7 @@ export const ElementBody: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Theme is applied to <code>document.body</code> when passing it in{' '}
+					Theme is applied to <code>document.body</code> via data attribute when passing it in{' '}
 					<code>options.element</code>.
 				</p>
 			)
@@ -141,24 +161,32 @@ export const ElementBody: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const;
 
-				const store = classNameThemeStore({ themeMap, element: document.body })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+					element: document.body,
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themeMap>({ themeMap, element: document.body })
+			const store = createStore({ element: document.body })
 			store.set(themeEntry('high-contrast', themeMap))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap, element: document.body })
+		const store = createStore({ element: document.body })
 		const result = store.get()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="body.className" appearance="output">
-					<code>{typeof document !== 'undefined' ? document.body.className : ''}</code>
+				<StoryCard title="body[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.body.getAttribute(attributeName) ?? '(empty)')
+							: ''}
+					</code>
 				</StoryCard>
 				<ThemeResultCard
 					title="store.get() result"
@@ -183,7 +211,8 @@ export const ElementCustom: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Theme is applied to a custom element by passing it in <code>options.element</code>.
+					Theme is applied to a custom element via data attribute by passing it in{' '}
+					<code>options.element</code>.
 				</p>
 			)
 		}),
@@ -195,7 +224,8 @@ export const ElementCustom: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const;
 
-				const store = classNameThemeStore({
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
 					themeMap,
 					element: targetElement,
 				})
@@ -209,7 +239,7 @@ export const ElementCustom: Story = {
 		useLayoutEffect(() => {
 			const el = targetRef.current
 			if (!el) return
-			const s = classNameThemeStore<typeof themeMap>({ themeMap, element: el })
+			const s = createStore({ element: el })
 			s.set(themeEntry('grayscale', themeMap))
 			setStore(s)
 		}, [])
@@ -223,12 +253,12 @@ export const ElementCustom: Story = {
 					data-testid="target-element"
 					className="rounded border border-gray-300 p-4"
 				>
-					Target element (theme class is observed here)
+					Target element (theme data attribute is observed here)
 				</div>
 				{store ? (
 					<>
-						<StoryCard title="target.className" appearance="output">
-							<code>{targetRef.current?.className}</code>
+						<StoryCard title="target[data-theme]" appearance="output">
+							<code>{targetRef.current?.getAttribute(attributeName) ?? '(empty)'}</code>
 						</StoryCard>
 						<ThemeResultCard
 							title="store.get() result"
@@ -258,7 +288,7 @@ export const ThemeMapStringValue: Story = {
 	}),
 	decorators: [
 		withStoryCard({
-			content: <p>Each theme maps to one string value (one class name).</p>
+			content: <p>Each theme maps to one string value (attribute value).</p>
 		}),
 		showSource({
 			source: dedent`
@@ -268,24 +298,31 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const
 
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore({ themeMap })
+			const store = createStore()
 			store.set(themeEntry('current', themeMap))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore({ themeMap })
+		const store = createStore()
 		const result = store.get()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="html.className" appearance="output">
-					<code>{typeof document !== 'undefined' ? document.documentElement.className : ''}</code>
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute('data-theme') ?? '(none)')
+							: ''}
+					</code>
 				</StoryCard>
 				<ThemeResultCard
 					title="store.get() result"
@@ -307,21 +344,29 @@ const themeMapArray = {
 	'high-contrast': 'theme-high-contrast'
 } as const
 
+function createStoreArray(options?: { element?: Element }) {
+	return dataAttributeThemeStore({
+		attributeName,
+		themeMap: themeMapArray,
+		...options
+	})
+}
+
 export const ThemeMapArrayValues: Story = {
 	name: 'themeMap: array values',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'themeMap values can be string[] for multiple CSS classes. All classes are applied to the element.'
+				'themeMap values can be string[]. dataAttributeThemeStore uses only the first value for the attribute.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Each theme can map to multiple class names. Setting <code>grayscale</code> adds both{' '}
-					<code>theme-grayscale</code> and <code>app:bg-gray-100</code> to the element.
+					With <code>string[]</code> values, only the first value is used for the data attribute.{' '}
+					<code>ThemeResult.value</code> remains the full array.
 				</p>
 			)
 		}),
@@ -333,24 +378,31 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const
 
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themeMapArray>({ themeMap: themeMapArray })
+			const store = createStoreArray()
 			store.set(themeEntry('grayscale', themeMapArray))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMapArray>({ themeMap: themeMapArray })
+		const store = createStoreArray()
 		const result = store.get()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="html.className" appearance="output">
-					<code>{typeof document !== 'undefined' ? document.documentElement.className : ''}</code>
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code>
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute('data-theme') ?? '(none)')
+							: ''}
+					</code>
 				</StoryCard>
 				<ThemeResultCard
 					title="store.get() result"
@@ -373,27 +425,30 @@ export const Get: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.get() reads the current theme from the element class names.'
+			story: 'store.get() reads the current theme from the element data attribute.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 				const result = store.get()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themeMap>({ themeMap })
+			const store = createStore()
 			store.set(themeEntry('grayscale', themeMap))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		const result = store.get()
 		return (
 			<ThemeResultCard
@@ -414,20 +469,23 @@ export const SetStory: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.set() applies the theme class to the element.'
+			story: 'store.set() applies the theme value to the element data attribute.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 				store.set(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
 			const r = store.get()
 			return r?.theme ?? null
@@ -474,14 +532,17 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when the class attribute changes.'
+				'store.subscribe() calls the handler with the current theme and when the data attribute changes.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = createClassNameThemeStore({ themeMap })
+				const store = dataAttributeThemeStore({
+					attributeName: 'data-theme',
+					themeMap,
+				})
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
@@ -492,7 +553,7 @@ export const Subscribe: Story = {
 		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => {
-			const store = classNameThemeStore<typeof themeMap>({ themeMap })
+			const store = createStore()
 			return store.subscribe!(setResult)
 		}, [])
 
@@ -506,7 +567,7 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		const store = classNameThemeStore<typeof themeMap>({ themeMap })
+		const store = createStore()
 		store.set(themeEntry('high-contrast', themeMap))
 
 		await waitFor(() =>

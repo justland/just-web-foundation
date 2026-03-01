@@ -1,5 +1,5 @@
 import { findKey } from 'type-plus'
-import type { ThemeMap } from '../../theme-map.types.ts'
+import type { ThemeMap } from '../theme-map.types.ts'
 
 /**
  * Resolves theme key from data attribute value by matching against theme map.

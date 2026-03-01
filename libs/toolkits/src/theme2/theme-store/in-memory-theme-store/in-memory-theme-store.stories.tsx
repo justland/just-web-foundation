@@ -5,17 +5,17 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme-result-card.tsx'
-import { localStorageThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
+import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '../../index.ts'
 import { ThemeStoreDemo2 } from '../../theme-store-demo2.tsx'
-import source from './local-storage-theme-store.ts?raw'
+import source from './in-memory-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/local-storage/localStorageThemeStore',
+	title: 'theme2/theme-store/inMemoryThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store backed by localStorage. Persists across sessions; cross-tab sync via StorageEvent. Bakes themeMap at creation.'
+				'In-memory theme store. Transient state; no persistence. Bakes themeMap at creation; get/set/subscribe use theme keys only.'
 		}
 	}),
 	render: () => <></>
@@ -34,8 +34,6 @@ const themeMap = {
 
 type ExampleTheme = keyof typeof themeMap
 
-const STORAGE_KEY = 'theme2-ls-demo'
-
 export const Playground: Story = {
 	tags: ['playground'],
 	parameters: defineDocsParam({
@@ -47,25 +45,13 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({
-					storageKey: 'app-theme',
-					themeMap,
-				})
+				const store = inMemoryThemeStore<typeof themeMap>()
 				<ThemeStoreDemo2 store={store} themes={themeMap} />
 			`
 		})
 	],
-	loaders: [
-		() => {
-			window.localStorage.removeItem(STORAGE_KEY)
-			return {}
-		}
-	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themeMap>({
-			storageKey: STORAGE_KEY,
-			themeMap
-		})
+		const store = inMemoryThemeStore<typeof themeMap>()
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
@@ -79,53 +65,43 @@ export const Playground: Story = {
 	}
 }
 
-export const StorageKey: Story = {
-	name: 'storageKey',
+export const ThemeMapOption: Story = {
+	name: 'Themes type param',
 	tags: ['use-case', 'props'],
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Pass <code>options.storageKey</code> to determine the localStorage key used for
-					persistence.
+					Pass <code>Themes</code> as the type parameter to define valid theme keys and their
+					values.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({
-					storageKey: 'app-theme',
-					themeMap,
-				})
+				const store = inMemoryThemeStore<typeof themeMap>()
+				store.set(themeResult('current', themeMap))
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = localStorageThemeStore<typeof themeMap>({
-				storageKey: STORAGE_KEY,
-				themeMap
-			})
+			const store = inMemoryThemeStore<typeof themeMap>()
 			store.set(themeEntry('current', themeMap))
-			return {}
+			return { store }
 		}
 	],
-	render: () => {
-		const store = localStorageThemeStore<typeof themeMap>({
-			storageKey: STORAGE_KEY,
-			themeMap
-		})
+	render: (_, { loaded: { store } }) => {
 		const result = store.get()
 		return (
 			<div className="flex flex-col gap-4">
-				<StoryCard title="localStorage key" appearance="output">
-					<code>{STORAGE_KEY}</code>
+				<StoryCard title="store.get() after set" appearance="output">
+					<ThemeResultCard
+						title="store.get() result"
+						data-testid="store-get-result"
+						result={result ?? { theme: 'current', value: themeMap.current }}
+					/>
 				</StoryCard>
-				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
-					result={result ?? { theme: 'current', value: themeMap.current }}
-				/>
 			</div>
 		)
 	},
@@ -134,8 +110,6 @@ export const StorageKey: Story = {
 		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
 	}
 }
-
-const THEMEMAP_STORAGE_KEY = 'theme2-ls-thememap'
 
 export const ThemeMapStringValue: Story = {
 	name: 'themeMap: string value',
@@ -157,20 +131,13 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const
 
-				const store = localStorageThemeStore({
-					storageKey: 'theme',
-					themeMap,
-				})
+				const store = inMemoryThemeStore<typeof themeMap>()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
-			const store = localStorageThemeStore<typeof themeMap>({
-				storageKey: THEMEMAP_STORAGE_KEY,
-				themeMap
-			})
+			const store = inMemoryThemeStore<typeof themeMap>()
 			store.set(themeEntry('current', themeMap))
 			return { store }
 		}
@@ -204,15 +171,16 @@ export const ThemeMapArrayValues: Story = {
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'themeMap values can be string[]. Stored and retrieved value is the full array.'
+			story:
+				'themeMap values can be string[] for multiple tokens. ThemeResult.value stores the full array.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> persists the
-					full array.
+					Each theme can map to <code>string[]</code>. <code>ThemeResult.value</code> is the full
+					array.
 				</p>
 			)
 		}),
@@ -224,20 +192,13 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast',
 				} as const
 
-				const store = localStorageThemeStore({
-					storageKey: 'theme',
-					themeMap,
-				})
+				const store = inMemoryThemeStore<typeof themeMap>()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
-			const store = localStorageThemeStore<typeof themeMapArray>({
-				storageKey: THEMEMAP_STORAGE_KEY,
-				themeMap: themeMapArray
-			})
+			const store = inMemoryThemeStore<typeof themeMapArray>()
 			store.set(themeEntry('grayscale', themeMapArray))
 			return { store }
 		}
@@ -267,33 +228,27 @@ export const Get: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.get() reads the current theme from localStorage.'
+			story: 'store.get() reads the current theme from in-memory state.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themeMap })
+				const store = inMemoryThemeStore<typeof themeMap>()
+				store.set(themeResult('grayscale', themeMap))
 				const result = store.get()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = localStorageThemeStore<typeof themeMap>({
-				storageKey: STORAGE_KEY,
-				themeMap
-			})
+			const store = inMemoryThemeStore<typeof themeMap>()
 			store.set(themeEntry('grayscale', themeMap))
-			return {}
+			return { store }
 		}
 	],
-	render: () => {
-		const store = localStorageThemeStore<typeof themeMap>({
-			storageKey: STORAGE_KEY,
-			themeMap
-		})
+	render: (_, { loaded: { store } }) => {
 		const result = store.get()
 		return (
 			<ThemeResultCard
@@ -314,29 +269,20 @@ export const GetWhenEmpty: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When nothing is stored at the key, store.get() returns undefined.'
+			story: 'When no theme has been set, store.get() returns undefined.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme-get', themeMap })
+				const store = inMemoryThemeStore<typeof themeMap>()
 				const theme = store.get() // undefined when empty
 			`
 		})
 	],
-	loaders: [
-		() => {
-			window.localStorage.removeItem(STORAGE_KEY)
-			return {}
-		}
-	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themeMap>({
-			storageKey: STORAGE_KEY,
-			themeMap
-		})
+		const store = inMemoryThemeStore<typeof themeMap>()
 		const result = store.get()
 		return (
 			<ThemeResultCard
@@ -358,32 +304,23 @@ export const SetStory: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.set() persists the theme to localStorage.'
+			story: 'store.set() updates the in-memory theme and notifies subscribers.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themeMap })
+				const store = inMemoryThemeStore<typeof themeMap>()
 				store.set(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
-	loaders: [
-		() => {
-			window.localStorage.removeItem(STORAGE_KEY)
-			return {}
-		}
-	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themeMap>({
-			storageKey: STORAGE_KEY,
-			themeMap
-		})
-		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
+		const store = inMemoryThemeStore<typeof themeMap>()
+		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | undefined>(() => {
 			const r = store.get()
-			return r?.theme ?? null
+			return r?.theme
 		})
 
 		return (
@@ -427,43 +364,26 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when storage changes (same-tab or cross-tab).'
+				'store.subscribe() calls the handler with the current theme immediately and when set() is called.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themeMap })
+				const store = inMemoryThemeStore<typeof themeMap>()
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
 			`
 		})
 	],
-	loaders: [
-		() => {
-			const store = localStorageThemeStore<typeof themeMap>({
-				storageKey: STORAGE_KEY,
-				themeMap
-			})
-			store.set(themeEntry('grayscale', themeMap))
-			return {}
-		}
-	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				localStorageThemeStore<typeof themeMap>({
-					storageKey: STORAGE_KEY,
-					themeMap
-				}),
-			[]
-		)
+		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
 		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
 
 		useEffect(() => {
-			return store.subscribe!(setResult)
+			return store.subscribe(setResult)
 		}, [store])
 
 		const displayTheme = result?.theme ?? 'current'
@@ -492,7 +412,7 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		// Handler receives grayscale from loader, then we trigger multiple updates
+		// Handler receives undefined initially, then we trigger multiple updates
 		await userEvent.click(canvas.getByTestId('set-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
@@ -517,7 +437,7 @@ export const SubscribeUnsubscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themeMap })
+				const store = inMemoryThemeStore<typeof themeMap>()
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
 				store.set(themeResult('grayscale', themeMap))
 				unsubscribe()
@@ -525,30 +445,17 @@ export const SubscribeUnsubscribe: Story = {
 			`
 		})
 	],
-	loaders: [
-		() => {
-			window.localStorage.removeItem(STORAGE_KEY)
-			return {}
-		}
-	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				localStorageThemeStore<typeof themeMap>({
-					storageKey: STORAGE_KEY,
-					themeMap
-				}),
-			[]
-		)
+		const store = useMemo(() => inMemoryThemeStore<typeof themeMap>(), [])
 		const [result, setResult] = useState<ThemeEntry<typeof themeMap> | undefined | null>(undefined)
-		const unsubRef = useRef<(() => void) | null>(null)
+		const unSubRef = useRef<(() => void) | null>(null)
 
 		useEffect(() => {
-			if (unsubRef.current) return
-			unsubRef.current = store.subscribe!(setResult)
+			if (unSubRef.current) return
+			unSubRef.current = store.subscribe!(setResult)
 			return () => {
-				unsubRef.current?.()
-				unsubRef.current = null
+				unSubRef.current?.()
+				unSubRef.current = null
 			}
 		}, [store])
 
@@ -571,8 +478,8 @@ export const SubscribeUnsubscribe: Story = {
 					<Button
 						data-testid="unsubscribe"
 						onClick={() => {
-							unsubRef.current?.()
-							unsubRef.current = null
+							unSubRef.current?.()
+							unSubRef.current = null
 						}}
 					>
 						unsubscribe()

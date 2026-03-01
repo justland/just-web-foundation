@@ -9,7 +9,7 @@ import { ThemeStoreDemo2 } from '../theme-store-demo2.tsx'
 import source from './async-theme-store.ts?raw'
 
 const meta = {
-	title: 'theme2/async/asyncThemeStore',
+	title: 'theme2/theme-store/asyncThemeStore',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {

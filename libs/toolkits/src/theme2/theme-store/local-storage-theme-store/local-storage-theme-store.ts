@@ -1,49 +1,49 @@
-import { dummyThemeStore } from '../../stores/dummy-theme-store.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
-import type { ThemeStore } from '../../theme-store/theme-store.types.ts'
 import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
+import { dummyThemeStore } from '../dummy-theme-store.ts'
+import type { ThemeStore } from '../theme-store.types.ts'
 
-export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
+export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
 	storageKey: string
 	themeMap: Themes
 }
 
 /**
- * Creates a theme store backed by sessionStorage.
+ * Creates a theme store backed by localStorage.
  *
- * Persists per tab; cross-tab sync via StorageEvent when available.
+ * Persists across sessions; cross-tab sync via StorageEvent.
  * Same-tab writes trigger manual notify (StorageEvent does not fire for same tab).
  *
- * @param options.storageKey - sessionStorage key
+ * @param options.storageKey - localStorage key
  * @param options.themeMap - Record mapping theme keys to values (for validation)
  * @returns ThemeStore
  *
  * @example
  * ```ts
- * const store = sessionStorageThemeStore({
+ * const store = localStorageThemeStore({
  *   storageKey: 'theme',
  *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
- * store.get() // returns themeResult from sessionStorage
+ * store.get() // returns themeResult from localStorage
  * store.set(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
-export function sessionStorageThemeStore<Themes extends ThemeMap>(
-	options: SessionStorageThemeStoreOptions<Themes>
+export function localStorageThemeStore<Themes extends ThemeMap>(
+	options: LocalStorageThemeStoreOptions<Themes>
 ) {
 	const { storageKey, themeMap } = options
 
-	if (typeof window === 'undefined' || !window.sessionStorage) {
+	if (typeof window === 'undefined' || !window.localStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>
 	}
 
 	const handlers = new Set<(theme: ThemeEntry<Themes> | undefined) => void>()
 
 	function get() {
-		const stored = window.sessionStorage.getItem(storageKey)
+		const stored = window.localStorage.getItem(storageKey)
 		const theme = parseStoredTheme(stored, themeMap)
 		if (theme === undefined) return undefined
 		return themeEntry(theme, themeMap)
@@ -59,9 +59,9 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		set(entry) {
 			try {
 				if (entry === undefined) {
-					window.sessionStorage.removeItem(storageKey)
+					window.localStorage.removeItem(storageKey)
 				} else {
-					window.sessionStorage.setItem(storageKey, JSON.stringify(entry))
+					window.localStorage.setItem(storageKey, JSON.stringify(entry))
 				}
 				notify()
 			} catch {
@@ -73,7 +73,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 			handler(get())
 
 			const onStorage = (e: StorageEvent) => {
-				if (e.key === storageKey && e.storageArea === window.sessionStorage) notify()
+				if (e.key === storageKey && e.storageArea === window.localStorage) notify()
 			}
 			window.addEventListener('storage', onStorage)
 
