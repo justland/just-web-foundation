@@ -13,6 +13,10 @@ type StoreWithSubscribe<Themes extends ThemeMap> = RequiredPick<
 	'subscribe'
 >
 
+export type ComposeThemeStoresOptions<Themes extends ThemeMap> = {
+	defaultTheme?: keyof Themes | undefined
+}
+
 /**
  * Composes multiple theme stores into a single store.
  *
@@ -22,16 +26,17 @@ type StoreWithSubscribe<Themes extends ThemeMap> = RequiredPick<
  * - **subscribe**: Aggregates child store subscriptions. No initial notify—handler is only
  *   called when a child store emits.
  *
- * @param stores - Array of theme stores
  * @param themes - ThemeMap for synthesizing fallback ThemeEntry
- * @param defaultTheme - Fallback theme key when all stores return empty
+ * @param stores - Array of theme stores
+ * @param options.defaultTheme - Fallback theme key when all stores return empty
  * @returns AsyncThemeStore
  */
 export function composeThemeStores<Themes extends ThemeMap>(
-	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
 	themes: Themes,
-	defaultTheme: keyof Themes | undefined
+	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
+	options?: ComposeThemeStoresOptions<Themes>
 ): Required<AsyncThemeStore<Themes>> {
+	const { defaultTheme } = options ?? {}
 	const withRead = stores.filter((s): s is StoreWithRead<Themes> => typeof s.read === 'function')
 
 	async function readFromStores(): Promise<ThemeEntry<Themes> | undefined | null> {
