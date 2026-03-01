@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
+import { Button } from '../../testing/button.tsx'
 import { ThemeResultCard } from '../../testing/theme-result-card.tsx'
 import { asyncThemeStore, type ThemeEntry, themeEntry } from '../index.ts'
 import { ThemeStoreDemo2 } from '../theme-store-demo2.tsx'
@@ -418,18 +419,16 @@ export const WriteStory: Story = {
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
 					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
-						<button
+						<Button
 							key={theme}
-							type="button"
 							data-testid={`write-${theme}`}
-							onClick={async () => {
+							onPress={async () => {
 								await store.write?.(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
-							className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 						>
 							write({theme})
-						</button>
+						</Button>
 					))}
 				</div>
 				<ThemeResultCard
@@ -506,22 +505,18 @@ export const Subscribe: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					<button
-						type="button"
+					<Button
 						data-testid="write-high-contrast"
-						onClick={() => store.write?.(themeEntry('high-contrast', themeMap))}
-						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
+						onPress={() => store.write?.(themeEntry('high-contrast', themeMap))}
 					>
 						write('high-contrast')
-					</button>
-					<button
-						type="button"
+					</Button>
+					<Button
 						data-testid="write-current"
-						onClick={() => store.write?.(themeEntry('current', themeMap))}
-						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
+						onPress={() => store.write?.(themeEntry('current', themeMap))}
 					>
 						write('current')
-					</button>
+					</Button>
 				</div>
 				<ThemeResultCard
 					title="store.subscribe() receives"
@@ -602,33 +597,27 @@ export const SubscribeUnsubscribe: Story = {
 		return (
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
-					<button
-						type="button"
+					<Button
 						data-testid="write-grayscale"
-						onClick={() => store.write?.(themeEntry('grayscale', themeMap))}
-						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
+						onPress={() => store.write?.(themeEntry('grayscale', themeMap))}
 					>
 						write('grayscale')
-					</button>
-					<button
-						type="button"
+					</Button>
+					<Button
 						data-testid="write-current"
-						onClick={() => store.write?.(themeEntry('current', themeMap))}
-						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
+						onPress={() => store.write?.(themeEntry('current', themeMap))}
 					>
 						write('current')
-					</button>
-					<button
-						type="button"
+					</Button>
+					<Button
 						data-testid="unsubscribe"
-						onClick={() => {
+						onPress={() => {
 							unSubRef.current?.()
 							unSubRef.current = undefined
 						}}
-						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
 						unsubscribe()
-					</button>
+					</Button>
 				</div>
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
