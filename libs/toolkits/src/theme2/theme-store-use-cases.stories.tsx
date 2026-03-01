@@ -8,16 +8,15 @@ import { createStore as createZustandStore } from 'zustand/vanilla'
 import { useThemeStore } from '#just-web/toolkits/react'
 import { ShowThemeFromStore } from '../testing/show-theme-from-store.tsx'
 import { ThemeStoreDemo } from '../testing/theme-store-demo.tsx'
-import { themeEntry } from '../theme2/theme-entry.ts'
-import type { ThemeEntry } from '../theme2/theme-entry.types.ts'
-import type { AsyncThemeStore } from '../theme2/theme-store/async-theme-store.types.ts'
-import { inMemoryThemeStore } from '../theme2/theme-store/in-memory-theme-store/in-memory-theme-store.ts'
-import type { ThemeStore } from '../theme2/theme-store/theme-store.types.ts'
-import { getThemeFromStores } from '../theme2/utils/get-theme-from-stores.ts'
-import { setThemeToStores } from '../theme2/utils/set-theme-to-stores.ts'
+import { inMemoryThemeStore, themeEntry } from './index.ts'
+import type { ThemeEntry } from './theme-entry.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import { getThemeFromStores } from './utils/get-theme-from-stores.ts'
+import { setThemeToStores } from './utils/set-theme-to-stores.ts'
 
 const meta = {
-	title: 'theme/ThemeStore use cases',
+	title: 'theme2/ThemeStore use cases',
 	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
