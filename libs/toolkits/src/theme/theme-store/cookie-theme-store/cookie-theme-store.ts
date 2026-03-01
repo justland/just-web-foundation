@@ -1,9 +1,9 @@
 import type { Required } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
+import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
-import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
 export interface GetThemeFromCookieOptions {

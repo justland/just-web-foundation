@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { observeThemeFromStores } from '../../theme/_utils/observe-theme-from-stores.ts'
+import { setThemeToStores } from '../../theme/_utils/set-theme-to-stores.ts'
 import { resolveThemeFromClassName } from '../../theme/class-name/resolve-theme-from-class-name.ts'
 import { themeEntry } from '../../theme/theme-entry.ts'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import { classNameThemeStore } from '../../theme/theme-store/class-name-theme-store/class-name-theme-store.ts'
-import { observeThemeFromStores } from '../../theme/utils/observe-theme-from-stores.ts'
-import { setThemeToStores } from '../../theme/utils/set-theme-to-stores.ts'
 
 /**
  * React hook that returns the current theme (from element class) and a setter.

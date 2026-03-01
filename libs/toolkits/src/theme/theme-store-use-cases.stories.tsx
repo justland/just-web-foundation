@@ -9,11 +9,11 @@ import { useThemeStore } from '#just-web/toolkits/react'
 import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { ShowThemeFromStore } from '../testing/theme/show-theme-from-store.tsx'
 import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo.tsx'
+import { getThemeFromStores } from './_utils/get-theme-from-stores.ts'
+import { setThemeToStores } from './_utils/set-theme-to-stores.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from './theme-store/theme-store.types.ts'
-import { getThemeFromStores } from './utils/get-theme-from-stores.ts'
-import { setThemeToStores } from './utils/set-theme-to-stores.ts'
 
 const meta = {
 	title: 'theme/ThemeStore use cases',
