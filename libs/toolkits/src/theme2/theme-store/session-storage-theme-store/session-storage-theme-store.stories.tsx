@@ -396,7 +396,7 @@ export const WriteStory: Story = {
 						<Button
 							key={theme}
 							data-testid={`write-${theme}`}
-							onClick={() => {
+							onPress={() => {
 								store.write(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
@@ -477,13 +477,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-high-contrast"
-						onClick={() => store.write(themeEntry('high-contrast', themeMap))}
+						onPress={() => store.write(themeEntry('high-contrast', themeMap))}
 					>
 						write('high-contrast')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themeMap))}
+						onPress={() => store.write(themeEntry('current', themeMap))}
 					>
 						write('current')
 					</Button>
@@ -563,19 +563,19 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store.write(themeEntry('grayscale', themeMap))}
+						onPress={() => store.write(themeEntry('grayscale', themeMap))}
 					>
 						write('grayscale')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themeMap))}
+						onPress={() => store.write(themeEntry('current', themeMap))}
 					>
 						write('current')
 					</Button>
 					<Button
 						data-testid="unsubscribe"
-						onClick={() => {
+						onPress={() => {
 							unsubRef.current?.()
 							unsubRef.current = null
 						}}
