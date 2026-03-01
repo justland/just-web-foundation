@@ -8,8 +8,8 @@ import type { ThemeStore } from '../../theme2/theme-store/theme-store.types.ts'
 
 function createSharedChannel<Themes extends ThemeMap>(
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
-	defaultTheme: keyof Themes | undefined,
-	themeMap: Themes
+	themes: Themes,
+	defaultTheme: keyof Themes | undefined
 ) {
 	let lastTheme: keyof Themes | undefined = defaultTheme
 	const listeners = new Set<(theme: keyof Themes | undefined) => void>()
@@ -38,7 +38,7 @@ function createSharedChannel<Themes extends ThemeMap>(
 		subscribe,
 		getSnapshot,
 		getServerSnapshot,
-		setTheme: (theme: keyof Themes) => setThemeToStores(stores, themeEntry(theme, themeMap)),
+		setTheme: (theme: keyof Themes) => setThemeToStores(stores, themeEntry(theme, themes)),
 		unobserve
 	}
 }
@@ -50,8 +50,8 @@ const channelsByStores = new WeakMap<
 
 function getOrCreateChannel<Themes extends ThemeMap>(
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
-	effectiveDefault: keyof Themes | undefined,
-	themeMap: Themes
+	themes: Themes,
+	defaultTheme: keyof Themes | undefined
 ) {
 	const storesKey = stores as unknown as object
 	let byDefault = channelsByStores.get(storesKey) as Map<
@@ -62,26 +62,25 @@ function getOrCreateChannel<Themes extends ThemeMap>(
 		byDefault = new Map<keyof Themes | undefined, ReturnType<typeof createSharedChannel<Themes>>>()
 		channelsByStores.set(storesKey, byDefault as any)
 	}
-	const defaultKey = effectiveDefault
-	let channel = byDefault.get(defaultKey) as ReturnType<typeof createSharedChannel<Themes>>
+	let channel = byDefault.get(defaultTheme) as ReturnType<typeof createSharedChannel<Themes>>
 	if (!channel) {
-		channel = createSharedChannel<Themes>(stores, effectiveDefault, themeMap)
-		byDefault.set(defaultKey, channel)
+		channel = createSharedChannel<Themes>(stores, themes, defaultTheme)
+		byDefault.set(defaultTheme, channel)
 	}
 	return channel
 }
 
 export function createThemeHook<Themes extends ThemeMap>(options: {
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[]
+	themes: Themes
 	defaultTheme?: keyof Themes | undefined
-	themeMap: Themes
 }): (
 	overrideDefaultTheme?: keyof Themes | undefined
 ) => [keyof Themes | undefined, (theme: keyof Themes) => void] {
-	const { stores, defaultTheme, themeMap } = options
+	const { stores, defaultTheme, themes } = options
 	return function useTheme(overrideDefaultTheme?: keyof Themes | undefined) {
 		const effectiveDefault = overrideDefaultTheme ?? defaultTheme
-		const channel = getOrCreateChannel<Themes>(stores, effectiveDefault, themeMap)
+		const channel = getOrCreateChannel<Themes>(stores, themes, effectiveDefault)
 
 		const theme = useSyncExternalStore<keyof Themes | undefined>(
 			channel.subscribe,

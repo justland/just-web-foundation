@@ -55,7 +55,7 @@ export const Playground: Story = {
 			const useTheme = createThemeHook({
 				stores: [store],
 				defaultTheme: 'current',
-				themeMap
+				themes: themeMap
 			})
 			return { store, useTheme }
 		}
@@ -116,7 +116,7 @@ export const OverrideDefaultTheme: Story = {
 					createThemeHook({
 						stores: [store],
 						defaultTheme: 'current',
-						themeMap
+						themes: themeMap
 					}),
 				[store]
 			)
@@ -162,7 +162,7 @@ export const StoryWithValue: Story = {
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themeMap
+					themes: themeMap
 				}),
 			[store]
 		)
@@ -210,7 +210,7 @@ export const ThemeMapStringValue: Story = {
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themeMap
+					themes: themeMap
 				}),
 			[store]
 		)
@@ -266,7 +266,7 @@ export const ThemeMapArrayValues: Story = {
 				createThemeHook({
 					stores: [store],
 					defaultTheme: 'current',
-					themeMap: themeMapArray
+					themes: themeMapArray
 				}),
 			[store]
 		)
