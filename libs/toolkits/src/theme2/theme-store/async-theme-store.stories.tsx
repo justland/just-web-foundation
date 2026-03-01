@@ -645,6 +645,43 @@ export const SubscribeUnsubscribe: Story = {
 	}
 }
 
+export const SetOnlyStoreShape: Story = {
+	name: 'set-only: store shape',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'When only set is provided, store.get and store.subscribe are undefined; store.set is defined.'
+		}
+	}),
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				const store = asyncThemeStore({ set: async () => {} })
+				store.get // undefined
+				store.set // defined
+				store.subscribe // undefined
+			`
+		})
+	],
+	render: () => {
+		const store = asyncThemeStore<typeof themeMap>({ set: async () => {} })
+		return (
+			<StoryCard title="Store shape (set-only)" appearance="output">
+				<pre className="text-sm" data-testid="store-shape">
+					{`{ get: ${store.get !== undefined}, set: ${store.set !== undefined}, subscribe: ${store.subscribe !== undefined} }`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('get: false')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('set: true')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('subscribe: false')
+	}
+}
+
 export const SetOnly: Story = {
 	name: 'set-only: write-only sink',
 	tags: ['use-case'],
