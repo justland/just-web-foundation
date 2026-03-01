@@ -12,9 +12,21 @@
 	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
 	"imports": {
-		"#just-web/toolkits": "./src/index.ts",
-		"#just-web/toolkits/react": "./src/react.ts",
-		"#just-web/toolkits/theme": "./src/theme.ts"
+		"#just-web/toolkits": {
+			"@just-web/toolkits-dev": "./src/index.ts",
+			"types": "./dist/index.d.mts",
+			"default": "./dist/index.mjs"
+		},
+		"#just-web/toolkits/react": {
+			"@just-web/toolkits-dev": "./src/react.ts",
+			"types": "./dist/react.d.mts",
+			"default": "./dist/react.mjs"
+		},
+		"#just-web/toolkits/theme": {
+			"@just-web/toolkits-dev": "./src/theme.ts",
+			"types": "./dist/theme.d.mts",
+			"default": "./dist/theme.mjs"
+		}
 	},
 	"exports": {
 		".": {
@@ -23,7 +35,6 @@
 				"./src/index.ts"
 			],
 			"source": "./src/index.ts",
-			"style": "./tailwind.css",
 			"default": "./dist/index.mjs"
 		},
 		"./react": {
@@ -48,21 +59,19 @@
 	"source": "./src/index.ts",
 	"types": "./dist/index.d.cts",
 	"files": [
-		"cjs",
-		"esm",
+		"dist",
 		"src",
 		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
 		"!**/*.mdx"
 	],
 	"scripts": {
-		"build": "run-p build:tsdown test:types",
-		"build:tsdown": "tsdown",
+		"build": "run-p build:* test:types",
 		"build-doc": "storybook build -o ../../docs/foundation",
-		"build:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.css",
+		"build:code": "tsdown",
+		"check:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.storybook.css",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
 		"cov": "vitest run --coverage",
 		"cov:w": "vitest --coverage",
-		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
 		"sb": "storybook dev -p 6206",
 		"test": "vitest run",
@@ -71,7 +80,9 @@
 	},
 	"dependencies": {
 		"clsx": "^2.1.1",
-		"csstype": "^3.2.3"
+		"csstype": "^3.2.3",
+		"react-aria-components": "^1.15.1",
+		"type-plus": "8.0.0-beta.8"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.25.0",
@@ -92,7 +103,6 @@
 		"jotai": "^2.18.0",
 		"npm-run-all2": "^8.0.4",
 		"react": "catalog:",
-		"react-aria-components": "^1.15.1",
 		"react-dom": "catalog:",
 		"rimraf": "^6.1.2",
 		"storybook": "^10.2.7",
@@ -102,7 +112,6 @@
 		"tailwind-merge": "^3.5.0",
 		"tailwindcss": "^4.1.18",
 		"tsdown": "^0.18.4",
-		"type-plus": "8.0.0-beta.8",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1",
 		"vitest": "^4.0.18",

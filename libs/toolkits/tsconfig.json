@@ -1,6 +1,7 @@
 {
 	"extends": "@tools/typescript/tsconfig.json",
 	"compilerOptions": {
+		"customConditions": ["@just-web/toolkits-dev"],
 		"jsx": "react-jsx",
 		"rewriteRelativeImportExtensions": true
 	},

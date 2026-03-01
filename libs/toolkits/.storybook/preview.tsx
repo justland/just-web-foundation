@@ -4,8 +4,7 @@ import { defineDarkModeParam } from '@storybook-community/storybook-dark-mode'
 import { setupMonaco } from 'storybook-addon-code-editor'
 import { onMonacoLoad } from './code-editor.ts'
 
-import './tailwind.layer.css'
-import '../tailwind.css'
+import './tailwind.css'
 import './tailwind.repobuddy-storybook.css'
 
 setupMonaco({ onMonacoLoad })

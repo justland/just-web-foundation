@@ -226,6 +226,12 @@ importers:
       csstype:
         specifier: ^3.2.3
         version: 3.2.3
+      react-aria-components:
+        specifier: ^1.15.1
+        version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      type-plus:
+        specifier: 8.0.0-beta.8
+        version: 8.0.0-beta.8(typescript@5.9.3)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.25.0
@@ -281,9 +287,6 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
-      react-aria-components:
-        specifier: ^1.15.1
-        version: 1.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -311,9 +314,6 @@ importers:
       tsdown:
         specifier: ^0.18.4
         version: 0.18.4(typescript@5.9.3)
-      type-plus:
-        specifier: 8.0.0-beta.8
-        version: 8.0.0-beta.8(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
