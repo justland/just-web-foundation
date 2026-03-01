@@ -5,8 +5,7 @@ import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
-	themes: Themes
+export type SessionStorageThemeStoreOptions = {
 	storageKey: string
 }
 
@@ -16,25 +15,24 @@ export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
  * Persists per tab; cross-tab sync via StorageEvent when available.
  * Same-tab writes trigger manual notify (StorageEvent does not fire for same tab).
  *
+ * @param themes - Record mapping theme keys to values (for validation)
  * @param options.storageKey - sessionStorage key
- * @param options.themes - Record mapping theme keys to values (for validation)
  * @returns ThemeStore
  *
  * @example
  * ```ts
- * const store = sessionStorageThemeStore({
- *   storageKey: 'theme',
- *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
- * })
+ * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
  * store.read() // returns themeResult from sessionStorage
- * store.write(themeEntry('grayscale', themeMap))
+ * store.write(themeEntry('grayscale', themes))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function sessionStorageThemeStore<Themes extends ThemeMap>(
-	options: SessionStorageThemeStoreOptions<Themes>
+	themes: Themes,
+	options: SessionStorageThemeStoreOptions
 ) {
-	const { storageKey, themes } = options
+	const { storageKey } = options
 
 	if (typeof window === 'undefined' || !window.sessionStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>

@@ -39,7 +39,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(options: {
 		options.element ?? (typeof document !== 'undefined' ? document.documentElement : undefined)
 
 	const store = useMemo(
-		() => classNameThemeStore({ themes: options.themes, element: element ?? null }),
+		() => classNameThemeStore(options.themes, { element: element ?? null }),
 		[element, options.themes]
 	)
 

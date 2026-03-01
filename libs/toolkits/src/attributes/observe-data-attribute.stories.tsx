@@ -11,13 +11,11 @@ import code from './observe-data-attribute.ts?raw'
 
 const testValueThemes = { 'test-value': 'test-value' } as const
 
-const testValueDataThemeStore = dataAttributeThemeStore({
-	attributeName: 'data-theme',
-	themes: testValueThemes
+const testValueDataThemeStore = dataAttributeThemeStore(testValueThemes, {
+	attributeName: 'data-theme'
 })
-const testValueDataColorSchemeStore = dataAttributeThemeStore({
-	attributeName: 'data-color-scheme',
-	themes: testValueThemes
+const testValueDataColorSchemeStore = dataAttributeThemeStore(testValueThemes, {
+	attributeName: 'data-color-scheme'
 })
 
 const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
@@ -217,10 +215,9 @@ export const CustomElement: Story = {
 					<Button
 						onPress={() => {
 							const el = customElementRef.current ?? document.documentElement
-							dataAttributeThemeStore({
+							dataAttributeThemeStore(testValueThemes, {
 								attributeName: 'data-theme',
-								element: el,
-								themes: testValueThemes
+								element: el
 							}).write(themeEntry('test-value', testValueThemes))
 						}}
 					>

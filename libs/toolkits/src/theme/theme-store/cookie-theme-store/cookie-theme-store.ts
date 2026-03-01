@@ -10,8 +10,7 @@ export interface GetThemeFromCookieOptions {
 	cookieName?: string | undefined
 }
 
-export interface CookieThemeStoreOptions<Themes extends ThemeMap> {
-	themes: Themes
+export type CookieThemeStoreOptions = {
 	cookieName: string
 	path?: string | undefined
 	maxAge?: number | undefined
@@ -57,8 +56,8 @@ function deleteCookie(name: string, path = '/') {
  * read the theme during SSR to avoid flash of wrong theme. Cross-tab sync is not
  * supported (cookies have no StorageEvent).
  *
+ * @param themes - Record mapping theme keys to values (for validation)
  * @param options.cookieName - Cookie name for theme storage
- * @param options.themes - Record mapping theme keys to values (for validation)
  * @param options.path - Cookie path (default: '/')
  * @param options.maxAge - Cookie max-age in seconds
  * @param options.sameSite - Cookie sameSite attribute
@@ -67,19 +66,18 @@ function deleteCookie(name: string, path = '/') {
  *
  * @example
  * ```ts
- * const store = cookieThemeStore({
- *   cookieName: 'theme',
- *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
- * })
+ * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const store = cookieThemeStore(themes, { cookieName: 'theme' })
  * store.read()
- * store.write(themeEntry('grayscale', themeMap))
+ * store.write(themeEntry('grayscale', themes))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function cookieThemeStore<Themes extends ThemeMap>(
-	options: CookieThemeStoreOptions<Themes>
+	themes: Themes,
+	options: CookieThemeStoreOptions
 ): Required<ThemeStore<Themes>> {
-	const { cookieName, themes, path = '/', maxAge, sameSite, secure } = options
+	const { cookieName, path = '/', maxAge, sameSite, secure } = options
 
 	if (document.cookie === undefined) {
 		return dummyThemeStore

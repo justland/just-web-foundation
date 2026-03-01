@@ -48,10 +48,7 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({
-					storageKey: 'app-theme',
-					themes
-				})
+				const store = localStorageThemeStore(themes, { storageKey: 'app-theme' })
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
@@ -63,10 +60,7 @@ export const Playground: Story = {
 		}
 	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themes>({
-			storageKey: STORAGE_KEY,
-			themes: themes
-		})
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
@@ -94,28 +88,19 @@ export const StorageKey: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({
-					storageKey: 'app-theme',
-					themes: themes
-				})
+				const store = localStorageThemeStore(themes, { storageKey: 'app-theme' })
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = localStorageThemeStore<typeof themes>({
-				storageKey: STORAGE_KEY,
-				themes: themes
-			})
+			const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themes>({
-			storageKey: STORAGE_KEY,
-			themes: themes
-		})
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -158,20 +143,14 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = localStorageThemeStore({
-					storageKey: 'theme',
-					themes: themes
-				})
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 			`
 		})
 	],
 	loaders: [
 		() => {
 			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
-			const store = localStorageThemeStore<typeof themes>({
-				storageKey: THEMEMAP_STORAGE_KEY,
-				themes: themes
-			})
+			const store = localStorageThemeStore(themes, { storageKey: THEMEMAP_STORAGE_KEY })
 			store.write(themeEntry('current', themes))
 			return { store }
 		}
@@ -225,19 +204,15 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = localStorageThemeStore({
-					storageKey: 'theme',
-					themes: themes
-				})
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 			`
 		})
 	],
 	loaders: [
 		() => {
 			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
-			const store = localStorageThemeStore<typeof themesArray>({
-				storageKey: THEMEMAP_STORAGE_KEY,
-				themes: themesArray
+			const store = localStorageThemeStore(themesArray, {
+				storageKey: THEMEMAP_STORAGE_KEY
 			})
 			store.write(themeEntry('grayscale', themesArray))
 			return { store }
@@ -275,26 +250,20 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themes: themes })
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = localStorageThemeStore<typeof themes>({
-				storageKey: STORAGE_KEY,
-				themes: themes
-			})
+			const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themes>({
-			storageKey: STORAGE_KEY,
-			themes: themes
-		})
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -324,7 +293,7 @@ export const ReadWhenEmpty: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme-get', themes: themes })
+				const store = localStorageThemeStore(themes, { storageKey: 'theme-get' })
 				const theme = store.read() // undefined when empty
 			`
 		})
@@ -336,10 +305,7 @@ export const ReadWhenEmpty: Story = {
 		}
 	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themes>({
-			storageKey: STORAGE_KEY,
-			themes: themes
-		})
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -367,8 +333,8 @@ export const Write: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themes: themes })
-				store.write(themeResult('high-contrast', themes))
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
+				store.write(themeEntry('high-contrast', themes))
 			`
 		})
 	],
@@ -379,10 +345,7 @@ export const Write: Story = {
 		}
 	],
 	render: () => {
-		const store = localStorageThemeStore<typeof themes>({
-			storageKey: STORAGE_KEY,
-			themes: themes
-		})
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
 			const r = store.read()
 			return r?.theme ?? null
@@ -438,7 +401,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themes: themes })
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
@@ -447,23 +410,13 @@ export const Subscribe: Story = {
 	],
 	loaders: [
 		() => {
-			const store = localStorageThemeStore<typeof themes>({
-				storageKey: STORAGE_KEY,
-				themes: themes
-			})
+			const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY })
 			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				localStorageThemeStore<typeof themes>({
-					storageKey: STORAGE_KEY,
-					themes: themes
-				}),
-			[]
-		)
+		const store = useMemo(() => localStorageThemeStore(themes, { storageKey: STORAGE_KEY }), [])
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useEffect(() => {
@@ -521,7 +474,7 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themes: themes })
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 				store.subscribe((entry) => {
 					invocationCount++
 					setObserved(entry)
@@ -538,14 +491,7 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		}
 	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				localStorageThemeStore<typeof themes>({
-					storageKey: STORAGE_KEY,
-					themes: themes
-				}),
-			[]
-		)
+		const store = useMemo(() => localStorageThemeStore(themes, { storageKey: STORAGE_KEY }), [])
 		const [invocationCount, setInvocationCount] = useState(0)
 		const [observed, setObserved] = useState<ThemeEntry<typeof themes> | undefined | null>(null)
 
@@ -613,9 +559,9 @@ export const SubscribeUnsubscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = localStorageThemeStore({ storageKey: 'theme', themes: themes })
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				store.write(themeResult('grayscale', themes))
+				store.write(themeEntry('grayscale', themes))
 				unsubscribe()
 				store.write(themeResult('current', themes)) // handler not called
 			`
@@ -628,14 +574,7 @@ export const SubscribeUnsubscribe: Story = {
 		}
 	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				localStorageThemeStore<typeof themes>({
-					storageKey: STORAGE_KEY,
-					themes: themes
-				}),
-			[]
-		)
+		const store = useMemo(() => localStorageThemeStore(themes, { storageKey: STORAGE_KEY }), [])
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const unsubRef = useRef<(() => void) | null>(null)
 

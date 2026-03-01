@@ -52,13 +52,13 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themes>({ themes: themes })
+		const store = classNameThemeStore(themes)
 		return <ThemeStoreDemo2 store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
@@ -92,19 +92,19 @@ export const ElementDefault: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themes>({ themes: themes })
+			const store = classNameThemeStore(themes)
 			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themes>({ themes: themes })
+		const store = classNameThemeStore(themes)
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -145,22 +145,19 @@ export const ElementBody: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = classNameThemeStore({ themes: themes, element: document.body })
+				const store = classNameThemeStore(themes, { element: document.body })
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themes>({
-				themes: themes,
-				element: document.body
-			})
+			const store = classNameThemeStore(themes, { element: document.body })
 			store.write(themeEntry('high-contrast', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themes>({ themes: themes, element: document.body })
+		const store = classNameThemeStore(themes, { element: document.body })
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -202,10 +199,7 @@ export const ElementCustom: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = classNameThemeStore({
-					themes: themes,
-					element: targetElement
-				})
+				const store = classNameThemeStore(themes, { element: targetElement })
 			`
 		})
 	],
@@ -216,7 +210,7 @@ export const ElementCustom: Story = {
 		useLayoutEffect(() => {
 			const el = targetRef.current
 			if (!el) return
-			const s = classNameThemeStore<typeof themes>({ themes: themes, element: el })
+			const s = classNameThemeStore(themes, { element: el })
 			s.write(themeEntry('grayscale', themes))
 			setStore(s)
 		}, [])
@@ -277,19 +271,19 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore({ themes: themes })
+			const store = classNameThemeStore(themes)
 			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore({ themes: themes })
+		const store = classNameThemeStore(themes)
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -342,19 +336,19 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themesArray>({ themes: themesArray })
+			const store = classNameThemeStore(themesArray)
 			store.write(themeEntry('grayscale', themesArray))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themesArray>({ themes: themesArray })
+		const store = classNameThemeStore(themesArray)
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -389,20 +383,20 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = classNameThemeStore<typeof themes>({ themes: themes })
+			const store = classNameThemeStore(themes)
 			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themes>({ themes: themes })
+		const store = classNameThemeStore(themes)
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -432,13 +426,13 @@ export const WriteStory: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 				store.write(themeResult('high-contrast', themes))
 			`
 		})
 	],
 	render: () => {
-		const store = classNameThemeStore<typeof themes>({ themes: themes })
+		const store = classNameThemeStore(themes)
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
 			const r = store.read()
 			return r?.theme ?? null
@@ -494,7 +488,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themes: themes })
+				const store = classNameThemeStore(themes)
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
@@ -506,7 +500,7 @@ export const Subscribe: Story = {
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 
 		useLayoutEffect(() => {
-			storeRef.current = classNameThemeStore<typeof themes>({ themes: themes })
+			storeRef.current = classNameThemeStore(themes)
 		}, [])
 
 		useEffect(() => {
@@ -558,7 +552,7 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = classNameThemeStore({ themes, element: targetElement })
+				const store = classNameThemeStore(themes, { element: targetElement })
 				store.subscribe((entry) => {
 					invocationCount++
 					setObserved(entry)
@@ -577,7 +571,7 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 		useLayoutEffect(() => {
 			const el = targetRef.current
 			if (!el) return
-			const store = classNameThemeStore<typeof themes>({ themes: themes, element: el })
+			const store = classNameThemeStore(themes, { element: el })
 			storeRef.current = store
 		}, [])
 

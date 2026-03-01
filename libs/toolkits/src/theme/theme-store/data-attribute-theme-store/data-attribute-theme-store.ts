@@ -8,8 +8,7 @@ import type { ThemeMap } from '../../theme-map.types.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface DataAttributeThemeStoreOptions<Themes extends ThemeMap> {
-	themes: Themes
+export type DataAttributeThemeStoreOptions = {
 	attributeName: `data-${string}`
 	element?: Element | null
 }
@@ -17,27 +16,26 @@ export interface DataAttributeThemeStoreOptions<Themes extends ThemeMap> {
 /**
  * Creates a theme store that reads and writes via a data attribute.
  *
+ * @param themes - Record mapping theme keys to attribute values
  * @param options.attributeName - Data attribute name (e.g. `data-theme`)
  * @param options.element - Element to operate on (defaults to document.documentElement)
- * @param options.themes - Record mapping theme keys to attribute values
  * @returns ThemeStore
  *
  * @example
  * ```ts
- * const store = dataAttributeThemeStore({
- *   attributeName: 'data-theme',
- *   themes: { current: 'current', grayscale: 'grayscale' },
- * })
+ * const themes = { current: 'current', grayscale: 'grayscale' }
+ * const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
  * store.read() // returns themeResult from data attribute
- * store.write(themeEntry('grayscale', themeMap))
+ * store.write(themeEntry('grayscale', themes))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function dataAttributeThemeStore<Themes extends ThemeMap>(
-	options: DataAttributeThemeStoreOptions<Themes>
+	themes: Themes,
+	options: DataAttributeThemeStoreOptions
 ) {
 	const element = options.element ?? document?.documentElement
-	const { attributeName, themes } = options
+	const { attributeName } = options
 
 	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
 

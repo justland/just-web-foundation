@@ -5,8 +5,7 @@ import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
-	themes: Themes
+export type LocalStorageThemeStoreOptions = {
 	storageKey: string
 }
 
@@ -16,25 +15,24 @@ export type LocalStorageThemeStoreOptions<Themes extends ThemeMap> = {
  * Persists across sessions; cross-tab sync via StorageEvent.
  * Same-tab writes trigger manual notify (StorageEvent does not fire for same tab).
  *
+ * @param themes - Record mapping theme keys to values (for validation)
  * @param options.storageKey - localStorage key
- * @param options.themes - Record mapping theme keys to values (for validation)
  * @returns ThemeStore
  *
  * @example
  * ```ts
- * const store = localStorageThemeStore({
- *   storageKey: 'theme',
- *   themes: { current: 'theme-current', grayscale: 'theme-grayscale' },
- * })
+ * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const store = localStorageThemeStore(themes, { storageKey: 'theme' })
  * store.read() // returns themeResult from localStorage
- * store.write(themeEntry('grayscale', themeMap))
+ * store.write(themeEntry('grayscale', themes))
  * store.subscribe((themeResult) => {})
  * ```
  */
 export function localStorageThemeStore<Themes extends ThemeMap>(
-	options: LocalStorageThemeStoreOptions<Themes>
+	themes: Themes,
+	options: LocalStorageThemeStoreOptions
 ) {
-	const { storageKey, themes } = options
+	const { storageKey } = options
 
 	if (typeof window === 'undefined' || !window.localStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>

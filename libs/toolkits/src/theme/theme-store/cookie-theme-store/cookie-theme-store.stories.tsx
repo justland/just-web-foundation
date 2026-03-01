@@ -50,10 +50,7 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({
-					cookieName: 'app-theme',
-					themes
-				})
+				const store = cookieThemeStore(themes, { cookieName: 'app-theme' })
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
@@ -65,14 +62,7 @@ export const Playground: Story = {
 		}
 	],
 	render: () => {
-		const store = useMemo(
-			() =>
-				cookieThemeStore<typeof themes>({
-					cookieName: COOKIE_NAME,
-					themes: themes
-				}),
-			[]
-		)
+		const store = useMemo(() => cookieThemeStore(themes, { cookieName: COOKIE_NAME }), [])
 		return <ThemeStoreDemo2 store={store} themes={themes} />
 	}
 	// Play omitted: document.cookie can be restricted in Storybook test iframe (third-party context)
@@ -91,28 +81,19 @@ export const CookieName: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({
-					cookieName: 'app-theme',
-					themes
-				})
+				const store = cookieThemeStore(themes, { cookieName: 'app-theme' })
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = cookieThemeStore<typeof themes>({
-				cookieName: COOKIE_NAME,
-				themes: themes
-			})
+			const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
 			store.write(themeEntry('current', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themes>({
-			cookieName: COOKIE_NAME,
-			themes: themes
-		})
+		const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
 		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
@@ -145,26 +126,20 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({ cookieName: 'theme', themes })
+				const store = cookieThemeStore(themes, { cookieName: 'theme' })
 				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
-			const store = cookieThemeStore<typeof themes>({
-				cookieName: COOKIE_NAME,
-				themes: themes
-			})
+			const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
 			store.write(themeEntry('grayscale', themes))
 			return {}
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themes>({
-			cookieName: COOKIE_NAME,
-			themes: themes
-		})
+		const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
 		const result = store.read()
 		return (
 			<ThemeResultCard
@@ -194,7 +169,7 @@ export const ReadWhenEmpty: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = cookieThemeStore({ cookieName: 'theme-get', themes })
+				const store = cookieThemeStore(themes, { cookieName: 'theme-get' })
 				const theme = store.read() // undefined when empty
 			`
 		})
@@ -206,10 +181,7 @@ export const ReadWhenEmpty: Story = {
 		}
 	],
 	render: () => {
-		const store = cookieThemeStore<typeof themes>({
-			cookieName: COOKIE_NAME,
-			themes: themes
-		})
+		const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
 		const result = store.read()
 		return (
 			<ThemeResultCard

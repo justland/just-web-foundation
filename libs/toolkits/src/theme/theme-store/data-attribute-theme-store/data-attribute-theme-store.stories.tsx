@@ -43,9 +43,8 @@ type ExampleTheme = keyof typeof themes
 const attributeName = 'data-theme' as const
 
 function createStore(options?: { element?: Element }) {
-	return dataAttributeThemeStore({
+	return dataAttributeThemeStore(themes, {
 		attributeName,
-		themes,
 		...options
 	})
 }
@@ -62,10 +61,7 @@ export const Playground: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 				<ThemeStoreDemo2 store={store} themes={themes} />
 			`
 		})
@@ -106,10 +102,7 @@ export const ElementDefault: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 			`
 		})
 	],
@@ -166,9 +159,8 @@ export const ElementBody: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = dataAttributeThemeStore({
+				const store = dataAttributeThemeStore(themes, {
 					attributeName: 'data-theme',
-					themes,
 					element: document.body
 				})
 			`
@@ -229,9 +221,8 @@ export const ElementCustom: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = dataAttributeThemeStore({
+				const store = dataAttributeThemeStore(themes, {
 					attributeName: 'data-theme',
-					themes,
 					element: targetElement
 				})
 			`
@@ -305,10 +296,7 @@ export const ThemeMapStringValue: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 			`
 		})
 	],
@@ -352,9 +340,8 @@ const themesArray = {
 } as const
 
 function createStoreArray(options?: { element?: Element }) {
-	return dataAttributeThemeStore({
+	return dataAttributeThemeStore(themesArray, {
 		attributeName,
-		themes: themesArray,
 		...options
 	})
 }
@@ -385,10 +372,7 @@ export const ThemeMapArrayValues: Story = {
 					'high-contrast': 'theme-high-contrast'
 				} as const
 
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 			`
 		})
 	],
@@ -439,10 +423,7 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 				const result = store.read()
 			`
 		})
@@ -485,11 +466,8 @@ export const WriteStory: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
-				store.write(themeResult('high-contrast', themes))
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
+				store.write(themeEntry('high-contrast', themes))
 			`
 		})
 	],
@@ -550,10 +528,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = dataAttributeThemeStore({
-					attributeName: 'data-theme',
-					themes
-				})
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 				return store.subscribe((themeResult) => {
 					console.log('Theme:', themeResult?.theme, themeResult?.value)
 				})
