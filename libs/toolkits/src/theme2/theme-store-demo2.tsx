@@ -5,8 +5,8 @@ import { appendId } from '../utils/append-id.ts'
 import { themeEntry } from './theme-entry.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './types/async-theme-store.types.ts'
-import type { ThemeStore } from './types/theme-store.types.ts'
+import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>

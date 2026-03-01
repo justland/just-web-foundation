@@ -5,7 +5,7 @@ import { resolveThemeFromClassName } from '../../class-name/resolve-theme-from-c
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import { dummyThemeStore } from '../../theme-store/dummy-theme-store.ts'
-import type { ThemeStore } from '../../types/theme-store.types.ts'
+import type { ThemeStore } from '../../theme-store/theme-store.types.ts'
 
 export type ClassNameThemeStoreOptions<Themes extends ThemeMap> = {
 	element?: Element | null

@@ -2,9 +2,9 @@ import type { Required } from 'type-plus'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
-import type { ThemeStore } from '../../types/theme-store.types.ts'
 import { parseStoredTheme } from '../../utils/parse-stored-theme.ts'
 import { dummyThemeStore } from '../dummy-theme-store.ts'
+import type { ThemeStore } from '../theme-store.types.ts'
 
 export type GetThemeFromCookieOptions = {
 	cookieName?: string | undefined
