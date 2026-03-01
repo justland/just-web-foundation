@@ -12,6 +12,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  * All methods are optional.
  * Built-in implementations:
  * - `classNameThemeStore`
+ * - `cookieThemeStore`
  * - `dataAttributeThemeStore`
  * - `inMemoryThemeStore`
  * - `localStorageThemeStore`
