@@ -15,7 +15,7 @@ import {
 } from '#just-web/toolkits/theme'
 import { Button } from '../testing/button.tsx'
 import { ThemeResultCard } from '../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo2.tsx'
+import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo.tsx'
 import source from './compose-theme-stores.ts?raw'
 
 const meta = {

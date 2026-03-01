@@ -1,82 +1,82 @@
 import { useCallback, useEffect, useState } from 'react'
 import { themeEntry } from '../../theme/theme-entry.ts'
+import type { ThemeEntry } from '../../theme/theme-entry.types.ts'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import type { AsyncThemeStore } from '../../theme/theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
-import { getThemeFromStores } from '../../theme/utils/get-theme-from-stores.ts'
-import { observeThemeFromStores } from '../../theme/utils/observe-theme-from-stores.ts'
-import { setThemeToStores } from '../../theme/utils/set-theme-to-stores.ts'
 import { appendId } from '../../utils/append-id.ts'
 import { Button } from '../button.tsx'
 import { ThemeResultCard } from './theme-result-card.tsx'
 
-export type ThemeStoreDemoProps<Themes extends ThemeMap> = {
+export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
-	theme?: keyof Themes | null
+	/** Theme keys to show as "Write X" buttons. Defaults to first 3 keys from themes. */
+	setThemeKeys?: (keyof Themes)[] | undefined
 	'data-testid'?: string | undefined
 }
 
 /**
- * Demo component that uses getThemeFromStores, setThemeToStores, and observeThemeFromStores.
- * Renders observed value, a one-time get result, and buttons to trigger get/set for showcasing behavior.
+ * Demo component that uses theme store.read, store.write, and store.subscribe.
+ * Renders observed value, a one-time read result, and buttons to trigger read/write for showcasing behavior.
  * All interactive elements and result areas use data-testid for testing.
  */
-export function ThemeStoreDemo<Themes extends ThemeMap>({
+export function ThemeStoreDemo2<Themes extends ThemeMap>({
 	store,
 	themes,
-	theme,
-	'data-testid': dataTestId = 'theme-store-demo'
-}: ThemeStoreDemoProps<Themes>) {
-	const [observedTheme, setObservedTheme] = useState<keyof Themes | undefined>(undefined)
-	const [getResult, setGetResult] = useState<
-		{ theme: keyof Themes; value: Themes[keyof Themes] } | undefined
-	>(undefined)
+	setThemeKeys,
+	'data-testid': dataTestId = 'theme-store-demo2'
+}: ThemeStoreDemo2Props<Themes>) {
+	const [observedResult, setObservedResult] = useState<ThemeEntry<Themes> | undefined | null>(
+		undefined
+	)
+	const [getResult, setGetResult] = useState<ThemeEntry<Themes> | undefined | null>(undefined)
 
-	const defaultTheme = theme ?? undefined
+	const keys = (setThemeKeys ??
+		(Object.keys(themes) as (keyof Themes)[]).slice(0, 3)) as (keyof Themes)[]
 
 	useEffect(() => {
-		const unobserve = observeThemeFromStores([store], defaultTheme, setObservedTheme)
-		return unobserve
-	}, [store, defaultTheme])
+		void Promise.resolve(store.read?.()).then((r) => setObservedResult(r ?? undefined))
+	}, [store])
+
+	useEffect(() => {
+		return store.subscribe?.(setObservedResult)
+	}, [store])
 
 	const handleGet = useCallback(async () => {
-		const themeKey = await getThemeFromStores([store], defaultTheme)
-		setGetResult(themeKey ? { theme: themeKey, value: themes[themeKey] } : undefined)
-	}, [store, themes, defaultTheme])
+		const result = store.read?.()
+		const resolved = await Promise.resolve(result)
+		setGetResult(resolved ?? undefined)
+	}, [store])
 
-	const handleSetDefault = useCallback(() => {
-		setThemeToStores([store], themeEntry('default' as keyof Themes, themes))
-	}, [store, themes])
-
-	const handleSetGrayscale = useCallback(() => {
-		setThemeToStores([store], themeEntry('grayscale' as keyof Themes, themes))
-	}, [store, themes])
-
-	const observedResult = observedTheme
-		? { theme: observedTheme, value: themes[observedTheme] }
-		: undefined
+	const handleSet = useCallback(
+		(theme: keyof Themes) => async () => {
+			const ret = store.write?.(themeEntry(theme, themes))
+			await Promise.resolve(ret)
+		},
+		[store, themes]
+	)
 
 	const observeTestId = appendId(dataTestId, 'observe')
-	const getTestId = appendId(dataTestId, 'get')
+	const readTestId = appendId(dataTestId, 'read')
 
 	return (
 		<div className="flex flex-col gap-2" data-testid={dataTestId}>
-			<div className="flex gap-2">
-				<Button onClick={handleGet} data-testid={appendId(dataTestId, 'btn-get')}>
-					Get theme
+			<div className="flex flex-wrap gap-2">
+				<Button onClick={handleGet} data-testid={appendId(dataTestId, 'btn-read')}>
+					Read theme
 				</Button>
-				<Button onClick={handleSetDefault} data-testid={appendId(dataTestId, 'btn-set-default')}>
-					Set default
-				</Button>
-				<Button
-					onClick={handleSetGrayscale}
-					data-testid={appendId(dataTestId, 'btn-set-grayscale')}
-				>
-					Set grayscale
-				</Button>
+				{keys.map((key) => (
+					<Button
+						key={String(key)}
+						onClick={handleSet(key)}
+						data-testid={appendId(dataTestId, `btn-write-${String(key)}`)}
+					>
+						Write {String(key)}
+					</Button>
+				))}
 			</div>
-			<ThemeResultCard title="Get (one-time)" result={getResult} data-testid={getTestId} />
+			<ThemeResultCard title="Read (one-time)" result={getResult} data-testid={readTestId} />
 			<ThemeResultCard
 				title="Observed (subscribe)"
 				result={observedResult}

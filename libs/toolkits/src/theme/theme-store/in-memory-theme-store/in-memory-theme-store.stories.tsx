@@ -6,7 +6,7 @@ import { expect, userEvent, waitFor } from 'storybook/test'
 import { inMemoryThemeStore, type ThemeEntry, themeEntry } from '#just-web/toolkits/theme'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo2.tsx'
+import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './in-memory-theme-store.ts?raw'
 
 const meta = {

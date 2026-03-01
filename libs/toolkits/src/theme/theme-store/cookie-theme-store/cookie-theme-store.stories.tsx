@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { expect } from 'storybook/test'
 import { cookieThemeStore, getThemeFromCookie, themeEntry } from '#just-web/toolkits/theme'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo2.tsx'
+import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './cookie-theme-store.ts?raw'
 
 const meta = {
