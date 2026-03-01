@@ -1,11 +1,11 @@
 import type { Required } from 'type-plus'
 import { getDataAttribute } from '../../../attributes/get-data-attribute.ts'
 import { observeDataAttributes } from '../../../attributes/observe-data-attribute.ts'
+import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { applyThemeToDataAttribute } from '../../data-attribute/apply-theme-to-data-attribute.ts'
 import { resolveThemeFromDataAttribute } from '../../data-attribute/resolve-theme-from-data-attribute.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
-import { dummyThemeStore } from '../dummy-theme-store.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
 export type DataAttributeThemeStoreOptions = {

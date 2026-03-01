@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Button } from '../testing/button.tsx'
-import { ThemeResultCard } from '../testing/theme-result-card.tsx'
-import { appendId } from '../utils/append-id.ts'
-import { themeEntry } from './theme-entry.ts'
-import type { ThemeEntry } from './theme-entry.types.ts'
-import type { ThemeMap } from './theme-map.types.ts'
-import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
-import type { ThemeStore } from './theme-store/theme-store.types.ts'
+import { themeEntry } from '../../theme/theme-entry.ts'
+import type { ThemeEntry } from '../../theme/theme-entry.types.ts'
+import type { ThemeMap } from '../../theme/theme-map.types.ts'
+import type { AsyncThemeStore } from '../../theme/theme-store/async-theme-store.types.ts'
+import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
+import { appendId } from '../../utils/append-id.ts'
+import { Button } from '../button.tsx'
+import { ThemeResultCard } from './theme-result-card.tsx'
 
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>

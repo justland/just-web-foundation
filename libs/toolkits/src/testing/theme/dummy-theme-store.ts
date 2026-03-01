@@ -1,4 +1,4 @@
-import type { ThemeStore } from './theme-store.types.ts'
+import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
 
 export const dummyThemeStore = {
 	read: () => undefined,

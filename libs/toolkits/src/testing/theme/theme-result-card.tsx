@@ -1,5 +1,5 @@
 import { StoryCard } from '@repobuddy/storybook'
-import { appendId } from '../utils/append-id.ts'
+import { appendId } from '../../utils/append-id.ts'
 
 export type ThemeResult = {
 	theme?: unknown
