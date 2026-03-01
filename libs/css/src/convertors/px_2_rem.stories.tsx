@@ -22,7 +22,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const BasicUsage: Story = {
-	tags: ['use-case', 'snapshot'],
+	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'Convert pixel numbers to rem using the default base (16px).'
