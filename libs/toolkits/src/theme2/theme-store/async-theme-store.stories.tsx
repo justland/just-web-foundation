@@ -14,7 +14,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Creates an AsyncThemeStore from user-provided get, set, and/or subscribe. Useful for remote persistence, polling, or WebSocket-based sync. Returns a store with only the provided methods.'
+				'Creates an AsyncThemeStore from user-provided read, write, and/or subscribe. Useful for remote persistence, polling, or WebSocket-based sync. Returns a store with only the provided methods.'
 		}
 	}),
 	render: () => <></>
@@ -38,7 +38,7 @@ export const Playground: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Interactive demo: Get theme, set themes via buttons, and observe subscribe updates. ThemeStoreDemo2 supports both sync and async stores.'
+				'Interactive demo: Read theme, write themes via buttons, and observe subscribe updates. ThemeStoreDemo2 supports both sync and async stores.'
 		}
 	}),
 	decorators: [
@@ -46,8 +46,8 @@ export const Playground: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					get: async () => wrote,
-					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
+					read: async () => wrote,
+					write: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
 					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
 				})
 				<ThemeStoreDemo2 store={store} themes={themeMap} />
@@ -59,8 +59,8 @@ export const Playground: Story = {
 			let wrote: ThemeEntry<typeof themeMap> | undefined
 			let notify: ((v: ThemeEntry<typeof themeMap> | undefined | null) => void) | undefined
 			return asyncThemeStore({
-				get: async () => wrote,
-				set: async (entry) => {
+				read: async () => wrote,
+				write: async (entry) => {
 					wrote = entry ?? undefined
 					notify?.(wrote)
 				},
@@ -74,7 +74,7 @@ export const Playground: Story = {
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-set-grayscale'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -85,22 +85,22 @@ export const Playground: Story = {
 }
 
 export const OptionsStructure: Story = {
-	name: 'options: get / set / subscribe',
+	name: 'options: read / write / subscribe',
 	tags: ['use-case', 'props'],
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Pass optional <code>get</code>, <code>set</code>, and/or <code>subscribe</code>. The store
-					exposes only the methods you provide.
+					Pass optional <code>read</code>, <code>write</code>, and/or <code>subscribe</code>. The
+					store exposes only the methods you provide.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					get: async () => { /* fetch from API */ },
-					set: async (entry) => { /* persist to API */ },
+					read: async () => { /* fetch from API */ },
+					write: async (entry) => { /* persist to API */ },
 					subscribe: (handler) => { /* WebSocket, polling */; return () => {} }
 				})
 			`
@@ -108,7 +108,7 @@ export const OptionsStructure: Story = {
 	],
 	render: () => (
 		<StoryCard title="Options" appearance="output">
-			<pre className="text-sm">{'{ get?, set?, subscribe? }'}</pre>
+			<pre className="text-sm">{'{ read?, write?, subscribe? }'}</pre>
 		</StoryCard>
 	)
 }
@@ -134,8 +134,8 @@ export const ThemeMapStringValue: Story = {
 				} as const
 
 				const store = asyncThemeStore({
-					get: async () => wrote,
-					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
+					read: async () => wrote,
+					write: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
 					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
 				})
 			`
@@ -151,8 +151,8 @@ export const ThemeMapStringValue: Story = {
 		const store = useMemo(
 			() =>
 				asyncThemeStore<typeof themeMap>({
-					get: () => wroteRef.current,
-					set: async (entry) => {
+					read: () => wroteRef.current,
+					write: async (entry) => {
 						wroteRef.current = entry ?? undefined
 						notifyRef.current?.(wroteRef.current)
 					},
@@ -164,22 +164,22 @@ export const ThemeMapStringValue: Story = {
 				}),
 			[]
 		)
-		const result = store.get?.()
+		const result = store.read?.()
 		const displayResult =
 			result && typeof result === 'object' && 'theme' in result ? result : wroteRef.current
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={displayResult}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
 
@@ -215,8 +215,8 @@ export const ThemeMapArrayValues: Story = {
 				} as const
 
 				const store = asyncThemeStore({
-					get: async () => wrote,
-					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
+					read: async () => wrote,
+					write: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
 					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
 				})
 			`
@@ -232,8 +232,8 @@ export const ThemeMapArrayValues: Story = {
 		const store = useMemo(
 			() =>
 				asyncThemeStore<typeof themeMapArray>({
-					get: () => wroteRef.current,
-					set: async (entry) => {
+					read: () => wroteRef.current,
+					write: async (entry) => {
 						wroteRef.current = entry ?? undefined
 						notifyRef.current?.(wroteRef.current)
 					},
@@ -245,34 +245,34 @@ export const ThemeMapArrayValues: Story = {
 				}),
 			[]
 		)
-		const result = store.get?.()
+		const result = store.read?.()
 		const displayResult =
 			result && typeof result === 'object' && 'theme' in result ? result : wroteRef.current
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={displayResult}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: [theme-grayscale, app:bg-gray-100]'
 		)
 	}
 }
 
-export const Get: Story = {
-	name: 'get',
+export const Read: Story = {
+	name: 'read',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.get() reads the current theme. Can return a Promise for async sources (e.g. API, localStorage with parsing).'
+				'store.read() reads the current theme. Can return a Promise for async sources (e.g. API, localStorage with parsing).'
 		}
 	}),
 	decorators: [
@@ -280,40 +280,42 @@ export const Get: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					get: async () => ({ theme: 'grayscale', value: themeMap.grayscale })
+					read: async () => ({ theme: 'grayscale', value: themeMap.grayscale })
 				})
-				const result = await store.get?.()
+				const result = await store.read?.()
 			`
 		})
 	],
 	loaders: [
 		async () => {
 			const store = asyncThemeStore<typeof themeMap>({
-				get: async () => ({ theme: 'grayscale', value: themeMap.grayscale })
+				read: async () => ({ theme: 'grayscale', value: themeMap.grayscale })
 			})
-			const result = await store.get?.()
+			const result = await store.read?.()
 			return { result }
 		}
 	],
 	render: (_, { loaded: { result } }) => (
 		<ThemeResultCard
-			title="store.get() result (async)"
-			data-testid="store-get-result"
+			title="store.read() result (async)"
+			data-testid="store-read-result"
 			result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
 		/>
 	),
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
-export const GetWhenEmpty: Story = {
-	name: 'get: undefined',
+export const ReadWhenEmpty: Story = {
+	name: 'read: undefined',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When get is provided but no theme has been set yet, get() returns undefined.'
+			story: 'When read is provided but no theme has been written yet, read() returns undefined.'
 		}
 	}),
 	decorators: [
@@ -321,41 +323,41 @@ export const GetWhenEmpty: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					get: async () => undefined
+					read: async () => undefined
 				})
-				const result = await store.get?.()
+				const result = await store.read?.()
 			`
 		})
 	],
 	loaders: [
 		async () => {
 			const store = asyncThemeStore<typeof themeMap>({
-				get: async () => undefined
+				read: async () => undefined
 			})
-			const result = await store.get?.()
+			const result = await store.read?.()
 			return { result }
 		}
 	],
 	render: (_, { loaded: { result } }) => (
 		<ThemeResultCard
-			title="store.get() result"
-			data-testid="store-get-result"
+			title="store.read() result"
+			data-testid="store-read-result"
 			result={
 				result !== undefined && result !== null ? result : { theme: undefined, value: undefined }
 			}
 		/>
 	),
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('(undefined)')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('(undefined)')
 	}
 }
 
-export const SetStory: Story = {
-	name: 'set',
+export const WriteStory: Story = {
+	name: 'write',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.set() persists the theme. Can return a Promise for async persistence.'
+			story: 'store.write() persists the theme. Can return a Promise for async persistence.'
 		}
 	}),
 	decorators: [
@@ -363,10 +365,10 @@ export const SetStory: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					get: async () => wrote,
-					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) }
+					read: async () => wrote,
+					write: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) }
 				})
-				await store.set?.(themeEntry('high-contrast', themeMap))
+				await store.write?.(themeEntry('high-contrast', themeMap))
 			`
 		})
 	],
@@ -378,8 +380,8 @@ export const SetStory: Story = {
 		const store = useMemo(
 			() =>
 				asyncThemeStore<typeof themeMap>({
-					get: async () => wroteRef.current,
-					set: async (entry) => {
+					read: async () => wroteRef.current,
+					write: async (entry) => {
 						wroteRef.current = entry ?? undefined
 						notifyRef.current?.(wroteRef.current)
 					},
@@ -398,7 +400,7 @@ export const SetStory: Story = {
 		useLayoutEffect(() => {
 			let cancelled = false
 			;(async () => {
-				const r = await store.get?.()
+				const r = await store.read?.()
 				if (!cancelled) setCurrentTheme(r?.theme ?? null)
 			})()
 			return () => {
@@ -419,20 +421,20 @@ export const SetStory: Story = {
 						<button
 							key={theme}
 							type="button"
-							data-testid={`set-${theme}`}
+							data-testid={`write-${theme}`}
 							onClick={async () => {
-								await store.set?.(themeEntry(theme, themeMap))
+								await store.write?.(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 							className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 						>
-							set({theme})
+							write({theme})
 						</button>
 					))}
 				</div>
 				<ThemeResultCard
-					title="store.get() after set"
-					data-testid="store-set-result"
+					title="store.read() after write"
+					data-testid="store-write-result"
 					result={
 						currentTheme
 							? { theme: currentTheme, value: themeMap[currentTheme] }
@@ -443,11 +445,13 @@ export const SetStory: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-grayscale'))
+		await userEvent.click(canvas.getByTestId('write-grayscale'))
 		await waitFor(() =>
-			expect(canvas.getByTestId('store-set-result')).toHaveTextContent('theme: grayscale')
+			expect(canvas.getByTestId('store-write-result')).toHaveTextContent('theme: grayscale')
 		)
-		await expect(canvas.getByTestId('store-set-result')).toHaveTextContent('value: theme-grayscale')
+		await expect(canvas.getByTestId('store-write-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
@@ -457,7 +461,7 @@ export const Subscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'store.subscribe() calls the handler with the current theme and when set() triggers a change.'
+				'store.subscribe() calls the handler with the current theme and when write() triggers a change.'
 		}
 	}),
 	decorators: [
@@ -465,7 +469,7 @@ export const Subscribe: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({
-					set: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
+					write: async (entry) => { wrote = entry ?? undefined; notify?.(wrote) },
 					subscribe: (handler) => { notify = handler; handler(wrote); return () => { notify = undefined } }
 				})
 				return store.subscribe((themeEntry) => console.log('Theme:', themeEntry))
@@ -480,7 +484,7 @@ export const Subscribe: Story = {
 		const store = useMemo(
 			() =>
 				asyncThemeStore<typeof themeMap>({
-					set: async (entry) => {
+					write: async (entry) => {
 						wroteRef.current = entry ?? undefined
 						notifyRef.current?.(wroteRef.current)
 					},
@@ -504,19 +508,19 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<button
 						type="button"
-						data-testid="set-high-contrast"
-						onClick={() => store.set?.(themeEntry('high-contrast', themeMap))}
+						data-testid="write-high-contrast"
+						onClick={() => store.write?.(themeEntry('high-contrast', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
-						set('high-contrast')
+						write('high-contrast')
 					</button>
 					<button
 						type="button"
-						data-testid="set-current"
-						onClick={() => store.set?.(themeEntry('current', themeMap))}
+						data-testid="write-current"
+						onClick={() => store.write?.(themeEntry('current', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
-						set('current')
+						write('current')
 					</button>
 				</div>
 				<ThemeResultCard
@@ -528,11 +532,11 @@ export const Subscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-high-contrast'))
+		await userEvent.click(canvas.getByTestId('write-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
 		)
-		await userEvent.click(canvas.getByTestId('set-current'))
+		await userEvent.click(canvas.getByTestId('write-current'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('current')
 		)
@@ -545,18 +549,18 @@ export const SubscribeUnsubscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'After calling the function returned by subscribe(), further set() calls do not invoke the handler.'
+				'After calling the function returned by subscribe(), further write() calls do not invoke the handler.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = asyncThemeStore({ set, subscribe })
+				const store = asyncThemeStore({ write, subscribe })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				await store.set?.(themeEntry('grayscale', themeMap))
+				await store.write?.(themeEntry('grayscale', themeMap))
 				unsubscribe()
-				await store.set?.(themeEntry('current', themeMap)) // handler not called
+				await store.write?.(themeEntry('current', themeMap)) // handler not called
 			`
 		})
 	],
@@ -568,7 +572,7 @@ export const SubscribeUnsubscribe: Story = {
 		const store = useMemo(
 			() =>
 				asyncThemeStore<typeof themeMap>({
-					set: async (entry) => {
+					write: async (entry) => {
 						wroteRef.current = entry ?? undefined
 						notifyRef.current?.(wroteRef.current)
 					},
@@ -600,19 +604,19 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<button
 						type="button"
-						data-testid="set-grayscale"
-						onClick={() => store.set?.(themeEntry('grayscale', themeMap))}
+						data-testid="write-grayscale"
+						onClick={() => store.write?.(themeEntry('grayscale', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
-						set('grayscale')
+						write('grayscale')
 					</button>
 					<button
 						type="button"
-						data-testid="set-current"
-						onClick={() => store.set?.(themeEntry('current', themeMap))}
+						data-testid="write-current"
+						onClick={() => store.write?.(themeEntry('current', themeMap))}
 						className="rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm"
 					>
-						set('current')
+						write('current')
 					</button>
 					<button
 						type="button"
@@ -635,67 +639,67 @@ export const SubscribeUnsubscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-grayscale'))
+		await userEvent.click(canvas.getByTestId('write-grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('grayscale')
 		)
 		await userEvent.click(canvas.getByTestId('unsubscribe'))
-		await userEvent.click(canvas.getByTestId('set-current'))
+		await userEvent.click(canvas.getByTestId('write-current'))
 		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('grayscale')
 	}
 }
 
-export const SetOnlyStoreShape: Story = {
-	name: 'set-only: store shape',
+export const WriteOnlyStoreShape: Story = {
+	name: 'write-only: store shape',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When only set is provided, store.get and store.subscribe are undefined; store.set is defined.'
+				'When only write is provided, store.read and store.subscribe are undefined; store.write is defined.'
 		}
 	}),
 	decorators: [
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const store = asyncThemeStore({ set: async () => {} })
-				store.get // undefined
-				store.set // defined
+				const store = asyncThemeStore({ write: async () => {} })
+				store.read // undefined
+				store.write // defined
 				store.subscribe // undefined
 			`
 		})
 	],
 	render: () => {
-		const store = asyncThemeStore<typeof themeMap>({ set: async () => {} })
+		const store = asyncThemeStore<typeof themeMap>({ write: async () => {} })
 		return (
-			<StoryCard title="Store shape (set-only)" appearance="output">
+			<StoryCard title="Store shape (write-only)" appearance="output">
 				<pre className="text-sm" data-testid="store-shape">
-					{`{ get: ${store.get !== undefined}, set: ${store.set !== undefined}, subscribe: ${store.subscribe !== undefined} }`}
+					{`{ read: ${store.read !== undefined}, write: ${store.write !== undefined}, subscribe: ${store.subscribe !== undefined} }`}
 				</pre>
 			</StoryCard>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('get: false')
-		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('set: true')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('read: false')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('write: true')
 		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('subscribe: false')
 	}
 }
 
-export const SetOnly: Story = {
-	name: 'set-only: write-only sink',
+export const WriteOnly: Story = {
+	name: 'write-only: write-only sink',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Create a write-only store for side effects (e.g. analytics) without persisting. No get or subscribe.'
+				'Create a write-only store for side effects (e.g. analytics) without persisting. No read or subscribe.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					<code>set</code>-only store receives theme changes but does not participate in read. Use
+					<code>write</code>-only store receives theme changes but does not participate in read. Use
 					for analytics or logging.
 				</p>
 			)
@@ -703,7 +707,7 @@ export const SetOnly: Story = {
 		showSource({
 			source: dedent`
 				const analyticsStore = asyncThemeStore({
-					set: async (entry) => track('theme_changed', { theme: entry?.theme })
+					write: async (entry) => track('theme_changed', { theme: entry?.theme })
 				})
 			`
 		})
@@ -712,12 +716,12 @@ export const SetOnly: Story = {
 		async () => {
 			const events: string[] = []
 			const store = asyncThemeStore<typeof themeMap>({
-				set: async (entry) => {
+				write: async (entry) => {
 					if (entry) events.push(entry.theme)
 				}
 			})
-			await store.set?.(themeEntry('high-contrast', themeMap))
-			await store.set?.(themeEntry('next', themeMap))
+			await store.write?.(themeEntry('high-contrast', themeMap))
+			await store.write?.(themeEntry('next', themeMap))
 			return { events }
 		}
 	],
@@ -738,7 +742,7 @@ export const EmptyStore: Story = {
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When no options are provided, returns an empty store (no get, set, or subscribe).'
+			story: 'When no options are provided, returns an empty store (no read, write, or subscribe).'
 		}
 	}),
 	decorators: [
@@ -746,8 +750,8 @@ export const EmptyStore: Story = {
 		showSource({
 			source: dedent`
 				const store = asyncThemeStore({})
-				store.get // undefined
-				store.set // undefined
+				store.read // undefined
+				store.write // undefined
 				store.subscribe // undefined
 			`
 		})
@@ -757,14 +761,14 @@ export const EmptyStore: Story = {
 		return (
 			<StoryCard title="Store shape" appearance="output">
 				<pre className="text-sm" data-testid="store-shape">
-					{`{ get: ${store.get !== undefined}, set: ${store.set !== undefined}, subscribe: ${store.subscribe !== undefined} }`}
+					{`{ read: ${store.read !== undefined}, write: ${store.write !== undefined}, subscribe: ${store.subscribe !== undefined} }`}
 				</pre>
 			</StoryCard>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('get: false')
-		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('set: false')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('read: false')
+		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('write: false')
 		await expect(canvas.getByTestId('store-shape')).toHaveTextContent('subscribe: false')
 	}
 }

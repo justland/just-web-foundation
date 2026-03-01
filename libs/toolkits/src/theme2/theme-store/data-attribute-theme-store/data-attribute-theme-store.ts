@@ -28,8 +28,8 @@ export type DataAttributeThemeStoreOptions<Themes extends ThemeMap> = {
  *   attributeName: 'data-theme',
  *   themeMap: { current: 'current', grayscale: 'grayscale' },
  * })
- * store.get() // returns themeResult from data attribute
- * store.set(themeEntry('grayscale', themeMap))
+ * store.read() // returns themeResult from data attribute
+ * store.write(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -42,13 +42,13 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
 
 	return {
-		get() {
+		read() {
 			const value = getDataAttribute(attributeName, element)
 			const theme = resolveThemeFromDataAttribute(value, themeMap)
 			if (theme === undefined) return undefined
 			return themeEntry(theme, themeMap)
 		},
-		set(entry) {
+		write(entry) {
 			applyThemeToDataAttribute(element, attributeName, entry)
 		},
 		subscribe(handler) {

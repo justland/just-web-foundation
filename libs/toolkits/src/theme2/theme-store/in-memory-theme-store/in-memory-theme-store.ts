@@ -5,7 +5,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
 /**
  * In-memory theme store. Transient state; no persistence.
  *
- * Implements get, set, subscribe. Useful for tests or as primary store.
+ * Implements read, write, subscribe. Useful for tests or as primary store.
  *
  * @typeParam Themes - ThemeMap type defining valid theme keys and values
  * @returns ThemeStore
@@ -14,8 +14,8 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * ```ts
  * const themeMap = { current: 'theme-current', grayscale: 'theme-grayscale' } as const
  * const store = inMemoryThemeStore<typeof themeMap>()
- * store.get() // undefined when empty
- * store.set(themeResult('grayscale', themeMap))
+ * store.read() // undefined when empty
+ * store.write(themeResult('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -23,21 +23,21 @@ export function inMemoryThemeStore<Themes extends ThemeMap>() {
 	let value: ThemeEntry<Themes> | undefined | null
 	const listeners = new Set<(v: ThemeEntry<Themes> | undefined) => void>()
 
-	function get() {
+	function read() {
 		if (value === undefined || value === null) return value
 		return value
 	}
 
 	return {
-		get,
-		set(entry) {
+		read,
+		write(entry) {
 			if (value === entry) return
 			value = entry
 			for (const fn of listeners) fn(entry ?? undefined)
 		},
 		subscribe(handler) {
 			listeners.add(handler)
-			handler(get())
+			handler(read())
 			return () => {
 				listeners.delete(handler)
 			}

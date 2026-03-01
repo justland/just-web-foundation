@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { ThemeResultCard } from '../../testing/theme-result-card.tsx'
 import { inMemoryThemeStore, themeEntry } from '../index.ts'
-import type { ThemeMap } from '../theme-map.types.ts'
 import { dummyThemeStore } from './dummy-theme-store.ts'
 import source from './theme-store.types.ts?raw'
 
@@ -22,80 +21,79 @@ const themeMap = {
 	grayscale: 'theme-grayscale'
 } as const
 
-export const GetOnly: Story = {
-	name: 'get only',
+export const ReadOnly: Story = {
+	name: 'read only',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Store with only <code>get</code> participates in waterfall read. Used when the store is read-only (e.g. data-attribute observer).'
+				'Store with only <code>read</code> participates in waterfall read. Used when the store is read-only (e.g. data-attribute observer).'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					<code>get</code> returns <code>ThemeEntry | undefined | null</code>. When multiple stores
-					have get, values are read in waterfall order.
+					<code>read</code> returns <code>ThemeEntry | undefined | null</code>. When multiple stores
+					have read, values are read in waterfall order.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const store: ThemeStore = {
-					get: (themes) => themeEntry('current', themes)
+					read: () => themeEntry('current', themeMap)
 				}
-				store.get(themeMap)
+				store.read()
 			`
 		})
 	],
 	render: () => {
-		const store = {
-			get: <T extends ThemeMap>(themes: T) => themeEntry('current', themes)
-		}
+		const store = inMemoryThemeStore<typeof themeMap>()
+		store.write(themeEntry('current', themeMap))
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get(themeMap)"
-					data-testid="get-only-result"
-					result={store.get(themeMap)}
+					title="store.read()"
+					data-testid="read-only-result"
+					result={store.read()}
 				/>
 			</div>
 		)
 	}
 }
 
-export const SetOnly: Story = {
-	name: 'set only',
+export const WriteOnlyStory: Story = {
+	name: 'write only',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Store with only <code>set</code> receives writes from setTheme. Used when the store is write-only.'
+				'Store with only <code>write</code> receives writes from setTheme. Used when the store is write-only.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					<code>set(themes, theme)</code> receives theme key or <code>undefined</code> to clear.
+					<code>write(entry)</code> receives theme entry or <code>undefined</code> to clear.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const store: ThemeStore = {
-					set: (themes, theme) => { /* persist */ }
+					write: (entry) => { /* persist */ }
 				}
-				store.set(themeMap, 'grayscale')
+				store.write(themeEntry('grayscale', themeMap))
 			`
 		})
 	],
 	render: () => (
 		<div className="flex flex-col gap-4">
 			<p className="text-sm text-gray-600">
-				Set-only store receives writes; no visual output. See <code>inMemoryThemeStore</code> or
-				concrete store stories for set behavior.
+				Write-only store receives writes; no visual output. See <code>inMemoryThemeStore</code> or
+				concrete store stories for write behavior.
 			</p>
 		</div>
 	)
@@ -114,15 +112,15 @@ export const SubscribeOnly: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>subscribe(themes, handler)</code> calls handler with initial value and on changes.
-					Returns unsubscribe function.
+					<code>subscribe(handler)</code> calls handler with initial value and on changes. Returns
+					unsubscribe function.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const store: ThemeStore = {
-					subscribe: (themes, handler) => {
+					subscribe: (handler) => {
 						handler(undefined)
 						return () => {}
 					}
@@ -141,7 +139,7 @@ export const SubscribeOnly: Story = {
 }
 
 export const FullStore: Story = {
-	name: 'full store (get + set + subscribe)',
+	name: 'full store (read + write + subscribe)',
 	tags: ['use-case'],
 	parameters: defineDocsParam({
 		description: {
@@ -153,7 +151,7 @@ export const FullStore: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					Full store with <code>get</code>, <code>set</code>, and <code>subscribe</code>. Used by
+					Full store with <code>read</code>, <code>write</code>, and <code>subscribe</code>. Used by
 					<code> inMemoryThemeStore</code>, <code>localStorageThemeStore</code>, etc.
 				</p>
 			)
@@ -161,26 +159,26 @@ export const FullStore: Story = {
 		showSource({
 			source: dedent`
 				const store = inMemoryThemeStore<typeof themeMap>()
-				store.get(themeMap)       // undefined when empty
-				store.set(themeMap, 'grayscale')
-				store.get(themeMap)       // { theme: 'grayscale', value: 'theme-grayscale' }
+				store.read()       // undefined when empty
+				store.write(themeEntry('grayscale', themeMap))
+				store.read()       // { theme: 'grayscale', value: 'theme-grayscale' }
 			`
 		})
 	],
 	render: () => {
 		const store = inMemoryThemeStore<typeof themeMap>()
-		store.set(themeEntry('grayscale', themeMap))
+		store.write(themeEntry('grayscale', themeMap))
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get() after set('grayscale')"
+					title="store.read() after write('grayscale')"
 					data-testid="full-store-result"
-					result={store.get()}
+					result={store.read()}
 				/>
 				<ThemeResultCard
-					title="dummyThemeStore.get()"
+					title="dummyThemeStore.read()"
 					data-testid="dummy-result"
-					result={dummyThemeStore.get()}
+					result={dummyThemeStore.read()}
 				/>
 			</div>
 		)

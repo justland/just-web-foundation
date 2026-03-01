@@ -17,7 +17,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'Theme store that reads and writes theme via a data attribute. Bakes themeMap at creation; get/set/subscribe use theme keys only.'
+				'Theme store that reads and writes theme via a data attribute. Bakes themeMap at creation; read/write/subscribe use theme keys only.'
 		}
 	}),
 	render: () => <></>
@@ -50,7 +50,8 @@ export const Playground: Story = {
 	tags: ['playground'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Interactive demo: Get theme, set themes via buttons, and observe subscribe updates.'
+			story:
+				'Interactive demo: Read theme, write themes via buttons, and observe subscribe updates.'
 		}
 	}),
 	decorators: [
@@ -71,7 +72,7 @@ export const Playground: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set(themeEntry('grayscale', themeMap))
+		store.write(themeEntry('grayscale', themeMap))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -111,13 +112,13 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themeMap))
 			return {}
 		}
 	],
 	render: () => {
 		const store = createStore()
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<StoryCard title="html[data-theme]" appearance="output">
@@ -128,16 +129,16 @@ export const ElementDefault: Story = {
 					</code>
 				</StoryCard>
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'current', value: themeMap.current }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
 
@@ -172,13 +173,13 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = createStore({ element: document.body })
-			store.set(themeEntry('high-contrast', themeMap))
+			store.write(themeEntry('high-contrast', themeMap))
 			return {}
 		}
 	],
 	render: () => {
 		const store = createStore({ element: document.body })
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<StoryCard title="body[data-theme]" appearance="output">
@@ -189,16 +190,16 @@ export const ElementBody: Story = {
 					</code>
 				</StoryCard>
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'high-contrast', value: themeMap['high-contrast'] }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: high-contrast')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: high-contrast')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: theme-high-contrast'
 		)
 	}
@@ -240,11 +241,11 @@ export const ElementCustom: Story = {
 			const el = targetRef.current
 			if (!el) return
 			const s = createStore({ element: el })
-			s.set(themeEntry('grayscale', themeMap))
+			s.write(themeEntry('grayscale', themeMap))
 			setStore(s)
 		}, [])
 
-		const result = store?.get()
+		const result = store?.read()
 		return (
 			<div className="flex flex-col gap-2">
 				<div
@@ -261,8 +262,8 @@ export const ElementCustom: Story = {
 							<code>{targetRef.current?.getAttribute(attributeName) ?? '(empty)'}</code>
 						</StoryCard>
 						<ThemeResultCard
-							title="store.get() result"
-							data-testid="store-get-result"
+							title="store.read() result"
+							data-testid="store-read-result"
 							result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
 						/>
 					</>
@@ -273,8 +274,10 @@ export const ElementCustom: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
@@ -308,13 +311,13 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themeMap))
 			return {}
 		}
 	],
 	render: () => {
 		const store = createStore()
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<StoryCard title="html[data-theme]" appearance="output">
@@ -325,16 +328,16 @@ export const ThemeMapStringValue: Story = {
 					</code>
 				</StoryCard>
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'current', value: themeMap.current }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
 
@@ -388,13 +391,13 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = createStoreArray()
-			store.set(themeEntry('grayscale', themeMapArray))
+			store.write(themeEntry('grayscale', themeMapArray))
 			return {}
 		}
 	],
 	render: () => {
 		const store = createStoreArray()
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<StoryCard title="html[data-theme]" appearance="output">
@@ -405,27 +408,27 @@ export const ThemeMapArrayValues: Story = {
 					</code>
 				</StoryCard>
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: [theme-grayscale, app:bg-gray-100]'
 		)
 	}
 }
 
-export const Get: Story = {
-	name: 'get',
+export const Read: Story = {
+	name: 'read',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.get() reads the current theme from the element data attribute.'
+			story: 'store.read() reads the current theme from the element data attribute.'
 		}
 	}),
 	decorators: [
@@ -436,40 +439,42 @@ export const Get: Story = {
 					attributeName: 'data-theme',
 					themeMap,
 				})
-				const result = store.get()
+				const result = store.read()
 			`
 		})
 	],
 	loaders: [
 		() => {
 			const store = createStore()
-			store.set(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themeMap))
 			return {}
 		}
 	],
 	render: () => {
 		const store = createStore()
-		const result = store.get()
+		const result = store.read()
 		return (
 			<ThemeResultCard
-				title="store.get() result"
-				data-testid="store-get-result"
+				title="store.read() result"
+				data-testid="store-read-result"
 				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
 			/>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
-export const SetStory: Story = {
-	name: 'set',
+export const WriteStory: Story = {
+	name: 'write',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.set() applies the theme value to the element data attribute.'
+			story: 'store.write() applies the theme value to the element data attribute.'
 		}
 	}),
 	decorators: [
@@ -480,14 +485,14 @@ export const SetStory: Story = {
 					attributeName: 'data-theme',
 					themeMap,
 				})
-				store.set(themeResult('high-contrast', themeMap))
+				store.write(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
 	render: () => {
 		const store = createStore()
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
-			const r = store.get()
+			const r = store.read()
 			return r?.theme ?? null
 		})
 
@@ -497,19 +502,19 @@ export const SetStory: Story = {
 					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
 						<Button
 							key={theme}
-							data-testid={`set-${theme}`}
+							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.set(themeEntry(theme, themeMap))
+								store.write(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
-							set({theme})
+							write({theme})
 						</Button>
 					))}
 				</div>
 				<ThemeResultCard
-					title="store.get() after set"
-					data-testid="store-set-result"
+					title="store.read() after write"
+					data-testid="store-write-result"
 					result={
 						currentTheme
 							? { theme: currentTheme, value: themeMap[currentTheme] }
@@ -520,9 +525,11 @@ export const SetStory: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-grayscale'))
-		await expect(canvas.getByTestId('store-set-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-set-result')).toHaveTextContent('value: theme-grayscale')
+		await userEvent.click(canvas.getByTestId('write-grayscale'))
+		await expect(canvas.getByTestId('store-write-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-write-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
@@ -568,7 +575,7 @@ export const Subscribe: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.set(themeEntry('high-contrast', themeMap))
+		store.write(themeEntry('high-contrast', themeMap))
 
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

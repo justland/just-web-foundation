@@ -40,7 +40,8 @@ export const Playground: Story = {
 	tags: ['playground'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Interactive demo: Get theme, set themes via buttons, and observe subscribe updates.'
+			story:
+				'Interactive demo: Read theme, write themes via buttons, and observe subscribe updates.'
 		}
 	}),
 	decorators: [
@@ -69,7 +70,7 @@ export const Playground: Story = {
 		return <ThemeStoreDemo2 store={store} themes={themeMap} />
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-set-grayscale'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
 		)
@@ -106,7 +107,7 @@ export const StorageKey: Story = {
 				storageKey: STORAGE_KEY,
 				themeMap
 			})
-			store.set(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themeMap))
 			return {}
 		}
 	],
@@ -115,23 +116,23 @@ export const StorageKey: Story = {
 			storageKey: STORAGE_KEY,
 			themeMap
 		})
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<StoryCard title="sessionStorage key" appearance="output">
 					<code>{STORAGE_KEY}</code>
 				</StoryCard>
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'current', value: themeMap.current }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
 
@@ -171,25 +172,25 @@ export const ThemeMapStringValue: Story = {
 				storageKey: THEMEMAP_STORAGE_KEY,
 				themeMap
 			})
-			store.set(themeEntry('current', themeMap))
+			store.write(themeEntry('current', themeMap))
 			return { store }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'current', value: themeMap.current }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: current')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: current')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('value: theme-current')
 	}
 }
 
@@ -238,36 +239,36 @@ export const ThemeMapArrayValues: Story = {
 				storageKey: THEMEMAP_STORAGE_KEY,
 				themeMap: themeMapArray
 			})
-			store.set(themeEntry('grayscale', themeMapArray))
+			store.write(themeEntry('grayscale', themeMapArray))
 			return { store }
 		}
 	],
 	render: (_, { loaded: { store } }) => {
-		const result = store.get()
+		const result = store.read()
 		return (
 			<div className="flex flex-col gap-4">
 				<ThemeResultCard
-					title="store.get() result"
-					data-testid="store-get-result"
+					title="store.read() result"
+					data-testid="store-read-result"
 					result={result ?? { theme: 'grayscale', value: themeMapArray.grayscale }}
 				/>
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent(
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: [theme-grayscale, app:bg-gray-100]'
 		)
 	}
 }
 
-export const Get: Story = {
-	name: 'get',
+export const Read: Story = {
+	name: 'read',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.get() reads the current theme from sessionStorage.'
+			story: 'store.read() reads the current theme from sessionStorage.'
 		}
 	}),
 	decorators: [
@@ -275,7 +276,7 @@ export const Get: Story = {
 		showSource({
 			source: dedent`
 				const store = sessionStorageThemeStore({ storageKey: 'theme', themeMap })
-				const result = store.get()
+				const result = store.read()
 			`
 		})
 	],
@@ -285,7 +286,7 @@ export const Get: Story = {
 				storageKey: STORAGE_KEY,
 				themeMap
 			})
-			store.set(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themeMap))
 			return {}
 		}
 	],
@@ -294,27 +295,29 @@ export const Get: Story = {
 			storageKey: STORAGE_KEY,
 			themeMap
 		})
-		const result = store.get()
+		const result = store.read()
 		return (
 			<ThemeResultCard
-				title="store.get() result"
-				data-testid="store-get-result"
+				title="store.read() result"
+				data-testid="store-read-result"
 				result={result ?? { theme: 'grayscale', value: themeMap.grayscale }}
 			/>
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('value: theme-grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
-export const GetWhenEmpty: Story = {
-	name: 'get: undefined',
+export const ReadWhenEmpty: Story = {
+	name: 'read: undefined',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'When nothing is stored at the key, store.get() returns undefined.'
+			story: 'When nothing is stored at the key, store.read() returns undefined.'
 		}
 	}),
 	decorators: [
@@ -322,7 +325,7 @@ export const GetWhenEmpty: Story = {
 		showSource({
 			source: dedent`
 				const store = sessionStorageThemeStore({ storageKey: 'theme-get', themeMap })
-				const theme = store.get() // undefined when empty
+				const theme = store.read() // undefined when empty
 			`
 		})
 	],
@@ -337,11 +340,11 @@ export const GetWhenEmpty: Story = {
 			storageKey: STORAGE_KEY,
 			themeMap
 		})
-		const result = store.get()
+		const result = store.read()
 		return (
 			<ThemeResultCard
-				title="store.get() result"
-				data-testid="store-get-result"
+				title="store.read() result"
+				data-testid="store-read-result"
 				result={
 					result !== undefined && result !== null ? result : { theme: undefined, value: undefined }
 				}
@@ -349,16 +352,16 @@ export const GetWhenEmpty: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await expect(canvas.getByTestId('store-get-result')).toHaveTextContent('(undefined)')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('(undefined)')
 	}
 }
 
-export const SetStory: Story = {
-	name: 'set',
+export const WriteStory: Story = {
+	name: 'write',
 	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'store.set() persists the theme to sessionStorage (per tab).'
+			story: 'store.write() persists the theme to sessionStorage (per tab).'
 		}
 	}),
 	decorators: [
@@ -366,7 +369,7 @@ export const SetStory: Story = {
 		showSource({
 			source: dedent`
 				const store = sessionStorageThemeStore({ storageKey: 'theme', themeMap })
-				store.set(themeResult('high-contrast', themeMap))
+				store.write(themeResult('high-contrast', themeMap))
 			`
 		})
 	],
@@ -382,7 +385,7 @@ export const SetStory: Story = {
 			themeMap
 		})
 		const [currentTheme, setCurrentTheme] = useState<ExampleTheme | null>(() => {
-			const r = store.get()
+			const r = store.read()
 			return r?.theme ?? null
 		})
 
@@ -392,19 +395,19 @@ export const SetStory: Story = {
 					{(Object.keys(themeMap) as ExampleTheme[]).map((theme) => (
 						<Button
 							key={theme}
-							data-testid={`set-${theme}`}
+							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.set(themeEntry(theme, themeMap))
+								store.write(themeEntry(theme, themeMap))
 								setCurrentTheme(theme)
 							}}
 						>
-							set({theme})
+							write({theme})
 						</Button>
 					))}
 				</div>
 				<ThemeResultCard
-					title="store.get() after set"
-					data-testid="store-set-result"
+					title="store.read() after write"
+					data-testid="store-write-result"
 					result={
 						currentTheme
 							? { theme: currentTheme, value: themeMap[currentTheme] }
@@ -415,9 +418,11 @@ export const SetStory: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-grayscale'))
-		await expect(canvas.getByTestId('store-set-result')).toHaveTextContent('theme: grayscale')
-		await expect(canvas.getByTestId('store-set-result')).toHaveTextContent('value: theme-grayscale')
+		await userEvent.click(canvas.getByTestId('write-grayscale'))
+		await expect(canvas.getByTestId('store-write-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-write-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
 	}
 }
 
@@ -447,7 +452,7 @@ export const Subscribe: Story = {
 				storageKey: STORAGE_KEY,
 				themeMap
 			})
-			store.set(themeEntry('grayscale', themeMap))
+			store.write(themeEntry('grayscale', themeMap))
 			return {}
 		}
 	],
@@ -471,16 +476,16 @@ export const Subscribe: Story = {
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
 					<Button
-						data-testid="set-high-contrast"
-						onClick={() => store.set(themeEntry('high-contrast', themeMap))}
+						data-testid="write-high-contrast"
+						onClick={() => store.write(themeEntry('high-contrast', themeMap))}
 					>
-						set('high-contrast')
+						write('high-contrast')
 					</Button>
 					<Button
-						data-testid="set-current"
-						onClick={() => store.set(themeEntry('current', themeMap))}
+						data-testid="write-current"
+						onClick={() => store.write(themeEntry('current', themeMap))}
 					>
-						set('current')
+						write('current')
 					</Button>
 				</div>
 				<ThemeResultCard
@@ -493,11 +498,11 @@ export const Subscribe: Story = {
 	},
 	play: async ({ canvas }) => {
 		// Handler receives grayscale from loader, then we trigger multiple updates
-		await userEvent.click(canvas.getByTestId('set-high-contrast'))
+		await userEvent.click(canvas.getByTestId('write-high-contrast'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
 		)
-		await userEvent.click(canvas.getByTestId('set-current'))
+		await userEvent.click(canvas.getByTestId('write-current'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('current')
 		)
@@ -510,7 +515,7 @@ export const SubscribeUnsubscribe: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'After calling the function returned by subscribe(), further set() calls do not invoke the handler.'
+				'After calling the function returned by subscribe(), further write() calls do not invoke the handler.'
 		}
 	}),
 	decorators: [
@@ -519,9 +524,9 @@ export const SubscribeUnsubscribe: Story = {
 			source: dedent`
 				const store = sessionStorageThemeStore({ storageKey: 'theme', themeMap })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				store.set(themeResult('grayscale', themeMap))
+				store.write(themeResult('grayscale', themeMap))
 				unsubscribe()
-				store.set(themeResult('current', themeMap)) // handler not called
+				store.write(themeResult('current', themeMap)) // handler not called
 			`
 		})
 	],
@@ -557,16 +562,16 @@ export const SubscribeUnsubscribe: Story = {
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-wrap gap-2">
 					<Button
-						data-testid="set-grayscale"
-						onClick={() => store.set(themeEntry('grayscale', themeMap))}
+						data-testid="write-grayscale"
+						onClick={() => store.write(themeEntry('grayscale', themeMap))}
 					>
-						set('grayscale')
+						write('grayscale')
 					</Button>
 					<Button
-						data-testid="set-current"
-						onClick={() => store.set(themeEntry('current', themeMap))}
+						data-testid="write-current"
+						onClick={() => store.write(themeEntry('current', themeMap))}
 					>
-						set('current')
+						write('current')
 					</Button>
 					<Button
 						data-testid="unsubscribe"
@@ -587,13 +592,13 @@ export const SubscribeUnsubscribe: Story = {
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('set-grayscale'))
+		await userEvent.click(canvas.getByTestId('write-grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('grayscale')
 		)
 		await userEvent.click(canvas.getByTestId('unsubscribe'))
-		await userEvent.click(canvas.getByTestId('set-current'))
-		// Display should stay grayscale because we unsubscribed before set('current')
+		await userEvent.click(canvas.getByTestId('write-current'))
+		// Display should stay grayscale because we unsubscribed before write('current')
 		await expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('grayscale')
 	}
 }

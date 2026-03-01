@@ -11,14 +11,14 @@ import type { ThemeStore } from './theme-store/theme-store.types.ts'
 export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
-	/** Theme keys to show as "Set X" buttons. Defaults to first 3 keys from themes. */
+	/** Theme keys to show as "Write X" buttons. Defaults to first 3 keys from themes. */
 	setThemeKeys?: (keyof Themes)[]
 	'data-testid'?: string
 }
 
 /**
- * Demo component that uses theme2 store.get, store.set, and store.subscribe.
- * Renders observed value, a one-time get result, and buttons to trigger get/set for showcasing behavior.
+ * Demo component that uses theme2 store.read, store.write, and store.subscribe.
+ * Renders observed value, a one-time read result, and buttons to trigger read/write for showcasing behavior.
  * All interactive elements and result areas use data-testid for testing.
  */
 export function ThemeStoreDemo2<Themes extends ThemeMap>({
@@ -40,39 +40,39 @@ export function ThemeStoreDemo2<Themes extends ThemeMap>({
 	}, [store])
 
 	const handleGet = useCallback(async () => {
-		const result = store.get?.()
+		const result = store.read?.()
 		const resolved = await Promise.resolve(result)
 		setGetResult(resolved ?? undefined)
 	}, [store])
 
 	const handleSet = useCallback(
 		(theme: keyof Themes) => async () => {
-			const ret = store.set?.(themeEntry(theme, themes))
+			const ret = store.write?.(themeEntry(theme, themes))
 			await Promise.resolve(ret)
 		},
 		[store, themes]
 	)
 
 	const observeTestId = appendId(dataTestId, 'observe')
-	const getTestId = appendId(dataTestId, 'get')
+	const readTestId = appendId(dataTestId, 'read')
 
 	return (
 		<div className="flex flex-col gap-2" data-testid={dataTestId}>
 			<div className="flex flex-wrap gap-2">
-				<Button onClick={handleGet} data-testid={appendId(dataTestId, 'btn-get')}>
-					Get theme
+				<Button onClick={handleGet} data-testid={appendId(dataTestId, 'btn-read')}>
+					Read theme
 				</Button>
 				{keys.map((key) => (
 					<Button
 						key={String(key)}
 						onClick={handleSet(key)}
-						data-testid={appendId(dataTestId, `btn-set-${String(key)}`)}
+						data-testid={appendId(dataTestId, `btn-write-${String(key)}`)}
 					>
-						Set {String(key)}
+						Write {String(key)}
 					</Button>
 				))}
 			</div>
-			<ThemeResultCard title="Get (one-time)" result={getResult} data-testid={getTestId} />
+			<ThemeResultCard title="Read (one-time)" result={getResult} data-testid={readTestId} />
 			<ThemeResultCard
 				title="Observed (subscribe)"
 				result={observedResult}

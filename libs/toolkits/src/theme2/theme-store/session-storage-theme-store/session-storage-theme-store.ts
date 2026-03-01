@@ -26,8 +26,8 @@ export type SessionStorageThemeStoreOptions<Themes extends ThemeMap> = {
  *   storageKey: 'theme',
  *   themeMap: { current: 'theme-current', grayscale: 'theme-grayscale' },
  * })
- * store.get() // returns themeResult from sessionStorage
- * store.set(themeEntry('grayscale', themeMap))
+ * store.read() // returns themeResult from sessionStorage
+ * store.write(themeEntry('grayscale', themeMap))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -42,7 +42,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 
 	const handlers = new Set<(theme: ThemeEntry<Themes> | undefined) => void>()
 
-	function get() {
+	function read() {
 		const stored = window.sessionStorage.getItem(storageKey)
 		const theme = parseStoredTheme(stored, themeMap)
 		if (theme === undefined) return undefined
@@ -50,13 +50,13 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	}
 
 	function notify() {
-		const result = get()
+		const result = read()
 		for (const h of handlers) h(result)
 	}
 
 	return {
-		get,
-		set(entry) {
+		read,
+		write(entry) {
 			try {
 				if (entry === undefined) {
 					window.sessionStorage.removeItem(storageKey)
@@ -70,7 +70,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 		},
 		subscribe(handler) {
 			handlers.add(handler)
-			handler(get())
+			handler(read())
 
 			const onStorage = (e: StorageEvent) => {
 				if (e.key === storageKey && e.storageArea === window.sessionStorage) notify()
