@@ -11,7 +11,7 @@ export default defineConfig([
 		unbundle: true
 	},
 	{
-		entry: ['src/index.ts', 'src/theme.ts'],
+		entry: ['src/index.ts', 'src/react.ts', 'src/theme.ts'],
 		format: ['es'],
 		outDir: '.editor/just_web_toolkits',
 		clean: true,
