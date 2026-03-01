@@ -8,7 +8,7 @@ import { createStore as createZustandStore } from 'zustand/vanilla'
 import { useThemeStore } from '#just-web/toolkits/react'
 import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { ShowThemeFromStore } from '../testing/theme/show-theme-from-store.tsx'
-import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo2.tsx'
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from './theme-store/theme-store.types.ts'
@@ -94,10 +94,10 @@ export const WithBackendStore: Story = {
 	],
 	render: (_, { loaded: { store } }) => {
 		return (
-			<ThemeStoreDemo
+			<ThemeStoreDemo2
 				store={store}
 				themes={themes}
-				theme="default"
+				setThemeKeys={['default', 'grayscale']}
 				data-testid="with-backend-demo"
 			/>
 		)
@@ -106,11 +106,11 @@ export const WithBackendStore: Story = {
 		const base = 'with-backend-demo'
 		const observeTheme = () => canvas.getByTestId(`${base}-observe-theme`)
 		const observeValue = () => canvas.getByTestId(`${base}-observe-value`)
-		const getTheme = () => canvas.getByTestId(`${base}-get-theme`)
-		const getValue = () => canvas.getByTestId(`${base}-get-value`)
-		const btnGet = () => canvas.getByTestId(`${base}-btn-get`)
-		const btnSetDefault = () => canvas.getByTestId(`${base}-btn-set-default`)
-		const btnSetGrayscale = () => canvas.getByTestId(`${base}-btn-set-grayscale`)
+		const readTheme = () => canvas.getByTestId(`${base}-read-theme`)
+		const readValue = () => canvas.getByTestId(`${base}-read-value`)
+		const btnRead = () => canvas.getByTestId(`${base}-btn-read`)
+		const btnWriteDefault = () => canvas.getByTestId(`${base}-btn-write-default`)
+		const btnWriteGrayscale = () => canvas.getByTestId(`${base}-btn-write-grayscale`)
 
 		// Initial observed state (default theme when store is undefined)
 		await waitFor(async () => {
@@ -118,31 +118,31 @@ export const WithBackendStore: Story = {
 		})
 
 		// Set grayscale and verify observed updates
-		await userEvent.click(btnSetGrayscale())
+		await userEvent.click(btnWriteGrayscale())
 		await waitFor(async () => {
 			await expect(observeTheme()).toHaveTextContent('grayscale')
 			await expect(observeValue()).toHaveTextContent('text-gray-100')
 		})
 
-		// Get theme (one-time) and verify it matches current store
-		await userEvent.click(btnGet())
+		// Read theme (one-time) and verify it matches current store
+		await userEvent.click(btnRead())
 		await waitFor(async () => {
-			await expect(getTheme()).toHaveTextContent('grayscale')
-			await expect(getValue()).toHaveTextContent('text-gray-100')
+			await expect(readTheme()).toHaveTextContent('grayscale')
+			await expect(readValue()).toHaveTextContent('text-gray-100')
 		})
 
 		// Set default and verify observed updates
-		await userEvent.click(btnSetDefault())
+		await userEvent.click(btnWriteDefault())
 		await waitFor(async () => {
 			await expect(observeTheme()).toHaveTextContent('default')
 			await expect(observeValue()).toHaveTextContent('text-white')
 		})
 
-		// Get theme again and verify it shows default
-		await userEvent.click(btnGet())
+		// Read theme again and verify it shows default
+		await userEvent.click(btnRead())
 		await waitFor(async () => {
-			await expect(getTheme()).toHaveTextContent('default')
-			await expect(getValue()).toHaveTextContent('text-white')
+			await expect(readTheme()).toHaveTextContent('default')
+			await expect(readValue()).toHaveTextContent('text-white')
 		})
 	}
 }
