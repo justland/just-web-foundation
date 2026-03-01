@@ -3,12 +3,21 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useRef, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { observeDataAttributes, setThemeByDataAttribute } from '#just-web/toolkits'
+import { dataAttributeThemeStore, observeDataAttributes, themeEntry } from '#just-web/toolkits'
 import { Button } from '../testing/button.tsx'
 import { LogPanel } from '../testing/log-panel.tsx'
 import code from './observe-data-attribute.ts?raw'
 
 const testValueThemes = { 'test-value': 'test-value' } as const
+
+const testValueDataThemeStore = dataAttributeThemeStore({
+	attributeName: 'data-theme',
+	themes: testValueThemes
+})
+const testValueDataColorSchemeStore = dataAttributeThemeStore({
+	attributeName: 'data-color-scheme',
+	themes: testValueThemes
+})
 
 const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	title: 'attributes/observeDataAttributes',
@@ -63,13 +72,7 @@ export const BasicUsage: Story = {
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
 					<Button
-						onPress={() =>
-							setThemeByDataAttribute({
-								attributeName: 'data-theme',
-								themes: testValueThemes,
-								theme: 'test-value'
-							})
-						}
+						onPress={() => testValueDataThemeStore.write(themeEntry('test-value', testValueThemes))}
 					>
 						test-value
 					</Button>
@@ -127,13 +130,7 @@ export const MultipleAttributes: Story = {
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
 					<Button
-						onPress={() =>
-							setThemeByDataAttribute({
-								attributeName: 'data-theme',
-								themes: testValueThemes,
-								theme: 'test-value'
-							})
-						}
+						onPress={() => testValueDataThemeStore.write(themeEntry('test-value', testValueThemes))}
 					>
 						Set data-theme
 					</Button>
@@ -142,11 +139,7 @@ export const MultipleAttributes: Story = {
 					</Button>
 					<Button
 						onPress={() =>
-							setThemeByDataAttribute({
-								attributeName: 'data-color-scheme',
-								themes: testValueThemes,
-								theme: 'test-value'
-							})
+							testValueDataColorSchemeStore.write(themeEntry('test-value', testValueThemes))
 						}
 					>
 						Set data-color-scheme
@@ -223,12 +216,11 @@ export const CustomElement: Story = {
 					<Button
 						onPress={() => {
 							const el = customElementRef.current ?? document.documentElement
-							setThemeByDataAttribute({
+							dataAttributeThemeStore({
 								attributeName: 'data-theme',
-								themes: testValueThemes,
-								theme: 'test-value',
-								element: el
-							})
+								element: el,
+								themes: testValueThemes
+							}).write(themeEntry('test-value', testValueThemes))
 						}}
 					>
 						test-value
