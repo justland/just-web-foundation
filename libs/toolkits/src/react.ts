@@ -1,4 +1,5 @@
 export * from './react/hooks/use-attribute.ts'
+export * from './react/hooks/use-prefers-color-scheme.ts'
 export * from './react/hooks/use-theme-by-class-name.ts'
 export * from './react/hooks/use-theme-by-data-attribute.ts'
 export * from './react/hooks/use-theme-by-local-storage.ts'
