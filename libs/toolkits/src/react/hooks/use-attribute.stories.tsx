@@ -9,7 +9,7 @@ import code from './use-attribute.ts?raw'
 
 const meta = {
 	title: 'react/hooks/useAttribute',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

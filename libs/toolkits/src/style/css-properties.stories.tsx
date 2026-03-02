@@ -10,7 +10,7 @@ import source from './css-properties.ts?raw'
 
 const meta: Meta<toolkits.CSSProperties> = {
 	title: 'style/CSSProperties',
-	tags: ['type', 'version:next', '!test'],
+	tags: ['type', 'version:1.0', '!test'],
 	render: () => <></>
 }
 

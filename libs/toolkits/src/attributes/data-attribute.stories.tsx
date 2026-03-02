@@ -6,7 +6,7 @@ import type { DataAttribute } from '#just-web/toolkits'
 
 const meta = {
 	title: 'attributes/DataAttribute',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:1.0'],
 	render: () => <></>
 } satisfies Meta
 

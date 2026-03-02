@@ -6,7 +6,7 @@ import source from './get-rem-to-px-scale.ts?raw'
 
 const meta = {
 	title: 'units/getRemToPxScale',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

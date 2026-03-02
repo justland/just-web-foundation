@@ -17,7 +17,7 @@ import source from './class-name-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/classNameThemeStore',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

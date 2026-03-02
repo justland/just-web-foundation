@@ -8,7 +8,7 @@ import source from './theme-store.types.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/ThemeStore',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:1.0'],
 	render: () => <></>
 } satisfies Meta
 

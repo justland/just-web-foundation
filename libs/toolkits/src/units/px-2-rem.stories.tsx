@@ -7,7 +7,7 @@ import source from './px-2-rem.ts?raw'
 
 const meta = {
 	title: 'units/px2rem',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

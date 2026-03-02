@@ -9,7 +9,7 @@ import source from './class-name-props.ts?raw'
 
 const meta: Meta<toolkits.ClassNameProps> = {
 	title: 'class-name/ClassNameProps',
-	tags: ['type', 'version:next', '!test'],
+	tags: ['type', 'version:1.0', '!test'],
 	render: () => <></>
 }
 
