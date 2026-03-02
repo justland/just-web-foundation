@@ -84,7 +84,7 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = getCookieValue(cookieName)
-		const theme = parseStoredTheme(stored, themes)
+		const theme = parseStoredTheme(themes, stored)
 		if (theme === undefined) return undefined
 		return themeEntry(themes, theme)
 	}
@@ -168,7 +168,7 @@ export function getThemeFromCookie<Themes extends ThemeMap>(
 			: cookieSource
 				? getCookieFromHeader(cookieSource, cookieName)
 				: null
-	const theme = parseStoredTheme(stored, themes)
+	const theme = parseStoredTheme(themes, stored)
 	if (theme === undefined) return undefined
 	return themeEntry(themes, theme)
 }

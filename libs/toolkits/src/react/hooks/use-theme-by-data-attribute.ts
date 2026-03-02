@@ -59,7 +59,7 @@ export function useThemeByDataAttribute<Themes extends ThemeMap>(
 	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
 		if (element) {
 			const attrValue = getDataAttribute(attributeName, element)
-			const resolved = resolveThemeFromDataAttribute(attrValue, themes)
+			const resolved = resolveThemeFromDataAttribute(themes, attrValue)
 			return resolved ?? defaultTheme
 		}
 		return defaultTheme

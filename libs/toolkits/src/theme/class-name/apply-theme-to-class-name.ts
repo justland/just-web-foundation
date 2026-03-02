@@ -9,14 +9,14 @@ import type { ThemeMap } from '../theme-map.types.ts'
  *
  * @param element - Target element
  * @param entry - Theme entry to apply, or undefined to clear
- * @param themeMap - Record mapping theme keys to class names (used for clear case)
+ * @param themes - Record mapping theme keys to class names (used for clear case)
  */
 export function applyThemeToClassName<Themes extends ThemeMap>(
+	themes: Themes,
 	element: Element,
-	entry: ThemeEntry<Themes> | undefined,
-	themeMap: Themes
+	entry: ThemeEntry<Themes> | undefined
 ): void {
-	const allThemeClasses = Object.values(themeMap).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
+	const allThemeClasses = Object.values(themes).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
 	const current = element.className.trim()
 	const currentClasses = current ? current.split(/\s+/) : []
 	const withoutThemes = currentClasses.filter((c) => !allThemeClasses.includes(c))

@@ -39,7 +39,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = window.localStorage.getItem(storageKey)
-		const theme = parseStoredTheme(stored, themes)
+		const theme = parseStoredTheme(themes, stored)
 		if (theme === undefined) return undefined
 		return themeEntry(themes, theme)
 	}

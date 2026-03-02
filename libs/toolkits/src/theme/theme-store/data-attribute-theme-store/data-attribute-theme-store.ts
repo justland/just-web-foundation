@@ -37,7 +37,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	return {
 		read() {
 			const value = getDataAttribute(attributeName, element)
-			const theme = resolveThemeFromDataAttribute(value, themes)
+			const theme = resolveThemeFromDataAttribute(themes, value)
 			if (theme === undefined) return undefined
 			return themeEntry(themes, theme)
 		},
@@ -48,7 +48,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const observer = observeDataAttributes<string, `data-${string}`>(
 				{
 					[attributeName]: (value) => {
-						const theme = value ? resolveThemeFromDataAttribute(value, themes) : undefined
+						const theme = value ? resolveThemeFromDataAttribute(themes, value) : undefined
 						handler(theme ? themeEntry(themes, theme) : undefined)
 					}
 				},
