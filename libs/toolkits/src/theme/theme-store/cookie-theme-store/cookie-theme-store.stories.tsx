@@ -10,7 +10,7 @@ import source from './cookie-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/cookieThemeStore',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

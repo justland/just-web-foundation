@@ -7,7 +7,7 @@ import { defineProperties, type Properties } from '#just-web/css'
 
 export default {
 	title: 'Properties/Properties',
-	tags: ['autodocs', 'code-only', 'new', 'version:next'],
+	tags: ['autodocs', 'code-only', 'new', 'version:0.8'],
 	decorators: [showSource()],
 	render: () => <></>
 } satisfies Meta

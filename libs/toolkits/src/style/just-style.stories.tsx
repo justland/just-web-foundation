@@ -12,7 +12,7 @@ import codeResolverStateDefault from './just-style-resolver-state.editor.default
 
 const meta: Meta = {
 	title: 'style/JustStyle',
-	tags: ['version:next', '!test'],
+	tags: ['version:1.0', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:

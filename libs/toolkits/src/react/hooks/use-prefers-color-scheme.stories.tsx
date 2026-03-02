@@ -6,7 +6,7 @@ import code from './use-prefers-color-scheme.ts?raw'
 
 const meta = {
 	title: 'react/hooks/usePrefersColorScheme',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

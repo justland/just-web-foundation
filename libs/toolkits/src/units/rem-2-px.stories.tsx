@@ -7,7 +7,7 @@ import source from './rem-2-px.ts?raw'
 
 const meta = {
 	title: 'units/rem2px',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

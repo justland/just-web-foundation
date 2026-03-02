@@ -11,7 +11,7 @@ import code from './get-prefers-color-scheme.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersColorScheme>> = {
 	title: 'color-scheme/getPrefersColorTheme',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

@@ -20,7 +20,7 @@ import source from './compose-theme-stores.ts?raw'
 
 const meta = {
 	title: 'theme/composeThemeStores',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

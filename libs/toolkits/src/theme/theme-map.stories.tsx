@@ -7,7 +7,7 @@ import source from './theme-map.types.ts?raw'
 
 const meta = {
 	title: 'theme/ThemeMap',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:1.0'],
 	render: () => <></>
 } satisfies Meta
 

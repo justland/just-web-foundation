@@ -7,7 +7,7 @@ import source from './define-css-properties.ts?raw'
 
 const meta = {
 	title: 'style/defineCSSProperties',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

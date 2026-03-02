@@ -10,7 +10,7 @@ import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
 
 const meta = {
 	title: 'theme/Use Cases',
-	tags: ['version:next'],
+	tags: ['version:1.0'],
 	render: () => <></>
 } satisfies Meta
 

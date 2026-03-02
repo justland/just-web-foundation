@@ -11,7 +11,7 @@ import source from './session-storage-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/sessionStorageThemeStore',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component: 'Theme store backed by sessionStorage. Persists per tab. Bakes themes at creation.'

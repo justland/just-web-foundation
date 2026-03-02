@@ -14,7 +14,7 @@ import codeResolverStateDefault from './just-class-name-resolver-state.editor.de
 
 const meta: Meta = {
 	title: 'class-name/JustClassName',
-	tags: ['version:next', '!test'],
+	tags: ['version:1.0', '!test'],
 	parameters: defineDocsParam({
 		description: {
 			component:
