@@ -38,7 +38,7 @@ export const ReadOnly: Story = {
 			)
 		}),
 		showSource({
-			source: 'read?: () => ThemeEntry | undefined | null | Promise<ThemeEntry | undefined | null>'
+			source: 'read?: () => ThemeEntry | undefined | Promise<ThemeEntry | undefined>'
 		}),
 		showSource({
 			source: dedent`

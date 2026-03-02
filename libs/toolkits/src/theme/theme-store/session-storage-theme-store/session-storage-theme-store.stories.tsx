@@ -308,9 +308,7 @@ export const ReadWhenEmpty: Story = {
 			<ThemeResultCard
 				title="store.read() result"
 				data-testid="store-read-result"
-				result={
-					result !== undefined && result !== null ? result : { theme: undefined, value: undefined }
-				}
+				result={result !== undefined ? result : { theme: undefined, value: undefined }}
 			/>
 		)
 	},

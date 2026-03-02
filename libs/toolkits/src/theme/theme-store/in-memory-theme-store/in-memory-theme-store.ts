@@ -25,8 +25,8 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(themes: Themes) {
 	let value: keyof Themes | undefined | null
 	const listeners = new Set<(v: ThemeEntry<Themes> | undefined) => void>()
 
-	function read(): ThemeEntry<Themes> | undefined | null {
-		if (value === undefined || value === null) return value as undefined
+	function read(): ThemeEntry<Themes> | undefined {
+		if (value === undefined || value === null) return undefined
 		return themeEntry(value, themes)
 	}
 

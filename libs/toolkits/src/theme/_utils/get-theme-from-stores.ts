@@ -4,7 +4,7 @@ import type { AsyncThemeStore } from '../theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from '../theme-store/theme-store.types.ts'
 
 type StoreWithRead<Themes extends ThemeMap> = (ThemeStore<Themes> | AsyncThemeStore<Themes>) & {
-	read: () => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>
+	read: () => ThemeEntry<Themes> | undefined | Promise<ThemeEntry<Themes> | undefined>
 }
 
 /**
@@ -25,7 +25,7 @@ export async function getThemeFromStores<Themes extends ThemeMap>(
 
 	for (const store of withRead) {
 		const result = await Promise.resolve(store.read())
-		if (result !== undefined && result !== null) {
+		if (result !== undefined) {
 			return result.theme
 		}
 	}

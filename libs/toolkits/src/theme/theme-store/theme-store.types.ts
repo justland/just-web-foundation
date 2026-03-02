@@ -22,7 +22,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  * @typeParam Themes - Map of theme keys to their value types (string or readonly string[])
  */
 export interface ThemeStore<Themes extends ThemeMap = ThemeMap> {
-	read?: (() => ThemeEntry<Themes> | undefined | null) | undefined
+	read?: (() => ThemeEntry<Themes> | undefined) | undefined
 	write?: ((entry: ThemeEntry<Themes> | undefined) => void) | undefined
 	subscribe?:
 		| ((handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void)

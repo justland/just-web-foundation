@@ -14,7 +14,7 @@ Use for remote persistence, polling, or WebSocket-based sync.
 
 ## Methods
 
-- **read** – Can return `Promise<ThemeEntry | undefined | null>` for async sources.
+- **read** – Can return `Promise<ThemeEntry | undefined>` for async sources.
 - **write** – Can return `Promise<void>` for async persistence.
 - **subscribe** – Same signature as sync; observes external changes.
 

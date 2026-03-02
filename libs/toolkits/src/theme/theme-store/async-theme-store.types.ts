@@ -7,7 +7,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  *
  * Same optional methods as `ThemeStore`:
  *
- * - **read** – Can return `Promise<ThemeEntry | undefined | null>` for async sources
+ * - **read** – Can return `Promise<ThemeEntry | undefined>` for async sources
  * - **write** – Can return `Promise<void>` for async persistence
  * - **subscribe** – Same signature as sync; observes external changes
  *
@@ -15,7 +15,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  */
 export interface AsyncThemeStore<Themes extends ThemeMap = ThemeMap> {
 	read?:
-		| (() => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>)
+		| (() => ThemeEntry<Themes> | undefined | Promise<ThemeEntry<Themes> | undefined>)
 		| undefined
 	write?: ((entry: ThemeEntry<Themes> | undefined) => void | Promise<void>) | undefined
 	subscribe?:

@@ -62,10 +62,10 @@ export function composeThemeStores<
 	const resolved = resolveStores(themes, stores)
 	const withRead = resolved.filter((s): s is StoreWithRead<Themes> => typeof s.read === 'function')
 
-	async function readFromStores(): Promise<ThemeEntry<Themes> | undefined | null> {
+	async function readFromStores(): Promise<ThemeEntry<Themes> | undefined> {
 		for (const store of withRead) {
 			const result = await Promise.resolve(store.read())
-			if (result !== undefined && result !== null) return result
+			if (result !== undefined) return result
 		}
 		return defaultTheme !== undefined ? themeEntry(defaultTheme, themes) : undefined
 	}
