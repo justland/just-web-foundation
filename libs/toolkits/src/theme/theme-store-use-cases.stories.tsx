@@ -5,7 +5,7 @@ import { atom, createStore } from 'jotai'
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { createStore as createZustandStore } from 'zustand/vanilla'
-import { useThemeStore } from '#just-web/toolkits/react'
+import { useThemeStores } from '#just-web/toolkits/react'
 import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { ShowThemeFromStore } from '../testing/theme/show-theme-from-store.tsx'
 import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo.tsx'
@@ -195,9 +195,9 @@ function UseThemeStoreDemo({
 	store: ThemeStore<typeof themes>
 	'data-testid'?: string
 }) {
-	const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+	const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
 	return (
-		<StoryCard title="useThemeStore" data-testid={dataTestId} appearance="output">
+		<StoryCard title="useThemeStores" data-testid={dataTestId} appearance="output">
 			<p>
 				theme:{' '}
 				<span data-testid={`${dataTestId}-theme`}>
@@ -228,7 +228,7 @@ export const UseThemeStore: Story = {
 		withStoryCard({
 			content: (
 				<p>
-					<code>useThemeStore</code> returns the current theme and a setter. Subscribes to store
+					<code>useThemeStores</code> returns the current theme and a setter. Subscribes to store
 					changes so the returned theme stays in sync.
 				</p>
 			)
@@ -236,7 +236,7 @@ export const UseThemeStore: Story = {
 		showSource({
 			source: dedent`
 				const store = createInMemoryStoreWithSubscribe(undefined)
-				const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+				const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
 				setTheme('grayscale')
 			`
 		})
@@ -303,7 +303,7 @@ function useThemeStoreFromContext(): ThemeStore<typeof themes> {
 
 function ReactContextDemo() {
 	const store = useThemeStoreFromContext()
-	const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+	const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
 	const setDefault = useCallback(() => setTheme('default'), [setTheme])
 	const setGrayscale = useCallback(() => setTheme('grayscale'), [setTheme])
 	return (
@@ -335,7 +335,7 @@ export const WithReactContext: Story = {
 		showSource({
 			source: dedent`
 				const store = useThemeStoreFromContext()
-				const [theme, setTheme] = useThemeStore({ store, themes, theme: 'default' })
+				const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
 				setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})
