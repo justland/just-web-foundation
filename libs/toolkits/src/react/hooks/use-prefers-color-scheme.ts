@@ -8,8 +8,10 @@ import { observePrefersColorScheme } from '../../color-scheme/observe-prefers-co
  * Uses `prefers-color-scheme` media query. Returns `'light'` or `'dark'`; re-renders when the user
  * changes their OS or browser light/dark setting.
  *
- * For SSR, initial value is `'light'` to avoid hydration mismatch; the real value syncs in `useEffect`.
+ * For SSR, uses `defaultColorScheme` when `matchMedia` is unavailable. On client, reads the real
+ * value immediately (no flicker); `useEffect` syncs and subscribes to changes.
  *
+ * @param defaultColorScheme - Fallback when `matchMedia` is unavailable (default: `'light'`)
  * @returns Current system color scheme: `'light'` or `'dark'`
  *
  * @example
@@ -17,9 +19,19 @@ import { observePrefersColorScheme } from '../../color-scheme/observe-prefers-co
  * const scheme = usePrefersColorScheme()
  * return <div>System prefers: {scheme}</div>
  * ```
+ *
+ * @example
+ * ```tsx
+ * const scheme = usePrefersColorScheme('dark')
+ * return <div>System prefers: {scheme}</div>
+ * ```
  */
-export function usePrefersColorScheme(): 'light' | 'dark' {
-	const [scheme, setScheme] = useState<'light' | 'dark'>(() => 'light')
+export function usePrefersColorScheme(
+	defaultColorScheme: 'light' | 'dark' = 'light'
+): 'light' | 'dark' {
+	const [scheme, setScheme] = useState<'light' | 'dark'>(() =>
+		getPrefersColorScheme(defaultColorScheme)
+	)
 
 	useEffect(() => {
 		setScheme(getPrefersColorScheme())

@@ -28,9 +28,6 @@ type Story = StoryObj<typeof meta>
 export const BasicUsage: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({
-		description: {
-			story: 'Read the current `prefers-color-scheme` value.'
-		},
 		source: {
 			code: 'getPrefersColorScheme(): "light" | "dark"'
 		}
@@ -42,6 +39,10 @@ export const BasicUsage: Story = {
 					<p>
 						<code>getPrefersColorScheme()</code> reads the current <code>prefers-color-scheme</code>{' '}
 						value.
+					</p>
+					<p>
+						Accepts optional <code>defaultColorScheme</code> (default <code>'light'</code>) returned
+						when <code>matchMedia</code> is unavailable (e.g. SSR).
 					</p>
 					<p>
 						Use this when you need a one-off read of the user's color scheme (e.g. for initial
@@ -58,6 +59,38 @@ export const BasicUsage: Story = {
 
 		return (
 			<StoryCard title="Current Color Scheme Preference (prefers-color-scheme)" appearance="output">
+				Your system is currently set to: <strong>{scheme}</strong> mode
+			</StoryCard>
+		)
+	}
+}
+
+export const WithDefaultColorScheme: Story = {
+	name: 'defaultColorScheme',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		source: {
+			code: "getPrefersColorScheme('dark'): 'light' | 'dark'"
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<div className="space-y-2">
+					<p>
+						<code>getPrefersColorScheme('dark')</code> returns <code>'dark'</code> when{' '}
+						<code>matchMedia</code> is unavailable (SSR, test env). In the browser, it returns the
+						real system preference.
+					</p>
+				</div>
+			)
+		}),
+		showSource()
+	],
+	render: () => {
+		const scheme = getPrefersColorScheme('dark')
+		return (
+			<StoryCard title="With defaultColorScheme: 'dark'" appearance="output">
 				Your system is currently set to: <strong>{scheme}</strong> mode
 			</StoryCard>
 		)
