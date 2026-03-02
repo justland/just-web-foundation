@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { expect } from 'storybook/test'
 import { cookieThemeStore, getThemeFromCookie, themeEntry } from '#just-web/toolkits/theme'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './cookie-theme-store.ts?raw'
 
 const meta = {
@@ -63,7 +63,7 @@ export const Playground: Story = {
 	],
 	render: () => {
 		const store = useMemo(() => cookieThemeStore(themes, { cookieName: COOKIE_NAME }), [])
-		return <ThemeStoreDemo2 store={store} themes={themes} />
+		return <ThemeStoreDemo store={store} themes={themes} />
 	}
 	// Play omitted: document.cookie can be restricted in Storybook test iframe (third-party context)
 }

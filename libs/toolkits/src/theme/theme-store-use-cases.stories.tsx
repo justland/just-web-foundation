@@ -8,7 +8,7 @@ import { createStore as createZustandStore } from 'zustand/vanilla'
 import { useThemeStores } from '#just-web/toolkits/react'
 import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { ShowThemeFromStore } from '../testing/theme/show-theme-from-store.tsx'
-import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
 import { getThemeFromStores } from './_utils/get-theme-from-stores.ts'
 import { setThemeToStores } from './_utils/set-theme-to-stores.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
@@ -94,7 +94,7 @@ export const WithBackendStore: Story = {
 	],
 	render: (_, { loaded: { store } }) => {
 		return (
-			<ThemeStoreDemo2
+			<ThemeStoreDemo
 				store={store}
 				themes={themes}
 				setThemeKeys={['default', 'grayscale']}

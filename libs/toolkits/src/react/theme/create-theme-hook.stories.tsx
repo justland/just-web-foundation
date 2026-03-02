@@ -13,7 +13,7 @@ import {
 	themeEntry
 } from '#just-web/toolkits/theme'
 import { Button } from '../../testing/button.tsx'
-import { ThemeStoreDemo2 } from '../../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo } from '../../testing/theme/theme-store-demo.tsx'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import code from './create-theme-hook.ts?raw'
 
@@ -270,7 +270,7 @@ export const StoresConcrete: Story = {
 				),
 			[]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themesStoreFactory} />
+		return <ThemeStoreDemo store={store} themes={themesStoreFactory} />
 	}
 }
 
@@ -313,7 +313,7 @@ export const StoreFactoryPattern: Story = {
 				),
 			[]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themesStoreFactory} />
+		return <ThemeStoreDemo store={store} themes={themesStoreFactory} />
 	}
 }
 

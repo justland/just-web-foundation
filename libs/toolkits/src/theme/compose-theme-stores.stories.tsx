@@ -15,7 +15,7 @@ import {
 } from '#just-web/toolkits/theme'
 import { Button } from '../testing/button.tsx'
 import { ThemeResultCard } from '../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
 import source from './compose-theme-stores.ts?raw'
 
 const meta = {
@@ -73,16 +73,16 @@ export const Playground: Story = {
 		}, [store1, store2])
 		return (
 			<div className="flex flex-col gap-2">
-				<ThemeStoreDemo2 store={store} themes={themes} />
+				<ThemeStoreDemo store={store} themes={themes} />
 				<ThemeResultCard title="Observed (store1.subscribe())" result={result1} />
 				<ThemeResultCard title="Observed (store2.subscribe())" result={result2} />
 			</div>
 		)
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo-btn-write-grayscale'))
 		await waitFor(() =>
-			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
+			expect(canvas.getByTestId('theme-store-demo-observe')).toHaveTextContent('grayscale')
 		)
 	}
 }
@@ -305,13 +305,13 @@ export const WriteToAllStores: Story = {
 			() => composeThemeStores(themes, [store1, store2], { defaultTheme: 'current' }),
 			[store1, store2]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themes} />
+		return <ThemeStoreDemo store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-high-contrast'))
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-read'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo-btn-write-high-contrast'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo-btn-read'))
 		await waitFor(() =>
-			expect(canvas.getByTestId('theme-store-demo2-read')).toHaveTextContent('high-contrast')
+			expect(canvas.getByTestId('theme-store-demo-read')).toHaveTextContent('high-contrast')
 		)
 	}
 }
@@ -498,7 +498,7 @@ export const StoreFactoryPattern: Story = {
 				),
 			[]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themes} />
+		return <ThemeStoreDemo store={store} themes={themes} />
 	}
 }
 
@@ -543,11 +543,11 @@ export const CustomStoreFactory: Story = {
 				}),
 			[]
 		)
-		return <ThemeStoreDemo2 store={store} themes={themes} />
+		return <ThemeStoreDemo store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
 		await waitFor(() =>
-			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
+			expect(canvas.getByTestId('theme-store-demo-observe')).toHaveTextContent('grayscale')
 		)
 	}
 }

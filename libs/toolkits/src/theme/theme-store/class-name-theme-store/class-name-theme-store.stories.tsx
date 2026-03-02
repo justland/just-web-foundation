@@ -12,7 +12,7 @@ import {
 } from '#just-web/toolkits/theme'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
-import { ThemeStoreDemo2 } from '../../../testing/theme/theme-store-demo.tsx'
+import { ThemeStoreDemo } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './class-name-theme-store.ts?raw'
 
 const meta = {
@@ -59,14 +59,14 @@ export const Playground: Story = {
 	],
 	render: () => {
 		const store = classNameThemeStore(themes)
-		return <ThemeStoreDemo2 store={store} themes={themes} />
+		return <ThemeStoreDemo store={store} themes={themes} />
 	},
 	play: async ({ canvas }) => {
-		await userEvent.click(canvas.getByTestId('theme-store-demo2-btn-write-grayscale'))
+		await userEvent.click(canvas.getByTestId('theme-store-demo-btn-write-grayscale'))
 		await waitFor(() =>
-			expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent('grayscale')
+			expect(canvas.getByTestId('theme-store-demo-observe')).toHaveTextContent('grayscale')
 		)
-		await expect(canvas.getByTestId('theme-store-demo2-observe')).toHaveTextContent(
+		await expect(canvas.getByTestId('theme-store-demo-observe')).toHaveTextContent(
 			'theme-grayscale'
 		)
 	}

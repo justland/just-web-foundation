@@ -8,7 +8,7 @@ import { appendId } from '../../utils/append-id.ts'
 import { Button } from '../button.tsx'
 import { ThemeResultCard } from './theme-result-card.tsx'
 
-type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
+type ThemeStoreDemoProps<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	/** Theme keys to show as "Write X" buttons. Defaults to first 3 keys from themes. */
@@ -21,12 +21,12 @@ type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
  * Renders observed value, a one-time read result, and buttons to trigger read/write for showcasing behavior.
  * All interactive elements and result areas use data-testid for testing.
  */
-export function ThemeStoreDemo2<Themes extends ThemeMap>({
+export function ThemeStoreDemo<Themes extends ThemeMap>({
 	store,
 	themes,
 	setThemeKeys,
-	'data-testid': dataTestId = 'theme-store-demo2'
-}: ThemeStoreDemo2Props<Themes>) {
+	'data-testid': dataTestId = 'theme-store-demo'
+}: ThemeStoreDemoProps<Themes>) {
 	const [observedResult, setObservedResult] = useState<ThemeEntry<Themes> | undefined | null>(
 		undefined
 	)
