@@ -189,6 +189,9 @@ export const ConcreteStores: Story = {
 			`
 		}
 	}),
+	beforeEach: () => {
+		localStorage.removeItem('use-theme-stores-story')
+	},
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [theme, setTheme] = useThemeStores(
