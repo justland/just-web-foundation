@@ -5,7 +5,7 @@ import type { ThemeMap } from './theme-map.types.ts'
  *
  * It is the basic value persisted by the theme stores.
  */
-export type ThemeEntry<Themes extends ThemeMap = ThemeMap> = {
+export interface ThemeEntry<Themes extends ThemeMap = ThemeMap> {
 	theme: keyof Themes
 	value: Themes[keyof Themes]
 }
