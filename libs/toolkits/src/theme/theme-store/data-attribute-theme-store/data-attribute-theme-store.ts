@@ -8,9 +8,9 @@ import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type DataAttributeThemeStoreOptions = {
+export interface DataAttributeThemeStoreOptions {
 	attributeName: `data-${string}`
-	element?: Element | null
+	element?: Element | null | undefined
 }
 
 /**

@@ -10,7 +10,7 @@ export interface GetThemeFromCookieOptions {
 	cookieName?: string | undefined
 }
 
-export type CookieThemeStoreOptions = {
+export interface CookieThemeStoreOptions {
 	cookieName: string
 	path?: string | undefined
 	maxAge?: number | undefined

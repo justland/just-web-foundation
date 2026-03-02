@@ -5,7 +5,9 @@ declare module 'csstype' {
 }
 
 /** Custom CSS properties (variables) with `--` prefix. */
-type CustomProperties = { [k: `--${string}`]: string }
+interface CustomProperties {
+	[k: `--${string}`]: string
+}
 
 /**
  * Widens CSS properties to support custom properties.

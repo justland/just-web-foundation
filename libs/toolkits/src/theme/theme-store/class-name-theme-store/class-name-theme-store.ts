@@ -7,8 +7,8 @@ import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type ClassNameThemeStoreOptions = {
-	element?: Element | null
+export interface ClassNameThemeStoreOptions {
+	element?: Element | null | undefined
 }
 
 /**

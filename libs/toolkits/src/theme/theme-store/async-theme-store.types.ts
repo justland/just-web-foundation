@@ -13,7 +13,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  *
  * @typeParam Themes - Map of theme keys to their value types (string or readonly string[])
  */
-export type AsyncThemeStore<Themes extends ThemeMap = ThemeMap> = {
+export interface AsyncThemeStore<Themes extends ThemeMap = ThemeMap> {
 	read?:
 		| (() => ThemeEntry<Themes> | undefined | null | Promise<ThemeEntry<Themes> | undefined | null>)
 		| undefined

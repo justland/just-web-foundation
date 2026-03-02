@@ -5,7 +5,7 @@ import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export type LocalStorageThemeStoreOptions = {
+export interface LocalStorageThemeStoreOptions {
 	storageKey: string
 }
 
