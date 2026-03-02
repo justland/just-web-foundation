@@ -195,7 +195,9 @@ function UseThemeStoreDemo({
 	store: ThemeStore<typeof themes>
 	'data-testid'?: string
 }) {
-	const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
+	const [theme, setTheme] = useThemeStores(themes, () => [store] as const, {
+		defaultTheme: 'default'
+	})
 	return (
 		<StoryCard title="useThemeStores" data-testid={dataTestId} appearance="output">
 			<p>
@@ -236,7 +238,7 @@ export const UseThemeStore: Story = {
 		showSource({
 			source: dedent`
 				const store = createInMemoryStoreWithSubscribe(undefined)
-				const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
+				const [theme, setTheme] = useThemeStores(themes, () => [store], { defaultTheme: 'default' })
 				setTheme('grayscale')
 			`
 		})
@@ -250,19 +252,28 @@ export const UseThemeStore: Story = {
 		const btnDefault = () => canvas.getByTestId('use-theme-store-btn-default')
 		const btnGrayscale = () => canvas.getByTestId('use-theme-store-btn-grayscale')
 
-		await waitFor(async () => {
-			await expect(themeEl()).toHaveTextContent('default')
-		})
+		await waitFor(
+			async () => {
+				await expect(themeEl()).toHaveTextContent('default')
+			},
+			{ timeout: 2000 }
+		)
 
 		await userEvent.click(btnGrayscale())
-		await waitFor(async () => {
-			await expect(themeEl()).toHaveTextContent('grayscale')
-		})
+		await waitFor(
+			async () => {
+				await expect(themeEl()).toHaveTextContent('grayscale')
+			},
+			{ timeout: 2000 }
+		)
 
 		await userEvent.click(btnDefault())
-		await waitFor(async () => {
-			await expect(themeEl()).toHaveTextContent('default')
-		})
+		await waitFor(
+			async () => {
+				await expect(themeEl()).toHaveTextContent('default')
+			},
+			{ timeout: 2000 }
+		)
 	}
 }
 
@@ -303,7 +314,9 @@ function useThemeStoreFromContext(): ThemeStore<typeof themes> {
 
 function ReactContextDemo() {
 	const store = useThemeStoreFromContext()
-	const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
+	const [theme, setTheme] = useThemeStores(themes, () => [store] as const, {
+		defaultTheme: 'default'
+	})
 	const setDefault = useCallback(() => setTheme('default'), [setTheme])
 	const setGrayscale = useCallback(() => setTheme('grayscale'), [setTheme])
 	return (
@@ -335,7 +348,7 @@ export const WithReactContext: Story = {
 		showSource({
 			source: dedent`
 				const store = useThemeStoreFromContext()
-				const [theme, setTheme] = useThemeStores(themes, [store], { defaultTheme: 'default' })
+				const [theme, setTheme] = useThemeStores(themes, () => [store], { defaultTheme: 'default' })
 				setThemeToStores([store], themeEntry('grayscale', themes))
 			`
 		})

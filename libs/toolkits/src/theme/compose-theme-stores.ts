@@ -11,7 +11,7 @@ import type { ThemeStoreFactory } from './theme-store/theme-store-factory.types.
 export type ComposeThemeStoreEntry<
 	Themes extends ThemeMap,
 	F extends ThemeStoreFactory<Themes> = never
-> = ThemeStore<Themes> | AsyncThemeStore<Themes> | [F] | [F, Parameters<F>[1]]
+> = ThemeStore<Themes> | AsyncThemeStore<Themes> | readonly [F] | readonly [F, Parameters<F>[1]]
 
 export type ComposeThemeStoresOptions<Themes extends ThemeMap> = {
 	defaultTheme?: keyof Themes | undefined
@@ -46,7 +46,7 @@ export function composeThemeStores<
 	H extends ThemeStoreFactory<Themes> = never
 >(
 	themes: Themes,
-	stores: [
+	stores: readonly [
 		store1: ComposeThemeStoreEntry<Themes, A>,
 		store2?: ComposeThemeStoreEntry<Themes, B>,
 		store3?: ComposeThemeStoreEntry<Themes, C>,
@@ -118,7 +118,7 @@ type StoreWithSubscribe<Themes extends ThemeMap> = RequiredPick<
 
 function resolveStores<Themes extends ThemeMap>(
 	themes: Themes,
-	input: [
+	stores: readonly [
 		store1: ComposeThemeStoreEntry<Themes, any>,
 		store2?: ComposeThemeStoreEntry<Themes, any>,
 		store3?: ComposeThemeStoreEntry<Themes, any>,
@@ -129,7 +129,7 @@ function resolveStores<Themes extends ThemeMap>(
 		store8?: ComposeThemeStoreEntry<Themes, any>
 	]
 ): (ThemeStore<Themes> | AsyncThemeStore<Themes>)[] {
-	return input.map((item) => {
+	return stores.map((item) => {
 		if (Array.isArray(item)) {
 			const [factory, options] = item
 			return (factory as (t: Themes, o?: unknown) => ThemeStore<Themes>)(themes, options)

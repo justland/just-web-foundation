@@ -42,7 +42,7 @@ export function createThemeHook<
 	H extends ThemeStoreFactory<Themes> = never
 >(
 	themes: Themes,
-	stores: [
+	stores: readonly [
 		store1: ComposeThemeStoreEntry<Themes, A>,
 		store2?: ComposeThemeStoreEntry<Themes, B>,
 		store3?: ComposeThemeStoreEntry<Themes, C>,
@@ -157,7 +157,7 @@ function getOrCreateChannel<
 	H extends ThemeStoreFactory<Themes> = never
 >(
 	themes: Themes,
-	stores: [
+	stores: readonly [
 		store1: ComposeThemeStoreEntry<Themes, A>,
 		store2?: ComposeThemeStoreEntry<Themes, B>,
 		store3?: ComposeThemeStoreEntry<Themes, C>,
