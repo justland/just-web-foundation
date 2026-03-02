@@ -6,10 +6,6 @@ import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface GetThemeFromCookieOptions {
-	cookieName?: string | undefined
-}
-
 export interface CookieThemeStoreOptions {
 	cookieName: string
 	path?: string | undefined
@@ -163,7 +159,7 @@ function getCookieFromHeader(cookieHeader: string, name: string): string | null 
 export function getThemeFromCookie<Themes extends ThemeMap>(
 	cookieSource: string | null | undefined | ((name: string) => string | null | undefined),
 	themes: Themes,
-	options: GetThemeFromCookieOptions = {}
+	options: { cookieName?: string | undefined } = {}
 ): ThemeEntry<Themes> | undefined {
 	const cookieName = options.cookieName ?? 'theme'
 	const stored =

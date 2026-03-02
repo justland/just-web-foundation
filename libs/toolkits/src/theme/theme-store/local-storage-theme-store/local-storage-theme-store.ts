@@ -5,10 +5,6 @@ import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface LocalStorageThemeStoreOptions {
-	storageKey: string
-}
-
 /**
  * Creates a theme store backed by localStorage.
  *
@@ -30,7 +26,7 @@ export interface LocalStorageThemeStoreOptions {
  */
 export function localStorageThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: LocalStorageThemeStoreOptions
+	options: { storageKey: string }
 ) {
 	const { storageKey } = options
 

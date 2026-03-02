@@ -5,10 +5,6 @@ import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface SessionStorageThemeStoreOptions {
-	storageKey: string
-}
-
 /**
  * Creates a theme store backed by sessionStorage.
  *
@@ -30,7 +26,7 @@ export interface SessionStorageThemeStoreOptions {
  */
 export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: SessionStorageThemeStoreOptions
+	options: { storageKey: string }
 ) {
 	const { storageKey } = options
 

@@ -7,10 +7,6 @@ import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface ClassNameThemeStoreOptions {
-	element?: Element | null | undefined
-}
-
 /**
  * Creates a theme store that reads and writes via element class names.
  *
@@ -29,7 +25,7 @@ export interface ClassNameThemeStoreOptions {
  */
 export function classNameThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options?: ClassNameThemeStoreOptions
+	options?: { element?: Element | null | undefined }
 ): Required<ThemeStore<Themes>> {
 	const element = options?.element ?? document?.documentElement
 

@@ -8,11 +8,6 @@ import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface DataAttributeThemeStoreOptions {
-	attributeName: `data-${string}`
-	element?: Element | null | undefined
-}
-
 /**
  * Creates a theme store that reads and writes via a data attribute.
  *
@@ -32,7 +27,7 @@ export interface DataAttributeThemeStoreOptions {
  */
 export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: DataAttributeThemeStoreOptions
+	options: { attributeName: `data-${string}`; element?: Element | null | undefined }
 ) {
 	const element = options.element ?? document?.documentElement
 	const { attributeName } = options
