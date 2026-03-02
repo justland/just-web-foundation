@@ -14,6 +14,7 @@
 		"css": "pnpm --filter ./libs/css",
 		"depcheck": "turbo run depcheck",
 		"docs": "pnpm --filter ./apps/docs",
+		"knip": "knip",
 		"nuke": "run-s nuke:pkgs nuke:root",
 		"nuke:pkgs": "turbo run nuke",
 		"nuke:root": "rimraf node_modules",
@@ -24,7 +25,7 @@
 		"test": "turbo run test",
 		"tk": "pnpm --filter ./libs/toolkits",
 		"types": "pnpm --filter ./libs/types",
-		"verify": "turbo run check cov depcheck size",
+		"verify": "turbo run check knip cov depcheck size",
 		"version": "changeset version && node scripts/update-version-tags.mjs",
 		"w": "vitest"
 	},
@@ -33,7 +34,6 @@
 		"@changesets/cli": "^2.29.8",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@locofy/cli": "^0.0.81",
 		"@repobuddy/biome": "^2.3.1",
 		"@repobuddy/vitest": "^2.1.1",
 		"@types/react": "^19.2.13",
@@ -47,11 +47,14 @@
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
 	},
+	"devDependencies": {
+		"knip": "^5.85.0"
+	},
+	"packageManager": "pnpm@10.28.2",
 	"pnpm": {
 		"overrides": {
 			"react": "catalog:",
 			"react-dom": "catalog:"
 		}
-	},
-	"packageManager": "pnpm@10.28.2"
+	}
 }
