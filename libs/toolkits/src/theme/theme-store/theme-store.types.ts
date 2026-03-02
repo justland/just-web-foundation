@@ -16,6 +16,7 @@ import type { ThemeMap } from '../theme-map.types.ts'
  * - `dataAttributeThemeStore`
  * - `inMemoryThemeStore`
  * - `localStorageThemeStore`
+ * - `prefersColorSchemeThemeStore`
  * - `sessionStorageThemeStore`
  *
  * @typeParam Themes - Map of theme keys to their value types (string or readonly string[])
