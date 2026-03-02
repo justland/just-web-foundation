@@ -138,7 +138,7 @@ export const StoreWithInitialValue: Story = {
 			code: dedent`
 				const [theme] = useThemeStores(themes, () => {
 					const s = inMemoryThemeStore(themes)
-					s.write?.(themeEntry('dark', themes))
+					s.write?.(themeEntry(themes, 'dark'))
 					return [s]
 				}, { defaultTheme: 'light' })
 				// theme === 'dark'
@@ -151,7 +151,7 @@ export const StoreWithInitialValue: Story = {
 			themes,
 			() => {
 				const s = inMemoryThemeStore(themes)
-				s.write?.(themeEntry('dark', themes))
+				s.write?.(themeEntry(themes, 'dark'))
 				return [s] as const
 			},
 			{ defaultTheme: 'light' }

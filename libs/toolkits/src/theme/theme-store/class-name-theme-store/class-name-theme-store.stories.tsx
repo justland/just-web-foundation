@@ -99,7 +99,7 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = classNameThemeStore(themes)
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -152,7 +152,7 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = classNameThemeStore(themes, { element: document.body })
-			store.write(themeEntry('high-contrast', themes))
+			store.write(themeEntry(themes, 'high-contrast'))
 			return {}
 		}
 	],
@@ -211,7 +211,7 @@ export const ElementCustom: Story = {
 			const el = targetRef.current
 			if (!el) return
 			const s = classNameThemeStore(themes, { element: el })
-			s.write(themeEntry('grayscale', themes))
+			s.write(themeEntry(themes, 'grayscale'))
 			setStore(s)
 		}, [])
 
@@ -278,7 +278,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = classNameThemeStore(themes)
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -343,7 +343,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = classNameThemeStore(themesArray)
-			store.write(themeEntry('grayscale', themesArray))
+			store.write(themeEntry(themesArray, 'grayscale'))
 			return {}
 		}
 	],
@@ -391,7 +391,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = classNameThemeStore(themes)
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return {}
 		}
 	],
@@ -446,7 +446,7 @@ export const WriteStory: Story = {
 							key={theme}
 							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.write(themeEntry(theme, themes))
+								store.write(themeEntry(themes, theme))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -517,7 +517,7 @@ export const Subscribe: Story = {
 						<Button
 							key={theme}
 							data-testid={`write-${theme}`}
-							onClick={() => storeRef.current?.write(themeEntry(theme, themes))}
+							onClick={() => storeRef.current?.write(themeEntry(themes, theme))}
 						>
 							write({theme})
 						</Button>
@@ -526,7 +526,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themes)}
+					result={themeEntry(themes, displayTheme)}
 				/>
 			</div>
 		)
@@ -582,7 +582,7 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 				setInvocationCount((c) => c + 1)
 				setObserved(entry)
 			})
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return unSub
 		}, [])
 
@@ -615,13 +615,13 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 					</Button>
 					<Button
 						data-testid="change-to-high-contrast"
-						onPress={() => storeRef.current?.write(themeEntry('high-contrast', themes))}
+						onPress={() => storeRef.current?.write(themeEntry(themes, 'high-contrast'))}
 					>
 						Change to high-contrast
 					</Button>
 					<Button
 						data-testid="change-to-current"
-						onPress={() => storeRef.current?.write(themeEntry('current', themes))}
+						onPress={() => storeRef.current?.write(themeEntry(themes, 'current'))}
 					>
 						Change to current
 					</Button>

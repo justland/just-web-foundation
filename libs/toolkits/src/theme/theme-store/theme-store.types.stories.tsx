@@ -42,7 +42,7 @@ export const ReadOnly: Story = {
 		showSource({
 			source: dedent`
 				const store: ThemeStore = {
-					read: () => themeEntry('current', themes)
+					read: () => themeEntry(themes, 'current')
 				}
 				store.read()
 			`
@@ -50,7 +50,7 @@ export const ReadOnly: Story = {
 	],
 	render: () => {
 		const store = {
-			read: () => themeEntry('grayscale', themes)
+			read: () => themeEntry(themes, 'grayscale')
 		} satisfies ThemeStore<typeof themes>
 
 		return (
@@ -77,7 +77,7 @@ export const WriteOnly: Story = {
 				const store: ThemeStore = {
 					write: (entry) => { /* persist */ }
 				}
-				store.write(themeEntry('grayscale', themes))
+				store.write(themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
@@ -90,7 +90,7 @@ export const WriteOnly: Story = {
 		} satisfies ThemeStore<typeof themes>
 
 		useEffect(() => {
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 		}, [])
 
 		return (
@@ -143,7 +143,7 @@ export const SubscribeOnly: Story = {
 		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
 			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined | null) => void) => {
-				handler(themeEntry('grayscale', themes))
+				handler(themeEntry(themes, 'grayscale'))
 				return () => {}
 			}
 		} satisfies ThemeStore<typeof themes>

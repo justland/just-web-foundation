@@ -132,7 +132,7 @@ export const ReadAllEmptyWithDefault: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'When all stores empty and defaultTheme is set, read() returns themeEntry(defaultTheme, themes).'
+				'When all stores empty and defaultTheme is set, read() returns themeEntry(themes, defaultTheme).'
 		}
 	}),
 	decorators: [
@@ -186,7 +186,7 @@ export const ReadWaterfallFirstHasValue: Story = {
 		() => {
 			const store1 = inMemoryThemeStore(themes)
 			const store2 = inMemoryThemeStore(themes)
-			store1.write?.(themeEntry('grayscale', themes))
+			store1.write?.(themeEntry(themes, 'grayscale'))
 			return {
 				store: composeThemeStores(themes, [store1, store2], { defaultTheme: 'current' })
 			}
@@ -224,7 +224,7 @@ export const ReadWaterfallFirstEmptySecondHasValue: Story = {
 		() => {
 			const store1 = inMemoryThemeStore(themes)
 			const store2 = inMemoryThemeStore(themes)
-			store2.write?.(themeEntry('high-contrast', themes))
+			store2.write?.(themeEntry(themes, 'high-contrast'))
 			return {
 				store: composeThemeStores(themes, [store1, store2], { defaultTheme: 'current' })
 			}
@@ -261,7 +261,7 @@ export const ReadSkipsStoreWithoutRead: Story = {
 	loaders: [
 		() => {
 			const storeWithRead = inMemoryThemeStore(themes)
-			storeWithRead.write?.(themeEntry('grayscale', themes))
+			storeWithRead.write?.(themeEntry(themes, 'grayscale'))
 			const storeWithoutRead = { write: (_entry: unknown) => {} }
 			return {
 				store: composeThemeStores(themes, [storeWithoutRead, storeWithRead] as any, {
@@ -372,7 +372,7 @@ export const SubscribeReNotifyOnChildEmit: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store1.write?.(themeEntry('grayscale', themes))}
+						onClick={() => store1.write?.(themeEntry(themes, 'grayscale'))}
 					>
 						Write grayscale (store1)
 					</Button>
@@ -421,13 +421,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store1.write?.(themeEntry('grayscale', themes))}
+						onClick={() => store1.write?.(themeEntry(themes, 'grayscale'))}
 					>
 						Write grayscale
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store1.write?.(themeEntry('current', themes))}
+						onClick={() => store1.write?.(themeEntry(themes, 'current'))}
 					>
 						Write current
 					</Button>
@@ -509,7 +509,7 @@ function createInitializedThemeStore<Themes extends ThemeMap>(
 ) {
 	const store = inMemoryThemeStore(themes)
 	if (options.initialTheme !== undefined) {
-		store.write?.(themeEntry(options.initialTheme, themes))
+		store.write?.(themeEntry(themes, options.initialTheme))
 	}
 	return store
 }
@@ -525,7 +525,7 @@ export const CustomStoreFactory: Story = {
 			code: dedent`
 				function createInitializedThemeStore(themes, options: { initialTheme?: keyof Themes }) {
 				  const store = inMemoryThemeStore(themes)
-				  if (options.initialTheme) store.write?.(themeEntry(options.initialTheme, themes))
+				  if (options.initialTheme) store.write?.(themeEntry(themes, options.initialTheme))
 				  return store
 				}
 				composeThemeStores(themes, [

@@ -24,7 +24,7 @@ export type ComposeThemeStoresOptions<Themes extends ThemeMap> = {
  * For factory tuples, calls `factory(themes)` or `factory(themes, options)` to create stores.
  *
  * - **read**: Returns first non-empty `ThemeEntry` from stores (waterfall). When all empty
- *   and `defaultTheme` is defined, returns `themeEntry(defaultTheme, themes)`.
+ *   and `defaultTheme` is defined, returns `themeEntry(themes, defaultTheme)`.
  * - **write**: Delegates to `setThemeToStores` (writes to all stores with write).
  * - **subscribe**: Aggregates child store subscriptions. No initial notify—handler is only
  *   called when a child store emits.
@@ -67,7 +67,7 @@ export function composeThemeStores<
 			const result = await Promise.resolve(store.read())
 			if (result !== undefined) return result
 		}
-		return defaultTheme !== undefined ? themeEntry(defaultTheme, themes) : undefined
+		return defaultTheme !== undefined ? themeEntry(themes, defaultTheme) : undefined
 	}
 
 	const withSubscribe = resolved.filter(

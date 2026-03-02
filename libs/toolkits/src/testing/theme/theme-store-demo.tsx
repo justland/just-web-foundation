@@ -51,7 +51,7 @@ export function ThemeStoreDemo<Themes extends ThemeMap>({
 
 	const handleSet = useCallback(
 		(theme: keyof Themes) => async () => {
-			const ret = store.write?.(themeEntry(theme, themes))
+			const ret = store.write?.(themeEntry(themes, theme))
 			await Promise.resolve(ret)
 		},
 		[store, themes]

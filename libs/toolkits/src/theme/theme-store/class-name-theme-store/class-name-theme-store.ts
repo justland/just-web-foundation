@@ -19,7 +19,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
  * const store = classNameThemeStore(themes)
  * store.read() // returns themeResult from element.className
- * store.write(themeEntry('grayscale', themes))
+ * store.write(themeEntry(themes, 'grayscale'))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -35,7 +35,7 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 		read() {
 			const theme = resolveThemeFromClassName(element.className, themes)
 			if (theme === undefined) return undefined
-			return themeEntry(theme, themes)
+			return themeEntry(themes, theme)
 		},
 		write(entry) {
 			applyThemeToClassName(element, entry, themes)
@@ -46,7 +46,7 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 				{
 					class: (value) => {
 						const theme = value ? resolveThemeFromClassName(value, themes) : undefined
-						const entry = theme ? themeEntry(theme, themes) : undefined
+						const entry = theme ? themeEntry(themes, theme) : undefined
 						const key = theme ?? undefined
 
 						if (lastEmitted === key) return

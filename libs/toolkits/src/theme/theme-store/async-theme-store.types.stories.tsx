@@ -43,7 +43,7 @@ export const ReadOnly: Story = {
 		showSource({
 			source: dedent`
 				const store: AsyncThemeStore = {
-					read: async () => themeEntry('grayscale', themes)
+					read: async () => themeEntry(themes, 'grayscale')
 				}
 				await store.read()
 			`
@@ -52,7 +52,7 @@ export const ReadOnly: Story = {
 	render: () => {
 		const [result, setResult] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
-			read: async () => themeEntry('grayscale', themes)
+			read: async () => themeEntry(themes, 'grayscale')
 		} satisfies AsyncThemeStore<typeof themes>
 
 		useEffect(() => {
@@ -88,7 +88,7 @@ export const WriteOnly: Story = {
 				const store: AsyncThemeStore = {
 					write: async (entry) => { /* persist */ }
 				}
-				await store.write?.(themeEntry('grayscale', themes))
+				await store.write?.(themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
@@ -101,7 +101,7 @@ export const WriteOnly: Story = {
 		} satisfies AsyncThemeStore<typeof themes>
 
 		useEffect(() => {
-			void store.write?.(themeEntry('grayscale', themes))
+			void store.write?.(themeEntry(themes, 'grayscale'))
 		}, [])
 
 		return (
@@ -151,7 +151,7 @@ export const SubscribeOnly: Story = {
 		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
 		const store = {
 			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined | null) => void) => {
-				handler(themeEntry('grayscale', themes))
+				handler(themeEntry(themes, 'grayscale'))
 				return () => {}
 			}
 		} satisfies AsyncThemeStore<typeof themes>

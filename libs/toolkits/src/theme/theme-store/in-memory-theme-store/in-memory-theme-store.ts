@@ -17,7 +17,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' } as const
  * const store = inMemoryThemeStore(themes)
  * store.read() // undefined when empty
- * store.write(themeEntry('grayscale', themes))
+ * store.write(themeEntry(themes, 'grayscale'))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -27,7 +27,7 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(themes: Themes) {
 
 	function read(): ThemeEntry<Themes> | undefined {
 		if (value === undefined || value === null) return undefined
-		return themeEntry(value, themes)
+		return themeEntry(themes, value)
 	}
 
 	return {
@@ -42,7 +42,7 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(themes: Themes) {
 			if (!(entry.theme in themes)) return
 			if (value === entry.theme) return
 			value = entry.theme
-			for (const fn of listeners) fn(themeEntry(entry.theme, themes))
+			for (const fn of listeners) fn(themeEntry(themes, entry.theme))
 		},
 		subscribe(handler) {
 			listeners.add(handler)

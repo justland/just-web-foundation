@@ -59,7 +59,7 @@ export function useThemeByLocalStorage<Themes extends ThemeMap>(
 
 	const setTheme = useCallback(
 		(themeKey: keyof Themes) => {
-			setThemeToStores([store], themeEntry(themeKey, themes))
+			setThemeToStores([store], themeEntry(themes, themeKey))
 		},
 		[store, themes]
 	)

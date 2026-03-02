@@ -34,10 +34,10 @@ export function prefersColorSchemeThemeStore<Themes extends PrefersColorSchemeTh
 ): RequiredPick<ThemeStore<Themes>, 'read' | 'subscribe'> {
 	return {
 		read() {
-			return themeEntry(getPrefersColorScheme(), themes)
+			return themeEntry(themes, getPrefersColorScheme())
 		},
 		subscribe(handler) {
-			return observePrefersColorScheme((scheme) => handler(themeEntry(scheme, themes)))
+			return observePrefersColorScheme((scheme) => handler(themeEntry(themes, scheme)))
 		}
 	}
 }

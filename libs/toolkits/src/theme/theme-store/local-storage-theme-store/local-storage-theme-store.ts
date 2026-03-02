@@ -20,7 +20,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
  * const store = localStorageThemeStore(themes, { storageKey: 'theme' })
  * store.read() // returns themeResult from localStorage
- * store.write(themeEntry('grayscale', themes))
+ * store.write(themeEntry(themes, 'grayscale'))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -41,7 +41,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 		const stored = window.localStorage.getItem(storageKey)
 		const theme = parseStoredTheme(stored, themes)
 		if (theme === undefined) return undefined
-		return themeEntry(theme, themes)
+		return themeEntry(themes, theme)
 	}
 
 	function notify() {

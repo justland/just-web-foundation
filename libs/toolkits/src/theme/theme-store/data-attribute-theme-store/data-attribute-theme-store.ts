@@ -21,7 +21,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * const themes = { current: 'current', grayscale: 'grayscale' }
  * const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
  * store.read() // returns themeResult from data attribute
- * store.write(themeEntry('grayscale', themes))
+ * store.write(themeEntry(themes, 'grayscale'))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -39,7 +39,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const value = getDataAttribute(attributeName, element)
 			const theme = resolveThemeFromDataAttribute(value, themes)
 			if (theme === undefined) return undefined
-			return themeEntry(theme, themes)
+			return themeEntry(themes, theme)
 		},
 		write(entry) {
 			applyThemeToDataAttribute(element, attributeName, entry)
@@ -49,7 +49,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 				{
 					[attributeName]: (value) => {
 						const theme = value ? resolveThemeFromDataAttribute(value, themes) : undefined
-						handler(theme ? themeEntry(theme, themes) : undefined)
+						handler(theme ? themeEntry(themes, theme) : undefined)
 					}
 				},
 				element

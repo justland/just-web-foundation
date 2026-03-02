@@ -16,8 +16,8 @@ import type { AsyncThemeStore } from './theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from './theme-store/theme-store.types.ts'
 
 const meta = {
-	title: 'theme/ThemeStore use cases',
-	tags: ['func', 'version:next'],
+	title: 'theme',
+	tags: ['version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
@@ -87,8 +87,8 @@ export const WithBackendStore: Story = {
 		showSource({
 			source: dedent`
 				const store = createBackendStore(undefined, 50)
-				const theme = await getThemeFromStores([store], 'default')
-				await setThemeToStores([store], themeEntry('grayscale', themes))
+				const theme = await store.read()
+				await store.write(themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
@@ -167,7 +167,7 @@ export const InMemoryStore: Story = {
 		showSource({
 			source: dedent`
 				const store = inMemoryThemeStore(themes)
-				store.write(themeEntry('grayscale', themes))
+				store.write(themeEntry(themes, 'grayscale'))
 				const theme = await getThemeFromStores([store], 'default')
 			`
 		})
@@ -175,7 +175,7 @@ export const InMemoryStore: Story = {
 	render: () => {
 		const store = useMemo(() => {
 			const s = inMemoryThemeStore(themes)
-			s.write(themeEntry('grayscale', themes))
+			s.write(themeEntry(themes, 'grayscale'))
 			return s
 		}, [themes])
 		return <ShowThemeFromStore store={store} themes={themes} theme="default" data-testid="result" />
@@ -349,13 +349,13 @@ export const WithReactContext: Story = {
 			source: dedent`
 				const store = useThemeStoreFromContext()
 				const [theme, setTheme] = useThemeStores(themes, () => [store], { defaultTheme: 'default' })
-				setThemeToStores([store], themeEntry('grayscale', themes))
+				setThemeToStores([store], themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
 	render: () => {
 		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined>(
-			themeEntry('grayscale', themes)
+			themeEntry(themes, 'grayscale')
 		)
 		return (
 			<ThemeContext.Provider value={{ entry, setEntry }}>
@@ -382,7 +382,7 @@ export const WithReactContext: Story = {
 				}
 			}
 		}
-		await setThemeToStores([store], themeEntry('grayscale', themes))
+		await setThemeToStores([store], themeEntry(themes, 'grayscale'))
 		const got = await getThemeFromStores([store], 'default')
 		await expect(got).toBe('grayscale')
 	}
@@ -426,13 +426,13 @@ export const WithZustand: Story = {
 			source: dedent`
 				const { store } = createZustandThemeStore(undefined)
 				const theme = await getThemeFromStores([store], 'default')
-				await setThemeToStores([store], themeEntry('grayscale', themes))
+				await setThemeToStores([store], themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
 	play: async () => {
 		const { store } = createZustandThemeStore(undefined)
-		await setThemeToStores([store], themeEntry('grayscale', themes))
+		await setThemeToStores([store], themeEntry(themes, 'grayscale'))
 		const result = await getThemeFromStores([store], 'default')
 		await expect(result).toBe('grayscale')
 	}
@@ -467,13 +467,13 @@ export const WithJotai: Story = {
 			source: dedent`
 				const store = createJotaiThemeStore(undefined)
 				const theme = await getThemeFromStores([store], 'default')
-				await setThemeToStores([store], themeEntry('grayscale', themes))
+				await setThemeToStores([store], themeEntry(themes, 'grayscale'))
 			`
 		})
 	],
 	play: async () => {
 		const store = createJotaiThemeStore(undefined)
-		await setThemeToStores([store], themeEntry('grayscale', themes))
+		await setThemeToStores([store], themeEntry(themes, 'grayscale'))
 		const result = await getThemeFromStores([store], 'default')
 		await expect(result).toBe('grayscale')
 	}

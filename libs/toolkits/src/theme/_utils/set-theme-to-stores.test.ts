@@ -11,7 +11,7 @@ const themeMap = {
 describe('setThemeToStores', () => {
 	it('when store has write, writes theme to it', async () => {
 		const store = inMemoryThemeStore(themeMap)
-		await setThemeToStores([store], themeEntry('grayscale', themeMap))
+		await setThemeToStores([store], themeEntry(themeMap, 'grayscale'))
 		expect(store.read?.()?.theme).toBe('grayscale')
 	})
 
@@ -20,7 +20,7 @@ describe('setThemeToStores', () => {
 		const storeWithoutWrite = { read: () => undefined }
 		await setThemeToStores(
 			[storeWithoutWrite, storeWithWrite] as any,
-			themeEntry('grayscale', themeMap)
+			themeEntry(themeMap, 'grayscale')
 		)
 		expect(storeWithWrite.read?.()?.theme).toBe('grayscale')
 	})
@@ -28,7 +28,7 @@ describe('setThemeToStores', () => {
 	it('writes to all stores that have write', async () => {
 		const store1 = inMemoryThemeStore(themeMap)
 		const store2 = inMemoryThemeStore(themeMap)
-		await setThemeToStores([store1, store2], themeEntry('high-contrast', themeMap))
+		await setThemeToStores([store1, store2], themeEntry(themeMap, 'high-contrast'))
 		expect(store1.read?.()?.theme).toBe('high-contrast')
 		expect(store2.read?.()?.theme).toBe('high-contrast')
 	})

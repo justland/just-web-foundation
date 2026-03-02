@@ -88,7 +88,7 @@ export const CookieName: Story = {
 	loaders: [
 		() => {
 			const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -134,7 +134,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = cookieThemeStore(themes, { cookieName: COOKIE_NAME })
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return {}
 		}
 	],
@@ -221,7 +221,7 @@ export const GetThemeFromCookie: Story = {
 		})
 	],
 	render: () => {
-		const cookieHeader = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(themeEntry('grayscale', themes)))}`
+		const cookieHeader = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(themeEntry(themes, 'grayscale')))}`
 		const result = getThemeFromCookie(cookieHeader, themes, { cookieName: COOKIE_NAME })
 		return (
 			<ThemeResultCard

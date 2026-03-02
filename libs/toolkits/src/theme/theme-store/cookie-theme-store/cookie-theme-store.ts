@@ -65,7 +65,7 @@ function deleteCookie(name: string, path = '/') {
  * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
  * const store = cookieThemeStore(themes, { cookieName: 'theme' })
  * store.read()
- * store.write(themeEntry('grayscale', themes))
+ * store.write(themeEntry(themes, 'grayscale'))
  * store.subscribe((themeResult) => {})
  * ```
  */
@@ -86,7 +86,7 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 		const stored = getCookieValue(cookieName)
 		const theme = parseStoredTheme(stored, themes)
 		if (theme === undefined) return undefined
-		return themeEntry(theme, themes)
+		return themeEntry(themes, theme)
 	}
 
 	function notify() {
@@ -170,5 +170,5 @@ export function getThemeFromCookie<Themes extends ThemeMap>(
 				: null
 	const theme = parseStoredTheme(stored, themes)
 	if (theme === undefined) return undefined
-	return themeEntry(theme, themes)
+	return themeEntry(themes, theme)
 }

@@ -94,7 +94,7 @@ export const StorageKey: Story = {
 	loaders: [
 		() => {
 			const store = sessionStorageThemeStore(themes, { storageKey: STORAGE_KEY })
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -150,7 +150,7 @@ export const ThemeMapStringValue: Story = {
 		() => {
 			window.sessionStorage.removeItem(THEMEMAP_STORAGE_KEY)
 			const store = sessionStorageThemeStore(themes, { storageKey: THEMEMAP_STORAGE_KEY })
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return { store }
 		}
 	],
@@ -211,7 +211,7 @@ export const ThemeMapArrayValues: Story = {
 		() => {
 			window.sessionStorage.removeItem(THEMEMAP_STORAGE_KEY)
 			const store = sessionStorageThemeStore(themesArray, { storageKey: THEMEMAP_STORAGE_KEY })
-			store.write(themeEntry('grayscale', themesArray))
+			store.write(themeEntry(themesArray, 'grayscale'))
 			return { store }
 		}
 	],
@@ -255,7 +255,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = sessionStorageThemeStore(themes, { storageKey: STORAGE_KEY })
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return {}
 		}
 	],
@@ -330,7 +330,7 @@ export const WriteStory: Story = {
 		showSource({
 			source: dedent`
 				const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
-				store.write(themeEntry('high-contrast', themes))
+				store.write(themeEntry(themes, 'high-contrast'))
 			`
 		})
 	],
@@ -355,7 +355,7 @@ export const WriteStory: Story = {
 							key={theme}
 							data-testid={`write-${theme}`}
 							onPress={() => {
-								store.write(themeEntry(theme, themes))
+								store.write(themeEntry(themes, theme))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -407,7 +407,7 @@ export const Subscribe: Story = {
 	loaders: [
 		() => {
 			const store = sessionStorageThemeStore(themes, { storageKey: STORAGE_KEY })
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return {}
 		}
 	],
@@ -425,13 +425,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-high-contrast"
-						onPress={() => store.write(themeEntry('high-contrast', themes))}
+						onPress={() => store.write(themeEntry(themes, 'high-contrast'))}
 					>
 						write('high-contrast')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onPress={() => store.write(themeEntry('current', themes))}
+						onPress={() => store.write(themeEntry(themes, 'current'))}
 					>
 						write('current')
 					</Button>
@@ -439,7 +439,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themes)}
+					result={themeEntry(themes, displayTheme)}
 				/>
 			</div>
 		)
@@ -475,8 +475,8 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 					invocationCount++
 					setObserved(entry)
 				})
-				store.write(themeEntry('grayscale', themes)) // handler runs
-				store.write(themeEntry('grayscale', themes)) // handler NOT run (same theme)
+				store.write(themeEntry(themes, 'grayscale')) // handler runs
+				store.write(themeEntry(themes, 'grayscale')) // handler NOT run (same theme)
 			`
 		})
 	],
@@ -515,15 +515,15 @@ export const SubscribeOnlyWhenThemeChanges: Story = {
 					<Button
 						data-testid="write-grayscale-twice"
 						onPress={() => {
-							store.write(themeEntry('grayscale', themes))
-							store.write(themeEntry('grayscale', themes))
+							store.write(themeEntry(themes, 'grayscale'))
+							store.write(themeEntry(themes, 'grayscale'))
 						}}
 					>
 						write(grayscale) twice
 					</Button>
 					<Button
 						data-testid="write-high-contrast"
-						onPress={() => store.write(themeEntry('high-contrast', themes))}
+						onPress={() => store.write(themeEntry(themes, 'high-contrast'))}
 					>
 						write(high-contrast)
 					</Button>
@@ -557,9 +557,9 @@ export const SubscribeUnsubscribe: Story = {
 			source: dedent`
 				const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
 				const unsubscribe = store.subscribe((theme) => console.log(theme))
-				store.write(themeEntry('grayscale', themes))
+				store.write(themeEntry(themes, 'grayscale'))
 				unsubscribe()
-				store.write(themeEntry('current', themes)) // handler not called
+				store.write(themeEntry(themes, 'current')) // handler not called
 			`
 		})
 	],
@@ -589,13 +589,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onPress={() => store.write(themeEntry('grayscale', themes))}
+						onPress={() => store.write(themeEntry(themes, 'grayscale'))}
 					>
 						write('grayscale')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onPress={() => store.write(themeEntry('current', themes))}
+						onPress={() => store.write(themeEntry(themes, 'current'))}
 					>
 						write('current')
 					</Button>
@@ -612,7 +612,7 @@ export const SubscribeUnsubscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themes)}
+					result={themeEntry(themes, displayTheme)}
 				/>
 			</div>
 		)

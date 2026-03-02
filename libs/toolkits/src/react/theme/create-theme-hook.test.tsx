@@ -50,7 +50,7 @@ describe('createThemeHook subscription cleanup', () => {
 			useThemeStores(themes, stores, { defaultTheme: 'light' })
 		)
 
-		store.write?.(themeEntry('dark', themes))
+		store.write?.(themeEntry(themes, 'dark'))
 		await new Promise((r) => setTimeout(r, 0))
 
 		expect(result2.current[0]).toBe('dark')

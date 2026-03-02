@@ -105,7 +105,7 @@ export const StoryWithValue: Story = {
 		source: {
 			code: dedent`
 				const store = inMemoryThemeStore(themes)
-				store.write?.(themeEntry('grayscale', themes))
+				store.write?.(themeEntry(themes, 'grayscale'))
 				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
 				const [theme] = useTheme() // theme === 'grayscale'
 			`
@@ -115,7 +115,7 @@ export const StoryWithValue: Story = {
 	render: () => {
 		const store = useMemo(() => {
 			const s = inMemoryThemeStore(themes)
-			s.write(themeEntry('grayscale', themes))
+			s.write(themeEntry(themes, 'grayscale'))
 			return s
 		}, [])
 		const useTheme = useMemo(
@@ -324,7 +324,7 @@ function createInitializedThemeStore<Themes extends ThemeMap>(
 ) {
 	const store = inMemoryThemeStore(themes)
 	if (options.initialTheme !== undefined) {
-		store.write?.(themeEntry(options.initialTheme, themes))
+		store.write?.(themeEntry(themes, options.initialTheme))
 	}
 	return store
 }
@@ -341,7 +341,7 @@ export const CustomStoreFactory: Story = {
 			code: dedent`
 				function createInitializedThemeStore(themes, options: { initialTheme?: keyof Themes }) {
 				  const store = inMemoryThemeStore(themes)
-				  if (options.initialTheme) store.write?.(themeEntry(options.initialTheme, themes))
+				  if (options.initialTheme) store.write?.(themeEntry(themes, options.initialTheme))
 				  return store
 				}
 				const useTheme = createThemeHook(

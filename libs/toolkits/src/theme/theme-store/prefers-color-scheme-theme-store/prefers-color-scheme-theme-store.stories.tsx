@@ -130,7 +130,7 @@ export const Subscribe: Story = {
 			<ThemeResultCard
 				title="store.subscribe() receives (change OS theme to update)"
 				data-testid="store-subscribe-result"
-				result={themeEntry(displayTheme, colorSchemeThemes)}
+				result={themeEntry(colorSchemeThemes, displayTheme)}
 			/>
 		)
 	},

@@ -72,7 +72,7 @@ export const Playground: Story = {
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.write(themeEntry('grayscale', themes))
+		store.write(themeEntry(themes, 'grayscale'))
 		await waitFor(() =>
 			expect(canvas.getByTestId('theme-store-demo-observe')).toHaveTextContent('grayscale')
 		)
@@ -109,7 +109,7 @@ export const ElementDefault: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -169,7 +169,7 @@ export const ElementBody: Story = {
 	loaders: [
 		() => {
 			const store = createStore({ element: document.body })
-			store.write(themeEntry('high-contrast', themes))
+			store.write(themeEntry(themes, 'high-contrast'))
 			return {}
 		}
 	],
@@ -236,7 +236,7 @@ export const ElementCustom: Story = {
 			const el = targetRef.current
 			if (!el) return
 			const s = createStore({ element: el })
-			s.write(themeEntry('grayscale', themes))
+			s.write(themeEntry(themes, 'grayscale'))
 			setStore(s)
 		}, [])
 
@@ -303,7 +303,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return {}
 		}
 	],
@@ -379,7 +379,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = createStoreArray()
-			store.write(themeEntry('grayscale', themesArray))
+			store.write(themeEntry(themesArray, 'grayscale'))
 			return {}
 		}
 	],
@@ -431,7 +431,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = createStore()
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return {}
 		}
 	],
@@ -467,7 +467,7 @@ export const WriteStory: Story = {
 		showSource({
 			source: dedent`
 				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
-				store.write(themeEntry('high-contrast', themes))
+				store.write(themeEntry(themes, 'high-contrast'))
 			`
 		})
 	],
@@ -486,7 +486,7 @@ export const WriteStory: Story = {
 							key={theme}
 							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.write(themeEntry(theme, themes))
+								store.write(themeEntry(themes, theme))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -548,13 +548,13 @@ export const Subscribe: Story = {
 			<ThemeResultCard
 				title="store.subscribe() receives"
 				data-testid="store-subscribe-result"
-				result={themeEntry(displayTheme, themes)}
+				result={themeEntry(themes, displayTheme)}
 			/>
 		)
 	},
 	play: async ({ canvas }) => {
 		const store = createStore()
-		store.write(themeEntry('high-contrast', themes))
+		store.write(themeEntry(themes, 'high-contrast'))
 
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')

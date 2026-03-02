@@ -138,7 +138,7 @@ function createSharedChannel<Themes extends ThemeMap>(
 		subscribe,
 		getSnapshot,
 		getServerSnapshot,
-		setTheme: (theme: keyof Themes) => composedStore.write(themeEntry(theme, themes))
+		setTheme: (theme: keyof Themes) => composedStore.write(themeEntry(themes, theme))
 	}
 }
 

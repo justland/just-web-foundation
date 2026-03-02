@@ -53,7 +53,7 @@ export const StringValue: Story = {
 			<ThemeResultCard
 				title="themeResult('current', themes)"
 				data-testid="string-result"
-				result={themeEntry('current', themesString)}
+				result={themeEntry(themesString, 'current')}
 			/>
 		</div>
 	)
@@ -98,7 +98,7 @@ export const ArrayValue: Story = {
 			<ThemeResultCard
 				title="themeResult('grayscale', themes)"
 				data-testid="array-result"
-				result={themeEntry('grayscale', themesArray)}
+				result={themeEntry(themesArray, 'grayscale')}
 			/>
 		</div>
 	)
@@ -144,12 +144,12 @@ export const Mixed: Story = {
 			<ThemeResultCard
 				title="themeResult('current', themes)"
 				data-testid="mixed-string-result"
-				result={themeEntry('current', themesMixed)}
+				result={themeEntry(themesMixed, 'current')}
 			/>
 			<ThemeResultCard
 				title="themeResult('grayscale', themes)"
 				data-testid="mixed-array-result"
-				result={themeEntry('grayscale', themesMixed)}
+				result={themeEntry(themesMixed, 'grayscale')}
 			/>
 		</div>
 	)

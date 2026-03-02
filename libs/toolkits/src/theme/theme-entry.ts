@@ -1,10 +1,10 @@
 import type { ThemeEntry } from './theme-entry.types.ts'
 import type { ThemeMap } from './theme-map.types.ts'
 
-/** Creates ThemeEntry from theme key and theme map. */
+/** Creates ThemeEntry from theme map and theme key. */
 export function themeEntry<Themes extends ThemeMap>(
-	theme: keyof Themes,
-	themeMap: Themes
+	themes: Themes,
+	theme: keyof Themes
 ): ThemeEntry<Themes> {
-	return { theme, value: themeMap[theme] }
+	return { theme, value: themes[theme] }
 }

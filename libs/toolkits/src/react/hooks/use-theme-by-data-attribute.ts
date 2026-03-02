@@ -74,7 +74,7 @@ export function useThemeByDataAttribute<Themes extends ThemeMap>(
 	const setTheme = useCallback(
 		(themeKey: keyof Themes) => {
 			if (element) {
-				setThemeToStores([store], themeEntry(themeKey, themes))
+				setThemeToStores([store], themeEntry(themes, themeKey))
 			}
 		},
 		[element, store, themes]

@@ -71,7 +71,7 @@ export const BasicUsage: Story = {
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
 					<Button
-						onPress={() => testValueDataThemeStore.write(themeEntry('test-value', testValueThemes))}
+						onPress={() => testValueDataThemeStore.write(themeEntry(testValueThemes, 'test-value'))}
 					>
 						test-value
 					</Button>
@@ -129,7 +129,7 @@ export const MultipleAttributes: Story = {
 			<div className="font-sans">
 				<div className="flex flex-wrap gap-2 mb-4">
 					<Button
-						onPress={() => testValueDataThemeStore.write(themeEntry('test-value', testValueThemes))}
+						onPress={() => testValueDataThemeStore.write(themeEntry(testValueThemes, 'test-value'))}
 					>
 						Set data-theme
 					</Button>
@@ -138,7 +138,7 @@ export const MultipleAttributes: Story = {
 					</Button>
 					<Button
 						onPress={() =>
-							testValueDataColorSchemeStore.write(themeEntry('test-value', testValueThemes))
+							testValueDataColorSchemeStore.write(themeEntry(testValueThemes, 'test-value'))
 						}
 					>
 						Set data-color-scheme
@@ -218,7 +218,7 @@ export const CustomElement: Story = {
 							dataAttributeThemeStore(testValueThemes, {
 								attributeName: 'data-theme',
 								element: el
-							}).write(themeEntry('test-value', testValueThemes))
+							}).write(themeEntry(testValueThemes, 'test-value'))
 						}}
 					>
 						test-value

@@ -11,7 +11,7 @@ const themeMap = {
 describe('observeThemeFromStores', () => {
 	it('calls handler immediately with current theme from stores', async () => {
 		const store = inMemoryThemeStore(themeMap)
-		store.write?.(themeEntry('grayscale', themeMap))
+		store.write?.(themeEntry(themeMap, 'grayscale'))
 		const handler = vi.fn()
 		const unsubscribe = observeThemeFromStores([store], 'current', handler)
 		await vi.waitFor(() => {
@@ -29,7 +29,7 @@ describe('observeThemeFromStores', () => {
 			expect(handler).toHaveBeenCalled()
 		})
 		handler.mockClear()
-		store.write?.(themeEntry('grayscale', themeMap))
+		store.write?.(themeEntry(themeMap, 'grayscale'))
 		await vi.waitFor(() => {
 			expect(handler).toHaveBeenCalledWith('grayscale')
 		})
@@ -44,7 +44,7 @@ describe('observeThemeFromStores', () => {
 		})
 		handler.mockClear()
 		unsubscribe()
-		store.write?.(themeEntry('grayscale', themeMap))
+		store.write?.(themeEntry(themeMap, 'grayscale'))
 		await new Promise((r) => setTimeout(r, 20))
 		expect(handler).not.toHaveBeenCalled()
 	})
@@ -60,7 +60,7 @@ describe('observeThemeFromStores', () => {
 		)
 		await vi.waitFor(() => expect(handler).toHaveBeenCalled())
 		handler.mockClear()
-		store.write?.(themeEntry('grayscale', themeMap))
+		store.write?.(themeEntry(themeMap, 'grayscale'))
 		await vi.waitFor(() => expect(handler).toHaveBeenCalledWith('grayscale'))
 		unsubscribe()
 	})

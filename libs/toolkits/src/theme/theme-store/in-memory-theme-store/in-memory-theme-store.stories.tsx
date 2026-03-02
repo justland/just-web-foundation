@@ -88,7 +88,7 @@ export const ThemeMapOption: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore(themes)
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return { store }
 		}
 	],
@@ -139,7 +139,7 @@ export const ThemeMapStringValue: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore(themes)
-			store.write(themeEntry('current', themes))
+			store.write(themeEntry(themes, 'current'))
 			return { store }
 		}
 	],
@@ -200,7 +200,7 @@ export const ThemeMapArrayValues: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore(themesArray)
-			store.write(themeEntry('grayscale', themesArray))
+			store.write(themeEntry(themesArray, 'grayscale'))
 			return { store }
 		}
 	],
@@ -245,7 +245,7 @@ export const Read: Story = {
 	loaders: [
 		() => {
 			const store = inMemoryThemeStore(themes)
-			store.write(themeEntry('grayscale', themes))
+			store.write(themeEntry(themes, 'grayscale'))
 			return { store }
 		}
 	],
@@ -332,7 +332,7 @@ export const WriteStory: Story = {
 							key={theme}
 							data-testid={`write-${theme}`}
 							onClick={() => {
-								store.write(themeEntry(theme, themes))
+								store.write(themeEntry(themes, theme))
 								setCurrentTheme(theme)
 							}}
 						>
@@ -394,13 +394,13 @@ export const Subscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-high-contrast"
-						onClick={() => store.write(themeEntry('high-contrast', themes))}
+						onClick={() => store.write(themeEntry(themes, 'high-contrast'))}
 					>
 						write('high-contrast')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themes))}
+						onClick={() => store.write(themeEntry(themes, 'current'))}
 					>
 						write('current')
 					</Button>
@@ -408,7 +408,7 @@ export const Subscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themes)}
+					result={themeEntry(themes, displayTheme)}
 				/>
 			</div>
 		)
@@ -467,13 +467,13 @@ export const SubscribeUnsubscribe: Story = {
 				<div className="flex flex-wrap gap-2">
 					<Button
 						data-testid="write-grayscale"
-						onClick={() => store.write(themeEntry('grayscale', themes))}
+						onClick={() => store.write(themeEntry(themes, 'grayscale'))}
 					>
 						write('grayscale')
 					</Button>
 					<Button
 						data-testid="write-current"
-						onClick={() => store.write(themeEntry('current', themes))}
+						onClick={() => store.write(themeEntry(themes, 'current'))}
 					>
 						write('current')
 					</Button>
@@ -490,7 +490,7 @@ export const SubscribeUnsubscribe: Story = {
 				<ThemeResultCard
 					title="store.subscribe() receives (frozen after unsubscribe)"
 					data-testid="store-subscribe-result"
-					result={themeEntry(displayTheme, themes)}
+					result={themeEntry(themes, displayTheme)}
 				/>
 			</div>
 		)
