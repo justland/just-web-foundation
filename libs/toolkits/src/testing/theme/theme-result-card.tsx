@@ -1,12 +1,12 @@
 import { StoryCard } from '@repobuddy/storybook'
 import { appendId } from '../../utils/append-id.ts'
 
-export type ThemeResult = {
+type ThemeResult = {
 	theme?: unknown
 	value?: unknown
 }
 
-export type ThemeResultCardProps = {
+type ThemeResultCardProps = {
 	result: ThemeResult | null | undefined
 	title: string
 	'data-testid'?: string | undefined

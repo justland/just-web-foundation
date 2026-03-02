@@ -8,7 +8,7 @@ import { appendId } from '../../utils/append-id.ts'
 import { Button } from '../button.tsx'
 import { ThemeResultCard } from './theme-result-card.tsx'
 
-export type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
+type ThemeStoreDemo2Props<Themes extends ThemeMap> = {
 	store: ThemeStore<Themes> | AsyncThemeStore<Themes>
 	themes: Themes
 	/** Theme keys to show as "Write X" buttons. Defaults to first 3 keys from themes. */

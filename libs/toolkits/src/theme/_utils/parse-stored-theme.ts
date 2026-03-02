@@ -1,5 +1,4 @@
 import { tryParseJSON } from '../../_internal/utils/try-parse-json.ts'
-import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
 
 /**
@@ -19,22 +18,4 @@ export function parseStoredTheme<Theme extends string>(
 	if (!parsed?.theme || typeof parsed.theme !== 'string') return undefined
 	if (themeMap && !(parsed.theme in themeMap)) return undefined
 	return parsed.theme as Theme
-}
-
-/**
- * Parses stored JSON theme and validates against theme map, returning ThemeResult.
- *
- * Expects stored shape: { theme: string, value?: unknown }
- *
- * @param stored - Raw string from localStorage/sessionStorage
- * @param themeMap - Record mapping theme keys to values
- * @returns ThemeResult if valid, otherwise undefined
- */
-export function parseStoredThemeResult<Themes extends ThemeMap>(
-	stored: string | null | undefined,
-	themeMap: Themes
-): ThemeEntry<Themes> | undefined {
-	const theme = parseStoredTheme(stored, themeMap as ThemeMap<keyof Themes & string>)
-	if (theme === undefined) return undefined
-	return { theme, value: themeMap[theme] }
 }
