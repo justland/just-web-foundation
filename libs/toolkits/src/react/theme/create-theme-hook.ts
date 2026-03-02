@@ -112,13 +112,22 @@ function createSharedChannel<Themes extends ThemeMap>(
 		}
 	)
 
-	const unobserve = composedStore.subscribe(handleStoreUpdate)
+	let unobserve: () => void = composedStore.subscribe(handleStoreUpdate)
+	let isSubscribedToStore = true
 
 	const subscribe = (listener: (theme: keyof Themes | undefined) => void) => {
+		if (!isSubscribedToStore) {
+			unobserve = composedStore.subscribe(handleStoreUpdate)
+			isSubscribedToStore = true
+		}
 		listeners.add(listener)
 		listener(lastTheme)
 		return () => {
 			listeners.delete(listener)
+			if (listeners.size === 0) {
+				unobserve()
+				isSubscribedToStore = false
+			}
 		}
 	}
 
@@ -129,8 +138,7 @@ function createSharedChannel<Themes extends ThemeMap>(
 		subscribe,
 		getSnapshot,
 		getServerSnapshot,
-		setTheme: (theme: keyof Themes) => composedStore.write(themeEntry(theme, themes)),
-		unobserve
+		setTheme: (theme: keyof Themes) => composedStore.write(themeEntry(theme, themes))
 	}
 }
 
