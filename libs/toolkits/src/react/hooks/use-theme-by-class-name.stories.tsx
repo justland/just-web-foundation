@@ -34,7 +34,7 @@ export const BasicUsage: Story = {
 		source: {
 			code: dedent`
 				const themes = { light: 'theme-light', dark: 'theme-dark' }
-				const [theme, setTheme] = useThemeByClassName({ themes, theme: 'light' })
+				const [theme, setTheme] = useThemeByClassName(themes, { theme: 'light' })
 				setTheme('dark')
 				setTheme('light')
 			`
@@ -42,10 +42,7 @@ export const BasicUsage: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const [theme, setTheme] = useThemeByClassName({
-			themes: THEMES,
-			theme: 'light'
-		})
+		const [theme, setTheme] = useThemeByClassName(THEMES, { defaultTheme: 'light' })
 
 		return (
 			<div className="flex flex-col gap-4 font-sans">
@@ -82,11 +79,10 @@ export const CustomElement: Story = {
 		source: {
 			code: dedent`
 				const [element, setElement] = useState<HTMLDivElement | null>(null)
-				const [theme, setTheme] = useThemeByClassName({
-					themes: { light: 'theme-light', dark: 'theme-dark' },
-					theme: 'light',
-					element: element ?? undefined,
-				})
+				const [theme, setTheme] = useThemeByClassName(
+					{ light: 'theme-light', dark: 'theme-dark' },
+					{ theme: 'light', element: element ?? undefined }
+				)
 				return <div ref={setElement}>...</div>
 			`
 		}
@@ -94,9 +90,8 @@ export const CustomElement: Story = {
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
 		const [element, setElement] = useState<HTMLDivElement | null>(null)
-		const [theme, setTheme] = useThemeByClassName({
-			themes: THEMES,
-			theme: 'light',
+		const [theme, setTheme] = useThemeByClassName(THEMES, {
+			defaultTheme: 'light',
 			element: element ?? undefined
 		})
 
@@ -141,7 +136,7 @@ export const SyncFromElsewhere: Story = {
 		},
 		source: {
 			code: dedent`
-				const [theme] = useThemeByClassName({ themes, theme: 'light' })
+				const [theme] = useThemeByClassName(themes, { theme: 'light' })
 				// When something else adds/removes theme classes on the element,
 				// theme updates automatically
 			`
@@ -149,10 +144,7 @@ export const SyncFromElsewhere: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	render: () => {
-		const [theme] = useThemeByClassName({
-			themes: THEMES,
-			theme: 'light'
-		})
+		const [theme] = useThemeByClassName(THEMES, { defaultTheme: 'light' })
 
 		const toggleExternally = () => {
 			const el = document.documentElement
