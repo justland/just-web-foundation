@@ -8,7 +8,12 @@ const config: KnipConfig = {
 		'pathe',
 		// For CI
 		'playwright'
-	]
+	],
+	paths: {
+		'#just-web/toolkits': ['libs/toolkits/src/index.ts'],
+		'#just-web/toolkits/react': ['libs/toolkits/src/react.ts'],
+		'#just-web/toolkits/theme': ['libs/toolkits/src/theme.ts']
+	}
 }
 
 export default config
