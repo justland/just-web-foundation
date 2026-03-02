@@ -1,4 +1,6 @@
 export * from './react/hooks/use-attribute.ts'
 export * from './react/hooks/use-theme-by-class-name.ts'
+export * from './react/hooks/use-theme-by-data-attribute.ts'
+export * from './react/hooks/use-theme-by-local-storage.ts'
 export * from './react/hooks/use-theme-stores.ts'
 export * from './react/theme/create-theme-hook.ts'
