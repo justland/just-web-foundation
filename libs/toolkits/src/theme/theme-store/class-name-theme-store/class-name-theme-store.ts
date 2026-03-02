@@ -25,7 +25,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function classNameThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options?: { element?: Element | null | undefined }
+	options?: { element?: Element | undefined }
 ): Required<ThemeStore<Themes>> {
 	const element = options?.element ?? document?.documentElement
 

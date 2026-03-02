@@ -14,10 +14,7 @@
  * const testId = getAttribute('data-testid', element)
  * ```
  */
-export function getAttribute<T extends string>(
-	qualifiedName: T,
-	element?: Element | null | undefined
-) {
+export function getAttribute<T extends string>(qualifiedName: T, element?: Element | undefined) {
 	element = element ?? globalThis.document.documentElement
 	return element.getAttribute(qualifiedName)
 }

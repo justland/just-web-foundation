@@ -51,7 +51,7 @@ export function useThemeByDataAttribute<Themes extends ThemeMap>(
 		() =>
 			dataAttributeThemeStore(themes, {
 				attributeName,
-				element: element ?? null
+				element
 			}),
 		[element, themes, attributeName]
 	)

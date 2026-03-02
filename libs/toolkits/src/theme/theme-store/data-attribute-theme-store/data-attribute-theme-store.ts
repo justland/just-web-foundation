@@ -27,7 +27,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: { attributeName: `data-${string}`; element?: Element | null | undefined }
+	options: { attributeName: `data-${string}`; element?: Element | undefined }
 ) {
 	const element = options.element ?? document?.documentElement
 	const { attributeName } = options
