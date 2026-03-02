@@ -6,5 +6,11 @@ import ThemeStoreTypesStoriesMeta from './theme-store.types.stories'
 
 # ThemeStore <MDXBadges of={ThemeStoreTypesStoriesMeta} />
 
-`ThemeStore` in an interface that defines the methods to read/write/subscribe to a theme store.
+`ThemeStore` is an interface that defines the methods to read/write/subscribe to a theme store.
 Data flow participation is inferred based on which methods are implemented.
+
+## Methods
+
+- **read** – Participates in waterfall read for `getThemeFromStores`.
+- **write** – Receives writes from `setThemeToStores`.
+- **subscribe** – Observed for external changes via `observeThemeFromStores`.

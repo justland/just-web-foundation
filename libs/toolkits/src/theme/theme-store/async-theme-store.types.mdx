@@ -11,3 +11,13 @@ All methods are optional.
 Data flow participation is inferred from which methods you implement.
 
 Use for remote persistence, polling, or WebSocket-based sync.
+
+## Methods
+
+- **read** – Can return `Promise<ThemeEntry | undefined | null>` for async sources.
+- **write** – Can return `Promise<void>` for async persistence.
+- **subscribe** – Same signature as sync; observes external changes.
+
+## See also
+
+- [ThemeStore](?path=/story/theme-theme-store-themestore--source) – Sync counterpart.
