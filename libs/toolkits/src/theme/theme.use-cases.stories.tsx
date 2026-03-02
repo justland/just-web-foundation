@@ -9,7 +9,7 @@ import type { AsyncThemeStore, ThemeEntry, ThemeStore } from '#just-web/toolkits
 import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
 
 const meta = {
-	title: 'theme',
+	title: 'theme/Use Cases',
 	tags: ['version:next'],
 	render: () => <></>
 } satisfies Meta

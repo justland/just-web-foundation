@@ -44,7 +44,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(
 
 	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
 		if (element) {
-			const resolved = resolveThemeFromClassName(element.className, themes)
+			const resolved = resolveThemeFromClassName(themes, element.className)
 			return resolved ?? defaultTheme
 		}
 		return defaultTheme

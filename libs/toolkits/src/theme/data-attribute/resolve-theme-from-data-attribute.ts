@@ -5,16 +5,16 @@ import type { ThemeMap } from '../theme-map.types.ts'
  * Resolves theme key from data attribute value by matching against theme map.
  *
  * @param attrValue - Data attribute value (e.g. from getAttribute)
- * @param themeMap - Record mapping theme keys to attribute values
+ * @param themes - Record mapping theme keys to attribute values
  * @returns Theme key if a match is found, otherwise undefined
  */
 export function resolveThemeFromDataAttribute<Theme extends string>(
-	attrValue: string | null,
-	themeMap: ThemeMap<Theme>
+	themes: ThemeMap<Theme>,
+	attrValue: string | null
 ): Theme | undefined {
 	if (attrValue === null || attrValue === '') return undefined
-	const theme = findKey(themeMap, (key) => {
-		const value = themeMap[key]
+	const theme = findKey(themes, (key) => {
+		const value = themes[key]
 		if (value === undefined) return false
 		const v = Array.isArray(value) ? value[0] : value
 		return v === attrValue

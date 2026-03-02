@@ -46,7 +46,7 @@ export function useThemeByLocalStorage<Themes extends ThemeMap>(
 	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
 		if (typeof window !== 'undefined' && window.localStorage) {
 			const stored = window.localStorage.getItem(storageKey)
-			const resolved = parseStoredTheme(stored, themes)
+			const resolved = parseStoredTheme(themes, stored)
 			return resolved ?? defaultTheme
 		}
 		return defaultTheme
