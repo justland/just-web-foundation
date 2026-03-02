@@ -10,14 +10,14 @@ export default mergeConfig(
 	defineConfig({
 		plugins: [
 			storybookTest({
-				configDir: join(import.meta.dirname, '.storybook'),
+				configDir: join(import.meta.dirname, '.storybook')
 			}),
 			storybookVis(),
-			browserTestPreset({ includeGeneralTests: true }),
+			browserTestPreset({ includeGeneralTests: true })
 		],
 		test: {
 			name: 'types',
-			setupFiles: ['./vitest.setup.ts'],
-		},
-	}),
+			setupFiles: ['./vitest.setup.ts']
+		}
+	})
 )

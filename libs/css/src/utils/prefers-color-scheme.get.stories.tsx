@@ -7,9 +7,10 @@ const meta = {
 	tags: ['autodocs', 'version:0.1'],
 	parameters: defineDocsParam({
 		description: {
-			component: 'A utility function that returns the current preferred color theme from the system settings.',
-		},
-	}),
+			component:
+				'A utility function that returns the current preferred color theme from the system settings.'
+		}
+	})
 } satisfies Meta
 
 export default meta
@@ -20,8 +21,8 @@ export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'This demo shows how the `getPrefersColorScheme` function returns the current preferred color theme from the system settings.',
-		},
+				'This demo shows how the `getPrefersColorScheme` function returns the current preferred color theme from the system settings.'
+		}
 	}),
 	render: () => {
 		const scheme = getPrefersColorTheme('light', 'dark')
@@ -33,7 +34,7 @@ export const BasicUsage: Story = {
 					backgroundColor: scheme === 'dark' ? '#333' : '#fff',
 					color: scheme === 'dark' ? '#fff' : '#333',
 					borderRadius: '8px',
-					transition: 'all 0.3s ease',
+					transition: 'all 0.3s ease'
 				}}
 			>
 				<h2>Current Color Scheme Preference (prefers-color-scheme)</h2>
@@ -42,5 +43,5 @@ export const BasicUsage: Story = {
 				</p>
 			</div>
 		)
-	},
+	}
 }

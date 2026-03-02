@@ -1,0 +1,10 @@
+@layer theme, base, repobuddy-storybook, components,  utilities;
+@import "tailwindcss";
+
+@source "./preview.tsx";
+@source "../src/**";
+@source "../../../libs/css/src/**";
+@source "../../../libs/types/src/**";
+@source "../../../libs/toolkits/src/**";
+
+@custom-variant dark (&:where(.dark, .dark *));

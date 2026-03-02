@@ -6,6 +6,6 @@ addons.setConfig({
 	tagBadges,
 	theme: {
 		...themes.dark,
-		brandTitle: '@just-web/css',
-	},
+		brandTitle: '@just-web/css'
+	}
 })

@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { MDXBadges } from 'storybook-addon-tag-badges/manager-helpers'
+import CreateThemeHookStoriesMeta from './create-theme-hook.stories'
+
+<Meta title="react/theme/createThemeHook" />
+
+# createThemeHook <MDXBadges of={CreateThemeHookStoriesMeta} />
+
+Factory that creates a React hook returning `[theme, setTheme]`.
+Subscribes to theme stores and keeps the returned theme in sync.
+
+## API
+
+```ts
+createThemeHook<Themes, A?, B?, C?, D?, E?, F?, G?, H?>(
+  themes: Themes,
+  stores: [store1, store2?, store3?, store4?, store5?, store6?, store7?, store8?],
+  options?: { defaultTheme?: keyof Themes }
+): (overrideDefaultTheme?: keyof Themes) => [keyof Themes | undefined, (theme: keyof Themes) => void]
+```
+
+Same argument order as [composeThemeStores](?path=/story/theme-composethemestores--source): `(themes, stores, options)`.
+Store positions can be concrete stores or factory tuples `[factory]` / `[factory, options]`.
+Factory generics A-H infer factory types for options autocomplete.
+
+## Options
+
+- **themes** - ThemeMap defining theme keys and values. See [ThemeMap](?path=/story/theme-thememap--source).
+- **stores** - One or more theme stores or factory tuples `[factory]` / `[factory, options]` (e.g. in-memory, localStorage, className). Same format as [composeThemeStores](?path=/story/theme-composethemestores--source). Factory generics A-H enable options autocomplete.
+- **defaultTheme** - Default theme when stores are empty. Optional.
+
+## Return value
+
+The created hook returns a tuple `[theme, setTheme]`:
+
+- **theme** - Current theme key, or `undefined` when stores are empty and no default is set.
+- **setTheme** - Async function to update the theme across all stores.
+
+## Override default theme
+
+Pass an override to the hook when calling it: `useTheme('high-contrast')`.
+When stores are empty, the override is used instead of the configured `defaultTheme`.
+
+## See also
+
+- [composeThemeStores](?path=/story/theme-composethemestores--source) – Composes stores (same stores format)
+- [theme/introduction](?path=/story/theme-introduction--source) – Theme module overview
+- [ThemeMap](?path=/story/theme-thememap--source) – Theme key/value mapping

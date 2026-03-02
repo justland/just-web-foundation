@@ -7,7 +7,8 @@ import { storybookVis } from 'storybook-addon-vis/vitest-plugin'
 import { mergeConfig } from 'vitest/config'
 import config from './vite.config.js'
 
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
+const dirname =
+	typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
 
 export default mergeConfig(config, {
 	esbuild: { jsx: 'automatic' },
@@ -17,19 +18,19 @@ export default mergeConfig(config, {
 			'@repobuddy/storybook',
 			'@repobuddy/storybook/storybook-dark-mode',
 			'dedent',
-			'storybook-addon-code-editor',
-		],
+			'storybook-addon-code-editor'
+		]
 	},
 	plugins: [
 		tailwindcss(),
 		storybookTest({
-			configDir: join(dirname, '.storybook'),
+			configDir: join(dirname, '.storybook')
 		}),
 		storybookVis(),
-		browserTestPreset({ includeGeneralTests: true }),
+		browserTestPreset({ includeGeneralTests: true })
 	],
 	test: {
 		name: 'css',
-		setupFiles: ['./vitest.setup.ts'],
-	},
+		setupFiles: ['./vitest.setup.ts']
+	}
 })

@@ -9,9 +9,9 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.',
-		},
-	}),
+				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.'
+		}
+	})
 } satisfies Meta
 
 export default meta
@@ -22,8 +22,8 @@ export const BasicUsage: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'This demo shows how the `observePrefersColorScheme` function responds to system color scheme changes. Change your system theme to see it in action.',
-		},
+				'This demo shows how the `observePrefersColorScheme` function responds to system color scheme changes. Change your system theme to see it in action.'
+		}
 	}),
 	render: () => {
 		const [scheme, setScheme] = useState<'light' | 'dark' | null>(null)
@@ -33,7 +33,7 @@ export const BasicUsage: Story = {
 
 			return observePrefersColorScheme<'light' | 'dark'>({
 				light: (value) => setScheme(value),
-				dark: (value) => setScheme(value),
+				dark: (value) => setScheme(value)
 			})
 		}, [])
 
@@ -44,7 +44,7 @@ export const BasicUsage: Story = {
 					backgroundColor: scheme === 'dark' ? '#333' : '#fff',
 					color: scheme === 'dark' ? '#fff' : '#333',
 					borderRadius: '8px',
-					transition: 'all 0.3s ease',
+					transition: 'all 0.3s ease'
 				}}
 			>
 				<h2>Current Color Scheme Preference (prefers-color-scheme)</h2>
@@ -54,5 +54,5 @@ export const BasicUsage: Story = {
 				<p>Try changing your system's color scheme to see this update!</p>
 			</div>
 		)
-	},
+	}
 }

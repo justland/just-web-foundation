@@ -17,20 +17,20 @@ const config: StorybookConfig = {
 		defineStorybookVis({
 			visProjects: [
 				{
-					snapshotRootDir: '__vis__/linux',
+					snapshotRootDir: '__vis__/linux'
 				},
 				{
-					snapshotRootDir: '__vis__/local',
-				},
-			],
-		}),
+					snapshotRootDir: '__vis__/local'
+				}
+			]
+		})
 	],
 	framework: {
 		name: '@storybook/react-vite',
-		options: {},
+		options: {}
 	},
 	features: {
-		backgrounds: true,
-	},
+		backgrounds: true
+	}
 }
 export default config

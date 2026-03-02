@@ -18,7 +18,7 @@ import { ctx } from '../globals.ctx.ts'
  */
 export function getAttribute<T extends string>(
 	qualifiedName: T,
-	element: Element | undefined = ctx.getDocumentElement(),
+	element: Element | undefined = ctx.getDocumentElement()
 ) {
 	return element?.getAttribute(qualifiedName)
 }
@@ -43,7 +43,7 @@ export function getAttribute<T extends string>(
  */
 export function observeAttributes<T extends string>(
 	handlers: Record<string, (value: T | null) => void>,
-	element: Element | undefined = ctx.getDocumentElement(),
+	element: Element | undefined = ctx.getDocumentElement()
 ) {
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
@@ -54,7 +54,7 @@ export function observeAttributes<T extends string>(
 	})
 	observer.observe(element, {
 		attributes: true,
-		attributeFilter: Object.keys(handlers),
+		attributeFilter: Object.keys(handlers)
 	})
 	return observer
 }

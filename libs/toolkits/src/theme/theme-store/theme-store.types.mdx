@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { MDXBadges } from 'storybook-addon-tag-badges/manager-helpers'
+import ThemeStoreTypesStoriesMeta from './theme-store.types.stories'
+
+<Meta title="theme/theme-store/ThemeStore" />
+
+# ThemeStore <MDXBadges of={ThemeStoreTypesStoriesMeta} />
+
+`ThemeStore` is an interface that defines the methods to read/write/subscribe to a theme store.
+Data flow participation is inferred based on which methods are implemented.
+
+## Methods
+
+- **read** – Participates in waterfall read for `getThemeFromStores`.
+- **write** – Receives writes from `setThemeToStores`.
+- **subscribe** – Observed for external changes via `observeThemeFromStores`.

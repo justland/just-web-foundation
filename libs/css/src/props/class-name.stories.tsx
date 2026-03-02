@@ -7,14 +7,14 @@ import * as css from '#just-web/css'
 export default {
 	title: 'props/ClassNameProps',
 	tags: ['version:0.1', 'autodocs', 'new'],
-	render: () => <div />,
+	render: () => <div />
 } satisfies Meta
 
 export const Example: StoryObj = {
 	tags: ['!test', 'editor'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'The `className` property accepts a string value for CSS class names.',
+			story: 'The `className` property accepts a string value for CSS class names.'
 		},
 		source: {
 			code: dedent`import type { ClassNameProps } from '@just-web/css'
@@ -25,14 +25,14 @@ export const Example: StoryObj = {
 				return <div className={className}>{children}</div>
 			}
 
-			export default () => <MyComponent className="text-blue-800">Hello in blue</MyComponent>`,
-		},
-	}),
+			export default () => <MyComponent className="text-blue-800">Hello in blue</MyComponent>`
+		}
+	})
 }
 
 makeLiveEditStory(Example, {
 	availableImports: {
-		'@just-web/css': css,
+		'@just-web/css': css
 	},
-	code: Example.parameters?.['docs']?.['source']?.code,
+	code: Example.parameters?.['docs']?.['source']?.code
 })

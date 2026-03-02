@@ -63,8 +63,8 @@ export function observeThemeByClassName<Themes extends Record<string, string>>(o
 						break
 					}
 				}
-			},
+			}
 		},
-		options.element,
+		options.element
 	)
 }

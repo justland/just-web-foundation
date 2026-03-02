@@ -2,10 +2,11 @@ import { defineParameters } from '@repobuddy/storybook'
 import {
 	createDarkModeDocsContainer,
 	defineDarkModeParam,
-	withDarkMode,
+	withDarkMode
 } from '@repobuddy/storybook/storybook-dark-mode'
 import type { Preview } from '@storybook/react-vite'
 
+import '@repobuddy/storybook/styles.css'
 import '../tailwind.css'
 
 const preview: Preview = {
@@ -15,23 +16,23 @@ const preview: Preview = {
 			controls: {
 				matchers: {
 					color: /(background|color)$/i,
-					date: /Date$/i,
-				},
+					date: /Date$/i
+				}
 			},
 			docs: {
 				codePanel: true,
-				container: createDarkModeDocsContainer(),
-			},
+				container: createDarkModeDocsContainer()
+			}
 		},
 		defineDarkModeParam({
 			classTarget: 'html',
 			stylePreview: true,
-			darkClass: 'dark',
-		}),
+			darkClass: 'dark'
+		})
 	),
 	decorators: withDarkMode({
-		bodyClass: 'bg-white text-black dark:bg-black dark:text-white',
-	}),
+		bodyClass: 'bg-white text-black dark:bg-black dark:text-white'
+	})
 }
 
 export default preview

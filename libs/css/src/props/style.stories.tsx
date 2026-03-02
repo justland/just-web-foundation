@@ -7,7 +7,7 @@ import * as css from '#just-web/css'
 export default {
 	title: 'props/StyleProps',
 	tags: ['autodocs', 'new', 'version:0.1'],
-	render: () => <></>,
+	render: () => <></>
 } satisfies Meta
 
 export const Example: StoryObj = {
@@ -15,7 +15,7 @@ export const Example: StoryObj = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'`style` prop with extended `CSSProperties` type to support custom properties. This is useful when composing component props',
+				'`style` prop with extended `CSSProperties` type to support custom properties. This is useful when composing component props'
 		},
 		source: {
 			code: dedent`
@@ -28,14 +28,14 @@ export const Example: StoryObj = {
 			}
 
 			export default () => <MyComponent style={{ color: 'red' }}>Hello in red</MyComponent>
-			`,
-		},
-	}),
+			`
+		}
+	})
 }
 
 makeLiveEditStory(Example, {
 	availableImports: {
-		'@just-web/css': css,
+		'@just-web/css': css
 	},
-	code: Example.parameters?.['docs']?.['source']?.code,
+	code: Example.parameters?.['docs']?.['source']?.code
 })

@@ -1,0 +1,120 @@
+{
+	"name": "@just-web/toolkits",
+	"version": "0.0.0",
+	"description": "Toolkits for web applications",
+	"homepage": "https://github.com/justland/just-web-foundation/tree/main/libs/toolkits",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/justland/just-web-foundation.git",
+		"directory": "libs/toolkits"
+	},
+	"license": "MIT",
+	"author": "Unional <homawong@gmail.com>",
+	"type": "module",
+	"imports": {
+		"#just-web/toolkits": {
+			"@just-web/toolkits-dev": "./src/index.ts",
+			"types": "./dist/index.d.mts",
+			"default": "./dist/index.mjs"
+		},
+		"#just-web/toolkits/react": {
+			"@just-web/toolkits-dev": "./src/react.ts",
+			"types": "./dist/react.d.mts",
+			"default": "./dist/react.mjs"
+		},
+		"#just-web/toolkits/theme": {
+			"@just-web/toolkits-dev": "./src/theme.ts",
+			"types": "./dist/theme.d.mts",
+			"default": "./dist/theme.mjs"
+		}
+	},
+	"exports": {
+		".": {
+			"types": [
+				"./dist/index.d.mts",
+				"./src/index.ts"
+			],
+			"source": "./src/index.ts",
+			"default": "./dist/index.mjs"
+		},
+		"./react": {
+			"types": [
+				"./dist/react.d.mts",
+				"./src/react.ts"
+			],
+			"source": "./src/react.ts",
+			"default": "./dist/react.mjs"
+		},
+		"./theme": {
+			"types": [
+				"./dist/theme.d.mts",
+				"./src/theme.ts"
+			],
+			"source": "./src/theme.ts",
+			"default": "./dist/theme.mjs"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.cjs",
+	"source": "./src/index.ts",
+	"types": "./dist/index.d.cts",
+	"files": [
+		"dist",
+		"src",
+		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
+		"!**/*.mdx"
+	],
+	"scripts": {
+		"build": "run-p build:* test:types",
+		"build-doc": "storybook build -o ../../docs/foundation",
+		"build:code": "tsdown",
+		"check:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.storybook.css",
+		"clean": "rimraf .turbo dist *.tsbuildinfo",
+		"cov": "vitest run --coverage",
+		"cov:w": "vitest --coverage",
+		"nuke": "rimraf node_modules",
+		"sb": "storybook dev -p 6206",
+		"test": "vitest run",
+		"test:types": "tsc --noEmit",
+		"w": "vitest"
+	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"csstype": "^3.2.3",
+		"react-aria-components": "^1.15.1",
+		"type-plus": "8.0.0-beta.8"
+	},
+	"devDependencies": {
+		"@repobuddy/storybook": "^2.25.0",
+		"@repobuddy/vitest": "^2.1.1",
+		"@storybook-community/storybook-dark-mode": "^7.1.0",
+		"@storybook/addon-docs": "^10.2.7",
+		"@storybook/addon-vitest": "^10.2.7",
+		"@storybook/react-vite": "^10.2.7",
+		"@tailwindcss/cli": "^4.1.18",
+		"@tailwindcss/vite": "^4.1.18",
+		"@testing-library/react": "^16.3.2",
+		"@tools/typescript": "workspace:^",
+		"@types/react": "^19.2.13",
+		"@vitest/browser": "^4.0.18",
+		"@vitest/browser-playwright": "^4.0.18",
+		"@vitest/coverage-v8": "^4.0.18",
+		"dedent": "^1.7.1",
+		"jotai": "^2.18.0",
+		"npm-run-all2": "^8.0.4",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"rimraf": "^6.1.2",
+		"storybook": "^10.2.7",
+		"storybook-addon-code-editor": "^6.1.3",
+		"storybook-addon-tag-badges": "^3.0.6",
+		"storybook-addon-vis": "^3.1.2",
+		"tailwind-merge": "^3.5.0",
+		"tailwindcss": "^4.1.18",
+		"tsdown": "^0.18.4",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vitest": "^4.0.18",
+		"zustand": "^5.0.11"
+	}
+}
