@@ -17,7 +17,7 @@ const preview: Preview = {
 			},
 			options: {
 				storySort: {
-					order: ['Overview', '@just-web/css', '@just-web/types']
+					order: ['Overview', '@just-web/toolkits', '@just-web/css', '@just-web/types']
 				}
 			}
 		},

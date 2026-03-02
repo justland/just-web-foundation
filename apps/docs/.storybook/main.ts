@@ -32,6 +32,9 @@ const config: StorybookConfig = {
 		'storybook-addon-tag-badges',
 		'storybook-addon-code-editor'
 	],
+	docs: {
+		defaultName: 'Overview'
+	},
 	framework: {
 		name: '@storybook/react-vite',
 		options: {}
