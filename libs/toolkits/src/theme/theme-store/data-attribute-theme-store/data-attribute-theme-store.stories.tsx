@@ -32,10 +32,10 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	current: 'theme-current',
-	next: 'theme-next',
-	grayscale: 'theme-grayscale',
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	next: { themeValue: 'theme-next' },
+	grayscale: { themeValue: 'theme-grayscale' },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 type ExampleTheme = keyof typeof themes
@@ -97,9 +97,9 @@ export const ElementDefault: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
@@ -154,9 +154,9 @@ export const ElementBody: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = dataAttributeThemeStore(themes, {
@@ -216,9 +216,9 @@ export const ElementCustom: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = dataAttributeThemeStore(themes, {
@@ -291,9 +291,9 @@ export const ThemeMapStringValue: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
@@ -334,9 +334,9 @@ export const ThemeMapStringValue: Story = {
 }
 
 const themesArray = {
-	current: 'theme-current',
-	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 function createStoreArray(options?: { element?: Element }) {
@@ -367,9 +367,9 @@ export const ThemeMapArrayValues: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })

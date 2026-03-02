@@ -3,9 +3,9 @@ import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { setThemeToStores } from './set-theme-to-stores.ts'
 
 const themeMap = {
-	current: 'current',
-	grayscale: 'grayscale',
-	'high-contrast': 'high-contrast'
+	current: { themeValue: 'current' },
+	grayscale: { themeValue: 'grayscale' },
+	'high-contrast': { themeValue: 'high-contrast' }
 } as const
 
 describe('setThemeToStores', () => {

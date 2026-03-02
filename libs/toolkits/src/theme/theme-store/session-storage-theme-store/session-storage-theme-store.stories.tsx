@@ -25,10 +25,10 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	current: 'theme-current',
-	next: 'theme-next',
-	grayscale: 'theme-grayscale',
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	next: { themeValue: 'theme-next' },
+	grayscale: { themeValue: 'theme-grayscale' },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 type ExampleTheme = keyof typeof themes
@@ -137,9 +137,9 @@ export const ThemeMapStringValue: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale',
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
@@ -173,9 +173,9 @@ export const ThemeMapStringValue: Story = {
 }
 
 const themesArray = {
-	current: 'theme-current',
-	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 export const ThemeMapArrayValues: Story = {
@@ -198,9 +198,9 @@ export const ThemeMapArrayValues: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
@@ -232,6 +232,161 @@ export const ThemeMapArrayValues: Story = {
 		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: [theme-grayscale, app:bg-gray-100]'
 		)
+	}
+}
+
+const CUSTOM_PARSE_STORAGE_KEY_SS = 'theme-ss-custom-parse'
+
+const themesLightDark = {
+	light: { themeValue: 'theme-light' },
+	dark: { themeValue: 'theme-dark' }
+} as const
+
+/** Value with optional timestamp for polymorphic storage demo. */
+type ThemeValueWithTimestamp = { themeValue: string; timestamp?: number }
+
+function parseThemeEntryWithTimestamp<Themes extends typeof themesLightDark>(
+	themes: Themes,
+	value: string | null | undefined
+): ThemeEntry<Themes> | undefined {
+	let parsed: { theme?: string; value?: ThemeValueWithTimestamp }
+	try {
+		parsed = JSON.parse(value ?? '{}') as typeof parsed
+	} catch {
+		return undefined
+	}
+	if (!parsed?.theme || !(parsed.theme in themes)) return undefined
+	const base = themes[parsed.theme as keyof Themes]
+	const mergedValue = { ...base, ...parsed.value }
+	return { theme: parsed.theme as keyof Themes, value: mergedValue }
+}
+
+export const ParseOption: Story = {
+	name: 'options.parse',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Provide a custom parse function to read and preserve extra data (e.g. timestamp) stored alongside the theme.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Use <code>options.parse</code> to parse stored JSON and return a <code>ThemeEntry</code>.
+					The store writes the full entry via <code>JSON.stringify(entry)</code>, so you can persist
+					extra fields (e.g. <code>timestamp</code>) in <code>value</code> and restore them on read.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
+
+				function parseThemeEntryWithTimestamp(themes, value) {
+					const parsed = JSON.parse(value ?? '{}')
+					if (!parsed?.theme || !(parsed.theme in themes)) return undefined
+					const base = themes[parsed.theme]
+					return { theme: parsed.theme, value: { ...base, ...parsed.value } }
+				}
+
+				const store = sessionStorageThemeStore(themes, {
+					storageKey: 'theme',
+					parse: parseThemeEntryWithTimestamp
+				})
+
+				store.write({ theme: 'dark', value: { themeValue: 'theme-dark', timestamp: Date.now() } })
+				const entry = store.read()
+				// entry.value.timestamp
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.sessionStorage.removeItem(CUSTOM_PARSE_STORAGE_KEY_SS)
+			const store = sessionStorageThemeStore(themesLightDark, {
+				storageKey: CUSTOM_PARSE_STORAGE_KEY_SS,
+				parse: parseThemeEntryWithTimestamp
+			})
+			store.write({
+				theme: 'dark',
+				value: { themeValue: 'theme-dark', timestamp: 1_700_000_000_000 }
+			})
+			return {}
+		}
+	],
+	render: () => {
+		const store = sessionStorageThemeStore(themesLightDark, {
+			storageKey: CUSTOM_PARSE_STORAGE_KEY_SS,
+			parse: parseThemeEntryWithTimestamp
+		})
+		const [entry, setEntry] = useState<ThemeEntry<typeof themesLightDark> | undefined>(() =>
+			store.read()
+		)
+
+		const valueWithTs = entry?.value as ThemeValueWithTimestamp | undefined
+
+		return (
+			<div className="flex flex-col gap-4">
+				<div className="flex flex-wrap gap-2">
+					<Button
+						data-testid="write-light"
+						onPress={() => {
+							store.write({
+								theme: 'light',
+								value: { themeValue: 'theme-light', timestamp: Date.now() }
+							})
+							setEntry(store.read())
+						}}
+					>
+						write(light + timestamp)
+					</Button>
+					<Button
+						data-testid="write-dark"
+						onPress={() => {
+							store.write({
+								theme: 'dark',
+								value: { themeValue: 'theme-dark', timestamp: Date.now() }
+							})
+							setEntry(store.read())
+						}}
+					>
+						write(dark + timestamp)
+					</Button>
+				</div>
+				<StoryCard title="store.read() result" appearance="output" data-testid="parse-result">
+					<div className="text-sm font-mono space-y-1">
+						<p>
+							theme: <span data-testid="parse-result-theme">{entry?.theme ?? '(none)'}</span>
+						</p>
+						<p>
+							value.themeValue:{' '}
+							<span data-testid="parse-result-theme-value">
+								{valueWithTs?.themeValue ?? '(none)'}
+							</span>
+						</p>
+						<p>
+							value.timestamp:{' '}
+							<span data-testid="parse-result-timestamp">
+								{valueWithTs?.timestamp != null
+									? new Date(valueWithTs.timestamp).toISOString()
+									: '(none)'}
+							</span>
+						</p>
+					</div>
+				</StoryCard>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('parse-result-theme')).toHaveTextContent('dark')
+		await expect(canvas.getByTestId('parse-result-theme-value')).toHaveTextContent('theme-dark')
+		await expect(canvas.getByTestId('parse-result-timestamp')).toHaveTextContent('2023')
+
+		await userEvent.click(canvas.getByTestId('write-light'))
+		await waitFor(() => expect(canvas.getByTestId('parse-result-theme')).toHaveTextContent('light'))
+		await expect(canvas.getByTestId('parse-result-theme-value')).toHaveTextContent('theme-light')
 	}
 }
 

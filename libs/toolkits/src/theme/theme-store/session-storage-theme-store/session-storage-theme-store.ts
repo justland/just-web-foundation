@@ -1,6 +1,5 @@
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
-import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import { themeEntry } from '../../theme-entry.ts'
+import { parseThemeEntry } from '../../_utils/parse-theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
@@ -13,11 +12,12 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @param themes - Record mapping theme keys to values (for validation)
  * @param options.storageKey - sessionStorage key
+ * @param options.parse - Optional parse function (default: parseThemeEntry)
  * @returns ThemeStore
  *
  * @example
  * ```ts
- * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const themes = { current: { themeValue: 'theme-current' }, grayscale: { themeValue: 'theme-grayscale' } }
  * const store = sessionStorageThemeStore(themes, { storageKey: 'theme' })
  * store.read() // returns themeResult from sessionStorage
  * store.write(themeEntry(themes, 'grayscale'))
@@ -26,9 +26,12 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: { storageKey: string }
+	options: {
+		storageKey: string
+		parse?: (themes: Themes, value: string | null | undefined) => ThemeEntry<Themes> | undefined
+	}
 ) {
-	const { storageKey } = options
+	const { storageKey, parse = parseThemeEntry } = options
 
 	if (typeof window === 'undefined' || !window.sessionStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>
@@ -39,9 +42,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = window.sessionStorage.getItem(storageKey)
-		const theme = parseStoredTheme(themes, stored)
-		if (theme === undefined) return undefined
-		return themeEntry(themes, theme)
+		return parse(themes, stored)
 	}
 
 	function notify() {

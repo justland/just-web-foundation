@@ -7,7 +7,7 @@ import { useThemeByClassName } from '#just-web/toolkits/react'
 import { Button } from '../../testing/button.tsx'
 import code from './use-theme-by-class-name.ts?raw'
 
-const THEMES = { light: 'theme-light', dark: 'theme-dark' } as const
+const THEMES = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } } as const
 
 const meta = {
 	title: 'react/hooks/useThemeByClassName',
@@ -33,7 +33,7 @@ export const BasicUsage: Story = {
 		},
 		source: {
 			code: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
 				const [theme, setTheme] = useThemeByClassName(themes, { theme: 'light' })
 				setTheme('dark')
 				setTheme('light')
@@ -80,7 +80,7 @@ export const CustomElement: Story = {
 			code: dedent`
 				const [element, setElement] = useState<HTMLDivElement | null>(null)
 				const [theme, setTheme] = useThemeByClassName(
-					{ light: 'theme-light', dark: 'theme-dark' },
+					{ light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } },
 					{ theme: 'light', element: element ?? undefined }
 				)
 				return <div ref={setElement}>...</div>

@@ -17,8 +17,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	current: 'theme-current',
-	grayscale: 'theme-grayscale'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: 'theme-grayscale' }
 } as const
 
 export const ReadOnly: Story = {

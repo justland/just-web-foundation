@@ -1,17 +1,17 @@
 import type { Required } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
-import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import { themeEntry } from '../../theme-entry.ts'
+import { parseThemeEntry } from '../../_utils/parse-theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface CookieThemeStoreOptions {
+export interface CookieThemeStoreOptions<Themes extends ThemeMap = ThemeMap> {
 	cookieName: string
 	path?: string | undefined
 	maxAge?: number | undefined
 	sameSite?: 'lax' | 'strict' | 'none' | undefined
 	secure?: boolean | undefined
+	parse?: (themes: Themes, value: string | null | undefined) => ThemeEntry<Themes> | undefined
 }
 
 function getCookieValue(name: string): string | null {
@@ -62,7 +62,7 @@ function deleteCookie(name: string, path = '/') {
  *
  * @example
  * ```ts
- * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const themes = { current: { themeValue: 'theme-current' }, grayscale: { themeValue: 'theme-grayscale' } }
  * const store = cookieThemeStore(themes, { cookieName: 'theme' })
  * store.read()
  * store.write(themeEntry(themes, 'grayscale'))
@@ -71,9 +71,9 @@ function deleteCookie(name: string, path = '/') {
  */
 export function cookieThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: CookieThemeStoreOptions
+	options: CookieThemeStoreOptions<Themes>
 ): Required<ThemeStore<Themes>> {
-	const { cookieName, path = '/', maxAge, sameSite, secure } = options
+	const { cookieName, path = '/', maxAge, sameSite, secure, parse = parseThemeEntry } = options
 
 	if (document.cookie === undefined) {
 		return dummyThemeStore
@@ -84,9 +84,7 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = getCookieValue(cookieName)
-		const theme = parseStoredTheme(themes, stored)
-		if (theme === undefined) return undefined
-		return themeEntry(themes, theme)
+		return parse(themes, stored)
 	}
 
 	function notify() {
@@ -159,16 +157,17 @@ function getCookieFromHeader(cookieHeader: string, name: string): string | null 
 export function getThemeFromCookie<Themes extends ThemeMap>(
 	cookieSource: string | null | undefined | ((name: string) => string | null | undefined),
 	themes: Themes,
-	options: { cookieName?: string | undefined } = {}
+	options: {
+		cookieName?: string | undefined
+		parse?: (themes: Themes, value: string | null | undefined) => ThemeEntry<Themes> | undefined
+	} = {}
 ): ThemeEntry<Themes> | undefined {
-	const cookieName = options.cookieName ?? 'theme'
+	const { cookieName = 'theme', parse = parseThemeEntry } = options
 	const stored =
 		typeof cookieSource === 'function'
 			? (cookieSource(cookieName) ?? null)
 			: cookieSource
 				? getCookieFromHeader(cookieSource, cookieName)
 				: null
-	const theme = parseStoredTheme(themes, stored)
-	if (theme === undefined) return undefined
-	return themeEntry(themes, theme)
+	return parse(themes, stored)
 }

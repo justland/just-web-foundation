@@ -17,7 +17,7 @@ export function applyThemeToDataAttribute<Themes extends ThemeMap>(
 		element.removeAttribute(attributeName)
 		return
 	}
-	const val = entry.value
+	const val = entry.value.themeValue
 	const attributeValue = Array.isArray(val) ? val[0] : val
 	if (attributeValue !== undefined && attributeValue !== '') {
 		element.setAttribute(attributeName, attributeValue)

@@ -7,5 +7,5 @@ import type { ThemeMap } from './theme-map.types.ts'
  */
 export interface ThemeEntry<Themes extends ThemeMap = ThemeMap> {
 	theme: keyof Themes
-	value: Themes[keyof Themes]
+	value: Themes[keyof Themes] & Record<string, unknown>
 }

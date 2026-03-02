@@ -1,11 +1,11 @@
 import { defineDocsParam, StoryCard, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { useEffect, useState } from 'react'
-
-type ThemeMap = Record<string, string | readonly string[]>
+import type { ThemeMap } from '../theme/theme-map.types.ts'
 
 function applyThemeClassList(element: Element, theme: string, themes: ThemeMap): void {
-	for (const [key, value] of Object.entries(themes)) {
+	for (const [key, entry] of Object.entries(themes)) {
+		const value = entry.themeValue
 		const classes = Array.isArray(value) ? [...value] : [value]
 		if (key === theme) {
 			element.classList.add(...classes)
@@ -16,15 +16,19 @@ function applyThemeClassList(element: Element, theme: string, themes: ThemeMap):
 }
 
 function applyThemeClassName(element: Element, theme: string, themes: ThemeMap): void {
-	const allThemeClasses = Object.values(themes).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
+	const allThemeClasses = Object.values(themes).flatMap((v) => {
+		const value = v.themeValue
+		return Array.isArray(value) ? [...value] : [value]
+	})
 	const current = element.className.trim()
 	const currentClasses = current ? current.split(/\s+/) : []
 	const withoutThemes = currentClasses.filter((c) => !allThemeClasses.includes(c))
 	const activeClasses =
 		theme in themes
-			? Array.isArray(themes[theme])
-				? [...(themes[theme] as readonly string[])]
-				: [themes[theme] as string]
+			? (() => {
+					const value = themes[theme]!.themeValue
+					return Array.isArray(value) ? [...value] : [value]
+				})()
 			: []
 	element.className = [...withoutThemes, ...activeClasses].filter(Boolean).join(' ')
 }
@@ -46,72 +50,82 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	light: ['light', 'text-black', 'bg-white'],
-	dark: ['dark', 'text-white', 'bg-black']
+	light: { themeValue: ['light', 'text-black', 'bg-white'] as const },
+	dark: { themeValue: ['dark', 'text-white', 'bg-black'] as const }
 } as const
 
 /** Longer theme array: more themes and more classes per theme. */
 const themesLong: ThemeMap = {
-	light: [
-		'light',
-		'text-black',
-		'bg-white',
-		'border-gray-200',
-		'shadow-sm',
-		'rounded-lg',
-		'p-4',
-		'm-2',
-		'font-sans',
-		'antialiased'
-	],
-	dark: [
-		'dark',
-		'text-white',
-		'bg-black',
-		'border-gray-700',
-		'shadow-lg',
-		'rounded-xl',
-		'p-6',
-		'm-4',
-		'font-sans',
-		'antialiased'
-	],
-	accent: [
-		'accent',
-		'text-cyan-100',
-		'bg-cyan-900',
-		'border-cyan-600',
-		'shadow-md',
-		'rounded-md',
-		'p-3',
-		'm-1',
-		'font-medium',
-		'subpixel-antialiased'
-	],
-	neutral: [
-		'neutral',
-		'text-gray-800',
-		'bg-gray-100',
-		'border-gray-300',
-		'shadow',
-		'rounded',
-		'p-2',
-		'm-0',
-		'font-normal',
-		'antialiased'
-	],
-	warm: [
-		'warm',
-		'text-amber-900',
-		'bg-amber-50',
-		'border-amber-200',
-		'shadow-inner',
-		'rounded-2xl',
-		'p-5',
-		'm-3',
-		'font-semibold',
-		'antialiased'
-	]
+	light: {
+		themeValue: [
+			'light',
+			'text-black',
+			'bg-white',
+			'border-gray-200',
+			'shadow-sm',
+			'rounded-lg',
+			'p-4',
+			'm-2',
+			'font-sans',
+			'antialiased'
+		]
+	},
+	dark: {
+		themeValue: [
+			'dark',
+			'text-white',
+			'bg-black',
+			'border-gray-700',
+			'shadow-lg',
+			'rounded-xl',
+			'p-6',
+			'm-4',
+			'font-sans',
+			'antialiased'
+		]
+	},
+	accent: {
+		themeValue: [
+			'accent',
+			'text-cyan-100',
+			'bg-cyan-900',
+			'border-cyan-600',
+			'shadow-md',
+			'rounded-md',
+			'p-3',
+			'm-1',
+			'font-medium',
+			'subpixel-antialiased'
+		]
+	},
+	neutral: {
+		themeValue: [
+			'neutral',
+			'text-gray-800',
+			'bg-gray-100',
+			'border-gray-300',
+			'shadow',
+			'rounded',
+			'p-2',
+			'm-0',
+			'font-normal',
+			'antialiased'
+		]
+	},
+	warm: {
+		themeValue: [
+			'warm',
+			'text-amber-900',
+			'bg-amber-50',
+			'border-amber-200',
+			'shadow-inner',
+			'rounded-2xl',
+			'p-5',
+			'm-3',
+			'font-semibold',
+			'antialiased'
+		]
+	}
 }
 
 const PERFORMANCE_ITERATIONS = 10_000

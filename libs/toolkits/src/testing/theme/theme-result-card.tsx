@@ -15,6 +15,11 @@ type ThemeResultCardProps = {
 function formatValue(value: unknown): string {
 	if (value === null) return '(missing)'
 	if (value === '') return '(empty)'
+	if (typeof value === 'object' && value !== null && 'themeValue' in value) {
+		const v = (value as { themeValue: unknown }).themeValue
+		if (Array.isArray(v)) return `[${v.join(', ')}]`
+		return String(v)
+	}
 	if (Array.isArray(value)) return `[${value.join(', ')}]`
 	return String(value)
 }

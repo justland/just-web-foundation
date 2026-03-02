@@ -9,7 +9,7 @@ import { Button } from '../testing/button.tsx'
 import { LogPanel } from '../testing/log-panel.tsx'
 import code from './observe-data-attribute.ts?raw'
 
-const testValueThemes = { 'test-value': 'test-value' } as const
+const testValueThemes = { 'test-value': { themeValue: 'test-value' } } as const
 
 const testValueDataThemeStore = dataAttributeThemeStore(testValueThemes, {
 	attributeName: 'data-theme'

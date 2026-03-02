@@ -13,7 +13,7 @@ export function resolveThemeFromClassName<Theme extends string>(
 	className: string
 ): Theme | undefined {
 	const theme = findKey(themes, (key) => {
-		const value = themes[key]
+		const value = themes[key]?.themeValue
 		if (value === undefined) return false
 		const v = Array.isArray(value) ? value[0] : value
 		return !!v && className.includes(v)

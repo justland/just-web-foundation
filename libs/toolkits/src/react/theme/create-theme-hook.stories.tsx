@@ -20,10 +20,10 @@ import code from './create-theme-hook.ts?raw'
 type Theme = 'current' | 'grayscale' | 'high-contrast'
 
 const themes = {
-	current: 'current',
-	grayscale: 'grayscale',
-	'high-contrast': 'high-contrast'
-} as const satisfies Record<Theme, string>
+	current: { themeValue: 'current' },
+	grayscale: { themeValue: 'grayscale' },
+	'high-contrast': { themeValue: 'high-contrast' }
+} as const satisfies Record<Theme, { themeValue: string }>
 
 const meta = {
 	title: 'react/theme/createThemeHook',
@@ -184,9 +184,9 @@ export const ThemeMapStringValue: Story = {
 }
 
 const themesArray = {
-	current: 'theme-current',
-	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 export const ThemeMapArrayValues: Story = {
@@ -200,9 +200,9 @@ export const ThemeMapArrayValues: Story = {
 		source: {
 			code: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
 				const useTheme = createThemeHook(themes, [store], { defaultTheme: 'current' })
@@ -233,9 +233,9 @@ export const ThemeMapArrayValues: Story = {
 	}
 }
 const themesStoreFactory = {
-	current: 'theme-current',
-	grayscale: 'theme-grayscale',
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: 'theme-grayscale' },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 export const StoresConcrete: Story = {

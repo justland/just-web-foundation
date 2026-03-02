@@ -3,9 +3,9 @@ import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { getThemeFromStores } from './get-theme-from-stores.ts'
 
 const themeMap = {
-	current: 'current',
-	grayscale: 'grayscale',
-	'high-contrast': 'high-contrast'
+	current: { themeValue: 'current' },
+	grayscale: { themeValue: 'grayscale' },
+	'high-contrast': { themeValue: 'high-contrast' }
 } as const
 
 describe('getThemeFromStores', () => {
@@ -31,7 +31,9 @@ describe('getThemeFromStores', () => {
 	})
 
 	it('when store has read only, participates in waterfall', async () => {
-		const store = { read: () => ({ theme: 'high-contrast', value: 'high-contrast' }) }
+		const store = {
+			read: () => ({ theme: 'high-contrast' as const, value: { themeValue: 'high-contrast' } })
+		}
 		const result = await getThemeFromStores([store], 'current')
 		expect(result).toBe('high-contrast')
 	})

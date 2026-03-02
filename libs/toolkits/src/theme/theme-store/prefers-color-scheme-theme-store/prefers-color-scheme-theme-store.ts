@@ -2,12 +2,10 @@ import type { RequiredPick } from 'type-plus'
 import { getPrefersColorScheme } from '../../../color-scheme/get-prefers-color-scheme.ts'
 import { observePrefersColorScheme } from '../../../color-scheme/observe-prefers-color-scheme.ts'
 import { themeEntry } from '../../theme-entry.ts'
+import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-type PrefersColorSchemeThemes = {
-	light: string | readonly string[]
-	dark: string | readonly string[]
-}
+type PrefersColorSchemeThemes = ThemeMap<'light' | 'dark'>
 
 /**
  * Creates a read-only theme store that reads from `prefers-color-scheme`.
@@ -23,7 +21,7 @@ type PrefersColorSchemeThemes = {
  *
  * @example
  * ```ts
- * const themes = { light: 'theme-light', dark: 'theme-dark' }
+ * const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
  * const store = prefersColorSchemeThemeStore(themes)
  * store.read() // ThemeEntry for current system preference
  * store.subscribe((entry) => {})

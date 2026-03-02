@@ -16,8 +16,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themesString = {
-	current: 'theme-current',
-	grayscale: 'theme-grayscale'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: 'theme-grayscale' }
 } as const
 
 export const StringValue: Story = {
@@ -33,18 +33,18 @@ export const StringValue: Story = {
 			content: (
 				<p>
 					<code>themes</code> values can be a single string per theme (e.g.{' '}
-					<code>{`{ current: 'theme-current' }`}</code>).
+					<code>{`{ current: { themeValue: 'theme-current' } }`}</code>).
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: 'theme-grayscale'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: 'theme-grayscale' }
 				} as const
 
-				themeResult('current', themes)
+				themeEntry('current', themes)
 			`
 		})
 	],
@@ -60,8 +60,8 @@ export const StringValue: Story = {
 }
 
 const themesArray = {
-	current: 'theme-current',
-	grayscale: ['theme-grayscale', 'app:bg-gray-100']
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] }
 } as const
 
 export const ArrayValue: Story = {
@@ -78,18 +78,18 @@ export const ArrayValue: Story = {
 			content: (
 				<p>
 					<code>themes</code> values can be <code>readonly string[]</code> (e.g.{' '}
-					<code>{`{ grayscale: ['theme-grayscale', 'app:bg-gray-100'] }`}</code>).
+					<code>{`{ grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] } }`}</code>).
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: ['theme-grayscale', 'app:bg-gray-100']
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] }
 				} as const
 
-				themeResult('grayscale', themes)
+				themeEntry('grayscale', themes)
 			`
 		})
 	],
@@ -105,9 +105,9 @@ export const ArrayValue: Story = {
 }
 
 const themesMixed = {
-	current: 'theme-current',
-	grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 export const Mixed: Story = {
@@ -129,13 +129,13 @@ export const Mixed: Story = {
 		showSource({
 			source: dedent`
 				const themes = {
-					current: 'theme-current',
-					grayscale: ['theme-grayscale', 'app:bg-gray-100'],
-					'high-contrast': 'theme-high-contrast'
+					current: { themeValue: 'theme-current' },
+					grayscale: { themeValue: ['theme-grayscale', 'app:bg-gray-100'] },
+					'high-contrast': { themeValue: 'theme-high-contrast' }
 				} as const
 
-				themeResult('current', themes)
-				themeResult('grayscale', themes)
+				themeEntry('current', themes)
+				themeEntry('grayscale', themes)
 			`
 		})
 	],

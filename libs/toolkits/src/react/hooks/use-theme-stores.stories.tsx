@@ -16,9 +16,9 @@ import { Button } from '../../testing/button.tsx'
 import code from './use-theme-stores.ts?raw'
 
 const themes = {
-	light: 'theme-light',
-	dark: 'theme-dark',
-	system: 'theme-system'
+	light: { themeValue: 'theme-light' },
+	dark: { themeValue: 'theme-dark' },
+	system: { themeValue: 'theme-system' }
 } as const
 
 const meta = {
@@ -47,7 +47,7 @@ export const BasicUsage: Story = {
 		},
 		source: {
 			code: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
 				const [theme, setTheme] = useThemeStores(
 					themes,
 					() => [inMemoryThemeStore(themes)],

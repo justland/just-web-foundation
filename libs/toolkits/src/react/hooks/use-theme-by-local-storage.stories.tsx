@@ -7,7 +7,7 @@ import { Button } from '../../testing/button.tsx'
 import code from './use-theme-by-local-storage.ts?raw'
 
 const STORAGE_KEY = 'use-theme-by-local-storage-story'
-const THEMES = { light: 'theme-light', dark: 'theme-dark' } as const
+const THEMES = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } } as const
 
 const meta = {
 	title: 'react/hooks/useThemeByLocalStorage',
@@ -33,7 +33,7 @@ export const BasicUsage: Story = {
 		},
 		source: {
 			code: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
 				const [theme, setTheme] = useThemeByLocalStorage(themes, {
 					storageKey: 'app-theme',
 					defaultTheme: 'light'

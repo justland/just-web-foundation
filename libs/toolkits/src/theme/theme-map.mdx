@@ -6,13 +6,17 @@ import ThemeMapStoriesMeta from './theme-map.stories'
 
 # ThemeMap <MDXBadges of={ThemeMapStoriesMeta} />
 
-Record mapping theme keys to their values. Each value can be a single string or `readonly string[]` (e.g. multiple CSS classes). Used by all ThemeStore factories via the `themeMap` option.
+Record mapping theme keys to objects with `themeValue` (string or `readonly string[]`). The polymorphic structure allows stores (e.g. localStorage) to persist extra metadata alongside the theme value. Used by all ThemeStore factories.
+
+```ts
+type ThemeMap<Theme extends string> = Record<Theme, { themeValue: string | readonly string[] }>
+```
 
 ## Value types
 
-- **String value** – One string per theme (most common case).
-- **Array value** – `readonly string[]` for multiple tokens (e.g. multiple CSS classes). `classNameThemeStore` applies all; `dataAttributeThemeStore` uses first only.
-- **Mixed** – A `themeMap` can mix string and `string[]` values.
+- **String value** – One string per theme: `{ themeValue: 'theme-light' }`
+- **Array value** – `readonly string[]` for multiple tokens: `{ themeValue: ['theme-grayscale', 'app:bg-gray-100'] }`
+- **Migration** – Use `createThemeMap({ light: 'theme-light', dark: 'theme-dark' })` to wrap flat configs.
 
 ## See also
 

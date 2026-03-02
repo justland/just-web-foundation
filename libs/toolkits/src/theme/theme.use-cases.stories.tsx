@@ -19,10 +19,10 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	current: 'theme-current',
-	next: 'theme-next',
-	grayscale: 'theme-grayscale',
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	next: { themeValue: 'theme-next' },
+	grayscale: { themeValue: 'theme-grayscale' },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 // --- Mock Backend API use case (simulated delay, no real HTTP) ---

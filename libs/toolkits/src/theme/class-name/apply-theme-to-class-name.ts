@@ -1,3 +1,4 @@
+import { getThemeDisplayValue } from '../theme-entry.ts'
 import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
 
@@ -16,11 +17,14 @@ export function applyThemeToClassName<Themes extends ThemeMap>(
 	element: Element,
 	entry: ThemeEntry<Themes> | undefined
 ): void {
-	const allThemeClasses = Object.values(themes).flatMap((v) => (Array.isArray(v) ? [...v] : [v]))
+	const allThemeClasses = Object.values(themes).flatMap((v) =>
+		Array.isArray(v.themeValue) ? [...v.themeValue] : [v.themeValue]
+	)
 	const current = element.className.trim()
 	const currentClasses = current ? current.split(/\s+/) : []
 	const withoutThemes = currentClasses.filter((c) => !allThemeClasses.includes(c))
+	const displayValue = entry !== undefined ? getThemeDisplayValue(entry) : []
 	const activeClasses =
-		entry !== undefined ? (Array.isArray(entry.value) ? [...entry.value] : [entry.value]) : []
+		entry !== undefined ? (Array.isArray(displayValue) ? [...displayValue] : [displayValue]) : []
 	element.className = [...withoutThemes, ...activeClasses].filter(Boolean).join(' ')
 }

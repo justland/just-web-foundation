@@ -25,8 +25,8 @@ type Story = StoryObj<typeof meta>
 
 /** Color-scheme themes: only light and dark are supported. */
 const colorSchemeThemes = {
-	light: 'theme-light',
-	dark: 'theme-dark'
+	light: { themeValue: 'theme-light' },
+	dark: { themeValue: 'theme-dark' }
 } as const
 
 export const Playground: Story = {
@@ -44,7 +44,7 @@ export const Playground: Story = {
 		}),
 		showSource({
 			source: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }  // color-scheme only
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }  // color-scheme only
 				const store = prefersColorSchemeThemeStore(themes)
 				<ThemeStoreDemo store={store} themes={themes} setThemeKeys={[]} />
 			`
@@ -72,7 +72,7 @@ export const Read: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }  // color-scheme only
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }  // color-scheme only
 				const store = prefersColorSchemeThemeStore(themes)
 				const result = store.read()
 			`
@@ -106,7 +106,7 @@ export const Subscribe: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				const themes = { light: 'theme-light', dark: 'theme-dark' }  // color-scheme only
+				const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }  // color-scheme only
 				const store = prefersColorSchemeThemeStore(themes)
 				return store.subscribe((entry) => {
 					console.log('Color scheme:', entry?.theme)  // 'light' | 'dark'
@@ -154,7 +154,7 @@ export const WithComposeThemeStores: Story = {
 			source: dedent`
 				import { composeThemeStores, localStorageThemeStore, prefersColorSchemeThemeStore } from '#just-web/toolkits/theme'
 
-				const colorSchemeThemes = { light: 'theme-light', dark: 'theme-dark' }
+				const colorSchemeThemes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } }
 				const store = composeThemeStores(colorSchemeThemes, [
 				  localStorageThemeStore(colorSchemeThemes, { storageKey: 'color-scheme' }),
 				  prefersColorSchemeThemeStore(colorSchemeThemes)  // light | dark only

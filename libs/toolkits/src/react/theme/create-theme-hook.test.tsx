@@ -5,7 +5,7 @@ import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
 
-const themes = { light: 'theme-light', dark: 'theme-dark' } as const
+const themes = { light: { themeValue: 'theme-light' }, dark: { themeValue: 'theme-dark' } } as const
 
 function createTrackingStore<Themes extends ThemeMap>(
 	themes: Themes,

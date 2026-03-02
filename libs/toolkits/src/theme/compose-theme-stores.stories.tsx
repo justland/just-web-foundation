@@ -35,9 +35,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const themes = {
-	current: 'theme-current',
-	grayscale: 'theme-grayscale',
-	'high-contrast': 'theme-high-contrast'
+	current: { themeValue: 'theme-current' },
+	grayscale: { themeValue: 'theme-grayscale' },
+	'high-contrast': { themeValue: 'theme-high-contrast' }
 } as const
 
 export const Playground: Story = {

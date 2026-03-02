@@ -1,4 +1,6 @@
+export * from './theme/_utils/parse-theme-entry.ts'
 export * from './theme/compose-theme-stores.ts'
+export * from './theme/create-theme-map.ts'
 export * from './theme/theme-entry.ts'
 export type * from './theme/theme-entry.types.ts'
 export type * from './theme/theme-map.types.ts'

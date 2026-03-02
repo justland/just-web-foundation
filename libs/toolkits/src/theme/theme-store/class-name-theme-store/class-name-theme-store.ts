@@ -16,7 +16,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @example
  * ```ts
- * const themes = { current: 'theme-current', grayscale: 'theme-grayscale' }
+ * const themes = { current: { themeValue: 'theme-current' }, grayscale: { themeValue: 'theme-grayscale' } }
  * const store = classNameThemeStore(themes)
  * store.read() // returns themeResult from element.className
  * store.write(themeEntry(themes, 'grayscale'))

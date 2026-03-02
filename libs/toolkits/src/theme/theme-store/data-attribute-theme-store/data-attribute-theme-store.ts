@@ -18,7 +18,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @example
  * ```ts
- * const themes = { current: 'current', grayscale: 'grayscale' }
+ * const themes = { current: { themeValue: 'current' }, grayscale: { themeValue: 'grayscale' } }
  * const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
  * store.read() // returns themeResult from data attribute
  * store.write(themeEntry(themes, 'grayscale'))
