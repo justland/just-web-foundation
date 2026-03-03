@@ -6,13 +6,34 @@ import ThemeMapStoriesMeta from './theme-map.stories'
 
 # ThemeMap <MDXBadges of={ThemeMapStoriesMeta} />
 
-Record mapping theme keys to their values. Each value can be a single string or `readonly string[]` (e.g. multiple CSS classes). Used by all ThemeStore factories via the `themeMap` option.
+Record mapping theme keys to their values.
+Each value is a `ThemeMapValue`: `string`, `readonly string[]`, or `{ themeValue: string | readonly string[] }`.
+Used by all ThemeStore factories via the `themeMap` option.
 
-## Value types
+## Value types (ThemeMapValue)
 
 - **String value** – One string per theme (most common case).
-- **Array value** – `readonly string[]` for multiple tokens (e.g. multiple CSS classes). `classNameThemeStore` applies all; `dataAttributeThemeStore` uses first only.
-- **Mixed** – A `themeMap` can mix string and `string[]` values.
+- **Array value** – `readonly string[]` for multiple tokens (e.g. multiple CSS classes).\
+  `classNameThemeStore` applies all; `dataAttributeThemeStore` uses first only.
+- **Object value** – `{ themeValue: string | readonly string[] }` for polymorphic values.\
+  Allows storing extra user metadata in persistent stores (localStorage, sessionStorage, cookie).\
+  The object may include additional properties that are preserved when reading from storage.
+- **Mixed** – A themeMap can mix string, `string[]`, and object values.
+
+## Stored theme validation
+
+Persistent stores (localStorage, sessionStorage, cookie) use **strict validation** when reading.
+Stored JSON must have shape `{ theme: string, value: unknown }` where:
+
+- **Shape match** – Stored `value` must match `themes[theme]` in structure (both string, both array, or both object with `themeValue`).
+- **Comparable match** – The comparable value (string or first element) must match.\
+  For objects, `themeValue` (or `themeValue[0]`) is compared.
+
+When both match, the stored value (including extra props) is returned.
+Otherwise `undefined` is returned.
+Legacy format `{ theme: "dark" }` (no value) returns `undefined`.
+
+Stores that use `themeEntry(themes, theme)` (classNameThemeStore, dataAttributeThemeStore, prefersColorSchemeThemeStore, inMemoryThemeStore) do not use strict validation—they derive the value from the themes map.
 
 ## See also
 

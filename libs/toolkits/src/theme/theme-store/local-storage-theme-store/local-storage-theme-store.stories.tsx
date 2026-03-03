@@ -74,9 +74,60 @@ export const Playground: Story = {
 	}
 }
 
+const STORAGE_KEY_VALIDATION = 'theme-ls-validation'
+
+export const StoredValidationShapeMismatch: Story = {
+	name: 'Stored Validation: legacy format returns undefined',
+	tags: ['integration'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Strict validation: when stored JSON has no value field (legacy format) or shape/comparable mismatch, store.read() returns undefined.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Pre-seeded localStorage with legacy format <code>{`{ theme: "dark" }`}</code> (no value).
+					Store returns undefined.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				// Legacy storage: { theme: "dark" } - no value field
+				// store.read() returns undefined (strict validation)
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.localStorage.setItem(STORAGE_KEY_VALIDATION, JSON.stringify({ theme: 'dark' }))
+			return {}
+		}
+	],
+	render: () => {
+		const store = localStorageThemeStore(themes, { storageKey: STORAGE_KEY_VALIDATION })
+		const result = store.read()
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.read() result"
+					data-testid="store-read-result"
+					result={result !== undefined ? result : { theme: undefined, value: undefined }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('(undefined)')
+	}
+}
+
 export const StorageKey: Story = {
 	name: 'storageKey',
-	tags: ['use-case', 'props'],
+	tags: ['props'],
 	decorators: [
 		withStoryCard({
 			content: (
@@ -125,7 +176,7 @@ const THEMEMAP_STORAGE_KEY = 'theme-ls-thememap'
 
 export const ThemeMapStringValue: Story = {
 	name: 'themes: string value',
-	tags: ['use-case', 'props'],
+	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'themes values can be a single string per theme.'
@@ -181,7 +232,7 @@ const themesArray = {
 
 export const ThemeMapArrayValues: Story = {
 	name: 'themes: array values',
-	tags: ['use-case', 'props'],
+	tags: ['props'],
 	parameters: defineDocsParam({
 		description: {
 			story: 'themes values can be string[]. Stored and retrieved value is the full array.'
@@ -235,6 +286,68 @@ export const ThemeMapArrayValues: Story = {
 		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
 			'value: [theme-grayscale, app:bg-gray-100]'
 		)
+	}
+}
+
+const themesObject = {
+	light: 'theme-light',
+	dark: { themeValue: 'theme-dark', contrast: 'high' }
+} as const
+
+export const ThemeMapObjectValue: Story = {
+	name: 'themes: object value',
+	tags: ['props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'themes values can be { themeValue: string | string[] }. Extra props (e.g. contrast) are preserved when read from storage.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Each theme can map to <code>{'{ themeValue, ...extra }'}</code>. Stored and retrieved
+					value preserves extra props for user metadata.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const themes = {
+					light: 'theme-light',
+					dark: { themeValue: 'theme-dark', contrast: 'high' }
+				} as const
+
+				const store = localStorageThemeStore(themes, { storageKey: 'theme' })
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.localStorage.removeItem(THEMEMAP_STORAGE_KEY)
+			const store = localStorageThemeStore(themesObject, { storageKey: THEMEMAP_STORAGE_KEY })
+			store.write({ theme: 'dark', value: { themeValue: 'theme-dark', contrast: 'high' } })
+			return { store }
+		}
+	],
+	render: (_, { loaded: { store } }) => {
+		const result = store.read()
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.read() result"
+					data-testid="store-read-result"
+					result={result ?? { theme: 'dark', value: themesObject.dark }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: dark')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme-dark')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('contrast')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('high')
 	}
 }
 

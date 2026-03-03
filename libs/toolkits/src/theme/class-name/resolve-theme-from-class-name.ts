@@ -1,4 +1,5 @@
 import { findKey } from 'type-plus'
+import { resolveThemeMapValue } from '../_utils/resolve-theme-map-value.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
 
 /**
@@ -15,7 +16,8 @@ export function resolveThemeFromClassName<Theme extends string>(
 	const theme = findKey(themes, (key) => {
 		const value = themes[key]
 		if (value === undefined) return false
-		const v = Array.isArray(value) ? value[0] : value
+		const resolved = resolveThemeMapValue(value)
+		const v = Array.isArray(resolved) ? resolved[0] : resolved
 		return !!v && className.includes(v)
 	})
 	return theme as Theme | undefined
