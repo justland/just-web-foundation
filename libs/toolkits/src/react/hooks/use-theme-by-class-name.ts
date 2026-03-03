@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { observeThemeFromStores } from '../../theme/_utils/observe-theme-from-stores.ts'
 import { setThemeToStores } from '../../theme/_utils/set-theme-to-stores.ts'
-import { resolveThemeFromClassName } from '../../theme/class-name/resolve-theme-from-class-name.ts'
 import { themeEntry } from '../../theme/theme-entry.ts'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import { classNameThemeStore } from '../../theme/theme-store/class-name-theme-store/class-name-theme-store.ts'
@@ -42,13 +41,9 @@ export function useThemeByClassName<Themes extends ThemeMap>(
 
 	const store = useMemo(() => classNameThemeStore(themes, { element }), [element, themes])
 
-	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
-		if (element) {
-			const resolved = resolveThemeFromClassName(themes, element.className)
-			return resolved ?? defaultTheme
-		}
-		return defaultTheme
-	})
+	const [theme, setThemeState] = useState<keyof Themes | undefined>(
+		() => store.read()?.theme ?? defaultTheme
+	)
 
 	useEffect(() => {
 		if (!element) return

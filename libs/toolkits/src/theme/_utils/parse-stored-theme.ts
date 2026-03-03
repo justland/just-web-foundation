@@ -43,9 +43,9 @@ function getCanonicalShapeAndComparable(v: ThemeMapValue): {
  */
 export function parseStoredTheme<Themes extends ThemeMap>(
 	themes: Themes | undefined,
-	value: string | null | undefined
+	value: string | undefined
 ): ThemeEntry<Themes> | undefined {
-	const parsed = tryParseJSON<{ theme: string; value?: unknown }>(value)
+	const parsed = tryParseJSON<{ theme: string; value?: unknown }>(value ?? null)
 	if (!parsed?.theme || typeof parsed.theme !== 'string') return undefined
 	if (!themes || !(parsed.theme in themes)) return undefined
 	if (parsed.value === undefined) return undefined

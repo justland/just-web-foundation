@@ -73,8 +73,87 @@ export const Playground: Story = {
 	}
 }
 
+const STORAGE_KEY_PARSE = 'theme-ss-parse'
+
+/** Custom parse: accept legacy { theme } without value, coerce to themeEntry */
+function customParseLegacy<Themes extends typeof themes>(
+	themes: Themes,
+	value: string | undefined
+): ThemeEntry<Themes> | undefined {
+	let parsed: { theme?: string } | undefined
+	try {
+		parsed = value ? JSON.parse(value) : undefined
+	} catch {
+		return undefined
+	}
+	if (!parsed?.theme || typeof parsed.theme !== 'string' || !(parsed.theme in themes))
+		return undefined
+	const themeKey = parsed.theme as keyof Themes
+	return { theme: themeKey, value: themes[themeKey] }
+}
+
+export const ParseOption: Story = {
+	name: 'options.parse',
+	tags: ['props', 'use-case'],
+	decorators: [
+		withStoryCard({
+			content: (
+				<>
+					<p>
+						The <code>options.parse</code> allows you to provide a custom parse function to parse
+						the stored value to a specific structure you wanted. Use it when migrating from legacy
+						formats, supporting custom serialization, or relaxing validation.
+					</p>
+					<p>
+						The example below pre-seeds the sessionStorage with legacy format{' '}
+						<code>{`{ theme: "grayscale" }`}</code> (no value).
+					</p>
+				</>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const customParse = (themes, value) => {
+					const parsed = JSON.parse(value || '{}')
+					if (!parsed?.theme || !(parsed.theme in themes)) return undefined
+					return { theme: parsed.theme, value: themes[parsed.theme] }
+				}
+				const store = sessionStorageThemeStore(themes, { storageKey: 'theme', parse: customParse })
+			`
+		})
+	],
+	loaders: [
+		() => {
+			window.sessionStorage.setItem(STORAGE_KEY_PARSE, JSON.stringify({ theme: 'grayscale' }))
+			return {}
+		}
+	],
+	render: () => {
+		const store = sessionStorageThemeStore(themes, {
+			storageKey: STORAGE_KEY_PARSE,
+			parse: customParseLegacy
+		})
+		const result = store.read()
+		return (
+			<div className="flex flex-col gap-4">
+				<ThemeResultCard
+					title="store.read() with custom parse"
+					data-testid="store-read-result"
+					result={result ?? { theme: 'grayscale', value: themes.grayscale }}
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent('theme: grayscale')
+		await expect(canvas.getByTestId('store-read-result')).toHaveTextContent(
+			'value: theme-grayscale'
+		)
+	}
+}
+
 export const StorageKey: Story = {
-	name: 'storageKey',
+	name: 'options.storageKey',
 	tags: ['use-case', 'props'],
 	decorators: [
 		withStoryCard({

@@ -1,6 +1,6 @@
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import type { ThemeEntry } from '../../theme-entry.types.ts'
+import type { ParseStoredTheme, ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
@@ -12,6 +12,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @param themes - Record mapping theme keys to values (for validation)
  * @param options.storageKey - sessionStorage key
+ * @param options.parse - Optional custom parser for stored string (default: parseStoredTheme)
  * @returns ThemeStore
  *
  * @example
@@ -25,9 +26,9 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function sessionStorageThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: { storageKey: string }
+	options: { storageKey: string; parse?: ParseStoredTheme<Themes> | undefined }
 ) {
-	const { storageKey } = options
+	const { storageKey, parse = parseStoredTheme } = options
 
 	if (typeof window === 'undefined' || !window.sessionStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>
@@ -38,7 +39,7 @@ export function sessionStorageThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = window.sessionStorage.getItem(storageKey)
-		return parseStoredTheme(themes, stored)
+		return parse(themes, stored ?? undefined)
 	}
 
 	function notify() {

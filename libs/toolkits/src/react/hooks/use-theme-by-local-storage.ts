@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { observeThemeFromStores } from '../../theme/_utils/observe-theme-from-stores.ts'
-import { parseStoredTheme } from '../../theme/_utils/parse-stored-theme.ts'
 import { setThemeToStores } from '../../theme/_utils/set-theme-to-stores.ts'
 import { themeEntry } from '../../theme/theme-entry.ts'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
@@ -43,13 +42,9 @@ export function useThemeByLocalStorage<Themes extends ThemeMap>(
 
 	const store = useMemo(() => localStorageThemeStore(themes, { storageKey }), [themes, storageKey])
 
-	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
-		if (typeof window !== 'undefined' && window.localStorage) {
-			const stored = window.localStorage.getItem(storageKey)
-			return parseStoredTheme(themes, stored)?.theme ?? defaultTheme
-		}
-		return defaultTheme
-	})
+	const [theme, setThemeState] = useState<keyof Themes | undefined>(
+		() => store.read()?.theme ?? defaultTheme
+	)
 
 	useEffect(() => {
 		const unobserve = observeThemeFromStores([store], defaultTheme, setThemeState)
