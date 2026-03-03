@@ -4,12 +4,12 @@ import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
-import { observeDataAttributes } from '#just-web/toolkits'
 import {
-	applyThemeToDataAttribute,
 	dataAttributeThemeStore,
-	retrieveThemeFromDataAttribute,
+	parseDataAttribute,
+	stringifyDataAttribute,
 	type ThemeEntry,
+	type ThemeMap,
 	type ThemeStore,
 	themeEntry
 } from '#just-web/toolkits/theme'
@@ -567,37 +567,17 @@ export const Subscribe: Story = {
 
 const SEPARATOR_COMMA = ','
 
-function createCommaSeparatedStore<Themes extends typeof themes>(
+function createCommaSeparatedStore<Themes extends ThemeMap>(
 	themes: Themes,
 	attrName: typeof attributeName,
 	element: Element
-): Required<ThemeStore<Themes>> {
-	return {
-		read() {
-			return retrieveThemeFromDataAttribute(themes, element, attrName, {
-				separator: SEPARATOR_COMMA
-			})
-		},
-		write(entry) {
-			applyThemeToDataAttribute(themes, element, attrName, entry, {
-				separator: SEPARATOR_COMMA
-			})
-		},
-		subscribe(handler) {
-			const observer = observeDataAttributes<string, `data-${string}`>(
-				{
-					[attrName]: () => {
-						const entry = retrieveThemeFromDataAttribute(themes, element, attrName, {
-							separator: SEPARATOR_COMMA
-						})
-						handler(entry)
-					}
-				},
-				element
-			)
-			return () => observer.disconnect()
-		}
-	}
+) {
+	return dataAttributeThemeStore(themes, {
+		attributeName: attrName,
+		element,
+		parse: (t, v) => parseDataAttribute(t, v, { separator: SEPARATOR_COMMA }),
+		stringify: (t, e, x) => stringifyDataAttribute(t, e, x, { separator: SEPARATOR_COMMA })
+	})
 }
 
 export const SpaceSeparatedDefault: Story = {
@@ -606,7 +586,7 @@ export const SpaceSeparatedDefault: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'By default, the data attribute is treated as space-separated. Read uses first value; write merges new value as first token without overwriting others.'
+				'By default, the data attribute is treated as space-separated. Read uses first value; write removes all theme tokens and adds the new one (className-style).'
 		}
 	}),
 	decorators: [
@@ -615,7 +595,7 @@ export const SpaceSeparatedDefault: Story = {
 				<p>
 					When <code>data-theme</code> has multiple values like{' '}
 					<code>theme-current theme-grayscale</code>, read returns the first matching theme. Write
-					merges the new value as the first token.
+					removes all theme tokens and adds the new one.
 				</p>
 			)
 		}),
@@ -623,7 +603,7 @@ export const SpaceSeparatedDefault: Story = {
 			source: dedent`
 				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
 				store.read()  // from "theme-current theme-grayscale" returns current
-				store.write(themeEntry(themes, 'grayscale'))  // merges, does not overwrite
+				store.write(themeEntry(themes, 'grayscale'))  // removes theme tokens, adds grayscale
 			`
 		})
 	],
@@ -672,8 +652,6 @@ export const SpaceSeparatedDefault: Story = {
 		await waitFor(() => {
 			const attr = document.documentElement.getAttribute(attributeName) ?? ''
 			expect(attr).toContain('theme-grayscale')
-			expect(attr).toContain('theme-current')
-			expect(attr).toContain('theme-next')
 		})
 		await expect(canvas.getByTestId('space-demo-observe')).toHaveTextContent('grayscale')
 	}
@@ -685,23 +663,26 @@ export const ParseStringifyCommaSeparated: Story = {
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Use retrieveThemeFromDataAttribute and applyThemeToDataAttribute with options.separator for comma-separated values. Read uses first value; write merges as first token.'
+				'Curry parseDataAttribute and stringifyDataAttribute with separator for comma-separated values. Read uses first value; write removes theme tokens and adds new one.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Use <code>retrieveThemeFromDataAttribute</code> and <code>applyThemeToDataAttribute</code>{' '}
-					with <code>options.separator = ','</code> for comma-separated attribute values.
+					Curry <code>parseDataAttribute</code> and <code>stringifyDataAttribute</code> with{' '}
+					<code>options.separator = ','</code> for comma-separated attribute values.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const entry = retrieveThemeFromDataAttribute(themes, element, attributeName, { separator: ',' })
-
-				applyThemeToDataAttribute(themes, element, attributeName, entry, { separator: ',' })
+				const store = dataAttributeThemeStore(themes, {
+					attributeName,
+					element: target,
+					parse: (t, v) => parseDataAttribute(t, v, { separator: ',' }),
+					stringify: (t, e, x) => stringifyDataAttribute(t, e, x, { separator: ',' })
+				})
 			`
 		})
 	],
@@ -756,7 +737,6 @@ export const ParseStringifyCommaSeparated: Story = {
 		await waitFor(() => {
 			const attrValue = target.getAttribute(attributeName) ?? ''
 			expect(attrValue).toContain('theme-grayscale')
-			expect(attrValue).toContain('theme-current')
 		})
 
 		await expect(canvas.getByTestId('comma-demo-observe')).toHaveTextContent('grayscale')

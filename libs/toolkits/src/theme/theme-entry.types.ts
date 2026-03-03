@@ -18,3 +18,13 @@ export type ParseStoredTheme<Themes extends ThemeMap> = (
 	themes: Themes,
 	value: string | undefined
 ) => ThemeEntry<Themes> | undefined
+
+/**
+ * Function type for stringify ThemeEntry to a stored string.
+ * Used as options.stringify in persisting theme stores.
+ */
+export type StringifyStoredTheme<Themes extends ThemeMap> = (
+	themes: Themes,
+	entry: ThemeEntry<Themes> | undefined,
+	existing: string | undefined
+) => string

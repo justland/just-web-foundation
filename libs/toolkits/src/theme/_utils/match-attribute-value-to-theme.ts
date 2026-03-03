@@ -4,7 +4,7 @@ import { resolveThemeMapValue } from './resolve-theme-map-value.ts'
 
 /**
  * Matches an attribute value string against the theme map and returns the theme key.
- * Pure function: no DOM access. Used by retrieveThemeFromDataAttribute and custom parse paths.
+ * Pure function: no DOM access. Used by parseDataAttribute and custom parse paths.
  *
  * @param themes - Record mapping theme keys to attribute values
  * @param attrValue - Attribute value string (e.g. from getAttribute)
