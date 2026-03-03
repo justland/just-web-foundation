@@ -1,4 +1,6 @@
 export * from './theme/compose-theme-stores.ts'
+export * from './theme/data-attribute/apply-theme-to-data-attribute.ts'
+export * from './theme/data-attribute/retrieve-theme-from-data-attribute.ts'
 export * from './theme/theme-entry.ts'
 export type * from './theme/theme-entry.types.ts'
 export type * from './theme/theme-map.types.ts'

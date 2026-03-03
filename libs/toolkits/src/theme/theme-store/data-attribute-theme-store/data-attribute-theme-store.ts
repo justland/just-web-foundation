@@ -2,8 +2,10 @@ import type { Required } from 'type-plus'
 import { getDataAttribute } from '../../../attributes/get-data-attribute.ts'
 import { observeDataAttributes } from '../../../attributes/observe-data-attribute.ts'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
+import { matchAttributeValueToTheme } from '../../_utils/match-attribute-value-to-theme.ts'
 import { resolveThemeMapValue } from '../../_utils/resolve-theme-map-value.ts'
-import { resolveThemeFromDataAttribute } from '../../data-attribute/resolve-theme-from-data-attribute.ts'
+import { applyThemeToDataAttribute } from '../../data-attribute/apply-theme-to-data-attribute.ts'
+import { retrieveThemeFromDataAttribute } from '../../data-attribute/retrieve-theme-from-data-attribute.ts'
 import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
@@ -11,20 +13,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
 export type ParseAttributeValue = (raw: string | null) => string | undefined
 export type StringifyAttributeValue = (value: string, existing: string | null) => string
 
-function defaultParseAttributeValue(raw: string | null): string | undefined {
-	if (raw === null || raw === '') return undefined
-	const first = raw.trim().split(/\s+/)[0]
-	return first === '' ? undefined : first
-}
-
-function defaultStringifyAttributeValue(value: string, existing: string | null): string {
-	if (!existing?.trim()) return value
-	const tokens = existing
-		.trim()
-		.split(/\s+/)
-		.filter((t) => t !== value)
-	return [value, ...tokens].join(' ')
-}
+const SEPARATOR_SPACE = ' '
 
 /**
  * Creates a theme store that reads and writes via a data attribute.
@@ -59,21 +48,30 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	}
 ) {
 	const element = options.element ?? document?.documentElement
-	const { attributeName } = options
-	const parse = options.parse ?? defaultParseAttributeValue
-	const stringify = options.stringify ?? defaultStringifyAttributeValue
+	const { attributeName, parse, stringify } = options
+	const useUtilities = parse === undefined || stringify === undefined
 
 	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
 
 	return {
 		read() {
+			if (useUtilities) {
+				return retrieveThemeFromDataAttribute(themes, element, attributeName, {
+					separator: SEPARATOR_SPACE
+				})
+			}
 			const raw = getDataAttribute(attributeName, element)
-			const firstValue = parse(raw)
-			const theme = resolveThemeFromDataAttribute(themes, firstValue ?? null)
-			if (theme === undefined) return undefined
-			return themeEntry(themes, theme)
+			const firstValue = parse!(raw)
+			const theme = matchAttributeValueToTheme(themes, firstValue ?? null)
+			return theme !== undefined ? themeEntry(themes, theme) : undefined
 		},
 		write(entry) {
+			if (useUtilities) {
+				applyThemeToDataAttribute(themes, element, attributeName, entry, {
+					separator: SEPARATOR_SPACE
+				})
+				return
+			}
 			if (entry === undefined) {
 				element.removeAttribute(attributeName)
 				return
@@ -82,7 +80,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const attributeValue = Array.isArray(resolved) ? resolved[0] : resolved
 			if (attributeValue !== undefined && attributeValue !== '') {
 				const existing = element.getAttribute(attributeName)
-				element.setAttribute(attributeName, stringify(attributeValue, existing))
+				element.setAttribute(attributeName, stringify!(attributeValue, existing))
 			} else {
 				element.removeAttribute(attributeName)
 			}
@@ -91,9 +89,16 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 			const observer = observeDataAttributes<string, `data-${string}`>(
 				{
 					[attributeName]: (value) => {
-						const firstValue = value ? parse(value) : undefined
-						const theme = firstValue ? resolveThemeFromDataAttribute(themes, firstValue) : undefined
-						handler(theme ? themeEntry(themes, theme) : undefined)
+						if (useUtilities) {
+							const entry = retrieveThemeFromDataAttribute(themes, element, attributeName, {
+								separator: SEPARATOR_SPACE
+							})
+							handler(entry)
+						} else {
+							const firstValue = value ? parse!(value) : undefined
+							const theme = firstValue ? matchAttributeValueToTheme(themes, firstValue) : undefined
+							handler(theme ? themeEntry(themes, theme) : undefined)
+						}
 					}
 				},
 				element

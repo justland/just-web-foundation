@@ -4,10 +4,11 @@ import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
+import { observeDataAttributes } from '#just-web/toolkits'
 import {
+	applyThemeToDataAttribute,
 	dataAttributeThemeStore,
-	type ParseAttributeValue,
-	type StringifyAttributeValue,
+	retrieveThemeFromDataAttribute,
 	type ThemeEntry,
 	type ThemeStore,
 	themeEntry
@@ -564,22 +565,39 @@ export const Subscribe: Story = {
 	}
 }
 
-const commaParse: ParseAttributeValue = (raw) => {
-	if (!raw) return undefined
-	const first = raw
-		.split(',')
-		.map((s) => s.trim())
-		.filter(Boolean)[0]
-	return first ?? undefined
-}
+const SEPARATOR_COMMA = ','
 
-const commaStringify: StringifyAttributeValue = (value, existing) => {
-	if (!existing?.trim()) return value
-	const tokens = existing
-		.split(',')
-		.map((s) => s.trim())
-		.filter((t) => t !== value)
-	return [value, ...tokens].join(', ')
+function createCommaSeparatedStore<Themes extends typeof themes>(
+	themes: Themes,
+	attrName: typeof attributeName,
+	element: Element
+): Required<ThemeStore<Themes>> {
+	return {
+		read() {
+			return retrieveThemeFromDataAttribute(themes, element, attrName, {
+				separator: SEPARATOR_COMMA
+			})
+		},
+		write(entry) {
+			applyThemeToDataAttribute(themes, element, attrName, entry, {
+				separator: SEPARATOR_COMMA
+			})
+		},
+		subscribe(handler) {
+			const observer = observeDataAttributes<string, `data-${string}`>(
+				{
+					[attrName]: () => {
+						const entry = retrieveThemeFromDataAttribute(themes, element, attrName, {
+							separator: SEPARATOR_COMMA
+						})
+						handler(entry)
+					}
+				},
+				element
+			)
+			return () => observer.disconnect()
+		}
+	}
 }
 
 export const SpaceSeparatedDefault: Story = {
@@ -662,38 +680,28 @@ export const SpaceSeparatedDefault: Story = {
 }
 
 export const ParseStringifyCommaSeparated: Story = {
-	name: 'parse + stringify: comma-separated',
+	name: 'separator: comma',
 	tags: ['use-case', 'props'],
 	parameters: defineDocsParam({
 		description: {
 			story:
-				'Custom parse and stringify can use comma-separated values instead of the default space-separated. Read uses first value; write merges as first token.'
+				'Use retrieveThemeFromDataAttribute and applyThemeToDataAttribute with options.separator for comma-separated values. Read uses first value; write merges as first token.'
 		}
 	}),
 	decorators: [
 		withStoryCard({
 			content: (
 				<p>
-					Use <code>options.parse</code> and <code>options.stringify</code> to customize
-					serialization. This example uses comma-separated values.
+					Use <code>retrieveThemeFromDataAttribute</code> and <code>applyThemeToDataAttribute</code>{' '}
+					with <code>options.separator = ','</code> for comma-separated attribute values.
 				</p>
 			)
 		}),
 		showSource({
 			source: dedent`
-				const commaParse = (raw) => raw?.split(',').map(s => s.trim()).filter(Boolean)[0]
-				const commaStringify = (value, existing) => {
-					if (!existing?.trim()) return value
-					const tokens = existing.split(',').map(s => s.trim()).filter(t => t !== value)
-					return [value, ...tokens].join(', ')
-				}
+				const entry = retrieveThemeFromDataAttribute(themes, element, attributeName, { separator: ',' })
 
-				const store = dataAttributeThemeStore(themes, {
-					attributeName: 'data-theme',
-					element: targetElement,
-					parse: commaParse,
-					stringify: commaStringify
-				})
+				applyThemeToDataAttribute(themes, element, attributeName, entry, { separator: ',' })
 			`
 		})
 	],
@@ -704,13 +712,8 @@ export const ParseStringifyCommaSeparated: Story = {
 			const el = document.getElementById('comma-target')
 			if (!el) return
 			el.setAttribute(attributeName, 'theme-current')
-			const s = dataAttributeThemeStore(themes, {
-				attributeName,
-				element: el,
-				parse: commaParse,
-				stringify: commaStringify
-			})
-			setStore(s as Required<ThemeStore<typeof themes>>)
+			const s = createCommaSeparatedStore(themes, attributeName, el)
+			setStore(s)
 		}, [])
 
 		return (
@@ -746,12 +749,7 @@ export const ParseStringifyCommaSeparated: Story = {
 	play: async ({ canvas }) => {
 		const target = document.getElementById('comma-target')
 		if (!target) return
-		const store = dataAttributeThemeStore(themes, {
-			attributeName,
-			element: target,
-			parse: commaParse,
-			stringify: commaStringify
-		})
+		const store = createCommaSeparatedStore(themes, attributeName, target)
 		target.setAttribute(attributeName, 'theme-current')
 
 		store.write(themeEntry(themes, 'grayscale'))
