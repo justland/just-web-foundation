@@ -1,16 +1,17 @@
 import type { Required } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import type { ThemeEntry } from '../../theme-entry.types.ts'
+import type { ParseStoredTheme, ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
-export interface CookieThemeStoreOptions {
+export interface CookieThemeStoreOptions<Themes extends ThemeMap = ThemeMap> {
 	cookieName: string
 	path?: string | undefined
 	maxAge?: number | undefined
 	sameSite?: 'lax' | 'strict' | 'none' | undefined
 	secure?: boolean | undefined
+	parse?: ParseStoredTheme<Themes> | undefined
 }
 
 function getCookieValue(name: string): string | null {
@@ -57,6 +58,7 @@ function deleteCookie(name: string, path = '/') {
  * @param options.maxAge - Cookie max-age in seconds
  * @param options.sameSite - Cookie sameSite attribute
  * @param options.secure - Cookie secure attribute
+ * @param options.parse - Optional custom parser for stored string (default: parseStoredTheme)
  * @returns ThemeStore
  *
  * @example
@@ -70,9 +72,9 @@ function deleteCookie(name: string, path = '/') {
  */
 export function cookieThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: CookieThemeStoreOptions
+	options: CookieThemeStoreOptions<Themes>
 ): Required<ThemeStore<Themes>> {
-	const { cookieName, path = '/', maxAge, sameSite, secure } = options
+	const { cookieName, path = '/', maxAge, sameSite, secure, parse = parseStoredTheme } = options
 
 	if (document.cookie === undefined) {
 		return dummyThemeStore
@@ -83,7 +85,7 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = getCookieValue(cookieName)
-		return parseStoredTheme(themes, stored)
+		return parse(themes, stored ?? undefined)
 	}
 
 	function notify() {
@@ -165,5 +167,5 @@ export function getThemeFromCookie<Themes extends ThemeMap>(
 			: cookieSource
 				? getCookieFromHeader(cookieSource, cookieName)
 				: null
-	return parseStoredTheme(themes, stored)
+	return parseStoredTheme(themes, stored ?? undefined)
 }

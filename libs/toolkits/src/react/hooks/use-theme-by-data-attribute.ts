@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { getDataAttribute } from '../../attributes/get-data-attribute.ts'
 import { observeThemeFromStores } from '../../theme/_utils/observe-theme-from-stores.ts'
 import { setThemeToStores } from '../../theme/_utils/set-theme-to-stores.ts'
-import { resolveThemeFromDataAttribute } from '../../theme/data-attribute/resolve-theme-from-data-attribute.ts'
 import { themeEntry } from '../../theme/theme-entry.ts'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import { dataAttributeThemeStore } from '../../theme/theme-store/data-attribute-theme-store/data-attribute-theme-store.ts'
@@ -56,14 +54,9 @@ export function useThemeByDataAttribute<Themes extends ThemeMap>(
 		[element, themes, attributeName]
 	)
 
-	const [theme, setThemeState] = useState<keyof Themes | undefined>(() => {
-		if (element) {
-			const attrValue = getDataAttribute(attributeName, element)
-			const resolved = resolveThemeFromDataAttribute(themes, attrValue)
-			return resolved ?? defaultTheme
-		}
-		return defaultTheme
-	})
+	const [theme, setThemeState] = useState<keyof Themes | undefined>(
+		() => store.read()?.theme ?? defaultTheme
+	)
 
 	useEffect(() => {
 		if (!element) return

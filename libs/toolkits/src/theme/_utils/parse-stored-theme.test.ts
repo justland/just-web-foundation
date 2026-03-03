@@ -213,10 +213,6 @@ describe('parseStoredTheme', () => {
 	})
 
 	describe('returns undefined for invalid JSON or missing theme key', () => {
-		it('null input returns undefined', () => {
-			expect(parseStoredTheme(themesString, null)).toBeUndefined()
-		})
-
 		it('undefined input returns undefined', () => {
 			expect(parseStoredTheme(themesString, undefined)).toBeUndefined()
 		})
