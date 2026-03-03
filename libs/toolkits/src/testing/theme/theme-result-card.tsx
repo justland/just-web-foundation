@@ -16,6 +16,7 @@ function formatValue(value: unknown): string {
 	if (value === null) return '(missing)'
 	if (value === '') return '(empty)'
 	if (Array.isArray(value)) return `[${value.join(', ')}]`
+	if (typeof value === 'object' && value !== null) return JSON.stringify(value)
 	return String(value)
 }
 

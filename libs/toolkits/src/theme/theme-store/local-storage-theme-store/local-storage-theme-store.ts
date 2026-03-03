@@ -1,6 +1,5 @@
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import { themeEntry } from '../../theme-entry.ts'
 import type { ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
@@ -39,9 +38,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 
 	function read() {
 		const stored = window.localStorage.getItem(storageKey)
-		const theme = parseStoredTheme(themes, stored)
-		if (theme === undefined) return undefined
-		return themeEntry(themes, theme)
+		return parseStoredTheme(themes, stored)
 	}
 
 	function notify() {

@@ -1,3 +1,4 @@
+import { resolveThemeMapValue } from '../_utils/resolve-theme-map-value.ts'
 import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
 
@@ -17,8 +18,8 @@ export function applyThemeToDataAttribute<Themes extends ThemeMap>(
 		element.removeAttribute(attributeName)
 		return
 	}
-	const val = entry.value
-	const attributeValue = Array.isArray(val) ? val[0] : val
+	const resolved = resolveThemeMapValue(entry.value)
+	const attributeValue = Array.isArray(resolved) ? resolved[0] : resolved
 	if (attributeValue !== undefined && attributeValue !== '') {
 		element.setAttribute(attributeName, attributeValue)
 	} else {
