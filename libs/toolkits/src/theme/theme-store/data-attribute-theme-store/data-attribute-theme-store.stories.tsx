@@ -6,6 +6,8 @@ import { expect, userEvent, waitFor } from 'storybook/test'
 import type { Required } from 'type-plus'
 import {
 	dataAttributeThemeStore,
+	type ParseAttributeValue,
+	type StringifyAttributeValue,
 	type ThemeEntry,
 	type ThemeStore,
 	themeEntry
@@ -559,6 +561,207 @@ export const Subscribe: Story = {
 		await waitFor(() =>
 			expect(canvas.getByTestId('store-subscribe-result')).toHaveTextContent('high-contrast')
 		)
+	}
+}
+
+const commaParse: ParseAttributeValue = (raw) => {
+	if (!raw) return undefined
+	const first = raw
+		.split(',')
+		.map((s) => s.trim())
+		.filter(Boolean)[0]
+	return first ?? undefined
+}
+
+const commaStringify: StringifyAttributeValue = (value, existing) => {
+	if (!existing?.trim()) return value
+	const tokens = existing
+		.split(',')
+		.map((s) => s.trim())
+		.filter((t) => t !== value)
+	return [value, ...tokens].join(', ')
+}
+
+export const SpaceSeparatedDefault: Story = {
+	name: 'space-separated (default)',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'By default, the data attribute is treated as space-separated. Read uses first value; write merges new value as first token without overwriting others.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					When <code>data-theme</code> has multiple values like{' '}
+					<code>theme-current theme-grayscale</code>, read returns the first matching theme. Write
+					merges the new value as the first token.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const store = dataAttributeThemeStore(themes, { attributeName: 'data-theme' })
+				store.read()  // from "theme-current theme-grayscale" returns current
+				store.write(themeEntry(themes, 'grayscale'))  // merges, does not overwrite
+			`
+		})
+	],
+	loaders: [
+		() => {
+			const store = createStore()
+			store.write(themeEntry(themes, 'current'))
+			if (typeof document !== 'undefined') {
+				document.documentElement.setAttribute(attributeName, 'theme-current theme-high-contrast')
+			}
+			return {}
+		}
+	],
+	render: () => {
+		const store = createStore()
+		const result = store.read()
+		return (
+			<div className="flex flex-col gap-4">
+				<StoryCard title="html[data-theme]" appearance="output">
+					<code data-testid="space-attr-value">
+						{typeof document !== 'undefined'
+							? (document.documentElement.getAttribute(attributeName) ?? '(empty)')
+							: ''}
+					</code>
+				</StoryCard>
+				<ThemeResultCard
+					title="store.read() - first value"
+					data-testid="space-read-result"
+					result={result ?? { theme: 'current', value: themes.current }}
+				/>
+				<ThemeStoreDemo
+					store={store}
+					themes={themes}
+					setThemeKeys={['current', 'grayscale', 'high-contrast']}
+					data-testid="space-demo"
+				/>
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		const store = createStore()
+		document.documentElement.setAttribute(attributeName, 'theme-current theme-next')
+		await expect(canvas.getByTestId('space-read-result')).toHaveTextContent('theme: current')
+
+		store.write(themeEntry(themes, 'grayscale'))
+		await waitFor(() => {
+			const attr = document.documentElement.getAttribute(attributeName) ?? ''
+			expect(attr).toContain('theme-grayscale')
+			expect(attr).toContain('theme-current')
+			expect(attr).toContain('theme-next')
+		})
+		await expect(canvas.getByTestId('space-demo-observe')).toHaveTextContent('grayscale')
+	}
+}
+
+export const ParseStringifyCommaSeparated: Story = {
+	name: 'parse + stringify: comma-separated',
+	tags: ['use-case', 'props'],
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Custom parse and stringify can use comma-separated values instead of the default space-separated. Read uses first value; write merges as first token.'
+		}
+	}),
+	decorators: [
+		withStoryCard({
+			content: (
+				<p>
+					Use <code>options.parse</code> and <code>options.stringify</code> to customize
+					serialization. This example uses comma-separated values.
+				</p>
+			)
+		}),
+		showSource({
+			source: dedent`
+				const commaParse = (raw) => raw?.split(',').map(s => s.trim()).filter(Boolean)[0]
+				const commaStringify = (value, existing) => {
+					if (!existing?.trim()) return value
+					const tokens = existing.split(',').map(s => s.trim()).filter(t => t !== value)
+					return [value, ...tokens].join(', ')
+				}
+
+				const store = dataAttributeThemeStore(themes, {
+					attributeName: 'data-theme',
+					element: targetElement,
+					parse: commaParse,
+					stringify: commaStringify
+				})
+			`
+		})
+	],
+	render: () => {
+		const [store, setStore] = useState<Required<ThemeStore<typeof themes>> | null>(null)
+
+		useLayoutEffect(() => {
+			const el = document.getElementById('comma-target')
+			if (!el) return
+			el.setAttribute(attributeName, 'theme-current')
+			const s = dataAttributeThemeStore(themes, {
+				attributeName,
+				element: el,
+				parse: commaParse,
+				stringify: commaStringify
+			})
+			setStore(s as Required<ThemeStore<typeof themes>>)
+		}, [])
+
+		return (
+			<div className="flex flex-col gap-4">
+				<div
+					id="comma-target"
+					data-testid="comma-target"
+					className="rounded border border-gray-300 p-4"
+				>
+					Target element (data-theme uses comma-separated values)
+				</div>
+				{store && (
+					<>
+						<StoryCard title="target[data-theme]" appearance="output">
+							<code data-testid="comma-attr-value">
+								{typeof document !== 'undefined'
+									? (document.getElementById('comma-target')?.getAttribute(attributeName) ??
+										'(empty)')
+									: ''}
+							</code>
+						</StoryCard>
+						<ThemeStoreDemo
+							store={store}
+							themes={themes}
+							setThemeKeys={['current', 'grayscale', 'high-contrast']}
+							data-testid="comma-demo"
+						/>
+					</>
+				)}
+			</div>
+		)
+	},
+	play: async ({ canvas }) => {
+		const target = document.getElementById('comma-target')
+		if (!target) return
+		const store = dataAttributeThemeStore(themes, {
+			attributeName,
+			element: target,
+			parse: commaParse,
+			stringify: commaStringify
+		})
+		target.setAttribute(attributeName, 'theme-current')
+
+		store.write(themeEntry(themes, 'grayscale'))
+		await waitFor(() => {
+			const attrValue = target.getAttribute(attributeName) ?? ''
+			expect(attrValue).toContain('theme-grayscale')
+			expect(attrValue).toContain('theme-current')
+		})
+
+		await expect(canvas.getByTestId('comma-demo-observe')).toHaveTextContent('grayscale')
 	}
 }
 
