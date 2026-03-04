@@ -10,12 +10,12 @@ import { getPrefersColorScheme } from '#just-web/toolkits'
 import code from './get-prefers-color-scheme.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersColorScheme>> = {
-	title: 'color-scheme/getPrefersColorTheme',
+	title: 'color-scheme/getPrefersColorScheme',
 	tags: ['func', 'version:1.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that returns the current preferred color scheme. It can only be "light" or "dark".'
+				'A utility function that returns the current preferred color scheme. It can only be "light" or "dark". Note: even when the browser theme is set to "System" (e.g. in Chrome settings), the browser still resolves this to either "light" or "dark" based on the OS preference—it never returns "system" or "no-preference".'
 		}
 	}),
 	render: () => <></>

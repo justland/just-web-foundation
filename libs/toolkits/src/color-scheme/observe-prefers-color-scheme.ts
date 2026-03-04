@@ -1,3 +1,5 @@
+import type { ColorScheme } from './color-scheme.types.ts'
+
 /**
  * Observes system color scheme preference changes and calls handlers when they occur.
  *
@@ -13,7 +15,7 @@
  * cleanup()
  * ```
  */
-export function observePrefersColorScheme(handler: (value: 'light' | 'dark') => void) {
+export function observePrefersColorScheme(handler: (value: ColorScheme) => void) {
 	const m = globalThis.matchMedia('(prefers-color-scheme: light)')
 	const listener = (event: MediaQueryListEvent) => {
 		handler(event.matches ? 'light' : 'dark')
