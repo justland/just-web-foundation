@@ -1,6 +1,8 @@
 # Theme load/save callbacks and multi-source sync facade
 
-**Status:** Draft. Some issues still to be resolved. Implementing **API for saving theme to custom store** first, then returning to this plan.
+**Status:** In progress. ThemeStore architecture and multi-store facade exist. **Remaining:** optional load/save callbacks for custom storage (e.g. backend).
+
+**Last updated:** 2025-03-03
 
 ---
 
@@ -9,7 +11,19 @@
 - **Storage (local/session)**: Sync get/set/observe; storage format is fixed (JSON `{ theme, value }` at a key). [theme.types.ts](../../src/theme/theme.types.ts), [get-theme-from-local-storage.ts](../../src/theme/get-theme-from-local-storage.ts), [set-theme-to-local-storage.ts](../../src/theme/set-theme-to-local-storage.ts).
 - **ClassName / DataAttribute**: Sync get/set/observe; DOM is the source of truth (no persistence). [get-theme-by-class-name.ts](../../src/theme/get-theme-by-class-name.ts), [set-theme-by-class-name.ts](../../src/theme/set-theme-by-class-name.ts), [observe-theme-by-data-attributes.ts](../../src/theme/observe-theme-by-data-attributes.ts).
 
-Storage and DOM serve different roles: **persistence** (where to store theme across reloads) vs **reflection** (how to apply theme to the UI). The facade will treat both as "sources" that can be read from and written to.
+Storage and DOM serve different roles: **persistence** (where to store theme across reloads) vs **reflection** (how to apply theme to the UI). The facade treats both as "sources" that can be read from and written to.
+
+### What's implemented (2025-03-03)
+
+- **ThemeStore interface** ([theme-store.types.ts](../../src/theme/theme-store/theme-store.types.ts)): `read`, `write`, `subscribe` — analogous to the plan's ThemeSource.
+- **Store implementations**: localStorageThemeStore, sessionStorageThemeStore, cookieThemeStore, classNameThemeStore, dataAttributeThemeStore, inMemoryThemeStore, prefersColorSchemeThemeStore.
+- **Multi-store facade**: [getThemeFromStores](../../src/theme/_utils/get-theme-from-stores.ts), [setThemeToStores](../../src/theme/_utils/set-theme-to-stores.ts), [observeThemeFromStores](../../src/theme/_utils/observe-theme-from-stores.ts), [composeThemeStores](../../src/theme/compose-theme-stores.ts).
+- **dataAttributeThemeStore improvements**:
+  - Pure `parseDataAttribute` / `stringifyDataAttribute` in [data-attribute/](../../src/theme/data-attribute/) with configurable separator.
+  - `SEPARATOR_SPACE` constant ([_constant.ts](../../src/theme/data-attribute/_constant.ts)).
+  - Custom `parse` / `stringify` options for formats like comma-separated attributes.
+
+**Not yet implemented:** Optional `load`/`save` callbacks for storage-backed stores (localStorage/sessionStorage) to support custom backends or wire formats.
 
 ---
 
@@ -144,11 +158,15 @@ Conflict resolution (e.g. two sources report different values) can be doc-only a
 
 ## 5. Implementation order
 
-1. **Types**: Add `ThemeResult` and extend options with optional `load`/`save` in theme.types.ts.
-2. **Storage get/set**: Implement load/save in get/set for local and session storage (and their observe still use the getter, so they automatically use `load`).
-3. **Tests + stories**: Extend existing stories or add ones for "custom load/save" (e.g. in-memory object, or mock backend that stores in a variable).
-4. **Facade**: Define `ThemeSource`, implement adapters for local storage, session storage, class name, data attribute; add `createThemeSync`; document behavior (sync order, subscribe semantics, no built-in cross-tab for custom storage).
-5. **Docs**: Document that for backend, use sync `save` and perform async in the app; optionally add a short "async adapter" example.
+| Step | Task | Status |
+|------|------|--------|
+| 1 | **Types**: Add `ThemeResult` and extend options with optional `load`/`save` in theme.types.ts. | Pending |
+| 2 | **Storage get/set**: Implement load/save in localStorageThemeStore and sessionStorageThemeStore (observe uses read, so it would use `load`). | Pending |
+| 3 | **Tests + stories**: Extend existing stories or add ones for "custom load/save" (e.g. in-memory object, or mock backend). | Pending |
+| 4 | **Facade**: ThemeSource + adapters + createThemeSync. | **Done** — ThemeStore + getThemeFromStores/setThemeToStores/observeThemeFromStores/composeThemeStores serve this role. |
+| 5 | **Docs**: Document backend usage; optionally add "async adapter" example. | Pending |
+
+**Note:** The plan's "ThemeSource" is implemented as `ThemeStore`; "adapters" are the store factories (localStorageThemeStore, dataAttributeThemeStore, etc.).
 
 ---
 
@@ -156,9 +174,9 @@ Conflict resolution (e.g. two sources report different values) can be doc-only a
 
 | Aspect                        | Recommendation                                                                                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Load/save**                 | Optional sync `load`/`save` on storage options; keep API sync.                                                                                          |
+| **Load/save**                 | Optional sync `load`/`save` on storage options; keep API sync. *Not yet implemented.*                                                                   |
 | **Async**                     | Not required for v1; app can do async after set; add async helper later if needed.                                                                       |
-| **ClassName / DataAttribute** | No load/save; they remain get/set/observe as reflection; used as sources/targets in the facade.                                                        |
-| **Facade**                    | `ThemeSource` contract + adapters for local, session, class, data-attr + `createThemeSync` to get/set/subscribe and sync across all configured sources. |
+| **ClassName / DataAttribute** | No load/save; they remain get/set/observe as reflection; used as sources/targets. *Implemented as ThemeStore (classNameThemeStore, dataAttributeThemeStore).* |
+| **Facade**                    | ThemeStore contract + store factories + getThemeFromStores/setThemeToStores/observeThemeFromStores/composeThemeStores. *Done.*                            |
 
-This keeps the current API stable, adds flexibility for custom storage and format via callbacks, and unifies multi-source sync behind a single facade without forcing async.
+This keeps the current API stable, adds flexibility for custom storage and format via callbacks (when load/save are added), and unifies multi-source sync behind the existing facade.

@@ -1,8 +1,7 @@
 import { resolveThemeMapValue } from '../_utils/resolve-theme-map-value.ts'
 import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
-
-const SEPARATOR_SPACE = ' '
+import { SEPARATOR_SPACE } from './_constant.ts'
 
 /**
  * Stringifies a ThemeEntry for a data attribute value.
