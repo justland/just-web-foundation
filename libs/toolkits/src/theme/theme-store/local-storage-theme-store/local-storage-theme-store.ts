@@ -1,6 +1,7 @@
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
-import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
-import type { ParseStoredTheme, ThemeEntry } from '../../theme-entry.types.ts'
+import { readLocalStorage } from '../../local-storage/read-local-storage.ts'
+import { writeLocalStorage } from '../../local-storage/write-local-storage.ts'
+import type { ParseStoredTheme, StringifyStoredTheme, ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
@@ -13,6 +14,8 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * @param themes - Record mapping theme keys to values (for validation)
  * @param options.storageKey - localStorage key
  * @param options.parse - Optional custom parser for stored string (default: parseStoredTheme)
+ * @param options.stringify - Optional custom serializer (default: JSON.stringify)
+ * @param options.onError - Optional callback invoked when storage write throws
  * @returns ThemeStore
  *
  * @example
@@ -26,11 +29,16 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function localStorageThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options: { storageKey: string; parse?: ParseStoredTheme<Themes> | undefined }
+	options: {
+		storageKey: string
+		parse?: ParseStoredTheme<Themes> | undefined
+		stringify?: StringifyStoredTheme<Themes> | undefined
+		onError?: ((error: unknown) => void) | undefined
+	}
 ) {
-	const { storageKey, parse = parseStoredTheme } = options
+	const { storageKey, parse, stringify, onError } = options
 
-	if (typeof window === 'undefined' || !window.localStorage) {
+	if (!window?.localStorage) {
 		return dummyThemeStore satisfies ThemeStore<Themes>
 	}
 
@@ -38,8 +46,7 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 	let lastNotifiedKey: keyof Themes | undefined = read()?.theme ?? undefined
 
 	function read() {
-		const stored = window.localStorage.getItem(storageKey)
-		return parse(themes, stored ?? undefined)
+		return readLocalStorage(themes, storageKey, { parse })
 	}
 
 	function notify() {
@@ -53,16 +60,8 @@ export function localStorageThemeStore<Themes extends ThemeMap>(
 	return {
 		read,
 		write(entry) {
-			try {
-				if (entry === undefined) {
-					window.localStorage.removeItem(storageKey)
-				} else {
-					window.localStorage.setItem(storageKey, JSON.stringify(entry))
-				}
-				notify()
-			} catch {
-				// Ignore quota or other errors
-			}
+			writeLocalStorage(themes, storageKey, entry, { stringify, onError })
+			notify()
 		},
 		subscribe(handler) {
 			handlers.add(handler)
