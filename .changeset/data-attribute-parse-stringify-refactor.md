@@ -11,4 +11,4 @@ Refactor data attribute theme store to use pure parse and stringify.
 
 Migration:
 - Replace `retrieveThemeFromDataAttribute(themes, element, attr, { separator })` with `parseDataAttribute(themes, element.getAttribute(attr) ?? undefined, { separator })`.
-- Replace `applyThemeToDataAttribute(themes, element, attr, entry, { separator })` with `element.setAttribute(attr, stringifyDataAttribute(themes, entry, element.getAttribute(attr) ?? undefined, { separator }))` (or use `dataAttributeThemeStore` with curried parse/stringify).
+- Replace `applyThemeToDataAttribute(themes, element, attr, entry, { separator })` with `element.setAttribute(attr, stringifyDataAttribute(themes, element.getAttribute(attr) ?? undefined, entry, { separator }))` (or use `dataAttributeThemeStore` with curried parse/stringify).

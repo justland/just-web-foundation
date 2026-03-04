@@ -14,7 +14,7 @@ const SEPARATOR_SPACE = ' '
  * Creates a theme store that reads and writes via a data attribute.
  *
  * read: parse(themes, getDataAttribute(element, attribute)) → ThemeEntry
- * write: setAttribute(attribute, stringify(themes, entry, getDataAttribute(element, attribute)))
+ * write: setAttribute(attribute, stringify(themes, getDataAttribute(element, attribute), entry))
  *
  * Supports space-separated attribute values by default. Use `parse` and `stringify` to customize
  * (e.g. comma-separated via curried parseDataAttribute/stringifyDataAttribute).
@@ -41,7 +41,7 @@ const SEPARATOR_SPACE = ' '
  * const store = dataAttributeThemeStore(themes, {
  *   attributeName: 'data-theme',
  *   parse: (t, v) => parseDataAttribute(t, v, { separator: ',' }),
- *   stringify: (t, e, x) => stringifyDataAttribute(t, e, x, { separator: ',' })
+ *   stringify: (t, x, e) => stringifyDataAttribute(t, x, e, { separator: ',' })
  * })
  * ```
  */
@@ -58,7 +58,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	const {
 		attributeName,
 		parse = (t, v) => parseDataAttribute(t, v, { separator: SEPARATOR_SPACE }),
-		stringify = (t, e, x) => stringifyDataAttribute(t, e, x, { separator: SEPARATOR_SPACE })
+		stringify = (t, x, e) => stringifyDataAttribute(t, x, e, { separator: SEPARATOR_SPACE })
 	} = options
 
 	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
@@ -74,7 +74,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 				return
 			}
 			const existing = getDataAttribute(attributeName, element) ?? undefined
-			const result = stringify(themes, entry, existing)
+			const result = stringify(themes, existing, entry)
 			if (result === '') {
 				element.removeAttribute(attributeName)
 			} else {

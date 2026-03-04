@@ -25,6 +25,6 @@ export type ParseStoredTheme<Themes extends ThemeMap> = (
  */
 export type StringifyStoredTheme<Themes extends ThemeMap> = (
 	themes: Themes,
-	entry: ThemeEntry<Themes> | undefined,
-	existing: string | undefined
+	existing: string | undefined,
+	entry: ThemeEntry<Themes> | undefined
 ) => string

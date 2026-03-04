@@ -11,15 +11,15 @@ const SEPARATOR_SPACE = ' '
  * Aligns with applyThemeToClassName logic.
  *
  * @param themes - Record mapping theme keys to attribute values (used to identify theme tokens)
- * @param entry - Theme entry to stringify, or undefined to clear theme (keeps non-theme tokens)
  * @param existing - Current attribute value string
+ * @param entry - Theme entry to stringify, or undefined to clear theme (keeps non-theme tokens)
  * @param options.separator - Token separator (default: space)
  * @returns Attribute value string
  */
 export function stringifyDataAttribute<Themes extends ThemeMap>(
 	themes: Themes,
-	entry: ThemeEntry<Themes> | undefined,
 	existing: string | undefined,
+	entry: ThemeEntry<Themes> | undefined,
 	options?: { separator?: string | undefined } | undefined
 ): string {
 	const separator = options?.separator ?? SEPARATOR_SPACE
