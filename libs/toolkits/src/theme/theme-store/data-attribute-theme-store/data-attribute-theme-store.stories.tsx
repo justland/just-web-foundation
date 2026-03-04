@@ -576,7 +576,7 @@ function createCommaSeparatedStore<Themes extends ThemeMap>(
 		attributeName: attrName,
 		element,
 		parse: (t, v) => parseDataAttribute(t, v, { separator: SEPARATOR_COMMA }),
-		stringify: (t, e, x) => stringifyDataAttribute(t, e, x, { separator: SEPARATOR_COMMA })
+		stringify: (t, x, e) => stringifyDataAttribute(t, x, e, { separator: SEPARATOR_COMMA })
 	})
 }
 
@@ -681,7 +681,7 @@ export const ParseStringifyCommaSeparated: Story = {
 					attributeName,
 					element: target,
 					parse: (t, v) => parseDataAttribute(t, v, { separator: ',' }),
-					stringify: (t, e, x) => stringifyDataAttribute(t, e, x, { separator: ',' })
+					stringify: (t, x, e) => stringifyDataAttribute(t, x, e, { separator: ',' })
 				})
 			`
 		})
