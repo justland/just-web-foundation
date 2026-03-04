@@ -1,0 +1,1 @@
+import{r as t,w as i}from"./write-web-storage-C2zTqgEU.js";function g(r,o,a){if(window?.localStorage)return t(r,o,{storage:window.localStorage,parse:a?.parse})}function w(r,o,a,e){window?.localStorage&&i(r,o,a,{storage:window.localStorage,stringify:e?.stringify,onError:e?.onError})}export{g as r,w};
