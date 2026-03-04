@@ -5,7 +5,7 @@ import source from './color-scheme.types.ts?raw'
 
 const meta: Meta = {
 	title: 'color-scheme/ColorScheme',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:2.1'],
 	render: () => <></>
 }
 
