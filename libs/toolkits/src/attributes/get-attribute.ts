@@ -2,7 +2,7 @@
  * Gets the value of an attribute from an element.
  *
  * @param qualifiedName - The name of the attribute to get
- * @param element - The element to get the attribute from. Defaults to `document.documentElement`
+ * @param element - The element to get the attribute from (accepts null e.g. from refs). Defaults to `document.documentElement`
  * @returns The attribute value cast to type T, or null if the attribute doesn't exist
  *
  * @example
@@ -14,7 +14,10 @@
  * const testId = getAttribute('data-testid', element)
  * ```
  */
-export function getAttribute<T extends string>(qualifiedName: T, element?: Element | undefined) {
+export function getAttribute<T extends string>(
+	qualifiedName: T,
+	element?: Element | null | undefined
+) {
 	element = element ?? globalThis.document.documentElement
 	return element.getAttribute(qualifiedName)
 }

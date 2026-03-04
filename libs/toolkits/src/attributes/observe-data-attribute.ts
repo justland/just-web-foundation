@@ -5,7 +5,7 @@ import { observeAttributes } from './observe-attribute.ts'
  *
  * @param options - Configuration options
  * @param options.handlers - An object mapping `data-*` attribute names to handler functions.
- * @param options.element - The element to observe. Defaults to `document.documentElement`
+ * @param options.element - The element to observe (accepts null e.g. from refs). Defaults to `document.documentElement`
  * @returns {MutationObserver} The observer instance, which can be used to disconnect the observer
  *
  * @example
@@ -23,7 +23,7 @@ import { observeAttributes } from './observe-attribute.ts'
  */
 export function observeDataAttributes<T extends string, K extends `data-${string}`>(
 	handlers: Record<K, (value: T | null) => void>,
-	element?: Element | undefined
+	element?: Element | null | undefined
 ) {
 	return observeAttributes(handlers, element)
 }

@@ -19,7 +19,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @param themes - Record mapping theme keys to attribute values
  * @param options.attributeName - Data attribute name (e.g. `data-theme`)
- * @param options.element - Element to operate on (defaults to document.documentElement)
+ * @param options.element - Element to operate on (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.parse - Custom parser (default: parseDataAttribute with space separator)
  * @param options.stringify - Custom serializer (default: stringifyDataAttribute with space separator)
  * @returns ThemeStore
@@ -47,7 +47,7 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
 	options: {
 		attributeName: `data-${string}`
-		element?: Element | undefined
+		element?: Element | null | undefined
 		parse?: ParseStoredTheme<Themes> | undefined
 		stringify?: StringifyStoredTheme<Themes> | undefined
 	}

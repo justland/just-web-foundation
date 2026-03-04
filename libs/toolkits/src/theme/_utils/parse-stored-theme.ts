@@ -38,12 +38,12 @@ function getCanonicalShapeAndComparable(v: ThemeMapValue): {
  * returns { theme, value: stored.value }. Else returns undefined.
  *
  * @param themes - Record of valid theme keys and values (required for validation)
- * @param value - Raw string from localStorage/sessionStorage/cookie
+ * @param value - Raw string from localStorage/sessionStorage/cookie (accepts null)
  * @returns ThemeEntry when valid, otherwise undefined
  */
 export function parseStoredTheme<Themes extends ThemeMap>(
 	themes: Themes | undefined,
-	value: string | undefined
+	value: string | null | undefined
 ): ThemeEntry<Themes> | undefined {
 	const parsed = tryParseJSON<{ theme: string; value?: unknown }>(value ?? null)
 	if (!parsed?.theme || typeof parsed.theme !== 'string') return undefined

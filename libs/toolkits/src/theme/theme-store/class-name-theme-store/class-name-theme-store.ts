@@ -13,7 +13,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
  * Creates a theme store that reads and writes via element class names.
  *
  * @param themes - Record mapping theme keys to class name(s)
- * @param options.element - Element to operate on (defaults to document.documentElement)
+ * @param options.element - Element to operate on (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.parse - Custom parser (default: parseClassName)
  * @param options.stringify - Custom serializer (default: stringifyClassName)
  * @returns ThemeStore
@@ -30,7 +30,7 @@ import type { ThemeStore } from '../theme-store.types.ts'
 export function classNameThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
 	options?: {
-		element?: Element | undefined
+		element?: Element | null | undefined
 		parse?: ParseStoredTheme<Themes> | undefined
 		stringify?: StringifyStoredTheme<Themes> | undefined
 	}

@@ -8,7 +8,7 @@ import { parseClassName } from './parse-class-name.ts'
  *
  * @param themes - Record mapping theme keys to class name(s)
  * @param handler - Callback invoked when the class attribute changes
- * @param options.element - Element to observe (defaults to document.documentElement)
+ * @param options.element - Element to observe (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.parse - Custom parser (default: parseClassName)
  * @returns Unsubscribe function. Returns a no-op function when element is not available (e.g. SSR).
  */
@@ -16,7 +16,7 @@ export function subscribeClassName<Themes extends ThemeMap>(
 	themes: Themes,
 	handler: (entry: ThemeEntry<Themes> | undefined) => void,
 	options?:
-		| { element?: Element | undefined; parse?: ParseStoredTheme<Themes> | undefined }
+		| { element?: Element | null | undefined; parse?: ParseStoredTheme<Themes> | undefined }
 		| undefined
 ): () => void {
 	const element = options?.element ?? document?.documentElement

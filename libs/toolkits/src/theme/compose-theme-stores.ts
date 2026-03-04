@@ -74,7 +74,7 @@ export function composeThemeStores<
 		(s): s is StoreWithSubscribe<Themes> => typeof s.subscribe === 'function'
 	)
 
-	function subscribe(handler: (theme: ThemeEntry<Themes> | undefined | null) => void): () => void {
+	function subscribe(handler: (theme: ThemeEntry<Themes> | undefined) => void): () => void {
 		let scheduled = false
 		let lastEmitted: keyof Themes | undefined
 

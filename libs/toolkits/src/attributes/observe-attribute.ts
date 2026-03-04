@@ -2,7 +2,7 @@
  * Observes attributes changes on an element and calls corresponding handlers.
  *
  * @param handlers - An object mapping attribute names to handler functions.
- * @param element - The element to observe. Defaults to `document.documentElement`.
+ * @param element - The element to observe (accepts null e.g. from refs). Defaults to `document.documentElement`.
  * @returns {MutationObserver} The observer instance, which can be used to disconnect the observer.
  *
  * @example
@@ -18,7 +18,7 @@
  */
 export function observeAttributes<T extends string>(
 	handlers: Record<string, (value: T | null) => void>,
-	element?: Element | undefined
+	element?: Element | null | undefined
 ) {
 	element = element ?? globalThis.document.documentElement
 	const observer = new MutationObserver((mutations) => {

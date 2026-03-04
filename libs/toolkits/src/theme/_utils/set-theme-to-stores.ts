@@ -4,18 +4,18 @@ import type { AsyncThemeStore } from '../theme-store/async-theme-store.types.ts'
 import type { ThemeStore } from '../theme-store/theme-store.types.ts'
 
 type StoreWithWrite<Themes extends ThemeMap> = (ThemeStore<Themes> | AsyncThemeStore<Themes>) & {
-	write: (entry: ThemeEntry<Themes> | undefined) => void | Promise<void>
+	write: (entry: ThemeEntry<Themes> | null | undefined) => void | Promise<void>
 }
 
 /**
  * Writes theme entry to all stores that have a write method.
  *
  * @param stores - Array of theme stores
- * @param entry - Theme entry to write, or undefined to clear
+ * @param entry - Theme entry to write, or null/undefined to clear
  */
 export async function setThemeToStores<Themes extends ThemeMap>(
 	stores: (ThemeStore<Themes> | AsyncThemeStore<Themes>)[],
-	entry: ThemeEntry<Themes> | undefined
+	entry: ThemeEntry<Themes> | null | undefined
 ): Promise<void> {
 	const withWrite = stores.filter((s): s is StoreWithWrite<Themes> => typeof s.write === 'function')
 

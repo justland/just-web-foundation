@@ -24,7 +24,5 @@ import type { ThemeMap } from '../theme-map.types.ts'
 export interface ThemeStore<Themes extends ThemeMap = ThemeMap> {
 	read?: (() => ThemeEntry<Themes> | undefined) | undefined
 	write?: ((entry: ThemeEntry<Themes> | undefined) => void) | undefined
-	subscribe?:
-		| ((handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void)
-		| undefined
+	subscribe?: ((handler: (theme: ThemeEntry<Themes> | undefined) => void) => () => void) | undefined
 }

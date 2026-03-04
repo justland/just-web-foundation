@@ -31,7 +31,7 @@ function createBackendStore(
 	delayMs = 50
 ): AsyncThemeStore<typeof themes> {
 	let value = initial
-	const listeners: Array<(entry: ThemeEntry<typeof themes> | undefined | null) => void> = []
+	const listeners: Array<(entry: ThemeEntry<typeof themes> | undefined) => void> = []
 	return {
 		async read() {
 			return new Promise((resolve) => {
@@ -42,7 +42,7 @@ function createBackendStore(
 			return new Promise((resolve) => {
 				setTimeout(() => {
 					value = entry ?? undefined
-					for (const fn of listeners) fn(entry ?? null)
+					for (const fn of listeners) fn(entry ?? undefined)
 					resolve()
 				}, delayMs)
 			})
@@ -153,7 +153,7 @@ function createZustandThemeStore(initial: ThemeEntry<typeof themes> | undefined)
 		write: (entry) => zustandStore.setState({ entry: entry ?? undefined }),
 		subscribe: (handler) =>
 			zustandStore.subscribe((state, prev) => {
-				if (state.entry !== prev?.entry) handler(state.entry ?? null)
+				if (state.entry !== prev?.entry) handler(state.entry ?? undefined)
 			})
 	} satisfies ThemeStore<typeof themes>
 	return { store, zustandStore }
@@ -218,7 +218,7 @@ function createJotaiThemeStore(initial: ThemeEntry<typeof themes> | undefined) {
 		read: () => jotaiStore.get(entryAtom),
 		write: (entry) => jotaiStore.set(entryAtom, entry ?? undefined),
 		subscribe: (handler) =>
-			jotaiStore.sub(entryAtom, () => handler(jotaiStore.get(entryAtom) ?? null))
+			jotaiStore.sub(entryAtom, () => handler(jotaiStore.get(entryAtom) ?? undefined))
 	} satisfies ThemeStore<typeof themes>
 }
 

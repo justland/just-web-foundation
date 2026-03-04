@@ -132,8 +132,7 @@ export const SubscribeOnly: Story = {
 			)
 		}),
 		showSource({
-			source:
-				'subscribe?: (handler: (theme: ThemeEntry<Themes> | undefined | null) => void) => () => void'
+			source: 'subscribe?: (handler: (theme: ThemeEntry<Themes> | undefined) => void) => () => void'
 		}),
 		showSource({
 			source: dedent`
@@ -148,9 +147,9 @@ export const SubscribeOnly: Story = {
 		})
 	],
 	render: () => {
-		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined | null>(undefined)
+		const [entry, setEntry] = useState<ThemeEntry<typeof themes> | undefined>(undefined)
 		const store = {
-			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined | null) => void) => {
+			subscribe: (handler: (theme: ThemeEntry<typeof themes> | undefined) => void) => {
 				handler(themeEntry(themes, 'grayscale'))
 				return () => {}
 			}

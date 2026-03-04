@@ -282,7 +282,7 @@ const STORAGE_KEY_PARSE = 'theme-ls-func-parse'
 /** Custom parse: accept legacy { theme } without value, coerce to themeEntry */
 function customParseLegacy<Themes extends typeof themes>(
 	themesMap: Themes,
-	value: string | undefined
+	value: string | null | undefined
 ): ThemeEntry<Themes> | undefined {
 	let parsed: { theme?: string } | undefined
 	try {

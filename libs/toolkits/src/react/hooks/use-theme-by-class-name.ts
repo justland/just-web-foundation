@@ -11,7 +11,7 @@ import { classNameThemeStore } from '../../theme/theme-store/class-name-theme-st
  *
  * @param themes - Record mapping theme keys to their class name values
  * @param options.theme - Fallback theme key when no matching class is found
- * @param options.element - Element to read/set theme on (defaults to document.documentElement)
+ * @param options.element - Element to read/set theme on (accepts null e.g. from refs). Defaults to document.documentElement.
  * @returns Tuple of [currentTheme, setTheme]
  *
  * @example
@@ -32,7 +32,7 @@ export function useThemeByClassName<Themes extends ThemeMap>(
 	themes: Themes,
 	options?: {
 		defaultTheme?: keyof Themes | undefined
-		element?: Element | undefined
+		element?: Element | null | undefined
 	}
 ): [keyof Themes | undefined, (theme: keyof Themes) => void] {
 	const element =

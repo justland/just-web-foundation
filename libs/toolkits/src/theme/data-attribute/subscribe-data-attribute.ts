@@ -10,7 +10,7 @@ import { parseDataAttribute } from './parse-data-attribute.ts'
  * @param themes - Record mapping theme keys to attribute values
  * @param attributeName - Data attribute name (e.g. `data-theme`)
  * @param handler - Callback invoked when the attribute changes
- * @param options.element - Element to observe (defaults to document.documentElement)
+ * @param options.element - Element to observe (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.parse - Custom parser (default: parseDataAttribute with space separator)
  * @returns Unsubscribe function. Returns a no-op function when element is not available (e.g. SSR).
  */
@@ -19,7 +19,7 @@ export function subscribeDataAttribute<Themes extends ThemeMap>(
 	attributeName: `data-${string}`,
 	handler: (entry: ThemeEntry<Themes> | undefined) => void,
 	options?:
-		| { element?: Element | undefined; parse?: ParseStoredTheme<Themes> | undefined }
+		| { element?: Element | null | undefined; parse?: ParseStoredTheme<Themes> | undefined }
 		| undefined
 ): () => void {
 	const element = options?.element ?? document?.documentElement

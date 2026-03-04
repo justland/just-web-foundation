@@ -9,14 +9,14 @@ import { writeWebStorage } from '../web-storage/write-web-storage.ts'
  *
  * @param themes - Record mapping theme keys to values (used by stringify)
  * @param storageKey - sessionStorage key to write to
- * @param entry - Theme entry to write, or undefined to remove
+ * @param entry - Theme entry to write, or null/undefined to remove
  * @param options.stringify - Custom serializer (default: JSON.stringify)
  * @param options.onError - Optional callback invoked when storage write throws
  */
 export function writeSessionStorage<Themes extends ThemeMap>(
 	themes: Themes,
 	storageKey: string,
-	entry: ThemeEntry<Themes> | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options?: {
 		stringify?: StringifyStoredTheme<Themes> | undefined
 		onError?: ((error: unknown) => void) | undefined

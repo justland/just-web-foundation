@@ -10,15 +10,15 @@ import { SEPARATOR_SPACE } from './_constant.ts'
  * Aligns with stringifyClassName logic.
  *
  * @param themes - Record mapping theme keys to attribute values (used to identify theme tokens)
- * @param existing - Current attribute value string
- * @param entry - Theme entry to stringify, or undefined to clear theme (keeps non-theme tokens)
+ * @param existing - Current attribute value string (accepts null e.g. from getAttribute)
+ * @param entry - Theme entry to stringify, or null/undefined to clear theme (keeps non-theme tokens)
  * @param options.separator - Token separator (default: space)
  * @returns Attribute value string
  */
 export function stringifyDataAttribute<Themes extends ThemeMap>(
 	themes: Themes,
-	existing: string | undefined,
-	entry: ThemeEntry<Themes> | undefined,
+	existing: string | null | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options?: { separator?: string | undefined } | undefined
 ): string {
 	const separator = options?.separator ?? SEPARATOR_SPACE
@@ -26,10 +26,10 @@ export function stringifyDataAttribute<Themes extends ThemeMap>(
 		const resolved = resolveThemeMapValue(v)
 		return Array.isArray(resolved) ? [...resolved] : [resolved]
 	})
-	const existingTokens = existing?.trim() ? existing.trim().split(separator) : []
+	const existingTokens = (existing ?? '')?.trim() ? (existing ?? '').trim().split(separator) : []
 	const withoutThemeValues = existingTokens.filter((t) => !allThemeValues.includes(t.trim()))
 	const newTokens =
-		entry !== undefined
+		entry != null
 			? (() => {
 					const resolved = resolveThemeMapValue(entry.value)
 					return Array.isArray(resolved) ? [resolved[0]] : [resolved]

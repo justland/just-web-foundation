@@ -6,15 +6,15 @@ import { stringifyClassName } from './stringify-class-name.ts'
  * Writes a theme entry to the class attribute on an element.
  *
  * @param themes - Record mapping theme keys to class name(s)
- * @param entry - Theme entry to write, or undefined to remove the theme
- * @param options.element - Element to write to (defaults to document.documentElement)
+ * @param entry - Theme entry to write, or null/undefined to remove the theme
+ * @param options.element - Element to write to (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.stringify - Custom serializer (default: stringifyClassName)
  */
 export function writeClassName<Themes extends ThemeMap>(
 	themes: Themes,
-	entry: ThemeEntry<Themes> | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options?:
-		| { element?: Element | undefined; stringify?: StringifyStoredTheme<Themes> | undefined }
+		| { element?: Element | null | undefined; stringify?: StringifyStoredTheme<Themes> | undefined }
 		| undefined
 ): void {
 	const element = options?.element ?? document?.documentElement

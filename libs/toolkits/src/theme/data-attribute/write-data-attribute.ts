@@ -9,16 +9,16 @@ import { stringifyDataAttribute } from './stringify-data-attribute.ts'
  *
  * @param themes - Record mapping theme keys to attribute values
  * @param attributeName - Data attribute name (e.g. `data-theme`)
- * @param entry - Theme entry to write, or undefined to remove the theme
- * @param options.element - Element to write to (defaults to document.documentElement)
+ * @param entry - Theme entry to write, or null/undefined to remove the theme
+ * @param options.element - Element to write to (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.stringify - Custom serializer (default: stringifyDataAttribute with space separator)
  */
 export function writeDataAttribute<Themes extends ThemeMap>(
 	themes: Themes,
 	attributeName: `data-${string}`,
-	entry: ThemeEntry<Themes> | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options?:
-		| { element?: Element | undefined; stringify?: StringifyStoredTheme<Themes> | undefined }
+		| { element?: Element | null | undefined; stringify?: StringifyStoredTheme<Themes> | undefined }
 		| undefined
 ): void {
 	const element = options?.element ?? document?.documentElement
@@ -26,7 +26,7 @@ export function writeDataAttribute<Themes extends ThemeMap>(
 	const stringify =
 		options?.stringify ??
 		((t, x, e) => stringifyDataAttribute(t, x, e, { separator: SEPARATOR_SPACE }))
-	if (entry === undefined) {
+	if (entry == null) {
 		element.removeAttribute(attributeName)
 		return
 	}

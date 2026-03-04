@@ -101,16 +101,14 @@ function createSharedChannel<Themes extends ThemeMap>(
 		}
 	}
 
-	const handleStoreUpdate = (entry: ThemeEntry<Themes> | undefined | null) => {
+	const handleStoreUpdate = (entry: ThemeEntry<Themes> | undefined) => {
 		notify(entry?.theme ?? defaultTheme)
 	}
 
 	// Initial read to populate lastTheme (compose store subscribe has no initial notify)
-	void Promise.resolve(composedStore.read()).then(
-		(entry: ThemeEntry<Themes> | undefined | null) => {
-			notify(entry?.theme ?? defaultTheme)
-		}
-	)
+	void Promise.resolve(composedStore.read()).then((entry: ThemeEntry<Themes> | undefined) => {
+		notify(entry?.theme ?? defaultTheme)
+	})
 
 	let unobserve: () => void = composedStore.subscribe(handleStoreUpdate)
 	let isSubscribedToStore = true

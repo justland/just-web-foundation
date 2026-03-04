@@ -16,12 +16,12 @@ export interface WriteCookieThemeOptions<_Themes extends ThemeMap = ThemeMap> {
  * Performs cookie set/delete only. Does not notify subscribers; the store must call notify() after this.
  *
  * @param themes - Record mapping theme keys to values (used for type validation)
- * @param entry - Theme entry to write, or undefined to remove
+ * @param entry - Theme entry to write, or null/undefined to remove
  * @param options - Cookie options
  */
 export function writeCookieTheme<Themes extends ThemeMap>(
 	_themes: Themes,
-	entry: ThemeEntry<Themes> | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options: WriteCookieThemeOptions<Themes>
 ): void {
 	const { cookieName, path = '/', maxAge, sameSite, secure } = options
@@ -30,7 +30,7 @@ export function writeCookieTheme<Themes extends ThemeMap>(
 		return
 	}
 
-	if (entry === undefined) {
+	if (entry == null) {
 		deleteCookie(cookieName, path)
 		return
 	}
