@@ -2,8 +2,7 @@ import { matchAttributeValueToTheme } from '../_utils/match-attribute-value-to-t
 import { themeEntry } from '../theme-entry.ts'
 import type { ThemeEntry } from '../theme-entry.types.ts'
 import type { ThemeMap } from '../theme-map.types.ts'
-
-const SEPARATOR_SPACE = ' '
+import { SEPARATOR_SPACE } from './_constant.ts'
 
 /**
  * Parses a data attribute value string into a ThemeEntry.

@@ -1,14 +1,12 @@
-import type { Required } from 'type-plus'
-import { getDataAttribute } from '../../../attributes/get-data-attribute.ts'
-import { observeDataAttributes } from '../../../attributes/observe-data-attribute.ts'
-import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
+import { SEPARATOR_SPACE } from '../../data-attribute/_constant.ts'
 import { parseDataAttribute } from '../../data-attribute/parse-data-attribute.ts'
+import { readDataAttribute } from '../../data-attribute/read-data-attribute.ts'
 import { stringifyDataAttribute } from '../../data-attribute/stringify-data-attribute.ts'
+import { subscribeDataAttribute } from '../../data-attribute/subscribe-data-attribute.ts'
+import { writeDataAttribute } from '../../data-attribute/write-data-attribute.ts'
 import type { ParseStoredTheme, StringifyStoredTheme } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
-
-const SEPARATOR_SPACE = ' '
 
 /**
  * Creates a theme store that reads and writes via a data attribute.
@@ -61,37 +59,15 @@ export function dataAttributeThemeStore<Themes extends ThemeMap>(
 		stringify = (t, x, e) => stringifyDataAttribute(t, x, e, { separator: SEPARATOR_SPACE })
 	} = options
 
-	if (!element) return dummyThemeStore as Required<ThemeStore<Themes>>
-
 	return {
 		read() {
-			const raw = getDataAttribute(attributeName, element) ?? undefined
-			return parse(themes, raw)
+			return readDataAttribute(themes, attributeName, { element, parse })
 		},
 		write(entry) {
-			if (entry === undefined) {
-				element.removeAttribute(attributeName)
-				return
-			}
-			const existing = getDataAttribute(attributeName, element) ?? undefined
-			const result = stringify(themes, existing, entry)
-			if (result === '') {
-				element.removeAttribute(attributeName)
-			} else {
-				element.setAttribute(attributeName, result)
-			}
+			writeDataAttribute(themes, attributeName, entry, { element, stringify })
 		},
 		subscribe(handler) {
-			const observer = observeDataAttributes<string, `data-${string}`>(
-				{
-					[attributeName]: (value) => {
-						const entry = parse(themes, value ?? undefined)
-						handler(entry)
-					}
-				},
-				element
-			)
-			return () => observer.disconnect()
+			return subscribeDataAttribute(themes, attributeName, handler, { element, parse })
 		}
 	} satisfies ThemeStore<Themes>
 }
