@@ -1,0 +1,1 @@
+import{p as f}from"./parse-stored-theme-Dsx2RsUi.js";function c(o,t,e){const{storage:i,parse:r=f}=e;return r(o,i.getItem(t)??void 0)}function m(o,t,e){return e==null?"":JSON.stringify(e)}function g(o,t,e,i){const{storage:r,stringify:s=m,onError:a}=i;try{if(e==null)r.removeItem(t);else{const n=s(o,r.getItem(t)??void 0,e);r.setItem(t,n)}}catch(n){a?.(n)}}export{c as r,g as w};
