@@ -1,5 +1,32 @@
 # @just-web/toolkits
 
+## 2.0.0
+
+### Major Changes
+
+- e81d0ca: Refactor data attribute theme store to use pure parse and stringify.
+
+  - Remove `retrieveThemeFromDataAttribute` and `applyThemeToDataAttribute`.
+  - Add `parseDataAttribute` and `stringifyDataAttribute` with `options.separator` for space or comma-separated values.
+  - `dataAttributeThemeStore` now uses `ParseStoredTheme` and `StringifyStoredTheme` types. Default parse/stringify use space separator; curry with `{ separator: ',' }` for comma-separated.
+  - Write logic aligns with `stringifyClassName`: remove all theme values from existing, add entry's value.
+
+  Migration:
+
+  - Replace `retrieveThemeFromDataAttribute(themes, element, attr, { separator })` with `parseDataAttribute(themes, element.getAttribute(attr) ?? undefined, { separator })`.
+  - Replace `applyThemeToDataAttribute(themes, element, attr, entry, { separator })` with `element.setAttribute(attr, stringifyDataAttribute(themes, element.getAttribute(attr) ?? undefined, entry, { separator }))` (or use `dataAttributeThemeStore` with curried parse/stringify).
+
+### Minor Changes
+
+- cfffaa4: Export `parseClassName`, `stringifyClassName`, `readClassName`, `writeClassName`, and `subscribeClassName` for className theme handling. `classNameThemeStore` now delegates to these functions and supports optional `parse` and `stringify` options for customization.
+- 7e6e9d2: Add functional form for cookie and prefers-color-scheme theme stores. Export `readCookieTheme`, `writeCookieTheme`, `readPrefersColorSchemeTheme`, and `subscribePrefersColorSchemeTheme` for composable theme handling. `cookieThemeStore` and `prefersColorSchemeThemeStore` now delegate to these functions.
+- dd65b13: Add optional `parse` option to `cookieThemeStore`, `localStorageThemeStore`, and `sessionStorageThemeStore` for custom parsing of stored theme strings. Export `ParseStoredTheme` type from theme entry point for typing custom parsers.
+- f49019d: Add functional web storage decomposition and optional `onError` callback for theme persistence.
+
+  - Export `readWebStorage`, `writeWebStorage`, `readLocalStorage`, `writeLocalStorage`, `readSessionStorage`, and `writeSessionStorage` for composable theme storage operations.
+  - `localStorageThemeStore` and `sessionStorageThemeStore` now delegate to these functions.
+  - Add optional `onError?: (error: unknown) => void` to both stores and write functions. Invoked when `setItem`/`removeItem` throws (e.g. quota exceeded, `SecurityError` in private mode). Silent failure when not provided.
+
 ## 1.0.0
 
 ### Major Changes
