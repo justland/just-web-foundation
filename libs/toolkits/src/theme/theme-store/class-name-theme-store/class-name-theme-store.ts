@@ -1,9 +1,11 @@
 import type { Required } from 'type-plus'
-import { observeAttributes } from '../../../attributes/observe-attribute.ts'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
-import { applyThemeToClassName } from '../../class-name/apply-theme-to-class-name.ts'
-import { resolveThemeFromClassName } from '../../class-name/resolve-theme-from-class-name.ts'
-import { themeEntry } from '../../theme-entry.ts'
+import { parseClassName } from '../../class-name/parse-class-name.ts'
+import { readClassName } from '../../class-name/read-class-name.ts'
+import { stringifyClassName } from '../../class-name/stringify-class-name.ts'
+import { subscribeClassName } from '../../class-name/subscribe-class-name.ts'
+import { writeClassName } from '../../class-name/write-class-name.ts'
+import type { ParseStoredTheme, StringifyStoredTheme } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
@@ -12,6 +14,8 @@ import type { ThemeStore } from '../theme-store.types.ts'
  *
  * @param themes - Record mapping theme keys to class name(s)
  * @param options.element - Element to operate on (defaults to document.documentElement)
+ * @param options.parse - Custom parser (default: parseClassName)
+ * @param options.stringify - Custom serializer (default: stringifyClassName)
  * @returns ThemeStore
  *
  * @example
@@ -25,38 +29,28 @@ import type { ThemeStore } from '../theme-store.types.ts'
  */
 export function classNameThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
-	options?: { element?: Element | undefined }
+	options?: {
+		element?: Element | undefined
+		parse?: ParseStoredTheme<Themes> | undefined
+		stringify?: StringifyStoredTheme<Themes> | undefined
+	}
 ): Required<ThemeStore<Themes>> {
 	const element = options?.element ?? document?.documentElement
 
 	if (!element) return dummyThemeStore
 
+	const parse = options?.parse ?? parseClassName
+	const stringify = options?.stringify ?? stringifyClassName
+
 	return {
 		read() {
-			const theme = resolveThemeFromClassName(themes, element.className)
-			if (theme === undefined) return undefined
-			return themeEntry(themes, theme)
+			return readClassName(themes, { element, parse })
 		},
 		write(entry) {
-			applyThemeToClassName(themes, element, entry)
+			writeClassName(themes, entry, { element, stringify })
 		},
 		subscribe(handler) {
-			let lastEmitted: keyof Themes | undefined | null = null
-			const observer = observeAttributes(
-				{
-					class: (value) => {
-						const theme = value ? resolveThemeFromClassName(themes, value) : undefined
-						const entry = theme ? themeEntry(themes, theme) : undefined
-						const key = theme ?? undefined
-
-						if (lastEmitted === key) return
-						lastEmitted = key
-						handler(entry)
-					}
-				},
-				element
-			)
-			return () => observer.disconnect()
+			return subscribeClassName(themes, handler, { element, parse })
 		}
 	}
 }

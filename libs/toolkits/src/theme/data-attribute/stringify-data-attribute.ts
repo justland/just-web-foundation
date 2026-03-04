@@ -7,7 +7,7 @@ import { SEPARATOR_SPACE } from './_constant.ts'
  * Stringifies a ThemeEntry for a data attribute value.
  *
  * Pure function: no DOM access. Removes all theme values from existing, then adds entry's value(s).
- * Aligns with applyThemeToClassName logic.
+ * Aligns with stringifyClassName logic.
  *
  * @param themes - Record mapping theme keys to attribute values (used to identify theme tokens)
  * @param existing - Current attribute value string
