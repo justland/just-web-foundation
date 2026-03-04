@@ -4,8 +4,8 @@ import dedent from 'dedent'
 import { useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
 import { readWebStorage, themeEntry, writeWebStorage } from '#just-web/toolkits/theme'
-import { Button } from '../../../testing/button.tsx'
-import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
+import { Button } from '../../testing/button.tsx'
+import { ThemeResultCard } from '../../testing/theme/theme-result-card.tsx'
 
 const meta = {
 	title: 'theme/web-storage',
