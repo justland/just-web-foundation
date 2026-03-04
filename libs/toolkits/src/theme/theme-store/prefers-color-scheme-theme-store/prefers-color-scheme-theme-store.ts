@@ -1,7 +1,6 @@
 import type { RequiredPick } from 'type-plus'
-import { getPrefersColorScheme } from '../../../color-scheme/get-prefers-color-scheme.ts'
-import { observePrefersColorScheme } from '../../../color-scheme/observe-prefers-color-scheme.ts'
-import { themeEntry } from '../../theme-entry.ts'
+import { readPrefersColorSchemeTheme } from '../../prefers-color-scheme-theme/read-prefers-color-scheme-theme.ts'
+import { subscribePrefersColorSchemeTheme } from '../../prefers-color-scheme-theme/subscribe-prefers-color-scheme-theme.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
 
 type PrefersColorSchemeThemes = {
@@ -34,10 +33,10 @@ export function prefersColorSchemeThemeStore<Themes extends PrefersColorSchemeTh
 ): RequiredPick<ThemeStore<Themes>, 'read' | 'subscribe'> {
 	return {
 		read() {
-			return themeEntry(themes, getPrefersColorScheme())
+			return readPrefersColorSchemeTheme(themes)
 		},
 		subscribe(handler) {
-			return observePrefersColorScheme((scheme) => handler(themeEntry(themes, scheme)))
+			return subscribePrefersColorSchemeTheme(themes, handler)
 		}
 	}
 }

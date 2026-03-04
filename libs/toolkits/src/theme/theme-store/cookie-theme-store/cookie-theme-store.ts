@@ -1,6 +1,9 @@
 import type { Required } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
+import { getCookieFromHeader } from '../../cookie/_cookie-utils.ts'
+import { readCookieTheme } from '../../cookie/read-cookie-theme.ts'
+import { writeCookieTheme } from '../../cookie/write-cookie-theme.ts'
 import type { ParseStoredTheme, ThemeEntry } from '../../theme-entry.types.ts'
 import type { ThemeMap } from '../../theme-map.types.ts'
 import type { ThemeStore } from '../theme-store.types.ts'
@@ -12,37 +15,6 @@ export interface CookieThemeStoreOptions<Themes extends ThemeMap = ThemeMap> {
 	sameSite?: 'lax' | 'strict' | 'none' | undefined
 	secure?: boolean | undefined
 	parse?: ParseStoredTheme<Themes> | undefined
-}
-
-function getCookieValue(name: string): string | null {
-	if (typeof document === 'undefined' || !document.cookie) return null
-	const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`))
-	const value = match?.[1]
-	return value !== undefined ? decodeURIComponent(value) : null
-}
-
-function setCookie(
-	name: string,
-	value: string,
-	options: {
-		path?: string | undefined
-		maxAge?: number | undefined
-		sameSite?: 'lax' | 'strict' | 'none' | undefined
-		secure?: boolean | undefined
-	}
-) {
-	const parts = [`${name}=${encodeURIComponent(value)}`]
-	parts.push(`path=${options.path ?? '/'}`)
-	if (options.maxAge !== undefined) parts.push(`max-age=${options.maxAge}`)
-	if (options.sameSite !== undefined) parts.push(`samesite=${options.sameSite}`)
-	if (options.secure) parts.push('secure')
-	// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API has limited support; document.cookie is standard for theme persistence
-	document.cookie = parts.join('; ')
-}
-
-function deleteCookie(name: string, path = '/') {
-	// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API has limited support; document.cookie is standard for theme persistence
-	document.cookie = `${name}=; path=${path}; max-age=0`
 }
 
 /**
@@ -84,8 +56,7 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 	let lastNotifiedKey: keyof Themes | undefined = read()?.theme ?? undefined
 
 	function read() {
-		const stored = getCookieValue(cookieName)
-		return parse(themes, stored ?? undefined)
+		return readCookieTheme(themes, { cookieName, path, parse })
 	}
 
 	function notify() {
@@ -100,20 +71,13 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 		read,
 		write(entry) {
 			try {
-				if (entry === undefined) {
-					deleteCookie(cookieName, path)
-				} else {
-					const opts: {
-						path: string
-						maxAge?: number
-						sameSite?: 'lax' | 'strict' | 'none'
-						secure?: boolean
-					} = { path }
-					if (maxAge !== undefined) opts.maxAge = maxAge
-					if (sameSite !== undefined) opts.sameSite = sameSite
-					if (secure) opts.secure = true
-					setCookie(cookieName, JSON.stringify(entry), opts)
-				}
+				writeCookieTheme(themes, entry, {
+					cookieName,
+					path,
+					maxAge,
+					sameSite,
+					secure
+				})
 				notify()
 			} catch {
 				// Ignore quota or other errors
@@ -126,12 +90,6 @@ export function cookieThemeStore<Themes extends ThemeMap>(
 			}
 		}
 	} satisfies ThemeStore<Themes>
-}
-
-function getCookieFromHeader(cookieHeader: string, name: string): string | null {
-	const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`))
-	const value = match?.[1]
-	return value !== undefined ? decodeURIComponent(value.trim()) : null
 }
 
 /**
