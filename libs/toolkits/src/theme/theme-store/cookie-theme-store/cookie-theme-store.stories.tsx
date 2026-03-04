@@ -83,7 +83,7 @@ function clearCookieParse() {
 /** Custom parse: accept legacy { theme } without value, coerce to themeEntry */
 function customParseLegacy<Themes extends typeof themes>(
 	themes: Themes,
-	value: string | undefined
+	value: string | null | undefined
 ): ThemeEntry<Themes> | undefined {
 	let parsed: { theme?: string } | undefined
 	try {

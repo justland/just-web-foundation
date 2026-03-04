@@ -33,7 +33,7 @@ export function inMemoryThemeStore<Themes extends ThemeMap>(themes: Themes) {
 	return {
 		read,
 		write(entry) {
-			if (entry === undefined) {
+			if (entry == null) {
 				if (value === undefined || value === null) return
 				value = undefined
 				for (const fn of listeners) fn(undefined)

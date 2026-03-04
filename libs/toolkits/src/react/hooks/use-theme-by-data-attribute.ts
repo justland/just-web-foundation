@@ -12,7 +12,7 @@ import { dataAttributeThemeStore } from '../../theme/theme-store/data-attribute-
  * @param themes - Record mapping theme keys to their data attribute values
  * @param options.attributeName - Data attribute name (e.g. `data-theme`)
  * @param options.defaultTheme - Fallback theme key when no matching attribute value is found
- * @param options.element - Element to read/set theme on (defaults to document.documentElement)
+ * @param options.element - Element to read/set theme on (accepts null e.g. from refs). Defaults to document.documentElement.
  * @returns Tuple of [currentTheme, setTheme]
  *
  * @example
@@ -37,7 +37,7 @@ export function useThemeByDataAttribute<Themes extends ThemeMap>(
 	options: {
 		attributeName: `data-${string}`
 		defaultTheme?: keyof Themes | undefined
-		element?: Element | undefined
+		element?: Element | null | undefined
 	}
 ): [keyof Themes | undefined, (theme: keyof Themes) => void] {
 	const element =

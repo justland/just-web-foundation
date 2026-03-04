@@ -18,7 +18,5 @@ export interface AsyncThemeStore<Themes extends ThemeMap = ThemeMap> {
 		| (() => ThemeEntry<Themes> | undefined | Promise<ThemeEntry<Themes> | undefined>)
 		| undefined
 	write?: ((entry: ThemeEntry<Themes> | undefined) => void | Promise<void>) | undefined
-	subscribe?:
-		| ((handler: (entry: ThemeEntry<Themes> | undefined | null) => void) => () => void)
-		| undefined
+	subscribe?: ((handler: (entry: ThemeEntry<Themes> | undefined) => void) => () => void) | undefined
 }

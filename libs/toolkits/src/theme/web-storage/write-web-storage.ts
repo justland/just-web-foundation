@@ -4,9 +4,9 @@ import type { ThemeMap } from '../theme-map.types.ts'
 function defaultStringify<Themes extends ThemeMap>(
 	_themes: Themes,
 	_existing: string | undefined,
-	entry: ThemeEntry<Themes> | undefined
+	entry: ThemeEntry<Themes> | null | undefined
 ): string {
-	return entry === undefined ? '' : JSON.stringify(entry)
+	return entry == null ? '' : JSON.stringify(entry)
 }
 
 /**
@@ -16,7 +16,7 @@ function defaultStringify<Themes extends ThemeMap>(
  *
  * @param themes - Record mapping theme keys to values (used by stringify)
  * @param storageKey - Storage key to write to
- * @param entry - Theme entry to write, or undefined to remove
+ * @param entry - Theme entry to write, or null/undefined to remove
  * @param options.storage - Storage object (localStorage or sessionStorage)
  * @param options.stringify - Custom serializer (default: JSON.stringify)
  * @param options.onError - Optional callback invoked when setItem/removeItem throws
@@ -24,7 +24,7 @@ function defaultStringify<Themes extends ThemeMap>(
 export function writeWebStorage<Themes extends ThemeMap>(
 	themes: Themes,
 	storageKey: string,
-	entry: ThemeEntry<Themes> | undefined,
+	entry: ThemeEntry<Themes> | null | undefined,
 	options: {
 		storage: Storage
 		stringify?: StringifyStoredTheme<Themes> | undefined
@@ -33,7 +33,7 @@ export function writeWebStorage<Themes extends ThemeMap>(
 ): void {
 	const { storage, stringify = defaultStringify, onError } = options
 	try {
-		if (entry === undefined) {
+		if (entry == null) {
 			storage.removeItem(storageKey)
 		} else {
 			const existing = storage.getItem(storageKey) ?? undefined

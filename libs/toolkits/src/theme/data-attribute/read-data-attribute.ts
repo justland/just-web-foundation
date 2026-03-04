@@ -9,7 +9,7 @@ import { parseDataAttribute } from './parse-data-attribute.ts'
  *
  * @param themes - Record mapping theme keys to attribute values
  * @param attributeName - Data attribute name (e.g. `data-theme`)
- * @param options.element - Element to read from (defaults to document.documentElement)
+ * @param options.element - Element to read from (accepts null e.g. from refs). Defaults to document.documentElement.
  * @param options.parse - Custom parser (default: parseDataAttribute with space separator)
  * @returns ThemeEntry if found, undefined otherwise. Returns undefined when element is not available (e.g. SSR).
  */
@@ -17,7 +17,7 @@ export function readDataAttribute<Themes extends ThemeMap>(
 	themes: Themes,
 	attributeName: `data-${string}`,
 	options?:
-		| { element?: Element | undefined; parse?: ParseStoredTheme<Themes> | undefined }
+		| { element?: Element | null | undefined; parse?: ParseStoredTheme<Themes> | undefined }
 		| undefined
 ): ThemeEntry<Themes> | undefined {
 	const element = options?.element ?? document?.documentElement

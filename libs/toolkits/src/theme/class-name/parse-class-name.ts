@@ -12,12 +12,12 @@ import type { ThemeMap } from '../theme-map.types.ts'
  * Arrays in theme map use first value for matching.
  *
  * @param themes - Record mapping theme keys to class name(s)
- * @param className - Raw class attribute value (e.g. from element.className)
+ * @param className - Raw class attribute value (e.g. from element.className; accepts null)
  * @returns ThemeEntry if a match is found, otherwise undefined
  */
 export function parseClassName<Themes extends ThemeMap>(
 	themes: Themes,
-	className: string | undefined
+	className: string | null | undefined
 ): ThemeEntry<Themes> | undefined {
 	const cls = className ?? ''
 	const theme = findKey(themes, (key) => {
