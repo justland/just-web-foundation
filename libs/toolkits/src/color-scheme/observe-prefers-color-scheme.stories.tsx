@@ -16,7 +16,7 @@ const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur.'
+				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur. Even when the browser theme is set to "System" (e.g. in Chrome), it still reports either "light" or "dark" based on the OS—never "system" or "no-preference".'
 		}
 	}),
 	render: () => <></>
