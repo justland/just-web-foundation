@@ -23,7 +23,7 @@ export function subscribeClassName<Themes extends ThemeMap>(
 	if (!element) return () => {}
 	const parse = options?.parse ?? parseClassName
 	let lastEmitted: keyof Themes | undefined | null = null
-	const observer = observeAttributes(
+	return observeAttributes(
 		{
 			class: (value) => {
 				const entry = parse(themes, value ?? undefined)
@@ -35,5 +35,4 @@ export function subscribeClassName<Themes extends ThemeMap>(
 		},
 		element
 	)
-	return () => observer.disconnect()
 }

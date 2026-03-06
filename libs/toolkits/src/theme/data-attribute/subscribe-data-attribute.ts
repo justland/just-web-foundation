@@ -26,7 +26,7 @@ export function subscribeDataAttribute<Themes extends ThemeMap>(
 	if (!element) return () => {}
 	const parse =
 		options?.parse ?? ((t, v) => parseDataAttribute(t, v, { separator: SEPARATOR_SPACE }))
-	const observer = observeDataAttributes<string, `data-${string}`>(
+	return observeDataAttributes<string, `data-${string}`>(
 		{
 			[attributeName]: (value) => {
 				const entry = parse(themes, value ?? undefined)
@@ -35,5 +35,4 @@ export function subscribeDataAttribute<Themes extends ThemeMap>(
 		},
 		element
 	)
-	return () => observer.disconnect()
 }

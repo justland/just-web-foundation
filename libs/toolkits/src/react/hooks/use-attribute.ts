@@ -32,7 +32,7 @@ export function useAttribute(
 
 		setValueState(element.getAttribute(attributeName) ?? undefined)
 
-		const observer = observeAttributes(
+		return observeAttributes(
 			{
 				[attributeName]: (next) => {
 					setValueState(next ?? undefined)
@@ -40,7 +40,6 @@ export function useAttribute(
 			},
 			element
 		)
-		return () => observer.disconnect()
 	}, [element, attributeName])
 
 	const setValue = useCallback(

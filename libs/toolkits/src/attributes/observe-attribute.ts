@@ -3,24 +3,29 @@
  *
  * @param handlers - An object mapping attribute names to handler functions.
  * @param element - The element to observe (accepts null e.g. from refs). Defaults to `document.documentElement`.
- * @returns {MutationObserver} The observer instance, which can be used to disconnect the observer.
+ * @returns An unsubscribe function to stop observing. Returns a no-op function in SSR environments.
  *
  * @example
  * ```ts
- * const observer = observeAttributes({
- *   'data-theme': (attr, value) => console.log(`Theme changed to: ${value}`),
- *   'class': (attr, value) => console.log(`class changed to: ${value}`)
+ * const unsubscribe = observeAttributes({
+ *   'data-theme': (value) => console.log(`Theme changed to: ${value}`),
+ *   'class': (value) => console.log(`class changed to: ${value}`)
  * });
  *
  * // Later, to stop observing:
- * observer.disconnect();
+ * unsubscribe();
  * ```
  */
 export function observeAttributes<T extends string>(
 	handlers: Record<string, (value: T | null) => void>,
 	element?: Element | null | undefined
-) {
-	element = element ?? globalThis.document.documentElement
+): () => void {
+	/* c8 ignore start */
+	if (typeof document === 'undefined') {
+		return () => {}
+	}
+	/* c8 ignore end */
+	element = element ?? document.documentElement
 	const observer = new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
 			const attribute = mutation.attributeName
@@ -33,5 +38,5 @@ export function observeAttributes<T extends string>(
 		attributes: true,
 		attributeFilter: Object.keys(handlers)
 	})
-	return observer
+	return () => observer.disconnect()
 }
