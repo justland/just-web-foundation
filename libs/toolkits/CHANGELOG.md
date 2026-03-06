@@ -1,5 +1,11 @@
 # @just-web/toolkits
 
+## 3.0.0
+
+### Major Changes
+
+- bce34d6: `observeAttributes` and `observeDataAttributes` now return an unsubscribe function instead of `MutationObserver`. The functions also support SSR by returning a no-op function when `document` is unavailable.
+
 ## 2.1.0
 
 ### Minor Changes
