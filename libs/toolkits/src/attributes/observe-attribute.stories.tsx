@@ -34,11 +34,11 @@ export const BasicUsage: Story = {
 		},
 		source: {
 			code: dedent`
-				const observer = observeAttributes({
+				const unsubscribe = observeAttributes({
 					'data-theme': (value) => { ... },
 				})
 				// cleanup
-				observer.disconnect()
+				unsubscribe()
 			`
 		}
 	}),
@@ -47,12 +47,11 @@ export const BasicUsage: Story = {
 		const [log, setLog] = useState<string[]>([])
 
 		useEffect(() => {
-			const observer = observeAttributes({
+			return observeAttributes({
 				'data-theme': (value) => {
 					setLog((prev) => [...prev, `data-theme: ${value}`])
 				}
 			})
-			return () => observer.disconnect()
 		}, [])
 
 		return (
@@ -80,12 +79,12 @@ export const MultipleAttributes: Story = {
 		},
 		source: {
 			code: dedent`
-				const observer = observeAttributes({
+				const unsubscribe = observeAttributes({
 					'data-theme': (value) => { ... },
 					'aria-label': (value) => { ... },
 				})
 				// cleanup
-				observer.disconnect()
+				unsubscribe()
 			`
 		}
 	}),
@@ -94,7 +93,7 @@ export const MultipleAttributes: Story = {
 		const [log, setLog] = useState<string[]>([])
 
 		useEffect(() => {
-			const observer = observeAttributes({
+			return observeAttributes({
 				'data-theme': (value) => {
 					setLog((prev) => [...prev, `data-theme: ${value}`])
 				},
@@ -102,7 +101,6 @@ export const MultipleAttributes: Story = {
 					setLog((prev) => [...prev, `aria-label: ${value}`])
 				}
 			})
-			return () => observer.disconnect()
 		}, [])
 
 		return (
@@ -141,14 +139,14 @@ export const CustomElement: Story = {
 		},
 		source: {
 			code: dedent`
-				const observer = observeAttributes(
+				const unsubscribe = observeAttributes(
 					{
 						'data-anything': (value) => { ... },
 					},
 					customElementRef.current,
 				)
 				// cleanup
-				observer.disconnect()
+				unsubscribe()
 			`
 		}
 	}),
@@ -159,7 +157,7 @@ export const CustomElement: Story = {
 
 		useEffect(() => {
 			if (!customElementRef.current) return
-			const observer = observeAttributes(
+			return observeAttributes(
 				{
 					'data-anything': (value) => {
 						setLog((prev) => [...prev, `data-anything: ${value}`])
@@ -167,7 +165,6 @@ export const CustomElement: Story = {
 				},
 				customElementRef.current
 			)
-			return () => observer.disconnect()
 		}, [customElementRef])
 
 		return (
