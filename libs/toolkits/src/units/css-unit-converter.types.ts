@@ -35,7 +35,7 @@ export interface ConvertCssUnitOptions {
 	viewportHeight?: number | undefined
 	/** Line height in px for lh, rlh. */
 	lineHeight?: number | undefined
-	/** Width of "0" character in px for ch. Optional; can default to ~0.5em. */
+	/** Width of "0" character in px for ch. Default: ~0.5em. */
 	chWidth?: number | undefined
 	/** Value that 100% equals (for % conversions). */
 	percentReference?: number | undefined
