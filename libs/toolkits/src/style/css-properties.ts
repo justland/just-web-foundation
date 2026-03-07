@@ -14,7 +14,8 @@ interface CustomProperties {
  * Widens CSS properties to support custom properties.
  * Allows for string or number values for standard properties,
  * and string values for custom properties with '--' prefix.
- * Defined as a union so plain Properties (e.g. from React) are assignable.
+ *
+ * Note that `React.CSSProperties` (using `csstype`) is augmented so you can use it directly without this type.
  */
 export interface CSSProperties<TLength = string | number, TTime = string & {}>
 	extends Properties<TLength, TTime>,

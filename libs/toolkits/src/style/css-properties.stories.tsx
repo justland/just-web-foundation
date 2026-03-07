@@ -24,10 +24,17 @@ export const Specification: StoryObj = {
 	decorators: [
 		withStoryCard({
 			content: (
-				<p>
-					<code>CSSProperties</code> extends CSS properties to support custom properties (
-					<code>--*</code>).
-				</p>
+				<>
+					<p>
+						<code>CSSProperties</code> widens CSS properties to support custom properties. Standard
+						properties accept string or number values; custom properties (<code>--*</code>) accept
+						string values.
+					</p>
+					<p>
+						<code>React.CSSProperties</code> (using <code>csstype</code>) is augmented with custom
+						properties, so you can use it directly without this type.
+					</p>
+				</>
 			)
 		}),
 		showSource()
