@@ -1,0 +1,89 @@
+---
+description: Place functions in step-down order - main entry first, then helpers below the code that uses them
+globs: "*.ts,*.tsx,*.js,*.jsx"
+alwaysApply: false
+---
+
+# Step-Down Rule
+
+When a file contains multiple private functions, place them in **step-down order**: the main entry point (or caller) first, followed by the functions it uses, then the functions those use, and so on. Readers see the "what" before the "how."
+
+## Table of Contents
+
+- [When to Apply](mdc:#when-to-apply)
+- [Ordering Rules](mdc:#ordering-rules)
+- [Benefits](mdc:#benefits)
+- [Examples](mdc:#examples)
+- [Integration](mdc:#integration)
+
+## When to Apply
+
+Apply the step-down rule when:
+
+- A file has multiple private/helper functions
+- Refactoring or reorganizing a module
+- Writing new utility modules with more than one function
+- The call hierarchy is clear (main function calls helpers, helpers may call other helpers)
+
+Skip or relax when:
+
+- The file has only one or two functions
+- Reordering would obscure logical groupings (e.g., related helpers that don't share a caller)
+- External constraints (e.g., hoisting, circular references) prevent it
+
+## Ordering Rules
+
+1. **Constants and imports** – Keep at the top.
+2. **Main entry point** – The exported or primary function that readers care about first.
+3. **Direct helpers** – Functions called by the main entry, in order of first use.
+4. **Nested helpers** – Functions called by those helpers, placed below their callers.
+
+Each function should be followed by the functions it directly calls, forming a top-down reading flow.
+
+## Benefits
+
+- **Progressive disclosure** – High-level logic is visible before implementation details.
+- **Lower cognitive load** – Helpers appear near where they are used, reducing jumps.
+- **Easier navigation** – New readers and maintainers follow a consistent top-down flow.
+- **Aligns with Clean Code** – Matches the step-down rule from readable codebases.
+
+## Examples
+
+### Good – Step-Down Order
+
+```ts
+// Constants first
+const DEFAULT = 16
+
+// Main entry – readers start here
+export function convertCssUnit(value: number, toUnit: string): number {
+	const resolved = resolveOptions()
+	return valueToPx(value, resolved)
+}
+
+// Helpers in order of use
+function resolveOptions() { /* ... */ }
+function valueToPx(value: number, opts: Resolved) { /* ... */ }
+function toPxFromAbsolute(value: number) { /* ... */ }
+```
+
+### Bad – Bottom-Up Order
+
+```ts
+// Helpers first – readers must scroll to find the main logic
+function toPxFromAbsolute(value: number) { /* ... */ }
+function valueToPx(value: number, opts: Resolved) { /* ... */ }
+function resolveOptions() { /* ... */ }
+
+export function convertCssUnit(value: number, toUnit: string): number {
+	// Main logic buried at the bottom
+}
+```
+
+## Integration
+
+This rule works in conjunction with:
+
+- [Naming](mdc:.cursor/rules/guidelines/naming.mdc) – File and function naming conventions
+- [Import and Export](mdc:.cursor/rules/guidelines/import-export.mdc) – Module organization
+- [master.mdc](mdc:.cursor/rules/master.mdc) – Overall rule organization

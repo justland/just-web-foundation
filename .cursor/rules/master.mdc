@@ -52,6 +52,7 @@ Opinionated best practices:
 - [React JS Guidelines](mdc:.cursor/rules/guidelines/react-js.mdc) - Best practices for React development
 - [Markdown](mdc:.cursor/rules/guidelines/markdown.mdc) - Markdown content guidelines
 - [Naming](mdc:.cursor/rules/guidelines/naming.mdc) - File and folder naming conventions
+- [Step-Down](mdc:.cursor/rules/guidelines/step-down.mdc) - Place functions in step-down order (main first, helpers below)
 - [Storybook Stories](mdc:.cursor/rules/guidelines/storybook-stories.mdc) - How to write Storybook stories
 - [Tailwind CSS](mdc:.cursor/rules/guidelines/tailwind.mdc) - Tailwind CSS guidelines
 
