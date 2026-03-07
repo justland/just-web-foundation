@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "autonomous-bug-fixing": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "ba4712319f22ab3bfbc3d0d1c0f1213f5db284e71cc0dca6621eee29cd5a0664"
+    },
+    "demand-elegance": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "f3afcd9f93ff5053d3c6fb3e08d250af1f714ce80c3350f4d0acae80dbfff57d"
+    },
+    "self-improvement-loop": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "60474b364bce7f0fb081df1b343587f8b055dcdbdabf945c1889ea029a10079b"
+    },
+    "subagent-strategy": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "9f6f7e7fce9141aa4d46ab21936e03603c075bebeec40f5fa2f542d277c07145"
+    },
+    "verification-before-done": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "e52f0a8e547e59193548000e287e3f88404de96381991225f977ffef856229bb"
+    },
+    "workflow-planning": {
+      "source": "unional/skills",
+      "sourceType": "github",
+      "computedHash": "183e9686fe689a1a4079caa716069a601d5a343cf5220b573ab784dc31c8ada9"
+    }
+  }
+}
