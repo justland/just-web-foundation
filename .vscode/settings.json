@@ -66,6 +66,8 @@
 		"unsub",
 		"vite",
 		"vitest",
+		"vmax",
+		"vmin",
 		"wscript",
 		"ztna"
 	],
