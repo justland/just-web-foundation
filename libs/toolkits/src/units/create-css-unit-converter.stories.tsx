@@ -7,7 +7,7 @@ import source from './create-css-unit-converter.ts?raw'
 
 const meta = {
 	title: 'units/createCssUnitConverter',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:
