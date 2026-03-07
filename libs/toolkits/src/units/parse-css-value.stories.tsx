@@ -7,7 +7,7 @@ import source from './parse-css-value.ts?raw'
 
 const meta = {
 	title: 'units/parseCssValue',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:

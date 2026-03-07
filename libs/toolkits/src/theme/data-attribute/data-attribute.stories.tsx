@@ -18,7 +18,7 @@ import { ThemeStoreDemo } from '../../testing/theme/theme-store-demo.tsx'
 
 const meta = {
 	title: 'theme/data-attribute',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:2.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

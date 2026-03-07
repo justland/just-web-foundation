@@ -15,7 +15,7 @@ import source from './cookie-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/cookieThemeStore',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:2.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

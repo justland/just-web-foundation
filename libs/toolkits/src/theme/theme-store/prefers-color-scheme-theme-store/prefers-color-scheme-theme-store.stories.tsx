@@ -15,7 +15,7 @@ import source from './prefers-color-scheme-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/prefersColorSchemeThemeStore',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:2.0'],
 	render: () => <></>
 } satisfies Meta
 

@@ -20,7 +20,7 @@ const testValueDataColorSchemeStore = dataAttributeThemeStore(testValueThemes, {
 
 const meta: Meta<FnToArgTypes<typeof observeDataAttributes, ['element']>> = {
 	title: 'attributes/observeDataAttributes',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:3.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

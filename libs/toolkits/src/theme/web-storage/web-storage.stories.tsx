@@ -9,7 +9,7 @@ import { ThemeResultCard } from '../../testing/theme/theme-result-card.tsx'
 
 const meta = {
 	title: 'theme/web-storage',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:2.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

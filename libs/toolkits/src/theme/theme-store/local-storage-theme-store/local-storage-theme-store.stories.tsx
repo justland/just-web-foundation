@@ -11,7 +11,7 @@ import source from './local-storage-theme-store.ts?raw'
 
 const meta = {
 	title: 'theme/theme-store/localStorageThemeStore',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:2.0'],
 	parameters: defineDocsParam({
 		description: {
 			component:

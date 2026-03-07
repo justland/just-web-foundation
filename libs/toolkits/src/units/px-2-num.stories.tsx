@@ -7,7 +7,7 @@ import source from './px-2-num.ts?raw'
 
 const meta = {
 	title: 'units/px2num',
-	tags: ['func', 'version:1.0'],
+	tags: ['func', 'version:next'],
 	parameters: defineDocsParam({
 		description: {
 			component:
