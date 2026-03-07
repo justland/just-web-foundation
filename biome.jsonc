@@ -16,7 +16,8 @@
 			"!**/node_modules",
 			"!**/storybook-static",
 			"!**/vite.config.*.timestamp*",
-			"!**/vitest.config.*.timestamp*"
+			"!**/vitest.config.*.timestamp*",
+			"!skill-lock.json"
 		]
 	},
 	"javascript": {
