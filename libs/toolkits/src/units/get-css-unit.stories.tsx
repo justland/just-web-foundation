@@ -7,7 +7,7 @@ import source from './get-css-unit.ts?raw'
 
 const meta = {
 	title: 'units/getCssUnit',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:

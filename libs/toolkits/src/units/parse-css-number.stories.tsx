@@ -7,7 +7,7 @@ import source from './parse-css-number.ts?raw'
 
 const meta = {
 	title: 'units/parseCssNumber',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:

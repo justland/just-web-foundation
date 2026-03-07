@@ -1,5 +1,12 @@
 # @just-web/toolkits
 
+## 3.1.0
+
+### Minor Changes
+
+- 98e1e31: Add `convertCssUnit` and `createCssUnitConverter` for general CSS length unit conversion. Supports `px`, `rem`, `em`, `vw`, `vh`, `vmin`, `vmax`, `lh`, `rlh`, `ch`, `%`, and absolute units. Browser auto-detect for rootFontSize and viewport when options omitted. Throws when required context is missing.
+- da60f49: Add CSS unit utilities: `getCssUnit`, `isEffectivelyZero`, `parseCssNumber`, and `parseCssValue` for parsing and inspecting CSS length and percentage values.
+
 ## 3.0.0
 
 ### Major Changes

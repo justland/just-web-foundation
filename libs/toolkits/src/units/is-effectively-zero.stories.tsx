@@ -7,7 +7,7 @@ import source from './is-effectively-zero.ts?raw'
 
 const meta = {
 	title: 'units/isEffectivelyZero',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.1'],
 	parameters: defineDocsParam({
 		description: {
 			component:
