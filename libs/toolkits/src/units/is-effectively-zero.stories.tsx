@@ -109,30 +109,47 @@ export const EpsilonOption: Story = {
 	}
 }
 
-export const InvalidInput: Story = {
+export const NullUndefinedPassThrough: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Invalid input (undefined, empty string, non-numeric) returns false.'
+			story: 'null and undefined are passed through as-is.'
 		}
 	}),
 	decorators: [withStoryCard()],
 	render() {
-		const examples = [undefined, '', 'abc', null]
+		return (
+			<StoryCard title="Null/undefined pass-through" appearance="output">
+				<pre className="text-sm">
+					{`isEffectivelyZero(null) → ${isEffectivelyZero(null)}
+isEffectivelyZero(undefined) → ${isEffectivelyZero(undefined)}`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async () => {
+		await expect(isEffectivelyZero(null)).toBe(null)
+		await expect(isEffectivelyZero(undefined)).toBe(undefined)
+	}
+}
+
+export const InvalidInput: Story = {
+	tags: ['unit'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'Invalid input (empty string, non-numeric) returns false.'
+		}
+	}),
+	decorators: [withStoryCard()],
+	render() {
+		const examples = ['', 'abc']
 		return (
 			<StoryCard title="Invalid input" appearance="output">
 				<pre className="text-sm">
 					{examples
 						.map((input) => {
-							const inputStr =
-								input === undefined
-									? 'undefined'
-									: input === null
-										? 'null'
-										: input === ''
-											? "''"
-											: `'${input}'`
-							return `isEffectivelyZero(${inputStr}) → ${isEffectivelyZero(input as string | undefined)} (expected: false)`
+							const inputStr = input === '' ? "''" : `'${input}'`
+							return `isEffectivelyZero(${inputStr}) → ${isEffectivelyZero(input)} (expected: false)`
 						})
 						.join('\n')}
 				</pre>
@@ -140,7 +157,6 @@ export const InvalidInput: Story = {
 		)
 	},
 	play: async () => {
-		await expect(isEffectivelyZero(undefined)).toBe(false)
 		await expect(isEffectivelyZero('')).toBe(false)
 		await expect(isEffectivelyZero('abc')).toBe(false)
 	}

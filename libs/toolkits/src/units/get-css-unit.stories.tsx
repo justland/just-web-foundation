@@ -70,6 +70,38 @@ export const BasicUsage: Story = {
 	}
 }
 
+export const NullUndefinedPassThrough: Story = {
+	tags: ['unit'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'null and undefined are passed through as-is.'
+		}
+	}),
+	decorators: [
+		withStoryCard(),
+		showSource({
+			source: dedent`
+				getCssUnit(null)      // null
+				getCssUnit(undefined)  // undefined
+			`
+		})
+	],
+	render() {
+		return (
+			<StoryCard title="Null/undefined pass-through" appearance="output">
+				<pre className="text-sm">
+					{`getCssUnit(null) → ${getCssUnit(null)}
+getCssUnit(undefined) → ${getCssUnit(undefined)}`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async () => {
+		await expect(getCssUnit(null)).toBe(null)
+		await expect(getCssUnit(undefined)).toBe(undefined)
+	}
+}
+
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),

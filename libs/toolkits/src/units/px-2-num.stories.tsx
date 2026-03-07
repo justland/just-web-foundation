@@ -351,14 +351,15 @@ export const TypeValidation: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
 		description: {
-			story: 'Behavior with invalid types (null, undefined, boolean, etc.).'
+			story:
+				'null and undefined are passed through as-is. Other invalid types (boolean, etc.) return NaN.'
 		}
 	}),
 	decorators: [withStoryCard()],
 	render() {
 		const typeTests = [
-			{ input: null, description: 'null value' },
-			{ input: undefined, description: 'undefined value' },
+			{ input: null, description: 'null value (pass-through)' },
+			{ input: undefined, description: 'undefined value (pass-through)' },
 			{ input: true, description: 'boolean true' },
 			{ input: false, description: 'boolean false' }
 		]
@@ -367,13 +368,15 @@ export const TypeValidation: Story = {
 				<pre className="text-sm">
 					{typeTests
 						.map(({ input, description }) => {
-							let result: number
-							try {
-								result = px2num(input as number | string | undefined)
-							} catch {
-								result = Number.NaN
-							}
-							const shown = Number.isNaN(result) ? 'NaN' : result
+							const result = px2num(input as number | string | null | undefined)
+							const shown =
+								result === null
+									? 'null'
+									: result === undefined
+										? 'undefined'
+										: Number.isNaN(result)
+											? 'NaN'
+											: result
 							return `px2num(${input === null ? 'null' : String(input)}) → ${shown} (${description})`
 						})
 						.join('\n')}
@@ -382,7 +385,10 @@ export const TypeValidation: Story = {
 		)
 	},
 	play: async () => {
-		await expect(Number.isNaN(px2num(undefined))).toBe(true)
+		await expect(px2num(null)).toBe(null)
+		await expect(px2num(undefined)).toBe(undefined)
+		await expect(Number.isNaN(px2num(true as unknown as number))).toBe(true)
+		await expect(Number.isNaN(px2num(false as unknown as number))).toBe(true)
 	}
 }
 

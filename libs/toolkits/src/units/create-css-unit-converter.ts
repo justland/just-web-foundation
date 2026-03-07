@@ -24,7 +24,7 @@ export function createCssUnitConverter(context?: CssUnitConverterContext) {
 		value: number | string,
 		toUnit: CssLengthUnit,
 		options?: { fromUnit?: CssLengthUnit | undefined } | undefined
-	): number {
+	): number | null | undefined {
 		return convertCssUnit(value, toUnit, { ...context, ...options })
 	}
 }

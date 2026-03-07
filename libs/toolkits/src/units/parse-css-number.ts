@@ -5,7 +5,7 @@ import { parseCssValue } from './parse-css-value.ts'
  * Thin wrapper around parseCssValue.
  *
  * @param value - The CSS value to parse. Can be a number or string (e.g. '16px', '1.5rem', '100%')
- * @returns The numeric value, or NaN for invalid input
+ * @returns The numeric value, or NaN for invalid input. Passes through null and undefined.
  *
  * @example
  * ```ts
@@ -15,8 +15,12 @@ import { parseCssValue } from './parse-css-value.ts'
  * parseCssNumber('0lh')    // 0
  * parseCssNumber(16)       // 16
  * parseCssNumber('abc')    // NaN
+ * parseCssNumber(null)     // null
+ * parseCssNumber(undefined) // undefined
  * ```
  */
-export function parseCssNumber(value: number | string | undefined): number {
+export function parseCssNumber(
+	value: number | string | null | undefined
+): number | null | undefined {
 	return parseCssValue(value)[0]
 }

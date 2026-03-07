@@ -277,6 +277,30 @@ export const BaseAndPrecision: Story = {
 	}
 }
 
+export const NullUndefinedPassThrough: Story = {
+	tags: ['unit'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'null and undefined are passed through as-is.'
+		}
+	}),
+	decorators: [withStoryCard()],
+	render() {
+		return (
+			<StoryCard title="Null/undefined pass-through" appearance="output">
+				<pre className="text-sm">
+					{`px2rem(null) → ${px2rem(null)}
+px2rem(undefined) → ${px2rem(undefined)}`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async () => {
+		await expect(px2rem(null)).toBe(null)
+		await expect(px2rem(undefined)).toBe(undefined)
+	}
+}
+
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({ source: { code: source } }),

@@ -111,6 +111,32 @@ export const VariousUnits: Story = {
 	}
 }
 
+export const NullUndefinedPassThrough: Story = {
+	tags: ['unit'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'null and undefined are passed through as-is in the first tuple element.'
+		}
+	}),
+	decorators: [withStoryCard()],
+	render() {
+		const nullResult = parseCssValue(null)
+		const undefinedResult = parseCssValue(undefined)
+		return (
+			<StoryCard title="Null/undefined pass-through" appearance="output">
+				<pre className="text-sm">
+					{`parseCssValue(null) → [${nullResult[0]}, ${nullResult[1] === undefined ? 'undefined' : `'${nullResult[1]}'`}]
+parseCssValue(undefined) → [${undefinedResult[0]}, ${undefinedResult[1] === undefined ? 'undefined' : `'${undefinedResult[1]}'`}]`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async () => {
+		await expect(parseCssValue(null)).toEqual([null, undefined])
+		await expect(parseCssValue(undefined)).toEqual([undefined, undefined])
+	}
+}
+
 export const InvalidInput: Story = {
 	tags: ['unit'],
 	parameters: defineDocsParam({
@@ -120,15 +146,14 @@ export const InvalidInput: Story = {
 	}),
 	decorators: [withStoryCard()],
 	render() {
-		const examples = ['', 'abc', 'px', undefined]
+		const examples = ['', 'abc', 'px']
 		return (
 			<StoryCard title="Invalid input" appearance="output">
 				<pre className="text-sm">
 					{examples
 						.map((input) => {
-							const result = parseCssValue(input as string | undefined)
-							const inputStr =
-								input === undefined ? 'undefined' : input === '' ? "''" : `'${input}'`
+							const result = parseCssValue(input)
+							const inputStr = input === '' ? "''" : `'${input}'`
 							return `parseCssValue(${inputStr}) → [${Number.isNaN(result[0]) ? 'NaN' : result[0]}, undefined]`
 						})
 						.join('\n')}
@@ -140,10 +165,6 @@ export const InvalidInput: Story = {
 		const result1 = parseCssValue('abc')
 		await expect(Number.isNaN(result1[0])).toBe(true)
 		await expect(result1[1]).toBeUndefined()
-
-		const result2 = parseCssValue(undefined)
-		await expect(Number.isNaN(result2[0])).toBe(true)
-		await expect(result2[1]).toBeUndefined()
 	}
 }
 

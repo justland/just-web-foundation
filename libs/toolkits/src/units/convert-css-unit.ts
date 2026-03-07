@@ -18,10 +18,10 @@ const LINE_UNITS: CssLengthUnit[] = ['lh', 'rlh']
 /**
  * Converts a CSS length value from one unit to another.
  *
- * @param value - The value to convert. Can be a number or string (e.g. '16px', '1.5rem').
+ * @param value - The value to convert. Can be a number or string (e.g. '16px', '1.5rem'). Pass-through for null/undefined.
  * @param toUnit - The target unit.
  * @param options - Conversion context. When omitted, uses browser auto-detect for rootFontSize and viewport when available.
- * @returns The converted numeric value.
+ * @returns The converted numeric value, or null/undefined when input is null/undefined.
  * @throws When required context is missing (viewport, lineHeight, percentReference) or percentReference is 0 for % conversion.
  *
  * @example
@@ -33,11 +33,12 @@ const LINE_UNITS: CssLengthUnit[] = ['lh', 'rlh']
  * ```
  */
 export function convertCssUnit(
-	value: number | string,
+	value: number | string | null | undefined,
 	toUnit: CssLengthUnit,
 	options?: ConvertCssUnitOptions | undefined
-): number {
+): number | null | undefined {
 	const [num, parsedUnit] = parseCssValue(value)
+	if (num === null || num === undefined) return num
 	if (Number.isNaN(num)) {
 		throw new Error(`Invalid CSS value: ${value}`)
 	}

@@ -186,6 +186,32 @@ convertCssUnit(1, 'px', { fromUnit: 'rem' }) → ${c}`}
 	}
 }
 
+export const NullUndefinedPassThrough: Story = {
+	tags: ['unit'],
+	parameters: defineDocsParam({
+		description: {
+			story: 'null and undefined are passed through as-is.'
+		}
+	}),
+	decorators: [withStoryCard()],
+	render() {
+		const nullResult = convertCssUnit(null, 'px')
+		const undefinedResult = convertCssUnit(undefined, 'px')
+		return (
+			<StoryCard title="Null/undefined pass-through" appearance="output">
+				<pre className="text-sm">
+					{`convertCssUnit(null, 'px') → ${nullResult}
+convertCssUnit(undefined, 'px') → ${undefinedResult}`}
+				</pre>
+			</StoryCard>
+		)
+	},
+	play: async () => {
+		await expect(convertCssUnit(null, 'px')).toBe(null)
+		await expect(convertCssUnit(undefined, 'px')).toBe(undefined)
+	}
+}
+
 export const ThrowsWhenContextMissing: Story = {
 	tags: ['use-case'],
 	parameters: defineDocsParam({

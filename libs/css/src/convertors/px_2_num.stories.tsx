@@ -208,7 +208,7 @@ export const TypeValidation: Story = {
 				<h3 className="text-lg font-semibold">Type Validation</h3>
 				<div className="space-y-2">
 					{typeTests.map(({ input, description }) => {
-						let result: number
+						let result: number | null | undefined
 						let error: string | null = null
 
 						try {
@@ -217,6 +217,17 @@ export const TypeValidation: Story = {
 							error = err instanceof Error ? err.message : String(err)
 							result = Number.NaN
 						}
+
+						const display =
+							error != null
+								? `Error: ${error}`
+								: result === null
+									? 'null'
+									: result === undefined
+										? 'undefined'
+										: Number.isNaN(result)
+											? 'NaN'
+											: String(result)
 
 						return (
 							<div
@@ -232,7 +243,7 @@ export const TypeValidation: Story = {
 										Error: {error}
 									</code>
 								) : (
-									<code className="text-sm font-mono">{Number.isNaN(result) ? 'NaN' : result}</code>
+									<code className="text-sm font-mono">{display}</code>
 								)}
 								<span className="text-sm text-yellow-600 dark:text-yellow-400">
 									({description})
@@ -243,6 +254,10 @@ export const TypeValidation: Story = {
 				</div>
 			</div>
 		)
+	},
+	play: async () => {
+		await expect(px2num(null)).toBe(null)
+		await expect(px2num(undefined)).toBe(undefined)
 	}
 }
 

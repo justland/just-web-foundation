@@ -1,7 +1,8 @@
 import type { Properties } from 'csstype'
 
 declare module 'csstype' {
-	interface Properties<TLength = (string & {}) | 0, TTime = string & {}> extends CustomProperties {}
+	interface Properties<_TLength = (string & {}) | 0, _TTime = string & {}>
+		extends CustomProperties {}
 }
 
 /** Custom CSS properties (variables) with `--` prefix. */

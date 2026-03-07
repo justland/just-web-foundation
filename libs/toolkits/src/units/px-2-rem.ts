@@ -5,20 +5,24 @@
  * @param options - Optional configuration
  * @param options.base - Base pixel value to calculate rem units from. Defaults to 16
  * @param options.precision - Number of decimal places in the output. Defaults to 4
- * @returns The converted value as a string with 'rem' units
+ * @returns The converted value, or null/undefined if input is null/undefined
  *
  * @example
  * ```ts
- * px2rem(16) // '1.0000'
- * px2rem('32px') // '2.0000'
- * px2rem(20, { base: 20 }) // '1.0000'
- * px2rem(13, { precision: 2 }) // '0.81'
+ * px2rem(16) // 1
+ * px2rem('32px') // 2
+ * px2rem(20, { base: 20 }) // 1
+ * px2rem(13, { precision: 2 }) // 0.81
+ * px2rem(null) // null
+ * px2rem(undefined) // undefined
  * ```
  */
 export function px2rem(
-	px: number | string,
-	options?: { base?: number | undefined; precision?: number | undefined }
-): number {
+	px: number | string | null | undefined,
+	options?: { base?: number | undefined; precision?: number | undefined } | undefined
+): number | null | undefined {
+	if (px === null || px === undefined) return px
+
 	const { base = 16, precision = 4 } = options ?? {}
 
 	if (typeof px === 'string') {

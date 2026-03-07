@@ -15,9 +15,11 @@
  * parseCssValue('abc')     // [NaN, undefined]
  * ```
  */
-export function parseCssValue(value: number | string | undefined): [number, string | undefined] {
+export function parseCssValue(
+	value: number | string | null | undefined
+): [number | null | undefined, string | undefined] {
 	if (value === undefined || value === null) {
-		return [Number.NaN, undefined]
+		return [value, undefined]
 	}
 	if (typeof value === 'number') {
 		return [value, undefined]
@@ -27,7 +29,7 @@ export function parseCssValue(value: number | string | undefined): [number, stri
 	if (!match) {
 		return [Number.NaN, undefined]
 	}
-	const num = Number.parseFloat(match[1])
-	const unit = match[2].trim()
+	const num = Number.parseFloat(match[1] ?? '')
+	const unit = (match[2] ?? '').trim()
 	return [num, unit === '' ? undefined : unit]
 }
