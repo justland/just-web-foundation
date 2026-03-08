@@ -19,6 +19,10 @@ import { parseCssValue } from './parse-css-value.ts'
  * parseCssNumber(undefined) // undefined
  * ```
  */
+export function parseCssNumber(value: null): null
+export function parseCssNumber(value: undefined): undefined
+export function parseCssNumber(value: number | string): number
+export function parseCssNumber(value: number | string | null | undefined): number | null | undefined
 export function parseCssNumber(
 	value: number | string | null | undefined
 ): number | null | undefined {

@@ -18,6 +18,18 @@
  * ```
  */
 export function rem2px(
+	rem: null,
+	options?: { base?: number | undefined; precision?: number | undefined }
+): null
+export function rem2px(
+	rem: undefined,
+	options?: { base?: number | undefined; precision?: number | undefined }
+): undefined
+export function rem2px(
+	rem: number | string,
+	options?: { base?: number | undefined; precision?: number | undefined }
+): number
+export function rem2px(
 	rem: number | string | null | undefined,
 	options?: { base?: number | undefined; precision?: number | undefined }
 ): number | null | undefined {

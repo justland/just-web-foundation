@@ -33,6 +33,26 @@ const LINE_UNITS: CssLengthUnit[] = ['lh', 'rlh']
  * ```
  */
 export function convertCssUnit(
+	value: null,
+	toUnit: CssLengthUnit,
+	options?: ConvertCssUnitOptions | undefined
+): null
+export function convertCssUnit(
+	value: undefined,
+	toUnit: CssLengthUnit,
+	options?: ConvertCssUnitOptions | undefined
+): undefined
+export function convertCssUnit(
+	value: number | string,
+	toUnit: CssLengthUnit,
+	options?: ConvertCssUnitOptions | undefined
+): number
+export function convertCssUnit(
+	value: number | string | null | undefined,
+	toUnit: CssLengthUnit,
+	options?: ConvertCssUnitOptions | undefined
+): number | null | undefined
+export function convertCssUnit(
 	value: number | string | null | undefined,
 	toUnit: CssLengthUnit,
 	options?: ConvertCssUnitOptions | undefined

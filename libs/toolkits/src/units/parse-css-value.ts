@@ -15,6 +15,12 @@
  * parseCssValue('abc')     // [NaN, undefined]
  * ```
  */
+export function parseCssValue(value: null): [null, undefined]
+export function parseCssValue(value: undefined): [undefined, undefined]
+export function parseCssValue(value: number | string): [number, string | undefined]
+export function parseCssValue(
+	value: number | string | null | undefined
+): [number | null | undefined, string | undefined]
 export function parseCssValue(
 	value: number | string | null | undefined
 ): [number | null | undefined, string | undefined] {

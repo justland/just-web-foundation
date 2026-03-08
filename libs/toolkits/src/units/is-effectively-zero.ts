@@ -22,6 +22,18 @@ import { parseCssNumber } from './parse-css-number.ts'
  * ```
  */
 export function isEffectivelyZero(
+	value: null,
+	options?: { epsilon?: number | undefined } | undefined
+): null
+export function isEffectivelyZero(
+	value: undefined,
+	options?: { epsilon?: number | undefined } | undefined
+): undefined
+export function isEffectivelyZero(
+	value: number | string,
+	options?: { epsilon?: number | undefined } | undefined
+): boolean
+export function isEffectivelyZero(
 	value: number | string | null | undefined,
 	options?: { epsilon?: number | undefined } | undefined
 ): boolean | null | undefined {

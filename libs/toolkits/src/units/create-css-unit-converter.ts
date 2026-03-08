@@ -20,11 +20,27 @@ import type { CssLengthUnit, CssUnitConverterContext } from './css-unit-converte
  * ```
  */
 export function createCssUnitConverter(context?: CssUnitConverterContext) {
-	return function convert(
+	function convert(
+		value: null,
+		toUnit: CssLengthUnit,
+		options?: { fromUnit?: CssLengthUnit | undefined } | undefined
+	): null
+	function convert(
+		value: undefined,
+		toUnit: CssLengthUnit,
+		options?: { fromUnit?: CssLengthUnit | undefined } | undefined
+	): undefined
+	function convert(
 		value: number | string,
+		toUnit: CssLengthUnit,
+		options?: { fromUnit?: CssLengthUnit | undefined } | undefined
+	): number
+	function convert(
+		value: number | string | null | undefined,
 		toUnit: CssLengthUnit,
 		options?: { fromUnit?: CssLengthUnit | undefined } | undefined
 	): number | null | undefined {
 		return convertCssUnit(value, toUnit, { ...context, ...options })
 	}
+	return convert
 }

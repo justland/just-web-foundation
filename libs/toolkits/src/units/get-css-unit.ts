@@ -18,6 +18,9 @@ import { parseCssValue } from './parse-css-value.ts'
  * getCssUnit(undefined) // undefined
  * ```
  */
+export function getCssUnit(value: null): null
+export function getCssUnit(value: undefined): undefined
+export function getCssUnit(value: number | string): string | undefined
 export function getCssUnit(value: number | string | null | undefined): string | null | undefined {
 	if (value === null || value === undefined) return value
 	return parseCssValue(value)[1]
