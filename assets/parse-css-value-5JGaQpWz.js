@@ -1,1 +1,0 @@
-function o(t){if(t==null)return[t,void 0];if(typeof t=="number")return[t,void 0];const r=String(t).trim().match(/^(-?\d*\.?\d+)\s*(.*)$/);if(!r)return[NaN,void 0];const i=Number.parseFloat(r[1]??""),n=(r[2]??"").trim();return[i,n===""?void 0:n]}export{o as p};

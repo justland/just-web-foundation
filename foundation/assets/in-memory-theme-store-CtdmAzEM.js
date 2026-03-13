@@ -1,1 +1,0 @@
-import{t as o}from"./theme-entry-D4S_RAMB.js";function l(n){let e;const t=new Set;function u(){if(e!=null)return o(n,e)}return{read:u,write(r){if(r==null){if(e==null)return;e=void 0;for(const i of t)i(void 0);return}if(r.theme in n&&e!==r.theme){e=r.theme;for(const i of t)i(o(n,r.theme))}},subscribe(r){return t.add(r),()=>{t.delete(r)}}}}export{l as i};

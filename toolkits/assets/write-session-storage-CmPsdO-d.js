@@ -1,0 +1,1 @@
+import{r as i,w as n}from"./write-web-storage-H7mtIjJa.js";function a(r,e,o){if(window?.sessionStorage)return i(r,e,{storage:window.sessionStorage,parse:o?.parse})}function g(r,e,o,s){window?.sessionStorage&&n(r,e,o,{storage:window.sessionStorage,stringify:s?.stringify,onError:s?.onError})}export{a as r,g as w};
