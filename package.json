@@ -13,7 +13,7 @@
 		"cs": "changeset",
 		"css": "pnpm --filter ./libs/css",
 		"depcheck": "turbo run depcheck",
-		"docs": "pnpm --filter ./apps/docs",
+		"website": "pnpm --filter ./apps/website",
 		"knip": "knip",
 		"nuke": "run-s nuke:pkgs nuke:root",
 		"nuke:pkgs": "turbo run nuke",

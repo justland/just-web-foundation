@@ -1,0 +1,13 @@
+{
+	"name": "website",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build-doc": "astro build",
+		"dev": "astro dev",
+		"nuke": "rimraf node_modules"
+	},
+	"devDependencies": {
+		"astro": "^5.18.1"
+	}
+}

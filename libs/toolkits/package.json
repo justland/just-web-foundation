@@ -66,7 +66,7 @@
 	],
 	"scripts": {
 		"build": "run-p build:* test:types",
-		"build-doc": "storybook build -o ../../docs/foundation",
+		"build-doc": "storybook build -o ../../docs/toolkits",
 		"build:code": "tsdown",
 		"check:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.storybook.css",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
