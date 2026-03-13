@@ -9,14 +9,16 @@ const config: KnipConfig = {
 		// For CI
 		'playwright'
 	],
-	paths: {
-		'#just-web/toolkits': ['libs/toolkits/src/index.ts'],
-		'#just-web/toolkits/react': ['libs/toolkits/src/react.ts'],
-		'#just-web/toolkits/theme': ['libs/toolkits/src/theme.ts']
-	},
 	workspaces: {
 		'apps/website': {
 			entry: ['src/styles/global.css']
+		},
+		'libs/toolkits': {
+			paths: {
+				'#just-web/toolkits': ['src/index.ts'],
+				'#just-web/toolkits/react': ['src/react.ts'],
+				'#just-web/toolkits/theme': ['src/theme.ts']
+			}
 		}
 	}
 }
