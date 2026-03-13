@@ -13,6 +13,11 @@ const config: KnipConfig = {
 		'#just-web/toolkits': ['libs/toolkits/src/index.ts'],
 		'#just-web/toolkits/react': ['libs/toolkits/src/react.ts'],
 		'#just-web/toolkits/theme': ['libs/toolkits/src/theme.ts']
+	},
+	workspaces: {
+		'apps/website': {
+			entry: ['src/styles/global.css']
+		}
 	}
 }
 

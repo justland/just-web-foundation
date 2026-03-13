@@ -1,7 +1,6 @@
 import type { Properties } from 'csstype'
 
 declare module 'csstype' {
-	// biome-ignore lint/correctness/noUnusedVariables: TLength and TTime are used in the extended Properties type
 	interface Properties<TLength = (string & {}) | 0, TTime = string & {}> extends CustomProperties {}
 }
 

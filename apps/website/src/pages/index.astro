@@ -1,10 +1,14 @@
 ---
-const baseUrl = import.meta.env.BASE_URL
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+import PackageSection from '../components/PackageSection.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const baseUrl = import.meta['env'].BASE_URL
 ---
 
 <BaseLayout>
 	<Header />
-
 	<main id="main">
 		<!-- Hero (Biome-style) -->
 		<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
