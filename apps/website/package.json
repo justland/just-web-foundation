@@ -8,6 +8,8 @@
 		"nuke": "rimraf node_modules"
 	},
 	"devDependencies": {
-		"astro": "^5.18.1"
+		"@tailwindcss/vite": "^4.1.18",
+		"astro": "^5.18.1",
+		"tailwindcss": "^4.1.18"
 	}
 }

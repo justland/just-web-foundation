@@ -70,77 +70,17 @@ importers:
         specifier: ^5.85.0
         version: 5.85.0(@types/node@22.15.21)(typescript@5.9.3)
 
-  apps/docs:
+  apps/website:
     devDependencies:
-      '@repobuddy/storybook':
-        specifier: ^2.25.0
-        version: 2.25.0(91b4be5be14e95884c4fc3a30861f37d)
-      '@repobuddy/vitest':
-        specifier: ^2.1.1
-        version: 2.1.1(@vitest/browser-playwright@4.0.18)(vitest@4.0.18)
-      '@storybook-community/storybook-dark-mode':
-        specifier: ^7.1.0
-        version: 7.1.0(@storybook/addon-docs@10.2.7(@types/react@19.2.13)(esbuild@0.27.4)(rollup@4.54.0)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(webpack@5.99.8(esbuild@0.27.4)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@storybook/addon-docs':
-        specifier: ^10.2.7
-        version: 10.2.7(@types/react@19.2.13)(esbuild@0.27.4)(rollup@4.54.0)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(webpack@5.99.8(esbuild@0.27.4))
-      '@storybook/addon-themes':
-        specifier: ^10.2.7
-        version: 10.2.7(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@storybook/addon-vitest':
-        specifier: ^10.2.7
-        version: 10.2.7(@vitest/browser-playwright@4.0.18)(@vitest/browser@4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18))(@vitest/runner@4.0.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vitest@4.0.18)
-      '@storybook/react-vite':
-        specifier: ^10.2.7
-        version: 10.2.7(esbuild@0.27.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.54.0)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(webpack@5.99.8(esbuild@0.27.4))
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))
-      '@tools/typescript':
-        specifier: workspace:^
-        version: link:../../tools/ts
-      '@vitest/browser':
-        specifier: ^4.0.18
-        version: 4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18)
-      '@vitest/browser-playwright':
-        specifier: ^4.0.18
-        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18)
-      '@vitest/coverage-v8':
-        specifier: ^4.0.18
-        version: 4.0.18(@vitest/browser@4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18))(vitest@4.0.18)
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      storybook:
-        specifier: ^10.2.7
-        version: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      storybook-addon-code-editor:
-        specifier: ^6.1.2
-        version: 6.1.3(@types/react@19.2.13)(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      storybook-addon-tag-badges:
-        specifier: ^3.0.6
-        version: 3.0.6(patch_hash=9cb806ddc4955991a0032819bf48a9278ca58827b75a6efb8e0502f0f7b58e08)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      tailwindcss:
-        specifier: ^4.1.18
-        version: 4.2.1
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      vite:
-        specifier: ^7.3.1
-        version: 7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1)
-      vitest:
-        specifier: ^4.0.18
-        version: 4.0.18(@types/node@22.15.21)(@vitest/browser-playwright@4.0.18)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1)
-
-  apps/website:
-    devDependencies:
       astro:
         specifier: ^5.18.1
         version: 5.18.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(rollup@4.54.0)(sass@1.88.0)(terser@5.39.0)(typescript@5.9.3)(yaml@2.7.1)
+      tailwindcss:
+        specifier: ^4.1.18
+        version: 4.2.1
 
   libs/css:
     dependencies:
@@ -2539,11 +2479,6 @@ packages:
     peerDependencies:
       storybook: ^10.2.7
 
-  '@storybook/addon-themes@10.2.7':
-    resolution: {integrity: sha512-zFopLiaLF9+TCvuOmhj4wvtlobP/OXFMl+Ww073a0oeu7X0U2o4vkR3koVUDNjtI4X2iabgeJJp+3v/UCGeZXw==}
-    peerDependencies:
-      storybook: ^10.2.7
-
   '@storybook/addon-vitest@10.2.7':
     resolution: {integrity: sha512-pVFEZRSi7APkVcAdwuTL1crXa65fJ1ME/uVXajRR832UssIk8YwOGle3P7ciqPEL/8KSsn+GbDGQXLsKN2/oFA==}
     peerDependencies:
@@ -4886,9 +4821,6 @@ packages:
     resolution: {integrity: sha512-sF6TWQqjFvr4JILXzG4ucGOLELkESHL+I5QJhh7CNaE+Yge0SI+ehCatsXhJ7ymU1hAFcIS3/PBpjdIbXoyVbg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
-
-  sax@1.4.1:
-    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
   sax@1.5.0:
     resolution: {integrity: sha512-21IYA3Q5cQf089Z6tgaUTr7lDAyzoTPx5HRtbhsME8Udispad8dC/+sziTNugOEx54ilvatQ9YCzl4KQLPcRHA==}
@@ -8106,11 +8038,6 @@ snapshots:
       - vite
       - webpack
 
-  '@storybook/addon-themes@10.2.7(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
-    dependencies:
-      storybook: 10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      ts-dedent: 2.2.0
-
   '@storybook/addon-vitest@10.2.7(@vitest/browser-playwright@4.0.18)(@vitest/browser@4.0.18(vite@7.3.1(@types/node@22.15.21)(jiti@2.6.1)(less@4.3.0)(lightningcss@1.30.2)(sass@1.88.0)(terser@5.39.0)(yaml@2.7.1))(vitest@4.0.18))(@vitest/runner@4.0.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.7(@testing-library/dom@10.4.0)(prettier@3.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vitest@4.0.18)':
     dependencies:
       '@storybook/global': 5.0.0
@@ -10313,7 +10240,7 @@ snapshots:
   needle@3.3.1:
     dependencies:
       iconv-lite: 0.6.3
-      sax: 1.4.1
+      sax: 1.5.0
     optional: true
 
   neo-async@2.6.2:
@@ -10981,9 +10908,6 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
-    optional: true
-
-  sax@1.4.1:
     optional: true
 
   sax@1.5.0: {}

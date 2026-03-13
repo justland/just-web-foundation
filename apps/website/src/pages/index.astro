@@ -2,38 +2,108 @@
 const baseUrl = import.meta.env.BASE_URL
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="@just-web/foundation - CSS classes, types, and toolkits for web development" />
-		<title>@just-web/foundation</title>
-	</head>
-	<body>
-		<main>
-			<h1>@just-web/foundation</h1>
-			<p>
-				@just-web/foundation is a collection of CSS classes, TypeScript types, and toolkits used to build the web.
-			</p>
+<BaseLayout>
+	<Header />
 
-			<nav>
-				<h2>Storybooks</h2>
-				<ul>
-					<li>
-						<a href={`${baseUrl}css/`}>@just-web/css</a>
-						<span>— CSS types and utilities</span>
-					</li>
-					<li>
-						<a href={`${baseUrl}types/`}>@just-web/types</a>
-						<span>— Common types for web applications</span>
-					</li>
-					<li>
-						<a href={`${baseUrl}toolkits/`}>@just-web/toolkits</a>
-						<span>— Toolkits for web applications</span>
-					</li>
-				</ul>
-			</nav>
-		</main>
-	</body>
-</html>
+	<main id="main">
+		<!-- Hero (Biome-style) -->
+		<section class="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+			<h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">
+				One foundation for your web project
+			</h1>
+			<p class="mt-4 text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl">
+				CSS classes, TypeScript types, and toolkits to build the web.
+			</p>
+			<div class="mt-8 flex flex-wrap gap-4">
+				<a
+					href={`${baseUrl}css/`}
+					class="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 transition-colors"
+				>
+					Get started
+				</a>
+				<a
+					href="https://github.com/justland/just-web-foundation"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center rounded-lg border border-zinc-300 dark:border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+				>
+					View on GitHub
+				</a>
+			</div>
+		</section>
+
+		<!-- Package sections (Biome-style feature blocks with CODE / Install) -->
+		<PackageSection
+			title="@just-web/css"
+			description="@just-web/css provides CSS utilities and types for web applications. Define properties, convert units, and work with themes."
+			storybookHref={`${baseUrl}css/`}
+			codeSnippet={`import { defineProperties } from '@just-web/css'
+
+const style = defineProperties({
+  color: 'red',
+  '--theme-primary': '#ff6b6b'
+})`}
+			installCommand="pnpm add @just-web/css"
+			npmPackage="@just-web/css"
+		/>
+
+		<PackageSection
+			title="@just-web/types"
+			description="@just-web/types provides common types for web applications. Shared type definitions to keep your codebase consistent."
+			storybookHref={`${baseUrl}types/`}
+			codeSnippet={`import type { SomeType } from '@just-web/types'
+
+const data: SomeType = { ... }`}
+			installCommand="pnpm add @just-web/types"
+			npmPackage="@just-web/types"
+		/>
+
+		<PackageSection
+			title="@just-web/toolkits"
+			description="@just-web/toolkits is a toolkit for working with web technologies. Composable utilities for building web applications."
+			storybookHref={`${baseUrl}toolkits/`}
+			codeSnippet={`import { someUtil } from '@just-web/toolkits'
+
+const result = someUtil(input)`}
+			installCommand="pnpm add @just-web/toolkits"
+			npmPackage="@just-web/toolkits"
+		/>
+
+		<!-- Value props (Biome-style grid) -->
+		<section class="border-t border-zinc-200 dark:border-zinc-800 py-16">
+			<div class="mx-auto max-w-5xl px-4 sm:px-6">
+				<h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-10">
+					Built for modern web development
+				</h2>
+				<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+					<div>
+						<h3 class="font-semibold text-zinc-900 dark:text-zinc-100">Composable</h3>
+						<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+							Mix and match CSS, types, and toolkits. Use what you need.
+						</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-zinc-900 dark:text-zinc-100">Type-safe</h3>
+						<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+							Full TypeScript support. Catch errors at compile time.
+						</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-zinc-900 dark:text-zinc-100">Documented</h3>
+						<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+							Storybook for each package. Explore components in isolation.
+						</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-zinc-900 dark:text-zinc-100">Lightweight</h3>
+						<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+							Tree-shakeable. Only bundle what you use.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</BaseLayout>

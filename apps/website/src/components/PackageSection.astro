@@ -1,0 +1,52 @@
+---
+interface Props {
+	title: string
+	description: string
+	storybookHref: string
+	codeSnippet: string
+	installCommand: string
+	npmPackage: string
+}
+
+const { title, description, storybookHref, codeSnippet, installCommand, npmPackage } = Astro.props
+const npmUrl = `https://www.npmjs.com/package/${encodeURIComponent(npmPackage)}`
+---
+
+<section class="py-12 md:py-16">
+	<div class="mx-auto max-w-5xl px-4 sm:px-6">
+		<h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">{title}</h2>
+		<p class="text-base text-zinc-600 dark:text-zinc-400 mb-8 max-w-2xl">{description}</p>
+
+		<div class="grid gap-8 md:grid-cols-2 mb-8">
+			<div>
+				<p class="mb-2 text-sm font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500">Code</p>
+				<pre
+					class="overflow-x-auto rounded-lg bg-zinc-100 dark:bg-zinc-800 p-4 text-sm text-zinc-800 dark:text-zinc-200 font-mono"
+				><code>{codeSnippet}</code></pre>
+			</div>
+			<div>
+				<p class="mb-2 text-sm font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-500">Install</p>
+				<pre
+					class="overflow-x-auto rounded-lg bg-zinc-100 dark:bg-zinc-800 p-4 text-sm text-zinc-800 dark:text-zinc-200 font-mono"
+				><code>{installCommand}</code></pre>
+			</div>
+		</div>
+
+		<div class="flex flex-wrap gap-4">
+			<a
+				href={storybookHref}
+				class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-950 transition-colors"
+			>
+				View Storybook
+			</a>
+			<a
+				href={npmUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+			>
+				npm
+			</a>
+		</div>
+	</div>
+</section>
