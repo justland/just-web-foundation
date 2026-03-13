@@ -4,5 +4,6 @@
 		"customConditions": ["@just-web/toolkits-dev"],
 		"jsx": "react-jsx",
 		"rewriteRelativeImportExtensions": true
-	}
+	},
+	"include": [".storybook/*", "src", "types", "*.ts"]
 }
