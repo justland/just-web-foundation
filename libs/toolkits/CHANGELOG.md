@@ -1,5 +1,13 @@
 # @just-web/toolkits
 
+## 3.2.0
+
+### Minor Changes
+
+- 6dc7065: Add `@just-web/toolkits/react.js` and `@just-web/toolkits/theme.js` imports.
+
+  The `@just-web/toolkits/react` and `@just-web/toolkits/theme` imports are deprecated and will be removed in the next major release.
+
 ## 3.1.1
 
 ### Patch Changes
