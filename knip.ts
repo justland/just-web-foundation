@@ -12,13 +12,6 @@ const config: KnipConfig = {
 	workspaces: {
 		'apps/website': {
 			entry: ['src/styles/global.css']
-		},
-		'libs/toolkits': {
-			paths: {
-				'#just-web/toolkits': ['src/index.ts'],
-				'#just-web/toolkits/react': ['src/react.ts'],
-				'#just-web/toolkits/theme': ['src/theme.ts']
-			}
 		}
 	}
 }

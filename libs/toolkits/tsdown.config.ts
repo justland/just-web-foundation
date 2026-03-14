@@ -2,16 +2,17 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig([
 	{
-		entry: ['src/index.ts', 'src/react.ts', 'src/theme.ts'],
-		format: ['esm', 'cjs'],
+		entry: ['src/*.ts'],
+		format: ['es', 'cjs'],
 		clean: true,
 		dts: true,
 		external: ['react', 'react-dom'],
+		platform: 'neutral',
 		sourcemap: true,
 		unbundle: true
 	},
 	{
-		entry: ['src/index.ts', 'src/react.ts', 'src/theme.ts'],
+		entry: ['src/*.ts'],
 		format: ['es'],
 		outDir: '.editor/just_web_toolkits',
 		clean: true,

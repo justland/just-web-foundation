@@ -1,5 +1,5 @@
+import { inMemoryThemeStore, themeEntry } from '@just-web/toolkits/theme.js'
 import { describe, expect, it } from 'vitest'
-import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import { setThemeToStores } from './set-theme-to-stores.ts'
 
 const themeMap = {

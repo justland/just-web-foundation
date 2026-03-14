@@ -48,7 +48,7 @@ export const BasicUsage: Story = {
 		},
 		source: {
 			code: dedent`
-				import type { ColorScheme } from '#just-web/toolkits'
+				import type { ColorScheme } from '@just-web/toolkits'
 
 				const light: ColorScheme = 'light'
 				const dark: ColorScheme = 'dark'

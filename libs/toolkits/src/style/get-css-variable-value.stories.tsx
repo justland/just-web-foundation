@@ -1,9 +1,9 @@
+import { defineCSSProperties, getCSSVariableValue } from '@just-web/toolkits'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useEffect, useRef, useState } from 'react'
 import { expect } from 'storybook/test'
-import { defineCSSProperties, getCSSVariableValue } from '#just-web/toolkits'
 import source from './get-css-variable-value.ts?raw'
 
 const meta = {

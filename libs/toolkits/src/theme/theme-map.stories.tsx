@@ -1,7 +1,7 @@
+import { themeEntry } from '@just-web/toolkits/theme.js'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
-import { themeEntry } from '#just-web/toolkits/theme'
 import { ThemeResultCard } from '../testing/theme/theme-result-card.tsx'
 import source from './theme-map.types.ts?raw'
 

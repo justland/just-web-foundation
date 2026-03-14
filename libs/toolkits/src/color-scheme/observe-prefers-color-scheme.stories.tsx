@@ -1,3 +1,4 @@
+import { getPrefersColorScheme, observePrefersColorScheme } from '@just-web/toolkits'
 import {
 	defineDocsParam,
 	type FnToArgTypes,
@@ -7,7 +8,6 @@ import {
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { useEffect, useState } from 'react'
-import { getPrefersColorScheme, observePrefersColorScheme } from '#just-web/toolkits'
 import code from './observe-prefers-color-scheme.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {

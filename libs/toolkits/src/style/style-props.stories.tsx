@@ -1,9 +1,9 @@
+import * as toolkits from '@just-web/toolkits'
 import * as repobuddyStorybook from '@repobuddy/storybook'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import * as React from 'react'
 import { makeLiveEditStory } from 'storybook-addon-code-editor'
-import * as toolkits from '#just-web/toolkits'
 import code from './style-props.editor.tsx?raw'
 import source from './style-props.ts?raw'
 

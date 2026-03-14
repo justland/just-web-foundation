@@ -1,3 +1,4 @@
+import { getPrefersColorScheme } from '@just-web/toolkits'
 import {
 	defineDocsParam,
 	type FnToArgTypes,
@@ -6,7 +7,6 @@ import {
 	withStoryCard
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import { getPrefersColorScheme } from '#just-web/toolkits'
 import code from './get-prefers-color-scheme.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersColorScheme>> = {

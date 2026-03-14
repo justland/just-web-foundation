@@ -1,14 +1,14 @@
-import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import dedent from 'dedent'
-import { useMemo } from 'react'
-import { expect } from 'storybook/test'
 import {
 	cookieThemeStore,
 	getThemeFromCookie,
 	type ThemeEntry,
 	themeEntry
-} from '#just-web/toolkits/theme'
+} from '@just-web/toolkits/theme.js'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
+import { useMemo } from 'react'
+import { expect } from 'storybook/test'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
 import { ThemeStoreDemo } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './cookie-theme-store.ts?raw'

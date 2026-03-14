@@ -1,8 +1,8 @@
+import { createCssUnitConverter } from '@just-web/toolkits'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { createCssUnitConverter } from '#just-web/toolkits'
 import source from './create-css-unit-converter.ts?raw'
 
 const meta = {

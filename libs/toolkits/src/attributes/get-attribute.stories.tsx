@@ -1,3 +1,4 @@
+import { getAttribute } from '@just-web/toolkits'
 import {
 	defineDocsParam,
 	type FnToArgTypes,
@@ -7,7 +8,6 @@ import {
 } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
-import { getAttribute } from '#just-web/toolkits'
 import code from './get-attribute.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getAttribute, ['qualifiedName', 'element']>> = {
