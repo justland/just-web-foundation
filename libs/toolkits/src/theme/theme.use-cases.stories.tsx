@@ -1,3 +1,4 @@
+import type { AsyncThemeStore, ThemeEntry, ThemeStore } from '@just-web/toolkits/theme.js'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
@@ -5,7 +6,6 @@ import { atom, createStore } from 'jotai'
 import { useMemo } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
 import { createStore as createZustandStore } from 'zustand/vanilla'
-import type { AsyncThemeStore, ThemeEntry, ThemeStore } from '#just-web/toolkits/theme'
 import { ThemeStoreDemo } from '../testing/theme/theme-store-demo.tsx'
 
 const meta = {

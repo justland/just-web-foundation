@@ -1,8 +1,8 @@
+import { parseCssNumber } from '@just-web/toolkits'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { parseCssNumber } from '#just-web/toolkits'
 import source from './parse-css-number.ts?raw'
 
 const meta = {

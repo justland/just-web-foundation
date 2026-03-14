@@ -1,9 +1,4 @@
-import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import dedent from 'dedent'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { expect, userEvent, waitFor } from 'storybook/test'
-import type { ThemeEntry, ThemeMap } from '#just-web/toolkits/theme'
+import type { ThemeEntry, ThemeMap } from '@just-web/toolkits/theme.js'
 import {
 	parseDataAttribute,
 	readDataAttribute,
@@ -11,7 +6,12 @@ import {
 	subscribeDataAttribute,
 	themeEntry,
 	writeDataAttribute
-} from '#just-web/toolkits/theme'
+} from '@just-web/toolkits/theme.js'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../testing/button.tsx'
 import { ThemeResultCard } from '../../testing/theme/theme-result-card.tsx'
 import { ThemeStoreDemo } from '../../testing/theme/theme-store-demo.tsx'

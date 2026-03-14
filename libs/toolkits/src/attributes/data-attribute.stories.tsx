@@ -1,8 +1,8 @@
+import type { DataAttribute } from '@just-web/toolkits'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { isType } from 'type-plus'
-import type { DataAttribute } from '#just-web/toolkits'
 
 const meta = {
 	title: 'attributes/DataAttribute',
@@ -125,7 +125,7 @@ export const CustomDataAttributes: Story = {
 		},
 		source: {
 			code: dedent`
-				import type { DataAttribute } from '#just-web/toolkits'
+				import type { DataAttribute } from '@just-web/toolkits'
 
 				// Custom data attributes (data-\${string})
 				const custom: DataAttribute = 'data-custom-name'

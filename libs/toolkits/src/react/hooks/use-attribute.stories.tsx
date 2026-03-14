@@ -1,9 +1,9 @@
+import { useAttribute } from '@just-web/toolkits/react.js'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { useAttribute } from '#just-web/toolkits/react'
 import { Button } from '../../testing/button.tsx'
 import code from './use-attribute.ts?raw'
 

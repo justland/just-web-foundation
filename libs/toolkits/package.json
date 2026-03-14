@@ -11,47 +11,41 @@
 	"license": "MIT",
 	"author": "Unional <homawong@gmail.com>",
 	"type": "module",
-	"imports": {
-		"#just-web/toolkits": {
-			"@just-web/toolkits-dev": "./src/index.ts",
-			"types": "./dist/index.d.mts",
-			"default": "./dist/index.mjs"
-		},
-		"#just-web/toolkits/react": {
-			"@just-web/toolkits-dev": "./src/react.ts",
-			"types": "./dist/react.d.mts",
-			"default": "./dist/react.mjs"
-		},
-		"#just-web/toolkits/theme": {
-			"@just-web/toolkits-dev": "./src/theme.ts",
-			"types": "./dist/theme.d.mts",
-			"default": "./dist/theme.mjs"
-		}
-	},
 	"exports": {
 		".": {
+			"@just-web/toolkits-dev": "./src/index.ts",
 			"types": [
-				"./dist/index.d.mts",
+				"./dist/index.d.ts",
 				"./src/index.ts"
 			],
 			"source": "./src/index.ts",
-			"default": "./dist/index.mjs"
+			"default": "./dist/index.js"
+		},
+		"./index.js": null,
+		"./*.js": {
+			"@just-web/toolkits-dev": "./src/*.ts",
+			"types": [
+				"./dist/*.d.ts",
+				"./src/*.ts"
+			],
+			"source": "./src/*.ts",
+			"default": "./dist/*.js"
 		},
 		"./react": {
 			"types": [
-				"./dist/react.d.mts",
+				"./dist/react.d.ts",
 				"./src/react.ts"
 			],
 			"source": "./src/react.ts",
-			"default": "./dist/react.mjs"
+			"default": "./dist/react.js"
 		},
 		"./theme": {
 			"types": [
-				"./dist/theme.d.mts",
+				"./dist/theme.d.ts",
 				"./src/theme.ts"
 			],
 			"source": "./src/theme.ts",
-			"default": "./dist/theme.mjs"
+			"default": "./dist/theme.js"
 		},
 		"./package.json": "./package.json"
 	},

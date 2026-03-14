@@ -1,7 +1,7 @@
+import { usePrefersColorScheme } from '@just-web/toolkits/react.js'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
-import { usePrefersColorScheme } from '#just-web/toolkits/react'
 import code from './use-prefers-color-scheme.ts?raw'
 
 const meta = {

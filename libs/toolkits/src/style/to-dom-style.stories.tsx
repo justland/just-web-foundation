@@ -1,8 +1,8 @@
+import type { CSSProperties } from '@just-web/toolkits'
+import { toDomStyle } from '@just-web/toolkits'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import { useEffect, useRef } from 'react'
-import type { CSSProperties } from '#just-web/toolkits'
-import { toDomStyle } from '#just-web/toolkits'
 import source from './to-dom-style.ts?raw'
 
 const meta = {

@@ -1,8 +1,8 @@
+import { defineCSSProperties } from '@just-web/toolkits'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { defineCSSProperties } from '#just-web/toolkits'
 import source from './define-css-properties.ts?raw'
 
 const meta = {

@@ -1,7 +1,7 @@
+import { resolveStyle } from '@just-web/toolkits'
 import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
-import { resolveStyle } from '#just-web/toolkits'
 
 const meta = {
 	title: 'style/resolveStyle',

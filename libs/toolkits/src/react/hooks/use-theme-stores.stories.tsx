@@ -1,17 +1,17 @@
-import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import dedent from 'dedent'
-import type { ReactNode } from 'react'
-import { createContext, useCallback, useContext, useMemo } from 'react'
-import { expect, userEvent, waitFor } from 'storybook/test'
-import { useThemeStores } from '#just-web/toolkits/react'
+import { useThemeStores } from '@just-web/toolkits/react.js'
 import {
 	classNameThemeStore,
 	inMemoryThemeStore,
 	localStorageThemeStore,
 	type ThemeStore,
 	themeEntry
-} from '#just-web/toolkits/theme'
+} from '@just-web/toolkits/theme.js'
+import { defineDocsParam, StoryCard, showSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
+import type { ReactNode } from 'react'
+import { createContext, useCallback, useContext, useMemo } from 'react'
+import { expect, userEvent, waitFor } from 'storybook/test'
 import { Button } from '../../testing/button.tsx'
 import code from './use-theme-stores.ts?raw'
 

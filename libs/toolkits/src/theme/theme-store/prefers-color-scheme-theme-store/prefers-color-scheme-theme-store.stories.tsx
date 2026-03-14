@@ -1,14 +1,14 @@
-import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
-import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
-import dedent from 'dedent'
-import { useEffect, useMemo, useState } from 'react'
-import { expect, userEvent } from 'storybook/test'
 import {
 	composeThemeStores,
 	prefersColorSchemeThemeStore,
 	type ThemeEntry,
 	themeEntry
-} from '#just-web/toolkits/theme'
+} from '@just-web/toolkits/theme.js'
+import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
+import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
+import dedent from 'dedent'
+import { useEffect, useMemo, useState } from 'react'
+import { expect, userEvent } from 'storybook/test'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
 import { ThemeStoreDemo } from '../../../testing/theme/theme-store-demo.tsx'
 import source from './prefers-color-scheme-theme-store.ts?raw'
@@ -152,7 +152,7 @@ export const WithComposeThemeStores: Story = {
 		withStoryCard(),
 		showSource({
 			source: dedent`
-				import { composeThemeStores, localStorageThemeStore, prefersColorSchemeThemeStore } from '#just-web/toolkits/theme'
+				import { composeThemeStores, localStorageThemeStore, prefersColorSchemeThemeStore } from '@just-web/toolkits/theme.js'
 
 				const colorSchemeThemes = { light: 'theme-light', dark: 'theme-dark' }
 				const store = composeThemeStores(colorSchemeThemes, [

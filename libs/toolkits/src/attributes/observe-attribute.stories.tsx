@@ -1,9 +1,9 @@
+import { observeAttributes } from '@just-web/toolkits'
 import { defineDocsParam, type FnToArgTypes, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { expect, userEvent } from 'storybook/test'
-import { observeAttributes } from '#just-web/toolkits'
 import { LogPanel } from '../testing/log-panel.tsx'
 import code from './observe-attribute.ts?raw'
 

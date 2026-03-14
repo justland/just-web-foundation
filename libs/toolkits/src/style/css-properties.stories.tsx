@@ -1,11 +1,11 @@
+import type * as toolkits from '@just-web/toolkits'
+import type { CSSProperties } from '@just-web/toolkits'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
 import type { CSSProperties as ReactCSSProperties } from 'react'
 import { expect } from 'storybook/test'
 import { testType } from 'type-plus'
-import type * as toolkits from '#just-web/toolkits'
-import type { CSSProperties } from '#just-web/toolkits'
 import source from './css-properties.ts?raw'
 
 const meta: Meta<toolkits.CSSProperties> = {

@@ -1,7 +1,7 @@
+import { useThemeStores } from '@just-web/toolkits/react.js'
+import { inMemoryThemeStore, themeEntry } from '@just-web/toolkits/theme.js'
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { useThemeStores } from '#just-web/toolkits/react'
-import { inMemoryThemeStore, themeEntry } from '#just-web/toolkits/theme'
 import type { ThemeMap } from '../../theme/theme-map.types.ts'
 import type { ThemeStore } from '../../theme/theme-store/theme-store.types.ts'
 
