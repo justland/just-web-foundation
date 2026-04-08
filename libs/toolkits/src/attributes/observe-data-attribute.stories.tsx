@@ -252,6 +252,70 @@ export const CustomElement: Story = {
 	}
 }
 
+export const CallbackFiredOncePerChange: Story = {
+	parameters: defineDocsParam({
+		description: {
+			story:
+				'Verifies that the callback is fired only once per attribute change, not multiple times.'
+		}
+	}),
+	decorators: [withStoryCard()],
+	render: () => {
+		const [log, setLog] = useState<string[]>([])
+
+		useEffect(() => {
+			return observeDataAttributes({
+				'data-theme': (value) => {
+					setLog((prev) => [...prev, `data-theme: ${value}`])
+				}
+			})
+		}, [])
+
+		return (
+			<div className="font-sans">
+				<div className="flex flex-wrap gap-2 mb-4">
+					<Button
+						onPress={() => testValueDataThemeStore.write(themeEntry(testValueThemes, 'test-value'))}
+					>
+						Set test-value
+					</Button>
+					<Button onPress={() => document.documentElement.removeAttribute('data-theme')}>
+						Clear
+					</Button>
+				</div>
+				<LogPanel title="Attribute Changes:" log={log} />
+			</div>
+		)
+	},
+	play: async ({ canvas, step }) => {
+		const setBtn = canvas.getByRole('button', { name: 'Set test-value' })
+		const clearBtn = canvas.getByRole('button', { name: 'Clear' })
+
+		await step('callback fires once when value changes', async () => {
+			await userEvent.click(setBtn)
+			await expect(canvas.getByText('data-theme: test-value')).toBeInTheDocument()
+
+			const logItems = canvas.getAllByText(/^data-theme:/)
+			await expect(logItems).toHaveLength(1)
+		})
+
+		await step('callback fires once when value is cleared', async () => {
+			await userEvent.click(clearBtn)
+			await expect(canvas.getByText('data-theme: null')).toBeInTheDocument()
+
+			const logItems = canvas.getAllByText(/^data-theme:/)
+			await expect(logItems).toHaveLength(2)
+		})
+
+		await step('callback fires once when value is set again', async () => {
+			await userEvent.click(setBtn)
+
+			const logItems = canvas.getAllByText(/^data-theme:/)
+			await expect(logItems).toHaveLength(3)
+		})
+	}
+}
+
 export const Source: Story = {
 	tags: ['source'],
 	parameters: defineDocsParam({
