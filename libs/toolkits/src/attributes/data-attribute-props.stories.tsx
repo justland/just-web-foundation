@@ -4,7 +4,7 @@ import dedent from 'dedent'
 
 const meta = {
 	title: 'attributes/DataAttributeProps',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:3.3'],
 	render: () => <></>
 } satisfies Meta
 
