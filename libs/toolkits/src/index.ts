@@ -1,4 +1,5 @@
 export * from './attributes/data-attribute.ts'
+export * from './attributes/data-attribute-props.ts'
 export * from './attributes/get-attribute.ts'
 export * from './attributes/get-data-attribute.ts'
 export * from './attributes/observe-attribute.ts'
