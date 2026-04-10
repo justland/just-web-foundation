@@ -9,6 +9,7 @@ const config: KnipConfig = {
 		// For CI
 		'playwright'
 	],
+	ignoreBinaries: ['astro'],
 	workspaces: {
 		'apps/website': {
 			entry: ['src/styles/global.css']
