@@ -1,5 +1,11 @@
 # @just-web/toolkits
 
+## 3.3.0
+
+### Minor Changes
+
+- 2f07c6c: Add `DataAttributeProps` interface for typing common `data-*` attributes such as `data-metrics` and `data-testid`, plus arbitrary `data-${string}` keys.
+
 ## 3.2.0
 
 ### Minor Changes
