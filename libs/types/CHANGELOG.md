@@ -1,5 +1,11 @@
 # @just-web/types
 
+## 0.2.2
+
+### Patch Changes
+
+- 059cb4f: Add missing dist files.
+
 ## 0.2.1
 
 ### Patch Changes
