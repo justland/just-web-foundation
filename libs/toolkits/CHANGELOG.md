@@ -1,5 +1,11 @@
 # @just-web/toolkits
 
+## 3.3.1
+
+### Patch Changes
+
+- 705f979: Move `react-aria-components` to dev deps.
+
 ## 3.3.0
 
 ### Minor Changes
