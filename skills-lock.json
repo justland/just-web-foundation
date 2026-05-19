@@ -1,25 +1,55 @@
 {
 	"version": 1,
 	"skills": {
+		"add-changeset": {
+			"source": "repobuddy/agent-changesets",
+			"sourceType": "github",
+			"skillPath": "skills/add-changeset/SKILL.md",
+			"computedHash": "8a5266fe92b2f9f755238564e44b5b44e1b5ce0a469d5659c1b03d49dd590dd1"
+		},
 		"autonomous-bug-fixing": {
 			"source": "unional/skills",
 			"sourceType": "github",
 			"computedHash": "ba4712319f22ab3bfbc3d0d1c0f1213f5db284e71cc0dca6621eee29cd5a0664"
+		},
+		"create-skill": {
+			"source": "cyberuni/agent-helmsman",
+			"sourceType": "github",
+			"skillPath": "skills/create-skill/SKILL.md",
+			"computedHash": "6f7a5b9959fb330b0fa8308dadca1df6bb654b578aedeb976fb445c62b31f5eb"
 		},
 		"demand-elegance": {
 			"source": "unional/skills",
 			"sourceType": "github",
 			"computedHash": "f3afcd9f93ff5053d3c6fb3e08d250af1f714ce80c3350f4d0acae80dbfff57d"
 		},
+		"init": {
+			"source": "cyberuni/agent-helmsman",
+			"sourceType": "github",
+			"skillPath": "skills/init/SKILL.md",
+			"computedHash": "3b7fe09f0412d2607040b48d1a976fd5a3a690a6da7233b6d9c7a45ca11898ef"
+		},
 		"self-improvement-loop": {
 			"source": "unional/skills",
 			"sourceType": "github",
 			"computedHash": "60474b364bce7f0fb081df1b343587f8b055dcdbdabf945c1889ea029a10079b"
 		},
+		"setup-changesets": {
+			"source": "repobuddy/agent-changesets",
+			"sourceType": "github",
+			"skillPath": "skills/setup-changesets/SKILL.md",
+			"computedHash": "420852a5b0c12254ab2e4713116be62fadeee3b8e50f1f8e9ea84295c2fdc496"
+		},
 		"subagent-strategy": {
 			"source": "unional/skills",
 			"sourceType": "github",
 			"computedHash": "9f6f7e7fce9141aa4d46ab21936e03603c075bebeec40f5fa2f542d277c07145"
+		},
+		"validate-skill": {
+			"source": "cyberuni/agent-helmsman",
+			"sourceType": "github",
+			"skillPath": "skills/validate-skill/SKILL.md",
+			"computedHash": "dac87a91e49948a897a82b4df7b5a1b5ef9f3600908282e92731d2e2151d9427"
 		},
 		"verification-before-done": {
 			"source": "unional/skills",
