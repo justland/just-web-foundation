@@ -1,4 +1,6 @@
+import { observeMediaFeatureValue } from '../_internal/media/observe-media-feature-value.ts'
 import type { ColorScheme } from './color-scheme.types.ts'
+import { colorSchemeValues } from './color-scheme.values.ts'
 
 /**
  * Observes system color scheme preference changes and calls handlers when they occur.
@@ -16,11 +18,5 @@ import type { ColorScheme } from './color-scheme.types.ts'
  * ```
  */
 export function observePrefersColorScheme(handler: (value: ColorScheme) => void) {
-	const m = globalThis.matchMedia('(prefers-color-scheme: light)')
-	const listener = (event: MediaQueryListEvent) => {
-		handler(event.matches ? 'light' : 'dark')
-	}
-
-	m.addEventListener('change', listener)
-	return () => m.removeEventListener('change', listener)
+	return observeMediaFeatureValue('prefers-color-scheme', colorSchemeValues, handler)
 }
