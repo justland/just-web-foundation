@@ -1,4 +1,6 @@
+import { getMediaFeatureValue } from '../_internal/media/get-media-feature-value.ts'
 import type { ColorScheme } from './color-scheme.types.ts'
+import { colorSchemeValues } from './color-scheme.values.ts'
 
 /**
  * Gets the current preferred color scheme.
@@ -15,5 +17,5 @@ import type { ColorScheme } from './color-scheme.types.ts'
  */
 export function getPrefersColorScheme(defaultColorScheme: ColorScheme = 'light'): ColorScheme {
 	if (typeof matchMedia === 'undefined') return defaultColorScheme
-	return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+	return getMediaFeatureValue('prefers-color-scheme', colorSchemeValues, 'dark')
 }
