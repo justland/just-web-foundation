@@ -5,7 +5,7 @@ import source from './contrast.types.ts?raw'
 
 const meta: Meta = {
 	title: 'contrast/Contrast',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:3.5'],
 	render: () => <></>
 }
 

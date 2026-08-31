@@ -11,7 +11,7 @@ import code from './get-prefers-contrast.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersContrast>> = {
 	title: 'contrast/getPrefersContrast',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

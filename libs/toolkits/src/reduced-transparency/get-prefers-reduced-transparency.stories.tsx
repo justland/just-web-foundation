@@ -11,7 +11,7 @@ import code from './get-prefers-reduced-transparency.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersReducedTransparency>> = {
 	title: 'reduced-transparency/getPrefersReducedTransparency',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

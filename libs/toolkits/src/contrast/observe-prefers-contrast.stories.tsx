@@ -12,7 +12,7 @@ import code from './observe-prefers-contrast.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersContrast>> = {
 	title: 'contrast/observePrefersContrast',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

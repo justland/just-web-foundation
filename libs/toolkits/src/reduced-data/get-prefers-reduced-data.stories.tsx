@@ -11,7 +11,7 @@ import code from './get-prefers-reduced-data.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersReducedData>> = {
 	title: 'reduced-data/getPrefersReducedData',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

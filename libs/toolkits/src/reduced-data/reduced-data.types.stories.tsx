@@ -5,7 +5,7 @@ import source from './reduced-data.types.ts?raw'
 
 const meta: Meta = {
 	title: 'reduced-data/ReducedData',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:3.5'],
 	render: () => <></>
 }
 
