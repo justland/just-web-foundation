@@ -11,7 +11,7 @@ import code from './get-prefers-reduced-motion.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPrefersReducedMotion>> = {
 	title: 'reduced-motion/getPrefersReducedMotion',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

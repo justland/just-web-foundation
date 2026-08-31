@@ -5,7 +5,7 @@ import source from './reduced-motion.types.ts?raw'
 
 const meta: Meta = {
 	title: 'reduced-motion/ReducedMotion',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:3.5'],
 	render: () => <></>
 }
 

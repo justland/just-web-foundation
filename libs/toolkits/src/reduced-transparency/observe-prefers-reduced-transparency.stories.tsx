@@ -15,7 +15,7 @@ import code from './observe-prefers-reduced-transparency.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersReducedTransparency>> = {
 	title: 'reduced-transparency/observePrefersReducedTransparency',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

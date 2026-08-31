@@ -12,7 +12,7 @@ import code from './observe-prefers-reduced-motion.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersReducedMotion>> = {
 	title: 'reduced-motion/observePrefersReducedMotion',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

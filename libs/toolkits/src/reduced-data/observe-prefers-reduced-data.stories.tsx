@@ -12,7 +12,7 @@ import code from './observe-prefers-reduced-data.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePrefersReducedData>> = {
 	title: 'reduced-data/observePrefersReducedData',
-	tags: ['func', 'version:next'],
+	tags: ['func', 'version:3.5'],
 	parameters: defineDocsParam({
 		description: {
 			component:

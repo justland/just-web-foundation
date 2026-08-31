@@ -5,7 +5,7 @@ import source from './reduced-transparency.types.ts?raw'
 
 const meta: Meta = {
 	title: 'reduced-transparency/ReducedTransparency',
-	tags: ['type', 'version:next'],
+	tags: ['type', 'version:3.5'],
 	render: () => <></>
 }
 
