@@ -18,9 +18,6 @@ overrides:
   react: 'catalog:'
   react-dom: 'catalog:'
 
-patchedDependencies:
-  storybook-addon-tag-badges: patches/storybook-addon-tag-badges.patch
-
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
