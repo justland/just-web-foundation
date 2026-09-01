@@ -1,0 +1,1 @@
+function i(a,o,r){const s=o.map(e=>{const n=globalThis.matchMedia(`(${a}: ${e})`),t=c=>{c.matches&&r(e)};return n.addEventListener("change",t),()=>n.removeEventListener("change",t)});return()=>{for(const e of s)e()}}export{i as o};
