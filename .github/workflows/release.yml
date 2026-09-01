@@ -11,14 +11,15 @@ jobs:
   code:
     uses: justland/.github/.github/workflows/pnpm-verify.yml@main
 
+  # Secretless: GITHUB_TOKEN for the version PR, npm trusted publishing (OIDC) to
+  # publish. No CI_GITHUB_TOKEN or NPM_TOKEN, so nothing to rotate or silently expire.
   release:
+    uses: justland/.github/.github/workflows/pnpm-release-changeset-oidc.yml@main
+    needs: code
     permissions:
       id-token: write
       contents: write
       pull-requests: write
-    uses: justland/.github/.github/workflows/pnpm-release-changeset.yml@main
-    needs: code
-    secrets: inherit
 
   docgen:
     permissions:
