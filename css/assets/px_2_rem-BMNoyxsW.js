@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(e,t){let{base:n=16,precision:r=4}=t??{};return typeof e==`string`&&(e=e.replace(/px$/,``),e=Number.parseFloat(e)),Number((e/n).toFixed(r))}function n(){return(n=e((()=>{})))()}export{t as n,n as t};

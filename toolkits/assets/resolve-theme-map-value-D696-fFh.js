@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(e){return Array.isArray(e)}function n(e){return typeof e==`string`||t(e)?e:e.themeValue}function r(){return(r=e((()=>{})))()}export{t as n,n as r,r as t};

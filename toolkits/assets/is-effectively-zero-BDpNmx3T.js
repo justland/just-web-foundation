@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t,t as n}from"./parse-css-number-BPjrhHrH.js";function r(e,n){let r=t(e);if(r==null)return r;if(!Number.isFinite(r))return!1;let i=n?.epsilon??1e-10;return Math.abs(r)<=i}function i(){return(i=e((()=>{n()})))()}export{r as n,i as t};

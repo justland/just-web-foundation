@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t}from"./observe-media-feature-value-D8VdyEpX.js";import{i as n,r}from"./get-prefers-reduced-data-DZfa2Afo.js";function i(e){return t(`prefers-reduced-data`,n,e)}function a(){return(a=e((()=>{r()})))()}export{i as n,a as t};

@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(e,t,n){let r=t.map(t=>{let r=globalThis.matchMedia(`(${e}: ${t})`),i=e=>{e.matches&&n(t)};return r.addEventListener(`change`,i),()=>r.removeEventListener(`change`,i)});return()=>{for(let e of r)e()}}function n(){return(n=e((()=>{})))()}export{t as n,n as t};

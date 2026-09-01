@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t}from"./observe-media-feature-value-D8VdyEpX.js";import{i as n,r}from"./get-prefers-contrast-CHsL4OQM.js";function i(e){return t(`prefers-contrast`,r,e)}function a(){return(a=e((()=>{n()})))()}export{i as n,a as t};

@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(e,...n){if(typeof e==`string`)return t(globalThis.document.body,e,...n);let r=globalThis.getComputedStyle(e);return n.map(e=>r.getPropertyValue(e))}function n(){return(n=e((()=>{})))()}export{n,t};

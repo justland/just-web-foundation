@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{t}from"./get-media-feature-value-DVwrr-hj.js";var n;function r(){return(r=e((()=>{n=[`light`,`dark`]})))()}function i(e=`light`){return typeof matchMedia>`u`?e:t(`prefers-color-scheme`,n,`dark`)}function a(){return(a=e((()=>{r()})))()}export{r as i,a as n,n as r,i as t};

@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(){if(typeof document>`u`||!document.documentElement)return n;let e=getComputedStyle(document.documentElement).fontSize;return Number.parseFloat(e)??n}var n;function r(){return(r=e((()=>{n=16})))()}export{r as n,t};

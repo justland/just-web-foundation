@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";function t(e,t,n){return typeof matchMedia>`u`?n:t.find(t=>matchMedia(`(${e}: ${t})`).matches)??n}function n(){return(n=e((()=>{})))()}export{n,t};

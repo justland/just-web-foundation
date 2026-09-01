@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t}from"./observe-attribute-By6RQqt_.js";function n(e,n){return t({lang:t=>e(t||navigator.language||`en`)},n)}function r(){return(r=e((()=>{})))()}export{n,r as t};

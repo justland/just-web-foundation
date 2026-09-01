@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t}from"./observe-media-feature-value-D8VdyEpX.js";import{i as n,r}from"./get-prefers-reduced-transparency-B388vs1F.js";function i(e){return t(`prefers-reduced-transparency`,n,e)}function a(){return(a=e((()=>{r()})))()}export{i as n,a as t};

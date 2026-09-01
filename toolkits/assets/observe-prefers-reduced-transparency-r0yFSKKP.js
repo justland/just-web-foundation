@@ -1,1 +1,0 @@
-import{o as r}from"./observe-media-feature-value--S6jnvF8.js";import{r as a}from"./get-prefers-reduced-transparency-JPUbF0w7.js";function n(e){return r("prefers-reduced-transparency",a,e)}export{n as o};

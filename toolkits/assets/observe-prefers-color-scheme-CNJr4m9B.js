@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{i as t,r as n}from"./get-prefers-color-scheme-BYJ-yK6c.js";import{n as r}from"./observe-media-feature-value-D8VdyEpX.js";function i(e){return r(`prefers-color-scheme`,n,e)}function a(){return(a=e((()=>{t()})))()}export{i as n,a as t};

@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{t}from"./get-media-feature-value-DVwrr-hj.js";var n;function r(){return(r=e((()=>{n=[`no-preference`,`reduce`]})))()}function i(e=`no-preference`){return t(`prefers-reduced-data`,n,e)}function a(){return(a=e((()=>{r()})))()}export{n as i,a as n,r,i as t};
