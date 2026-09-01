@@ -31,14 +31,16 @@
 		"!**/*.mdx"
 	],
 	"scripts": {
-		"build": "tsdown",
+		"build": "run-p build:* test:types",
 		"build-doc": "storybook build -o ../../docs/css",
+		"build:code": "tsdown",
 		"clean": "rimraf .turbo cjs esm *.tsbuildinfo dist",
 		"cov": "vitest run --coverage",
 		"inspect:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css",
 		"nuke": "rimraf node_modules",
 		"sb": "storybook dev -p 6206",
 		"test": "vitest run",
+		"test:types": "tsc --noEmit",
 		"w": "vitest"
 	},
 	"dependencies": {
@@ -59,6 +61,7 @@
 		"@vitest/browser-playwright": "^4.1.11",
 		"@vitest/coverage-v8": "^4.1.11",
 		"dedent": "^1.7.2",
+		"npm-run-all2": "^9.0.3",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"rimraf": "^6.1.3",
