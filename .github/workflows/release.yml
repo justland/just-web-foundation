@@ -5,7 +5,6 @@ on:
     branches: [main]
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -13,6 +12,10 @@ jobs:
     uses: justland/.github/.github/workflows/pnpm-verify.yml@main
 
   release:
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
     uses: justland/.github/.github/workflows/pnpm-release-changeset.yml@main
     needs: code
     secrets: inherit
