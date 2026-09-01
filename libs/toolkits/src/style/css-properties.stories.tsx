@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import type { CSSProperties as ReactCSSProperties } from 'react'
 import { expect } from 'storybook/test'
-import { testType } from 'type-plus'
 import source from './css-properties.ts?raw'
 
 const meta: Meta<toolkits.CSSProperties> = {
@@ -85,8 +84,13 @@ export const AcceptsReactCSSProperties: StoryObj = {
 		const reactStyle: ReactCSSProperties = { backgroundColor: 'olive' }
 		const justStyle: CSSProperties = reactStyle
 
-		testType.canAssign<typeof justStyle, typeof reactStyle>(true)
-		testType.canAssign<typeof reactStyle, typeof justStyle>(true)
+		// Mutual assignability, asserted against the compiler directly. `testType.canAssign`
+		// cannot express it here: `CSSProperties` carries a `--*` index signature, and
+		// `CanAssign` reports `false` for it even though the assignments below both compile.
+		const justFromReact: CSSProperties = reactStyle
+		const reactFromJust: ReactCSSProperties = justStyle
+		await expect(justFromReact).toEqual(reactFromJust)
+
 		const keys: Array<keyof CSSProperties> = ['backgroundColor', '--custom-property']
 		await expect(keys).toEqual(['backgroundColor', '--custom-property'])
 	}
