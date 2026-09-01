@@ -82,3 +82,6 @@ vite.config.*.timestamp*
 vitest.config.*.timestamp*
 
 *storybook.log
+
+# Per-developer agent harness settings
+.claude/settings.local.json
