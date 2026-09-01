@@ -22,7 +22,10 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - esbuild
 
-# minimumReleaseAge: 4320 # 3 days
-# minimumReleaseAgeExclude:
-#   - '@just-web/*'
-#   - '@repobuddy/storybook'
+# Supply-chain soak. `minimumReleaseAge` is only honoured as a pnpm setting when it
+# comes from here (or config.yaml/CLI/env) - in `.npmrc` it is not a valid key and the
+# soak silently runs in loose mode. `minimumReleaseAgeStrict` makes a too-young package
+# fail the install instead of being appended to `minimumReleaseAgeExclude` and installed
+# anyway. To take something younger than the window, add an exact version below.
+minimumReleaseAge: 1440 # 1 day
+minimumReleaseAgeStrict: true
