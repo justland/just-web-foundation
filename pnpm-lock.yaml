@@ -83,8 +83,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       type-plus:
-        specifier: ^7.6.2
-        version: 7.6.2
+        specifier: ^8.0.0-beta.10
+        version: 8.0.0-beta.10(typescript@5.9.3)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.32.1
@@ -174,8 +174,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       type-plus:
-        specifier: ^7.6.2
-        version: 7.6.2
+        specifier: ^8.0.0-beta.10
+        version: 8.0.0-beta.10(typescript@5.9.3)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.32.1
@@ -4192,6 +4192,9 @@ packages:
   tersify@3.12.1:
     resolution: {integrity: sha512-VwzXGHZSOB4T27s4uvh9v8FYrNXyfVz0nBQi28TDwrZoQwT8ZJUp1W2Ff73ekN07stJSb0D+pr6iXeNeFqTI6Q==}
 
+  tersify@4.0.6:
+    resolution: {integrity: sha512-+z2dTeRvbPyI7qiAmBY+VgWnhhN9IuaGjgrPfeF33hI4A/Yd9KT11tbc4l8vfIA3L/5EWiE0swvxOfAckGRuzA==}
+
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
 
@@ -4293,6 +4296,11 @@ packages:
   type-plus@7.6.2:
     resolution: {integrity: sha512-qUlXv9Y0/W56pg38m275IMD3WA03QbVoqNY16S3kmwtuA4gOT2iheyUdOp8NWrmXWpf7om98hzr7AZD/eW2jLA==}
 
+  type-plus@8.0.0-beta.10:
+    resolution: {integrity: sha512-ZdhzmQg7f8oxt5Cbivslk8o3zef8L3ibpKIeGH1ESf73y8ZEY1z9fe4Z3fTxcjmFOb8ESE1TbW/MCgEvpeLC4w==}
+    peerDependencies:
+      typescript: '>= 5.6.0'
+
   type-plus@8.0.0-beta.7:
     resolution: {integrity: sha512-LTV9UqBJ20I48Ba2L8N25EOowtrs40MLzsqQFfvAXnPAN9z0ny4CjduFfNIfW7euZ6wr6ImShEtrhR1virHiNw==}
 
@@ -4357,6 +4365,10 @@ packages:
   unpartial@1.0.6:
     resolution: {integrity: sha512-wY7h80NSwbITWPXBzd2SSEz0lltFzx5e0mH+M4u0TPebaCwJgujdsZd86oMp5oNIlYBg5RXzMn64/JOxwpFf3w==}
     engines: {node: '>=6'}
+
+  unpartial@1.0.7:
+    resolution: {integrity: sha512-DeyxEI3KSlmDihGAk3Js/p/Ca886ymIz39pWH3VVV/LZ36MsRETylFS37fdzWBWDjMlzB63Rdy2KLCdetOMPig==}
+    engines: {node: '>= 20'}
 
   unplugin@2.3.11:
     resolution: {integrity: sha512-5uKD0nqiYVzlmCRs01Fhs2BdkEgBS3SAVP6ndrBsuK42iC2+JHyxM05Rm9G8+5mkmRtzMZGY8Ct5+mliZxU/Ww==}
@@ -8267,6 +8279,11 @@ snapshots:
       is-buffer: 2.0.5
       unpartial: 1.0.6
 
+  tersify@4.0.6:
+    dependencies:
+      acorn: 8.18.0
+      unpartial: 1.0.7
+
   tiny-inflate@1.0.3: {}
 
   tiny-invariant@1.3.3: {}
@@ -8360,6 +8377,12 @@ snapshots:
       tersify: 3.12.1
       unpartial: 1.0.6
 
+  type-plus@8.0.0-beta.10(typescript@5.9.3):
+    dependencies:
+      tersify: 4.0.6
+      typescript: 5.9.3
+      unpartial: 1.0.7
+
   type-plus@8.0.0-beta.7:
     dependencies:
       tersify: 3.12.1
@@ -8432,6 +8455,8 @@ snapshots:
       unist-util-visit-parents: 6.0.2
 
   unpartial@1.0.6: {}
+
+  unpartial@1.0.7: {}
 
   unplugin@2.3.11:
     dependencies:
