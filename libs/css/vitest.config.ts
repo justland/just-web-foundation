@@ -31,6 +31,13 @@ export default mergeConfig(config, {
 	],
 	test: {
 		name: 'css',
-		setupFiles: ['./vitest.setup.ts']
+		setupFiles: ['./vitest.setup.ts'],
+		// Floors, not targets. Calibrated a few points under what every leg of the CI
+		// matrix reports (92.07 / 94.36 / 87.17 / 93.4, identical on ubuntu, macos and
+		// windows across both node versions) so a real regression fails `pnpm verify`
+		// while normal drift does not.
+		coverage: {
+			thresholds: { statements: 90, branches: 92, functions: 85, lines: 91 }
+		}
 	}
 })
