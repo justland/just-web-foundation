@@ -3,14 +3,19 @@
 	"tasks": {
 		"//#check": {},
 		"//#knip": {},
+		"//#typecheck": {},
 		"build": {
 			"dependsOn": ["^build"],
-			"inputs": ["*.ts", "*.tsx", "*.css", "package.json", "tsconfig*json"],
-			"outputs": ["cjs", "dist", "esm", "tokens.css", "*.tsbuildinfo"]
+			// No `inputs`. The previous list ("*.ts", "*.tsx", "*.css", "package.json",
+			// "tsconfig*json") matched only files at the package root, so nothing under
+			// `src/` was hashed: editing or adding a source file produced the same hash
+			// and turbo replayed a stale "cache hit" instead of rebuilding. Since `build`
+			// also runs `test:types`, that meant a type error could be cached away.
+			// Turbo's default - every non-gitignored file in the package - is correct here.
+			"outputs": ["cjs", "dist", "esm", ".editor", "tokens.css", "*.tsbuildinfo"]
 		},
 		"build-doc": {
 			"dependsOn": ["^build"],
-			"inputs": ["*.ts", "*.tsx", "*.css", "*.md", "*.mdx", "package.json", "tsconfig*json", ".storybook"],
 			"outputs": ["docs", "storybook-static"]
 		},
 		"clean": {
@@ -20,12 +25,6 @@
 			"dependsOn": ["^build"],
 			"outputs": ["__vis__/**", "coverage/**"]
 		},
-		"depcheck": {
-			"dependsOn": ["^build"]
-		},
-		"lint": {
-			"dependsOn": ["^build"]
-		},
 		"nuke": {
 			"cache": false
 		},
@@ -33,9 +32,6 @@
 			"cache": false,
 			"env": ["NODE_ENV=development"],
 			"persistent": true
-		},
-		"size": {
-			"dependsOn": ["build"]
 		},
 		"test": {
 			"dependsOn": ["^build"],

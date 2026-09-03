@@ -1,0 +1,15 @@
+{
+	// Typechecks the root-level config/scripts (knip.ts, vitest.config.mts, scripts/).
+	// Each workspace package has its own tsconfig and is not covered here.
+	"extends": "@tools/typescript/tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"checkJs": false,
+		"skipLibCheck": true,
+		"types": ["node"]
+	},
+	"include": ["*.ts", "*.mts", "scripts/**/*.mjs"]
+}

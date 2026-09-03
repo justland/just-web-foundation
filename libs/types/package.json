@@ -26,12 +26,14 @@
 		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*"
 	],
 	"scripts": {
-		"build": "tsc -p tsconfig.build.json",
+		"build": "run-p build:code test:types",
 		"build-doc": "storybook build -o ../../docs/types",
+		"build:code": "tsc -p tsconfig.build.json",
 		"clean": "rimraf dist",
 		"nuke": "rimraf node_modules",
 		"sb": "storybook dev -p 6208",
 		"test": "vitest run",
+		"test:types": "tsc --noEmit",
 		"w": "vitest"
 	},
 	"devDependencies": {
@@ -47,6 +49,7 @@
 		"@vitest/browser-playwright": "^4.1.11",
 		"@vitest/coverage-v8": "^4.1.11",
 		"dedent": "^1.7.2",
+		"npm-run-all2": "^9.0.3",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"rimraf": "^6.1.3",
