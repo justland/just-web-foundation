@@ -75,7 +75,7 @@
 	"dependencies": {
 		"clsx": "^2.1.1",
 		"csstype": "^3.2.3",
-		"type-plus": "^8.0.0-beta.10"
+		"type-plus": "8.0.0-beta.10"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.32.1",
@@ -102,7 +102,7 @@
 		"storybook": "^10.5.10",
 		"storybook-addon-code-editor": "^6.2.0",
 		"storybook-addon-tag-badges": "^3.1.0",
-		"storybook-addon-vis": "^4.2.4",
+		"storybook-addon-vis": "^4.2.7",
 		"tailwind-merge": "^3.6.0",
 		"tailwindcss": "^4.3.3",
 		"tsdown": "^0.18.4",
