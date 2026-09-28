@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 import dedent from 'dedent'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { expect, userEvent, waitFor } from 'storybook/test'
-import type { Required } from 'type-plus'
+import type { ObjectPlus } from 'type-plus'
 import { Button } from '../../../testing/button.tsx'
 import { ThemeResultCard } from '../../../testing/theme/theme-result-card.tsx'
 import { ThemeStoreDemo } from '../../../testing/theme/theme-store-demo.tsx'
@@ -233,7 +233,7 @@ export const ElementCustom: Story = {
 	],
 	render: () => {
 		const targetRef = useRef<HTMLDivElement | null>(null)
-		const [store, setStore] = useState<Required<ThemeStore<typeof themes>> | null>(null)
+		const [store, setStore] = useState<ObjectPlus.Required<ThemeStore<typeof themes>> | null>(null)
 
 		useLayoutEffect(() => {
 			const el = targetRef.current
@@ -687,7 +687,7 @@ export const ParseStringifyCommaSeparated: Story = {
 		})
 	],
 	render: () => {
-		const [store, setStore] = useState<Required<ThemeStore<typeof themes>> | null>(null)
+		const [store, setStore] = useState<ObjectPlus.Required<ThemeStore<typeof themes>> | null>(null)
 
 		useLayoutEffect(() => {
 			const el = document.getElementById('comma-target')

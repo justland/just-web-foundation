@@ -1,4 +1,4 @@
-import type { Required } from 'type-plus'
+import type { ObjectPlus } from 'type-plus'
 import type { ConvertCssUnitOptions, CssLengthUnit } from './css-unit-converter.types.ts'
 import { getRemToPxScale } from './get-rem-to-px-scale.ts'
 import { parseCssValue } from './parse-css-value.ts'
@@ -113,7 +113,7 @@ function normalizeUnit(unit: string | undefined): CssLengthUnit | undefined {
 
 function resolveOptions(
 	options?: ConvertCssUnitOptions | undefined
-): Required<
+): ObjectPlus.Required<
 	Pick<
 		ConvertCssUnitOptions,
 		| 'rootFontSize'

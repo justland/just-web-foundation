@@ -1,4 +1,4 @@
-import type { Required } from 'type-plus'
+import type { ObjectPlus } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseClassName } from '../../class-name/parse-class-name.ts'
 import { readClassName } from '../../class-name/read-class-name.ts'
@@ -34,7 +34,7 @@ export function classNameThemeStore<Themes extends ThemeMap>(
 		parse?: ParseStoredTheme<Themes> | undefined
 		stringify?: StringifyStoredTheme<Themes> | undefined
 	}
-): Required<ThemeStore<Themes>> {
+): ObjectPlus.Required<ThemeStore<Themes>> {
 	const element = options?.element ?? document?.documentElement
 
 	if (!element) return dummyThemeStore

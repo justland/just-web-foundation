@@ -1,4 +1,4 @@
-import type { Required } from 'type-plus'
+import type { ObjectPlus } from 'type-plus'
 import { dummyThemeStore } from '../../../testing/theme/dummy-theme-store.ts'
 import { parseStoredTheme } from '../../_utils/parse-stored-theme.ts'
 import { getCookieFromHeader } from '../../cookie/_cookie-utils.ts'
@@ -45,7 +45,7 @@ export interface CookieThemeStoreOptions<Themes extends ThemeMap = ThemeMap> {
 export function cookieThemeStore<Themes extends ThemeMap>(
 	themes: Themes,
 	options: CookieThemeStoreOptions<Themes>
-): Required<ThemeStore<Themes>> {
+): ObjectPlus.Required<ThemeStore<Themes>> {
 	const { cookieName, path = '/', maxAge, sameSite, secure, parse = parseStoredTheme } = options
 
 	if (document.cookie === undefined) {
