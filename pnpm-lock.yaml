@@ -89,8 +89,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       type-plus:
-        specifier: 8.0.0-beta.10
-        version: 8.0.0-beta.10(typescript@5.9.3)
+        specifier: 8.0.0-beta.11
+        version: 8.0.0-beta.11(typescript@5.9.3)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.32.1
@@ -180,8 +180,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       type-plus:
-        specifier: 8.0.0-beta.10
-        version: 8.0.0-beta.10(typescript@5.9.3)
+        specifier: 8.0.0-beta.11
+        version: 8.0.0-beta.11(typescript@5.9.3)
     devDependencies:
       '@repobuddy/storybook':
         specifier: ^2.32.1
@@ -4305,6 +4305,11 @@ packages:
     peerDependencies:
       typescript: '>= 5.6.0'
 
+  type-plus@8.0.0-beta.11:
+    resolution: {integrity: sha512-8/QsyrWhzvUpq7HREOUR4T4sVMiVMBYvMLH9brYvfwc0Nr71a2mPAafrWwg6W5EWsgIr0TUBHBNtwO8neKZUUg==}
+    peerDependencies:
+      typescript: '>= 5.4.0'
+
   type-plus@8.0.0-beta.7:
     resolution: {integrity: sha512-LTV9UqBJ20I48Ba2L8N25EOowtrs40MLzsqQFfvAXnPAN9z0ny4CjduFfNIfW7euZ6wr6ImShEtrhR1virHiNw==}
 
@@ -8373,6 +8378,12 @@ snapshots:
       unpartial: 1.0.7
 
   type-plus@8.0.0-beta.10(typescript@5.9.3):
+    dependencies:
+      tersify: 4.0.6
+      typescript: 5.9.3
+      unpartial: 1.0.7
+
+  type-plus@8.0.0-beta.11(typescript@5.9.3):
     dependencies:
       tersify: 4.0.6
       typescript: 5.9.3
