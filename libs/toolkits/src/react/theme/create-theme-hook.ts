@@ -1,5 +1,5 @@
 import { useCallback, useSyncExternalStore } from 'react'
-import type { Required } from 'type-plus'
+import type { ObjectPlus } from 'type-plus'
 import {
 	type ComposeThemeStoreEntry,
 	type ComposeThemeStoresOptions,
@@ -88,7 +88,7 @@ export function createThemeHook<
  */
 function createSharedChannel<Themes extends ThemeMap>(
 	themes: Themes,
-	composedStore: Required<AsyncThemeStore<Themes>>,
+	composedStore: ObjectPlus.Required<AsyncThemeStore<Themes>>,
 	defaultTheme: keyof Themes | undefined
 ) {
 	let lastTheme: keyof Themes | undefined = defaultTheme

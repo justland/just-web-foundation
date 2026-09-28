@@ -2,7 +2,6 @@ import type { DataAttribute } from '@just-web/toolkits'
 import { defineDocsParam, showSource, withStoryCard } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-badges'
 import dedent from 'dedent'
-import { isType } from 'type-plus'
 
 const meta = {
 	title: 'attributes/DataAttribute',
@@ -66,34 +65,34 @@ export const WellKnownAttributes: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	play() {
-		isType<DataAttribute>('data-metrics')
-		isType<DataAttribute>('data-state')
-		isType<DataAttribute>('data-orientation')
-		isType<DataAttribute>('data-side')
-		isType<DataAttribute>('data-align')
-		isType<DataAttribute>('data-placement')
-		isType<DataAttribute>('data-loading')
-		isType<DataAttribute>('data-disabled')
-		isType<DataAttribute>('data-selected')
-		isType<DataAttribute>('data-checked')
-		isType<DataAttribute>('data-expanded')
-		isType<DataAttribute>('data-highlighted')
-		isType<DataAttribute>('data-active')
-		isType<DataAttribute>('data-open')
-		isType<DataAttribute>('data-pressed')
-		isType<DataAttribute>('data-value')
-		isType<DataAttribute>('data-id')
-		isType<DataAttribute>('data-name')
-		isType<DataAttribute>('data-type')
-		isType<DataAttribute>('data-label')
-		isType<DataAttribute>('data-key')
-		isType<DataAttribute>('data-index')
-		isType<DataAttribute>('data-position')
-		isType<DataAttribute>('data-variant')
-		isType<DataAttribute>('data-size')
-		isType<DataAttribute>('data-theme')
-		isType<DataAttribute>('data-color')
-		isType<DataAttribute>('data-intent')
+		'data-metrics' satisfies DataAttribute
+		'data-state' satisfies DataAttribute
+		'data-orientation' satisfies DataAttribute
+		'data-side' satisfies DataAttribute
+		'data-align' satisfies DataAttribute
+		'data-placement' satisfies DataAttribute
+		'data-loading' satisfies DataAttribute
+		'data-disabled' satisfies DataAttribute
+		'data-selected' satisfies DataAttribute
+		'data-checked' satisfies DataAttribute
+		'data-expanded' satisfies DataAttribute
+		'data-highlighted' satisfies DataAttribute
+		'data-active' satisfies DataAttribute
+		'data-open' satisfies DataAttribute
+		'data-pressed' satisfies DataAttribute
+		'data-value' satisfies DataAttribute
+		'data-id' satisfies DataAttribute
+		'data-name' satisfies DataAttribute
+		'data-type' satisfies DataAttribute
+		'data-label' satisfies DataAttribute
+		'data-key' satisfies DataAttribute
+		'data-index' satisfies DataAttribute
+		'data-position' satisfies DataAttribute
+		'data-variant' satisfies DataAttribute
+		'data-size' satisfies DataAttribute
+		'data-theme' satisfies DataAttribute
+		'data-color' satisfies DataAttribute
+		'data-intent' satisfies DataAttribute
 	}
 }
 
@@ -134,6 +133,6 @@ export const CustomDataAttributes: Story = {
 	}),
 	decorators: [withStoryCard(), showSource()],
 	play() {
-		isType<DataAttribute>('data-custom-name')
+		'data-custom-name' satisfies DataAttribute
 	}
 }

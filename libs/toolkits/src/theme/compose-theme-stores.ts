@@ -1,4 +1,4 @@
-import type { Required, RequiredPick } from 'type-plus'
+import type { ObjectPlus, RequiredPick } from 'type-plus'
 import { setThemeToStores } from './_utils/set-theme-to-stores.ts'
 import { themeEntry } from './theme-entry.ts'
 import type { ThemeEntry } from './theme-entry.types.ts'
@@ -57,7 +57,7 @@ export function composeThemeStores<
 		store8?: ComposeThemeStoreEntry<Themes, H>
 	],
 	options?: ComposeThemeStoresOptions<Themes> | undefined
-): Required<AsyncThemeStore<Themes>> {
+): ObjectPlus.Required<AsyncThemeStore<Themes>> {
 	const { defaultTheme } = options ?? {}
 	const resolved = resolveStores(themes, stores)
 	const withRead = resolved.filter((s): s is StoreWithRead<Themes> => typeof s.read === 'function')
