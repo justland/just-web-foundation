@@ -1,5 +1,11 @@
 # @just-web/css
 
+## 0.8.7
+
+### Patch Changes
+
+- 5bdcefa: Update `type-plus` to `8.0.0-beta.12`.
+
 ## 0.8.6
 
 ### Patch Changes

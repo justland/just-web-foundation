@@ -1,5 +1,11 @@
 # @just-web/toolkits
 
+## 3.5.4
+
+### Patch Changes
+
+- 5bdcefa: Update `type-plus` to `8.0.0-beta.12`.
+
 ## 3.5.3
 
 ### Patch Changes
