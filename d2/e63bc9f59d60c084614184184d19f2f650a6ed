@@ -1,0 +1,19 @@
+.changeset/add-animation-utilities.md
+  s_2d5aa7bd899723::t_7b56a0cb3686fa 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "d2e63bc9f59d60c084614184184d19f2f650a6ed",
+  "prompts": {},
+  "sessions": {
+    "s_2d5aa7bd899723": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a58014af-491d-4065-941e-b30b0d7b70cd",
+        "model": "unknown"
+      },
+      "human_author": "unional <homawong@gmail.com>"
+    }
+  }
+}
