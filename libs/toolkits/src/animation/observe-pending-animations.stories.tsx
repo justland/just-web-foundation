@@ -13,7 +13,7 @@ import code from './observe-pending-animations.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof observePendingAnimations>> = {
 	title: 'animation/observePendingAnimations',
-	tags: ['func', 'rc', 'version:next'],
+	tags: ['func', 'rc', 'version:3.6'],
 	parameters: defineDocsParam({
 		description: {
 			component:
