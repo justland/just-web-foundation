@@ -14,7 +14,7 @@ import code from './settle-animations.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof settleAnimations>> = {
 	title: 'animation/settleAnimations',
-	tags: ['func', 'rc', 'version:next'],
+	tags: ['func', 'rc', 'version:3.6'],
 	parameters: defineDocsParam({
 		description: {
 			component:

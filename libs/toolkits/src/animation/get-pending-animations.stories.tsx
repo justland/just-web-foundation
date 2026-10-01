@@ -12,7 +12,7 @@ import code from './get-pending-animations.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof getPendingAnimations>> = {
 	title: 'animation/getPendingAnimations',
-	tags: ['func', 'rc', 'version:next'],
+	tags: ['func', 'rc', 'version:3.6'],
 	parameters: defineDocsParam({
 		description: {
 			component:

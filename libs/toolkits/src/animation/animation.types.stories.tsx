@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@repobuddy/storybook/storybook-addon-tag-ba
 
 const meta: Meta = {
 	title: 'animation/WaitForAnimationsOptions',
-	tags: ['type', 'rc', 'version:next'],
+	tags: ['type', 'rc', 'version:3.6'],
 	parameters: defineDocsParam({
 		description: {
 			component:

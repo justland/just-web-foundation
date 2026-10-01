@@ -12,7 +12,7 @@ import code from './wait-for-animations.ts?raw'
 
 const meta: Meta<FnToArgTypes<typeof waitForAnimations>> = {
 	title: 'animation/waitForAnimations',
-	tags: ['func', 'rc', 'version:next'],
+	tags: ['func', 'rc', 'version:3.6'],
 	parameters: defineDocsParam({
 		description: {
 			component:
