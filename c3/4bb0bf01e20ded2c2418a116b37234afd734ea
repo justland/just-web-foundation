@@ -1,0 +1,49 @@
+libs/toolkits/src/animation/animation.spec.md
+  s_2d5aa7bd899723::t_62438d767e88ab 1-179
+libs/toolkits/src/animation/animation.types.stories.tsx
+  s_2d5aa7bd899723::t_9a56d5fa243e5e 1-85
+libs/toolkits/src/animation/animation.types.ts
+  s_2d5aa7bd899723::t_8961143d2990ac 1-17
+libs/toolkits/src/animation/get-pending-animations.stories.tsx
+  s_2d5aa7bd899723::t_5852556f857e0e 1-357
+libs/toolkits/src/animation/get-pending-animations.test.ts
+  s_2d5aa7bd899723::t_d459bc725c9991 1-98
+libs/toolkits/src/animation/get-pending-animations.ts
+  s_2d5aa7bd899723::t_c589622f90c64d 1-42
+libs/toolkits/src/animation/observe-pending-animations.stories.tsx
+  s_2d5aa7bd899723::t_5eb5ea4becf46d 1-366
+libs/toolkits/src/animation/observe-pending-animations.test.ts
+  s_2d5aa7bd899723::t_dac344ba4e9cc5 1-117
+libs/toolkits/src/animation/observe-pending-animations.ts
+  s_2d5aa7bd899723::t_1fe1c5da844588 1-74
+libs/toolkits/src/animation/settle-animations.stories.tsx
+  s_2d5aa7bd899723::t_8cc8b800ef0cf8 1-429
+libs/toolkits/src/animation/settle-animations.test.ts
+  s_2d5aa7bd899723::t_80b8360b1929de 1-104
+libs/toolkits/src/animation/settle-animations.ts
+  s_2d5aa7bd899723::t_42198457034543 1-90
+libs/toolkits/src/animation/wait-for-animations.stories.tsx
+  s_2d5aa7bd899723::t_04fc124d7ea92f 1-325
+libs/toolkits/src/animation/wait-for-animations.test.ts
+  s_2d5aa7bd899723::t_6f68efe4f4031e 1-104
+libs/toolkits/src/animation/wait-for-animations.ts
+  s_2d5aa7bd899723::t_1d5c3ab3982ff7 1-105
+libs/toolkits/src/index.ts
+  s_2d5aa7bd899723::t_4add485f54db65 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "c34bb0bf01e20ded2c2418a116b37234afd734ea",
+  "prompts": {},
+  "sessions": {
+    "s_2d5aa7bd899723": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a58014af-491d-4065-941e-b30b0d7b70cd",
+        "model": "unknown"
+      },
+      "human_author": "unional <homawong@gmail.com>"
+    }
+  }
+}
