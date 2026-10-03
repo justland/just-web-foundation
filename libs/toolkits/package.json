@@ -84,7 +84,7 @@
 		"cov": "vitest run --coverage",
 		"cov:w": "vitest --coverage",
 		"nuke": "rimraf node_modules",
-		"sb": "storybook dev -p 6206",
+		"sb": "storybook dev -p 6207",
 		"test": "vitest run",
 		"test:types": "tsc --noEmit",
 		"w": "vitest"
