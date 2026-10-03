@@ -45,9 +45,9 @@
 		"@storybook/react-vite": "^10.5.10",
 		"@tailwindcss/vite": "^4.3.3",
 		"@tools/typescript": "workspace:^",
-		"@vitest/browser": "^4.1.11",
-		"@vitest/browser-playwright": "^4.1.11",
-		"@vitest/coverage-v8": "^4.1.11",
+		"@vitest/browser": "^5.0.0",
+		"@vitest/browser-playwright": "^5.0.0",
+		"@vitest/coverage-v8": "^5.0.0",
 		"dedent": "^1.7.2",
 		"npm-run-all2": "^9.0.3",
 		"react": "catalog:",
@@ -60,6 +60,6 @@
 		"tailwindcss": "^4.3.3",
 		"typescript": "^5.9.3",
 		"vite": "^8.2.2",
-		"vitest": "^4.1.11"
+		"vitest": "^5.0.0"
 	}
 }
