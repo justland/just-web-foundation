@@ -22,6 +22,23 @@
 			"default": "./dist/index.js"
 		},
 		"./index.js": null,
+		"./env": {
+			"types": {
+				"import": "./dist/env.d.ts",
+				"require": "./dist/env.d.cts"
+			},
+			"development": {
+				"import": "./dist/env/development.js",
+				"require": "./dist/env/development.cjs"
+			},
+			"production": {
+				"import": "./dist/env/production.js",
+				"require": "./dist/env/production.cjs"
+			},
+			"import": "./dist/env.js",
+			"require": "./dist/env.cjs"
+		},
+		"./env.js": null,
 		"./*.js": {
 			"@just-web/toolkits-dev": "./src/*.ts",
 			"types": [
@@ -61,7 +78,7 @@
 	"scripts": {
 		"build": "run-p build:* test:types",
 		"build-doc": "storybook build -o ../../docs/toolkits",
-		"build:code": "tsdown",
+		"build:code": "tsdown && node ./scripts/check-env-exports.mjs",
 		"check:css": "tailwindcss -i .storybook/tailwind.css -o ./styles.storybook.css",
 		"clean": "rimraf .turbo dist *.tsbuildinfo",
 		"cov": "vitest run --coverage",

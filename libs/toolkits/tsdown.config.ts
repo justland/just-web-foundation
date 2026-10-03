@@ -12,6 +12,16 @@ export default defineConfig([
 		unbundle: true
 	},
 	{
+		// The `development` / `production` variants of `src/env.ts`.
+		// Each is its own file so the export conditions can pick one, and all of them share `dist/env.d.ts`.
+		entry: ['src/env/development.ts', 'src/env/production.ts'],
+		format: ['es', 'cjs'],
+		outDir: 'dist/env',
+		dts: false,
+		platform: 'neutral',
+		sourcemap: true
+	},
+	{
 		entry: ['src/*.ts'],
 		format: ['es'],
 		outDir: '.editor/just_web_toolkits',
