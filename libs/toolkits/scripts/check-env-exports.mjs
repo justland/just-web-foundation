@@ -3,6 +3,7 @@
 // It runs Node.js against `dist` through the package's self-reference, so run it after `tsdown`.
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const cwd = fileURLToPath(new URL('..', import.meta.url))
@@ -49,8 +50,9 @@ for (const c of cases) {
 		]
 		const name = `${format} condition=${c.condition ?? '(none)'} NODE_ENV=${c.nodeEnv ?? '(unset)'}`
 		const actual = JSON.parse(execFileSync(process.execPath, args, { cwd, env, encoding: 'utf8' }))
-		const file = fileURLToPath(new URL(actual.file, `file://${cwd}`))
-		const expectedFile = fileURLToPath(new URL(c.file[format], `file://${cwd}`))
+		// `import.meta.resolve` returns a file URL, `require.resolve` returns a path.
+		const file = format === 'esm' ? fileURLToPath(actual.file) : actual.file
+		const expectedFile = resolve(cwd, c.file[format])
 		if (actual.isDev !== c.isDev)
 			failures.push(`${name}: isDev is ${actual.isDev}, expected ${c.isDev}`)
 		if (file !== expectedFile) failures.push(`${name}: resolved ${file}, expected ${expectedFile}`)
