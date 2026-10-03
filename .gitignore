@@ -85,3 +85,6 @@ vitest.config.*.timestamp*
 
 # Per-developer agent harness settings
 .claude/settings.local.json
+
+# Playwright MCP page snapshots
+.playwright-mcp/
