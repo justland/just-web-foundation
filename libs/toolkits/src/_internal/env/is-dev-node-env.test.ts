@@ -16,4 +16,11 @@ describe('isDevNodeEnv', () => {
 		expect(isDevNodeEnv('development')).toBe(true)
 		expect(isDevNodeEnv('test')).toBe(true)
 	})
+
+	it('uses a custom isProduction comparison', () => {
+		const options = { isProduction: (nodeEnv: string) => nodeEnv === 'live' }
+		expect(isDevNodeEnv('live', options)).toBe(false)
+		expect(isDevNodeEnv('production', options)).toBe(true)
+		expect(isDevNodeEnv(undefined, options)).toBe(false)
+	})
 })
