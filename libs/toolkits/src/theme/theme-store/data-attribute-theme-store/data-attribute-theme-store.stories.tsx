@@ -739,7 +739,10 @@ export const ParseStringifyCommaSeparated: Story = {
 			expect(attrValue).toContain('theme-grayscale')
 		})
 
-		await expect(canvas.getByTestId('comma-demo-observe')).toHaveTextContent('grayscale')
+		// The observed card updates asynchronously (mutation observer, then a React state update).
+		await waitFor(() =>
+			expect(canvas.getByTestId('comma-demo-observe')).toHaveTextContent('grayscale')
+		)
 	}
 }
 
