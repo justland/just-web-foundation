@@ -34,6 +34,16 @@ export default defineConfig([
 		entry: ['./node_modules/@repobuddy/storybook/esm/index.d.ts'],
 		outDir: '.editor/repobuddy_storybook',
 		clean: true,
+		// These ship CommonJS-style d.ts that rolldown-plugin-dts cannot bundle.
+		deps: {
+			neverBundle: [
+				'postcss',
+				'typescript',
+				'htmlfy',
+				'vite',
+				'@joshwooding/vite-plugin-react-docgen-typescript'
+			]
+		},
 		dts: {
 			emitDtsOnly: true
 		}
