@@ -31,7 +31,7 @@
 		"@biomejs/biome": "^2.5.11",
 		"@changesets/cli": "^3.0.1",
 		"@repobuddy/biome": "^2.4.0",
-		"@repobuddy/vitest": "^2.3.0",
+		"@repobuddy/vitest": "^3.0.0",
 		"@types/react": "^19.2.18",
 		"@vitest/coverage-v8": "^4.1.11",
 		"husky": "^9.1.7",
