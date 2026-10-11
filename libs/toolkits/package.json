@@ -23,20 +23,10 @@
 		},
 		"./index.js": null,
 		"./env": {
-			"types": {
-				"import": "./dist/env.d.ts",
-				"require": "./dist/env.d.cts"
-			},
-			"development": {
-				"import": "./dist/env/development.js",
-				"require": "./dist/env/development.cjs"
-			},
-			"production": {
-				"import": "./dist/env/production.js",
-				"require": "./dist/env/production.cjs"
-			},
-			"import": "./dist/env.js",
-			"require": "./dist/env.cjs"
+			"types": "./dist/env.d.ts",
+			"development": "./dist/env/development.js",
+			"production": "./dist/env/production.js",
+			"default": "./dist/env.js"
 		},
 		"./env.js": null,
 		"./*.js": {
@@ -66,15 +56,18 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.cjs",
+	"main": "./dist/index.js",
 	"source": "./src/index.ts",
-	"types": "./dist/index.d.cts",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"dist",
 		"src",
 		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
 		"!**/*.mdx"
 	],
+	"engines": {
+		"node": "^20.19.0 || >=22.12.0"
+	},
 	"scripts": {
 		"build": "run-p build:* test:types",
 		"build-doc": "storybook build -o ../../docs/toolkits",

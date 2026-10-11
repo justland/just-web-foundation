@@ -37,8 +37,9 @@ Vite and webpack 5 set the `development` / `production` condition from the build
 In Node.js, pass `--conditions=development` or `--conditions=production`.
 A browser with no `process` and no condition gets `false`, so development-only code stays quiet.
 
-Every condition has an `import` (ESM) and a `require` (CJS) entry, and they share one type declaration.
-This is the technique [`esm-env`](https://github.com/benmccann/esm-env) uses, with the CommonJS half that `esm-env` lacks.
+The package is ESM only, and every condition shares one type declaration.
+`require()` of it works on Node.js 20.19+ and 22.12+, which load ES modules through `require()`.
+This is the technique [`esm-env`](https://github.com/benmccann/esm-env) uses.
 
 > [!IMPORTANT]
 > If you publish a library that uses `isDev`, keep `@just-web/toolkits/env` external.

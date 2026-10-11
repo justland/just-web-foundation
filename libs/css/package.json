@@ -21,15 +21,17 @@
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./cjs/index.cjs",
-	"types": "./cjs/index.d.cts",
+	"main": "./esm/index.mjs",
+	"types": "./esm/index.d.mts",
 	"files": [
-		"cjs",
 		"esm",
 		"src",
 		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
 		"!**/*.mdx"
 	],
+	"engines": {
+		"node": "^20.19.0 || >=22.12.0"
+	},
 	"scripts": {
 		"build": "run-p build:* test:types",
 		"build-doc": "storybook build -o ../../docs/css",
