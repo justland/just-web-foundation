@@ -12,7 +12,7 @@
 			// and turbo replayed a stale "cache hit" instead of rebuilding. Since `build`
 			// also runs `test:types`, that meant a type error could be cached away.
 			// Turbo's default - every non-gitignored file in the package - is correct here.
-			"outputs": ["cjs", "dist", "esm", ".editor", "tokens.css", "*.tsbuildinfo"]
+			"outputs": ["dist", "esm", ".editor", "tokens.css", "*.tsbuildinfo"]
 		},
 		"build-doc": {
 			"dependsOn": ["^build"],

@@ -1,5 +1,6 @@
 // Checks that `@just-web/toolkits/env` resolves to the right built variant
 // under each export condition, for both `import` and `require`.
+// The package is ESM only, so `require` loads the same ES module (Node.js 20.19+ / 22.12+).
 // It runs Node.js against `dist` through the package's self-reference, so run it after `tsdown`.
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
@@ -20,20 +21,20 @@ const cases = [
 		condition: 'development',
 		nodeEnv: 'production',
 		isDev: true,
-		file: { esm: 'dist/env/development.js', cjs: 'dist/env/development.cjs' }
+		file: 'dist/env/development.js'
 	},
 	{
 		condition: 'production',
 		nodeEnv: 'development',
 		isDev: false,
-		file: { esm: 'dist/env/production.js', cjs: 'dist/env/production.cjs' }
+		file: 'dist/env/production.js'
 	},
 	// With no condition, it falls back to NODE_ENV.
-	{ nodeEnv: undefined, isDev: false, file: { esm: 'dist/env.js', cjs: 'dist/env.cjs' } },
-	{ nodeEnv: 'production', isDev: false, file: { esm: 'dist/env.js', cjs: 'dist/env.cjs' } },
-	{ nodeEnv: 'prod', isDev: false, file: { esm: 'dist/env.js', cjs: 'dist/env.cjs' } },
-	{ nodeEnv: 'development', isDev: true, file: { esm: 'dist/env.js', cjs: 'dist/env.cjs' } },
-	{ nodeEnv: 'test', isDev: true, file: { esm: 'dist/env.js', cjs: 'dist/env.cjs' } }
+	{ nodeEnv: undefined, isDev: false, file: 'dist/env.js' },
+	{ nodeEnv: 'production', isDev: false, file: 'dist/env.js' },
+	{ nodeEnv: 'prod', isDev: false, file: 'dist/env.js' },
+	{ nodeEnv: 'development', isDev: true, file: 'dist/env.js' },
+	{ nodeEnv: 'test', isDev: true, file: 'dist/env.js' }
 ]
 
 const failures = []
@@ -52,16 +53,16 @@ for (const c of cases) {
 		const actual = JSON.parse(execFileSync(process.execPath, args, { cwd, env, encoding: 'utf8' }))
 		// `import.meta.resolve` returns a file URL, `require.resolve` returns a path.
 		const file = format === 'esm' ? fileURLToPath(actual.file) : actual.file
-		const expectedFile = resolve(cwd, c.file[format])
+		const expectedFile = resolve(cwd, c.file)
 		if (actual.isDev !== c.isDev)
 			failures.push(`${name}: isDev is ${actual.isDev}, expected ${c.isDev}`)
 		if (file !== expectedFile) failures.push(`${name}: resolved ${file}, expected ${expectedFile}`)
-		else process.stdout.write(`ok ${name} -> ${c.file[format]} (isDev: ${actual.isDev})\n`)
+		else process.stdout.write(`ok ${name} -> ${c.file} (isDev: ${actual.isDev})\n`)
 	}
 }
 
 // The condition variants must be standalone constants, not a bundle of every variant.
-for (const file of ['development.js', 'development.cjs', 'production.js', 'production.cjs']) {
+for (const file of ['development.js', 'production.js']) {
 	const code = readFileSync(new URL(`../dist/env/${file}`, import.meta.url), 'utf8')
 	if (/process|require\(|\bimport\b/.test(code))
 		failures.push(`dist/env/${file} is not a standalone constant`)

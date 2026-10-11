@@ -3,7 +3,7 @@ import { defineConfig } from 'tsdown'
 export default defineConfig([
 	{
 		entry: ['src/*.ts'],
-		format: ['es', 'cjs'],
+		format: ['es'],
 		clean: true,
 		dts: true,
 		external: ['react', 'react-dom'],
@@ -15,7 +15,7 @@ export default defineConfig([
 		// The `development` / `production` variants of `src/env.ts`.
 		// Each is its own file so the export conditions can pick one, and all of them share `dist/env.d.ts`.
 		entry: ['src/env/development.ts', 'src/env/production.ts'],
-		format: ['es', 'cjs'],
+		format: ['es'],
 		outDir: 'dist/env',
 		dts: false,
 		platform: 'neutral',
