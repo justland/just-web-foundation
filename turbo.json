@@ -21,8 +21,9 @@
 		"clean": {
 			"cache": false
 		},
+		// `build` also generates `.editor/`, which the storybook code editor imports at test time.
 		"cov": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["build", "^build"],
 			"outputs": ["__vis__/**", "coverage/**"]
 		},
 		"nuke": {
@@ -34,7 +35,7 @@
 			"persistent": true
 		},
 		"test": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["build", "^build"],
 			"outputs": ["__vis__/**"]
 		}
 	}
