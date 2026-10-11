@@ -30,7 +30,10 @@ export default mergeConfig(config, {
 			configDir: join(dirname, '.storybook')
 		}),
 		storybookVis(),
-		browserTestPreset({ includeGeneralTests: true })
+		// @repobuddy/vitest 3 marks this preset `enforce: 'pre'`, so the Storybook plugin
+		// clears its `test.include` and the general tests stop running. Run it after the
+		// Storybook plugin, as 2.x did, so its globs merge with the stories.
+		{ ...browserTestPreset({ includeGeneralTests: true }), enforce: undefined }
 	],
 	test: {
 		name: 'toolkits',
