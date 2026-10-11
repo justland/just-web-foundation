@@ -92,11 +92,11 @@
 	"dependencies": {
 		"clsx": "^2.1.1",
 		"csstype": "^3.2.3",
-		"type-plus": "8.0.0-beta.12"
+		"type-plus": "8.0.0"
 	},
 	"devDependencies": {
-		"@repobuddy/storybook": "^2.33.1",
-		"@repobuddy/vitest": "^2.3.0",
+		"@repobuddy/storybook": "^2.33.4",
+		"@repobuddy/vitest": "^3.0.0",
 		"@storybook-community/storybook-dark-mode": "^7.1.3",
 		"@storybook/addon-docs": "^10.5.10",
 		"@storybook/addon-vitest": "^10.5.10",
@@ -119,7 +119,7 @@
 		"storybook": "^10.5.10",
 		"storybook-addon-code-editor": "^6.2.0",
 		"storybook-addon-tag-badges": "^3.1.0",
-		"storybook-addon-vis": "^4.2.7",
+		"storybook-addon-vis": "^4.3.1",
 		"tailwind-merge": "^3.6.0",
 		"tailwindcss": "^4.3.3",
 		"tsdown": "^0.23.0",

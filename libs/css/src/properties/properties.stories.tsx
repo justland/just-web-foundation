@@ -2,7 +2,7 @@ import { defineDocsParam, showSource } from '@repobuddy/storybook'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import dedent from 'dedent'
 import { expect } from 'storybook/test'
-import { testType } from 'type-plus'
+import { testType } from 'type-plus/testing'
 import { defineProperties, type Properties } from '#just-web/css'
 
 export default {
