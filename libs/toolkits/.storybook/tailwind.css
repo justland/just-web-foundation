@@ -3,3 +3,10 @@
 @import "./tailwind.variant.css";
 
 @source "../src/**";
+
+/* Let native controls, scrollbars, and system colors follow dark mode. */
+@layer base {
+	.dark {
+		color-scheme: dark;
+	}
+}
