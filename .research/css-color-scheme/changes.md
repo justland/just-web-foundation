@@ -20,3 +20,10 @@
 - Why: PR #111 makes Storybook dark mode set `color-scheme: dark`, as this research recommended.
 - Material conclusion change: no. Only the repo status changed.
 - Trigger: PR #111 and a check in each Storybook dev server.
+
+## 2026-10-19 (Storybook test)
+
+- Changed: added to E31 that a `libs/toolkits` story now tests the Storybook `color-scheme` rule in CI.
+- Why: to show the rule changes native rendering, not only what the `dark` class already changed.
+- Material conclusion change: no.
+- Trigger: `libs/toolkits/src/color-scheme/dark-mode.stories.tsx` and `dark-mode.mdx`.

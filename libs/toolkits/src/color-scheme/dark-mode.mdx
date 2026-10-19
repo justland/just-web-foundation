@@ -1,0 +1,62 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as DarkModeStories from './dark-mode.stories'
+
+<Meta of={DarkModeStories} />
+
+# Dark mode and `color-scheme`
+
+A `dark` class only changes the styles that select on it, such as Tailwind's `dark:` utilities.
+The browser draws some things itself, and those ignore classes:
+
+- form controls (date pickers, selects, checkboxes, range sliders)
+- scrollbars
+- system colors such as `Canvas` and `CanvasText`
+- the `light-dark()` color function
+
+They follow only the CSS `color-scheme` property.
+So the Storybook CSS for this package maps the class to the property:
+
+```css
+@layer base {
+	.dark {
+		color-scheme: dark;
+	}
+}
+```
+
+The rule sits in the `base` layer, so a `scheme-*` utility can still override it on a subtree.
+
+## The class compared with `color-scheme`
+
+Each panel sets its own scheme, so the comparison does not depend on the toolbar.
+
+- **A** is light.
+- **B** has the `dark` class with `color-scheme` forced back to light (`scheme-light`).
+  This is what the class alone did before the rule above.
+  The Tailwind swatch turns black, but the controls, the scrollbar, `Canvas`, and `light-dark()` stay light.
+- **C** has the `dark` class only. The rule sets `color-scheme: dark`, so everything switches.
+
+The values under each panel are read from the browser with `getComputedStyle`.
+
+<Canvas of={DarkModeStories.ClassVersusColorScheme} />
+
+With the toolbar in dark mode, the Tailwind swatch in A also turns black,
+because Tailwind's `dark:` variant matches any element under `html.dark`.
+
+## Switching `<html>` with a theme store
+
+The Storybook toolbar puts the `dark` class on `<html>`.
+The buttons below do the same through `classNameThemeStore`.
+The panel sets no scheme of its own; `color-scheme` is inherited, so it follows `<html>`.
+
+<Canvas of={DarkModeStories.WithThemeStore} />
+
+An app that toggles a `dark` class with `classNameThemeStore` needs the same CSS rule to get dark native controls.
+
+## How this is tested
+
+Both stories have `play` functions that run as browser tests in CI.
+They check the computed `color-scheme`, the `Canvas` color, and the `light-dark()` result.
+Without the CSS rule, both fail: `color-scheme` stays `normal` instead of `dark`.
+
+For the background, see the research in `.research/css-color-scheme/conclusion.md` at the repository root.
