@@ -89,7 +89,7 @@ So the pattern works in Tailwind without a plugin: put the theme switch on `<htm
 - The theme stores in `libs/toolkits` and `libs/css` write a class or `data-*` attribute and persist to storage or cookies. None of them touches `color-scheme` (E24).
 - The `prefers-color-scheme` helpers read the OS preference through `matchMedia`. After a `color-scheme` override they no longer describe what is rendered, and inside an iframe they describe the iframe element's scheme (E25).
 - The cookie store's `getCookieFromHeader` supports the server-rendered, no-flash path (E26).
-- Storybook dark mode uses a `dark` class and Tailwind's class-based `dark:` variant without `color-scheme`, so native UI stays light in dark stories (E26).
+- Storybook dark mode uses a `dark` class and Tailwind's class-based `dark:` variant. It did not set `color-scheme`, so native UI stayed light in dark stories (E26). PR #111 maps `.dark` to `color-scheme: dark` in each Storybook's CSS (E31).
 
 ## Contradictions
 

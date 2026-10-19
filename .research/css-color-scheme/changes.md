@@ -13,3 +13,10 @@
 - Why: follow-up question on whether the pattern can be done within Tailwind CSS.
 - Material conclusion change: no. The verdict gains a Tailwind recipe; the core findings are unchanged.
 - Trigger: Tailwind docs (`color-scheme`, dark mode, compatibility) and `compile()` output from the repo's Tailwind 4.3.3.
+
+## 2026-10-19 (Storybook)
+
+- Changed: added evidence E31; marked the Storybook part of E26 as superseded; updated the Storybook row in the conclusion and the matching topic bullet.
+- Why: PR #111 makes Storybook dark mode set `color-scheme: dark`, as this research recommended.
+- Material conclusion change: no. Only the repo status changed.
+- Trigger: PR #111 and a check in each Storybook dev server.

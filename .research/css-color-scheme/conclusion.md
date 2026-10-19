@@ -196,7 +196,7 @@ Recipe B in Tailwind. The theme switch is utility classes on `<html>`, and color
 | `getPrefersColorScheme`, `observePrefersColorScheme`, `usePrefersColorScheme`, `prefersColorSchemeThemeStore`, `libs/css` `getPrefersColorTheme` | Read `prefers-color-scheme` through `matchMedia` (E25) | They report the OS preference, not the theme the user chose. Inside an iframe they report the iframe element's scheme. Their docs could say so. |
 | `ColorScheme` type (`'light' \| 'dark'`) | Mirrors the media feature | Correct for the media query. A helper that writes the property would need a wider type (`normal`, `light dark`, `only light`). |
 | Cookie theme store (`getCookieFromHeader`) | Server can read the theme cookie (E26) | Supports server rendering of `data-theme`, the no-flash path that needs no inline script. |
-| Storybook in `libs/*/.storybook` | Dark mode adds a `dark` class and Tailwind's `dark:` variant; no `color-scheme` (E26) | Native controls, scrollbars, and system colors stay light in dark stories. Adding `.dark { color-scheme: dark }` to the Storybook CSS, or `dark:scheme-dark` on the root, would fix that (E27). |
+| Storybook in `libs/*/.storybook` | Dark mode adds a `dark` class and Tailwind's `dark:` variant; `.dark` maps to `color-scheme: dark` in the `base` layer (E26, E31) | Native controls, scrollbars, and system colors follow dark stories. `scheme-*` utilities can still override a subtree. |
 | Possible additions (not made) | — | A store that writes `element.style.colorScheme`, and a reader for the used scheme (`getComputedStyle(el).colorScheme`). |
 
 ## Confidence
