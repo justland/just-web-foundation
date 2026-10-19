@@ -4,3 +4,10 @@
 @source "../src/**";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Let native controls, scrollbars, and system colors follow dark mode. */
+@layer base {
+	.dark {
+		color-scheme: dark;
+	}
+}

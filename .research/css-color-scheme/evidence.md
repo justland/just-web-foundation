@@ -475,7 +475,7 @@ Source:
 Notes:
 
 - `getCookieFromHeader` lets a server read the theme cookie from a request, which supports rendering the theme attribute on the server and avoiding a flash.
-- Storybook dark mode adds a `dark` class (plus `bg-black text-white`) and Tailwind uses `@custom-variant dark (&:where(.dark, .dark *))`. Nothing sets `color-scheme`, so native controls, scrollbars, and system colors stay light in dark stories.
+- Storybook dark mode adds a `dark` class (plus `bg-black text-white`) and Tailwind uses `@custom-variant dark (&:where(.dark, .dark *))`. Nothing sets `color-scheme`, so native controls, scrollbars, and system colors stay light in dark stories. Superseded by E31: the Storybook CSS now sets `color-scheme` for `.dark`.
 
 ## Claim E27
 
@@ -548,3 +548,22 @@ Notes:
 
 - Tailwind v4 depends on Chrome 111, Safari 16.4, and Firefox 128.
 - `light-dark()` needs Chrome 123 and Safari 17.5 (E15). Using it in `@theme` raises a project's browser floor above Tailwind's own for Chrome and Safari. Firefox 128 already covers it.
+
+## Claim E31
+
+Date: 2026-10-19
+Status: supports
+Confidence: high
+
+Source:
+
+- Label: just-web-foundation Storybook CSS after PR #111; Probe in each Storybook dev server
+- URL: libs/css/.storybook/tailwind.css, libs/toolkits/.storybook/tailwind.css, libs/types/tailwind.css, <https://github.com/justland/just-web-foundation/pull/111>
+- Type: code; browser test
+
+Notes:
+
+- Each Storybook Tailwind CSS now has `@layer base { .dark { color-scheme: dark; } }`. Being in the `base` layer, `scheme-*` utilities can still override it on a subtree.
+- Probe: with the `dark` class on the preview `<html>`, `color-scheme` computed to `dark` and the `Canvas` system color to `rgb(18, 18, 18)`. Without the class, `color-scheme` stayed `normal` and `Canvas` stayed white. Same result in all three libraries.
+- The class was added by script; the dark-mode toolbar toggle was not clicked. The configs set `classTarget: 'html'`, so the toggle targets the same element.
+- The Storybook story `color-scheme/Dark mode` in `libs/toolkits` (`src/color-scheme/dark-mode.stories.tsx` and `dark-mode.mdx`) now tests this in CI. One story compares a `dark` class with `color-scheme` forced to light against the `dark` class alone. The other flips `<html>` through `classNameThemeStore`, as the toolbar does. Both `play` functions fail when the rule is removed (`color-scheme` stays `normal`).
