@@ -14,13 +14,14 @@ In scope:
 - Patterns for a system, light, or dark theme switch, compared with class toggles and media queries.
 - Flash of the wrong theme on load, subtree scoping, iframes, and SVG images.
 - Browser support, Baseline status, and known caveats.
+- Doing the same within Tailwind CSS v4.
 - Theming code in `libs/toolkits` and `libs/css`. No library code is changed.
 
 Out of scope:
 
 - Forced colors mode (`forced-colors`, `forced-color-adjust`), except where it touches `color-scheme`.
 - Choosing palettes or contrast levels for a dark theme.
-- Framework-specific theme libraries.
+- Framework-specific theme libraries. Tailwind CSS is in scope as the CSS framework the repo uses.
 
 ## Source angles
 
@@ -29,7 +30,8 @@ Out of scope:
 - Compatibility data: caniuse, MDN Baseline badges. webstatus.dev did not render.
 - Browser vendors: Chrome Developers blog, Chromium Intent to Ship, WebKit Bugzilla, CSSWG issues.
 - Practitioner articles: web.dev, Bramus van Damme, swyx, Qwik docs, community posts on iframes.
-- Direct testing: a headless Chrome 154 probe run with Playwright.
+- Direct testing: a headless Chrome 154 probe run with Playwright, and Tailwind 4.3.3 `compile()` output.
+- Tailwind CSS docs for `color-scheme`, dark mode, and compatibility.
 - Code: `libs/toolkits/src/theme`, `libs/toolkits/src/color-scheme`, `libs/css/src`, and the Storybook config.
 
 ## Findings
@@ -69,6 +71,18 @@ The meta tag fixes the canvas color before CSS loads. A saved choice that differ
 ### Browser support
 
 `color-scheme`: Chrome 81, Edge 81, Firefox 96, Safari 13; Baseline widely available (E17). `light-dark()` colors: Chrome 123, Edge 123, Firefox 120, Safari 17.5; Baseline 2024, widely available around November 2026 (E15).
+
+### Tailwind CSS v4
+
+Tailwind v4 has a `scheme-*` utility for each `color-scheme` value (E27). Its default `dark:` variant reads `prefers-color-scheme`; the docs show redefining it with `@custom-variant` to follow a class or a `data-theme` attribute (E28).
+
+Compiling with the repo's Tailwind 4.3.3 showed the following (E29):
+
+- `light-dark()` values in `@theme` pass through unchanged as unregistered custom properties on `:root, :host`.
+- Opacity modifiers wrap the value in `color-mix()`.
+- `data-[theme=dark]:scheme-dark` is more specific than `scheme-light-dark`, so the user's pick wins on the same element.
+
+So the pattern works in Tailwind without a plugin: put the theme switch on `<html>` as utilities and the colors in `@theme`. Keep a redefined `dark:` variant for values that `light-dark()` cannot express. Tailwind's own browser floor (Chrome 111, Safari 16.4, Firefox 128) is lower than what `light-dark()` needs (E30).
 
 ### Relevance to `just-web-foundation`
 
@@ -117,3 +131,6 @@ The meta tag fixes the canvas color before CSS loads. A saved choice that differ
 - Qwik docs, theme management: <https://qwik.dev/docs/cookbook/theme-management/>
 - fvsch, transparent iframes: <https://fvsch.com/transparent-iframes>
 - Simon Elvery, iframe background in dark mode: <https://elvery.net/drzax/iframe-background-colour-transparent-dark-mode/>
+- Tailwind CSS, `color-scheme`: <https://tailwindcss.com/docs/color-scheme>
+- Tailwind CSS, dark mode: <https://tailwindcss.com/docs/dark-mode>
+- Tailwind CSS, compatibility: <https://tailwindcss.com/docs/compatibility>

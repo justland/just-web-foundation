@@ -6,7 +6,7 @@ October 2026
 
 ## Question
 
-How do you use the CSS `color-scheme` feature (the property, the `<meta name="color-scheme">` tag, and the `light-dark()` function) to control light and dark mode, including a user-selectable theme? How does it apply to `just-web-foundation`?
+How do you use the CSS `color-scheme` feature (the property, the `<meta name="color-scheme">` tag, and the `light-dark()` function) to control light and dark mode, including a user-selectable theme? Can it be done within Tailwind CSS v4? How does it apply to `just-web-foundation`?
 
 ## Verdict
 
@@ -23,6 +23,8 @@ To avoid a flash of the wrong theme, put the meta tag first in `<head>` so the c
 Embedded documents take the embedding element's scheme as their preference. Set `color-scheme` on an `<iframe>` or `<img>` (SVG) to pass a scheme down. The embedded page must still declare `light dark` to follow it (E10, E11, E22). If the iframe element's scheme and the embedded root's scheme differ, the browser paints an opaque background behind the frame (E12).
 
 Support is broad. `color-scheme` is Baseline widely available (Chrome 81, Firefox 96, Safari 13) (E17). The color form of `light-dark()` is Baseline 2024 (Chrome 123, Firefox 120, Safari 17.5) and becomes widely available around November 2026 (E15). The image form, `light-dark(url(a.png), url(b.png))`, is new in 2026 and not yet safe without a fallback (E16).
+
+Tailwind CSS v4 supports the whole pattern without a plugin. Its `scheme-*` utilities set `color-scheme`, so the theme switch can be written as classes on `<html>` (E27, E29). Theme colors defined with `light-dark()` in `@theme` become plain custom properties that follow the scheme, opacity modifiers included (E29). Tailwind's default `dark:` variant reads `prefers-color-scheme` and so ignores the user's pick. Keep `dark:` for values `light-dark()` cannot express, and redefine it to follow the theme attribute (E28). Using `light-dark()` raises the browser floor from Tailwind's Safari 16.4 and Chrome 111 to Safari 17.5 and Chrome 123 (E30).
 
 For `just-web-foundation`: nothing in `libs/` sets `color-scheme` today (E24). The theme stores already write the `data-theme` attribute or class that the pattern needs, so a consumer can adopt it with CSS alone. The `prefers-color-scheme` helpers report the OS preference, not the theme a user picked, and inside an iframe they report the embedder's scheme (E25).
 
@@ -143,6 +145,49 @@ Keep a media query only for values `light-dark()` cannot express. Make it respec
 - `prefers-color-scheme` and `matchMedia()` do not see a `color-scheme` override (E08).
 - Mixing a color and an image in one `light-dark()` is a parse error (E16).
 
+### Doing it in Tailwind CSS v4
+
+Tailwind maps each `color-scheme` value to a utility (E27):
+
+| Utility | CSS |
+| --- | --- |
+| `scheme-normal` | `color-scheme: normal` |
+| `scheme-light` | `color-scheme: light` |
+| `scheme-dark` | `color-scheme: dark` |
+| `scheme-light-dark` | `color-scheme: light dark` |
+| `scheme-only-light` | `color-scheme: only light` |
+| `scheme-only-dark` | `color-scheme: only dark` |
+
+Recipe B in Tailwind. The theme switch is utility classes on `<html>`, and colors use `light-dark()` in `@theme`:
+
+```html
+<html class="scheme-light-dark data-[theme=light]:scheme-light data-[theme=dark]:scheme-dark">
+```
+
+```css
+@import 'tailwindcss';
+
+@theme {
+  --color-surface: light-dark(#ffffff, #121212);
+  --color-ink: light-dark(#1a1a1a, #e8e8e8);
+}
+
+/* dark: follows the user's pick, and the system when there is none */
+@custom-variant dark {
+  &:where([data-theme=dark], [data-theme=dark] *) { @slot; }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme]) *) { @slot; }
+  }
+}
+```
+
+- `bg-surface`, `text-ink`, and `bg-surface/50` follow the scheme without a `dark:` prefix (E29).
+- The `data-[theme=…]` utilities are more specific than `scheme-light-dark`, so the user's pick wins (E29).
+- `scheme-dark` on any element flips the theme colors in that subtree, because `@theme` variables are unregistered (E23, E29).
+- Use `dark:` only for values `light-dark()` cannot express, such as background images, shadows, or layout. The default `dark:` variant reads `prefers-color-scheme` and ignores the user's pick (E28). The variant above does not match `<html>` itself while in system mode.
+- CSS cannot select on an element's current `color-scheme`, so `dark:` cannot follow a `scheme-dark` subtree on its own.
+- `light-dark()` raises the browser floor from Tailwind's own (Chrome 111, Safari 16.4, Firefox 128) to Chrome 123 and Safari 17.5 (E30).
+
 ### Applying it to `just-web-foundation`
 
 | Area | Today | What the findings mean |
@@ -151,12 +196,12 @@ Keep a media query only for values `light-dark()` cannot express. Make it respec
 | `getPrefersColorScheme`, `observePrefersColorScheme`, `usePrefersColorScheme`, `prefersColorSchemeThemeStore`, `libs/css` `getPrefersColorTheme` | Read `prefers-color-scheme` through `matchMedia` (E25) | They report the OS preference, not the theme the user chose. Inside an iframe they report the iframe element's scheme. Their docs could say so. |
 | `ColorScheme` type (`'light' \| 'dark'`) | Mirrors the media feature | Correct for the media query. A helper that writes the property would need a wider type (`normal`, `light dark`, `only light`). |
 | Cookie theme store (`getCookieFromHeader`) | Server can read the theme cookie (E26) | Supports server rendering of `data-theme`, the no-flash path that needs no inline script. |
-| Storybook in `libs/*/.storybook` | Dark mode adds a `dark` class and Tailwind's `dark:` variant; no `color-scheme` (E26) | Native controls, scrollbars, and system colors stay light in dark stories. Adding `.dark { color-scheme: dark }` to the Storybook CSS would fix that. |
+| Storybook in `libs/*/.storybook` | Dark mode adds a `dark` class and Tailwind's `dark:` variant; no `color-scheme` (E26) | Native controls, scrollbars, and system colors stay light in dark stories. Adding `.dark { color-scheme: dark }` to the Storybook CSS, or `dark:scheme-dark` on the root, would fix that (E27). |
 | Possible additions (not made) | — | A store that writes `element.style.colorScheme`, and a reader for the used scheme (`getComputedStyle(el).colorScheme`). |
 
 ## Confidence
 
-High for the property, the meta tag, `light-dark()` behavior, and support data, which rest on the specs, MDN, and caniuse. Medium for the media-query behavior after an override and for meta-versus-property precedence, which rest on one engine (Chrome 154).
+High for the property, the meta tag, `light-dark()` behavior, and support data, which rest on the specs, MDN, and caniuse. Medium for the media-query behavior after an override and for meta-versus-property precedence, which rest on one engine (Chrome 154). High for the Tailwind utilities and variant behavior (docs), and medium for how Tailwind's compiled output behaves (compiled, not rendered).
 
 ## Strongest support
 
@@ -164,6 +209,7 @@ High for the property, the meta tag, `light-dark()` behavior, and support data, 
 - E13, E14: CC5 and MDN define `light-dark()` as reading the element color scheme and needing `light dark`.
 - E15, E17: caniuse and MDN give the support versions and Baseline status.
 - E10, E11, E12: CA1, MQ5, and a Chrome probe agree on iframe behavior.
+- E27, E28, E30: the Tailwind docs define the `scheme-*` utilities, the default `dark:` variant, and the browser floor.
 
 ## Strongest counterevidence
 
@@ -183,6 +229,7 @@ High for the property, the meta tag, `light-dark()` behavior, and support data, 
 - The server-cookie approach to avoiding a flash has no primary source here (E20).
 - Inheritance of registered `<color>` properties that hold `light-dark()` is a spec reading without a test (E23).
 - Known Safari issues with `color-scheme` on non-root elements and per-element scrollbars could not be sourced.
+- The Tailwind recipe was checked as compiled CSS only, not rendered in a browser (E29).
 
 ## Recheck triggers
 
@@ -190,3 +237,4 @@ High for the property, the meta tag, `light-dark()` behavior, and support data, 
 - `navigator.preferences` ships in a stable browser.
 - `light-dark()` reaches Baseline widely available (expected around November 2026), or its image form reaches Baseline.
 - `just-web-foundation` adds a store or helper that writes `color-scheme`.
+- Tailwind adds built-in `light-dark()` support, changes its default `dark:` variant, or raises its browser floor past Chrome 123 and Safari 17.5.

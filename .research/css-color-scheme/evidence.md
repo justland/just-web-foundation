@@ -476,3 +476,75 @@ Notes:
 
 - `getCookieFromHeader` lets a server read the theme cookie from a request, which supports rendering the theme attribute on the server and avoiding a flash.
 - Storybook dark mode adds a `dark` class (plus `bg-black text-white`) and Tailwind uses `@custom-variant dark (&:where(.dark, .dark *))`. Nothing sets `color-scheme`, so native controls, scrollbars, and system colors stay light in dark stories.
+
+## Claim E27
+
+Date: 2026-10-19
+Status: supports
+Confidence: high
+
+Source:
+
+- Label: Tailwind CSS docs, "color-scheme"; installed `tailwindcss` 4.3.3
+- URL: <https://tailwindcss.com/docs/color-scheme>, node_modules/.pnpm/tailwindcss@4.3.3
+- Type: official docs; code
+
+Notes:
+
+- Tailwind v4 ships `scheme-normal`, `scheme-light`, `scheme-dark`, `scheme-light-dark`, `scheme-only-light`, and `scheme-only-dark`, each mapping to the matching `color-scheme` value. The installed 4.3.3 build contains all six.
+- The docs show combining them with variants, for example `<html class="scheme-light dark:scheme-dark">`.
+
+## Claim E28
+
+Date: 2026-10-19
+Status: supports
+Confidence: high
+
+Source:
+
+- Label: Tailwind CSS docs, "Dark mode"
+- URL: <https://tailwindcss.com/docs/dark-mode>
+- Type: official docs
+
+Notes:
+
+- "By default this uses the `prefers-color-scheme` CSS media feature." So the default `dark:` variant ignores a user's pick made through `color-scheme` (see E08).
+- The docs show overriding it with `@custom-variant dark (&:where(.dark, .dark *));` or `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));`.
+- The page does not mention `color-scheme` or `light-dark()`.
+
+## Claim E29
+
+Date: 2026-10-19
+Status: supports
+Confidence: medium
+
+Source:
+
+- Label: Probe, Tailwind 4.3.3 `compile()` output
+- URL: n/a (hand-run test with the repo's installed Tailwind)
+- Type: code test
+
+Notes:
+
+- `@theme { --color-surface: light-dark(#ffffff, #121212); }` is emitted unchanged as an unregistered custom property on `:root, :host`, and `bg-surface` compiles to `background-color: var(--color-surface)`. Per E23, an unregistered property resolves where it is used, so a subtree with `scheme-dark` flips it.
+- `bg-surface/50` compiles to `color-mix(in srgb, light-dark(#ffffff, #121212) 50%, transparent)`, with `color-mix(in oklab, var(--color-surface) 50%, transparent)` inside `@supports`. Chrome 154 parses `light-dark()` inside `color-mix()` (E18).
+- `data-[theme=dark]:scheme-dark` compiles to `.data-\[theme\=dark\]\:scheme-dark[data-theme="dark"]`, which is more specific than `.scheme-light-dark`, so the user's pick wins on the same element.
+- A block `@custom-variant dark` with an attribute branch and a `@media (prefers-color-scheme: dark)` branch on `:root:not([data-theme]) *` compiles as expected.
+- Only the compiled CSS was checked; the rendered result was not tested in a browser.
+
+## Claim E30
+
+Date: 2026-10-19
+Status: supports
+Confidence: high
+
+Source:
+
+- Label: Tailwind CSS docs, "Compatibility"
+- URL: <https://tailwindcss.com/docs/compatibility>
+- Type: official docs
+
+Notes:
+
+- Tailwind v4 depends on Chrome 111, Safari 16.4, and Firefox 128.
+- `light-dark()` needs Chrome 123 and Safari 17.5 (E15). Using it in `@theme` raises a project's browser floor above Tailwind's own for Chrome and Safari. Firefox 128 already covers it.
