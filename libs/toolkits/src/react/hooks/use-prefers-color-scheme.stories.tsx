@@ -10,7 +10,7 @@ const meta = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'React hook that returns the current system color scheme preference and re-renders when it changes.'
+				'React hook that returns the current system color scheme preference and re-renders when it changes. This is the OS preference, not the scheme the page renders in: it ignores a `color-scheme` override such as a theme the user picked, and inside an iframe it reports the scheme of the iframe element. Use `useColorScheme()` for the rendered scheme.'
 		}
 	}),
 	render: () => <></>

@@ -5,6 +5,11 @@ import { observePrefersColorScheme } from '../../color-scheme/observe-prefers-co
 /**
  * React hook that returns the current system color scheme preference and re-renders when it changes.
  *
+ * This is the OS (or browser) preference, not the scheme the page renders in.
+ * It does not change when the page sets `color-scheme`, such as for a theme the user picked
+ * (Chrome 154 keeps reporting the OS preference). Inside an iframe, it reports the
+ * `color-scheme` of the `<iframe>` element. For the scheme an element renders in, use `useColorScheme()`.
+ *
  * Uses `prefers-color-scheme` media query. Returns `'light'` or `'dark'`; re-renders when the user
  * changes their OS or browser light/dark setting.
  *

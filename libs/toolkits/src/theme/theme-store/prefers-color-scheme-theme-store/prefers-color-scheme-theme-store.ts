@@ -14,6 +14,11 @@ type PrefersColorSchemeThemes = {
  * **Color-scheme specific:** Themes must only include `light` and `dark` keys—this store
  * mirrors the system preference which is always one of these.
  *
+ * This is the OS (or browser) preference, not the scheme the page renders in.
+ * It does not change when the page sets `color-scheme`, such as for a theme the user picked
+ * (Chrome 154 keeps reporting the OS preference). Inside an iframe, it reports the
+ * `color-scheme` of the `<iframe>` element. For the scheme an element renders in, use `getColorScheme()`.
+ *
  * Returns `ThemeEntry` for `light` or `dark` based on system preference.
  * No write method—the value is controlled by the system.
  *

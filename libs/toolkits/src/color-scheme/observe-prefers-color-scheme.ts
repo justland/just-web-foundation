@@ -5,6 +5,11 @@ import { colorSchemeValues } from './color-scheme.values.ts'
 /**
  * Observes system color scheme preference changes and calls handlers when they occur.
  *
+ * This is the OS (or browser) preference, not the scheme the page renders in.
+ * It does not change when the page sets `color-scheme`, such as for a theme the user picked
+ * (Chrome 154 keeps reporting the OS preference). Inside an iframe, it reports the
+ * `color-scheme` of the `<iframe>` element. For the scheme an element renders in, use `observeColorScheme()`.
+ *
  * @param handler - A function that is called when the color scheme preference changes
  * @returns A cleanup function that removes all event listeners
  *
