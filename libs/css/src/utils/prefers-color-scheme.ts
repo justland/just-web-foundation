@@ -4,6 +4,11 @@ import { ctx } from '../globals.ctx.ts'
 /**
  * Observes system color scheme preference changes and calls handlers when they occur.
  *
+ * This is the OS (or browser) preference, not the scheme the page renders in.
+ * It does not change when the page sets `color-scheme`, such as for a theme the user picked
+ * (Chrome 154 keeps reporting the OS preference). Inside an iframe, it reports the
+ * `color-scheme` of the `<iframe>` element. For the scheme an element renders in, use `observeColorScheme()` from `@just-web/toolkits`.
+ *
  * @param themes - An object mapping theme names to handler functions that are called when that theme is activated
  * @returns A cleanup function that removes all event listeners
  *
@@ -43,6 +48,11 @@ export function observePrefersColorScheme<T extends string>(
 
 /**
  * Gets the current preferred color theme from the system settings.
+ *
+ * This is the OS (or browser) preference, not the scheme the page renders in.
+ * It does not change when the page sets `color-scheme`, such as for a theme the user picked
+ * (Chrome 154 keeps reporting the OS preference). Inside an iframe, it reports the
+ * `color-scheme` of the `<iframe>` element. For the scheme an element renders in, use `getColorScheme()` from `@just-web/toolkits`.
  *
  * @param themes - A list of theme names to check against the system preference
  * @returns The first matching theme from the provided list, or null if none match

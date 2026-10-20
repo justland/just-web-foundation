@@ -16,7 +16,7 @@ const meta: Meta<FnToArgTypes<typeof observePrefersColorScheme>> = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur. Even when the browser theme is set to "System" (e.g. in Chrome), it still reports either "light" or "dark" based on the OS—never "system" or "no-preference".'
+				'A utility function that observes system color scheme preferences and triggers callbacks when changes occur. Even when the browser theme is set to "System" (e.g. in Chrome), it still reports either "light" or "dark" based on the OS—never "system" or "no-preference". This is the OS preference, not the scheme the page renders in: it ignores a `color-scheme` override such as a theme the user picked, and inside an iframe it reports the scheme of the iframe element. Use `observeColorScheme()` for the rendered scheme.'
 		}
 	}),
 	render: () => <></>

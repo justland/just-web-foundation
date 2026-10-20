@@ -15,7 +15,7 @@ const meta: Meta<FnToArgTypes<typeof getPrefersColorScheme>> = {
 	parameters: defineDocsParam({
 		description: {
 			component:
-				'A utility function that returns the current preferred color scheme. It can only be "light" or "dark". Note: even when the browser theme is set to "System" (e.g. in Chrome settings), the browser still resolves this to either "light" or "dark" based on the OS preference—it never returns "system" or "no-preference".'
+				'A utility function that returns the current preferred color scheme. It can only be "light" or "dark". Note: even when the browser theme is set to "System" (e.g. in Chrome settings), the browser still resolves this to either "light" or "dark" based on the OS preference—it never returns "system" or "no-preference". This is the OS preference, not the scheme the page renders in: it ignores a `color-scheme` override such as a theme the user picked, and inside an iframe it reports the scheme of the iframe element. Use `getColorScheme()` for the rendered scheme.'
 		}
 	}),
 	render: () => <></>

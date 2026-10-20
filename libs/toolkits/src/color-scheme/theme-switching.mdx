@@ -1,0 +1,180 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as ThemeSwitchingStories from './theme-switching.stories'
+
+<Meta of={ThemeSwitchingStories} />
+
+# Theme switching with `color-scheme`
+
+## Recommended
+
+Set `color-scheme` in CSS, keyed on a `data-theme` attribute on `<html>`:
+
+```css
+:root { color-scheme: light dark; }               /* system */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
+```
+
+Or, with Tailwind CSS v4, use `scheme-*` classes on `<html>`:
+
+```html
+<html class="scheme-light-dark data-[theme=light]:scheme-light data-[theme=dark]:scheme-dark">
+```
+
+The library does the rest:
+
+- The theme stores write `data-theme`: `dataAttributeThemeStore`, composed with `localStorageThemeStore` or `cookieThemeStore` to save the choice.
+  Writing `undefined` removes the attribute, which is "system".
+- `getColorScheme`, `observeColorScheme`, and `useColorScheme` read the scheme an element renders in.
+  Use them instead of the `prefers-color-scheme` helpers, which ignore the user's pick.
+
+Keep `color-scheme` in CSS rather than setting it from script.
+With the attribute in the HTML (from a blocking script or the server, see below),
+the rules apply on the first paint, so a saved dark choice draws dark native controls, scrollbars, and `light-dark()` colors from the start.
+A value set from script waits until the script runs.
+
+## How it works
+
+Declare the schemes the page supports, and let the browser pick one.
+`color-scheme: light dark` follows the user's OS preference.
+`color-scheme: light` or `color-scheme: dark` overrides it when the user picks a theme.
+
+The property switches what the browser draws itself (form controls, scrollbars, the page canvas,
+system colors such as `Canvas`), and the result of `light-dark()`.
+So one declaration chooses both the browser's colors and yours:
+
+```css
+body {
+	background: light-dark(#ffffff, #121212);
+	color: light-dark(#1a1a1a, #e8e8e8);
+}
+```
+
+`light-dark()` only switches when the element's scheme can be dark.
+Without `color-scheme: light dark` (or `dark`), it always returns the first value, with no error.
+
+## Browser support
+
+- `color-scheme`: Chrome 81, Firefox 96, Safari 13.
+- `light-dark()` with colors: Chrome 123, Firefox 120, Safari 17.5.
+  Older browsers drop the declaration, so give a fallback before it if you support them.
+- `light-dark()` with images (`light-dark(url(a.png), url(b.png))`) is new in 2026 and needs a fallback.
+
+## System, light, and dark with `data-theme`
+
+"System" means no attribute: `light dark` on `:root` already follows the OS.
+Do not add a third `color-scheme` rule for `data-theme="system"`.
+
+```html
+<head>
+	<meta name="color-scheme" content="light dark">
+	<script>
+		// Blocking on purpose: runs before first paint.
+		try {
+			const t = localStorage.getItem('theme')
+			if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+		} catch {}
+	</script>
+	<style>
+		:root { color-scheme: light dark; }
+		:root[data-theme='light'] { color-scheme: light; }
+		:root[data-theme='dark'] { color-scheme: dark; }
+	</style>
+</head>
+```
+
+- The meta tag sets the canvas before any CSS loads, so the first paint is in the right scheme.
+- If a server renders the page, read the theme cookie (`getCookieFromHeader`) and write `data-theme` into the HTML instead of using the script.
+- Under a strict Content Security Policy the inline script needs a nonce or hash.
+
+The stores write the attribute when the user picks a theme:
+
+```ts
+const themes = { light: 'light', dark: 'dark' }
+const store = composeThemeStores(themes, [
+	[localStorageThemeStore, { storageKey: 'theme' }],
+	[dataAttributeThemeStore, { attributeName: 'data-theme' }]
+])
+await store.write(themeEntry(themes, 'dark'))
+await store.write(undefined) // system
+```
+
+The panel below does the same on a `<div>` instead of `<html>`.
+
+<Canvas of={ThemeSwitchingStories.RecipeB} />
+
+## Tailwind CSS v4
+
+The `scheme-*` utilities set `color-scheme`, so the theme switch can be classes on `<html>`.
+Theme colors defined with `light-dark()` in `@theme` follow the scheme, opacity modifiers included.
+
+```html
+<html class="scheme-light-dark data-[theme=light]:scheme-light data-[theme=dark]:scheme-dark">
+```
+
+```css
+@import 'tailwindcss';
+
+@theme {
+	--color-surface: light-dark(#ffffff, #121212);
+	--color-ink: light-dark(#1a1a1a, #e8e8e8);
+}
+
+/* dark: follows the user's pick, and the system when there is none */
+@custom-variant dark {
+	&:where([data-theme=dark], [data-theme=dark] *) { @slot; }
+	@media (prefers-color-scheme: dark) {
+		&:where(:root:not([data-theme]) *) { @slot; }
+	}
+}
+```
+
+- `bg-surface` and `text-ink` follow the scheme without a `dark:` prefix.
+- Tailwind's default `dark:` variant reads `prefers-color-scheme`, so it ignores the user's pick.
+  Keep `dark:` for values `light-dark()` cannot express (images, shadows, layout), and redefine it as above.
+- `light-dark()` raises Tailwind's browser floor (Chrome 111, Safari 16.4) to Chrome 123 and Safari 17.5.
+
+The panel below uses the same classes, with arbitrary values in place of the `@theme` colors.
+
+<Canvas of={ThemeSwitchingStories.Tailwind} />
+
+## Reading the scheme in script
+
+`prefers-color-scheme` and `matchMedia()` report the OS preference.
+They do not change when the page sets `color-scheme` (Chrome 154), so they ignore a theme the user picked.
+Inside an iframe they report the `color-scheme` of the `<iframe>` element.
+That applies to `getPrefersColorScheme`, `observePrefersColorScheme`, `usePrefersColorScheme`, and `prefersColorSchemeThemeStore`.
+
+To know the scheme an element renders in, for example to pick a chart or code-highlighting theme, use:
+
+- `getColorScheme({ element })` for a one-off read,
+- `observeColorScheme(handler, { element })` to follow changes,
+- `useColorScheme({ element })` in React.
+
+They read the computed `color-scheme` (and the meta tag when it is `normal`),
+and use `prefers-color-scheme` only when the element supports both schemes.
+
+## Subtrees and embedded content
+
+`color-scheme` is inherited, and works on any element:
+
+```css
+.inverted { color-scheme: dark; }          /* controls, scrollbars, light-dark() flip here */
+.always-light { color-scheme: only light; }
+iframe.embed { color-scheme: light dark; } /* pass the scheme down */
+```
+
+The embedded page must declare `color-scheme: light dark` (or the meta tag) to follow its iframe element.
+If the two differ, the browser paints an opaque background behind the frame.
+
+## Learn more
+
+- [MDN: `color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme)
+- [MDN: `light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark)
+- [MDN: `prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme)
+- [web.dev: the `color-scheme` CSS property and meta tag](https://web.dev/articles/color-scheme)
+- [CSS Color Adjustment Module Level 1](https://drafts.csswg.org/css-color-adjust-1/), which defines `color-scheme`
+- [HTML Living Standard: the `color-scheme` meta tag](https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme)
+- [Can I use: `light-dark()`](https://caniuse.com/mdn-css_types_color_light-dark)
+- [Tailwind CSS: `color-scheme`](https://tailwindcss.com/docs/color-scheme)
+- [Tailwind CSS: Dark mode](https://tailwindcss.com/docs/dark-mode)
