@@ -47,7 +47,7 @@
 	},
 	"dependencies": {
 		"csstype": "^3.2.3",
-		"type-plus": "8.0.0"
+		"type-plus": "8.0.1"
 	},
 	"devDependencies": {
 		"@repobuddy/storybook": "^2.33.4",
