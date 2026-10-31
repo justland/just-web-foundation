@@ -63,7 +63,8 @@
 		"dist",
 		"src",
 		"!**/*.{spec,test,unit,accept,integrate,system,stories}.*",
-		"!**/*.mdx"
+		"!**/*.mdx",
+		"CHANGELOG.md"
 	],
 	"engines": {
 		"node": "^20.19.0 || >=22.12.0"
