@@ -68,3 +68,5 @@ minimumReleaseAgeExclude:
   - '@mocktomata/*'
   - '@repobuddy/*'
   - '@unional/*'
+  # Renovate security update: astro@7.3.3
+  - astro@7.3.3
