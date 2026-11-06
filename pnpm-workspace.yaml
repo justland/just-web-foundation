@@ -72,3 +72,5 @@ minimumReleaseAgeExclude:
   - astro@7.3.3
   # Renovate security update: vite@8.2.4
   - vite@8.2.4
+  # Renovate security update: storybook@10.6.2
+  - storybook@10.6.2
