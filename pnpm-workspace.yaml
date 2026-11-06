@@ -70,3 +70,5 @@ minimumReleaseAgeExclude:
   - '@unional/*'
   # Renovate security update: astro@7.3.3
   - astro@7.3.3
+  # Renovate security update: vite@8.2.4
+  - vite@8.2.4
