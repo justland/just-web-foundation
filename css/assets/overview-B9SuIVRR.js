@@ -1,0 +1,3 @@
+import{n as e}from"./rolldown-runtime-sJBDdmOt.js";import{o as t,s as n}from"./blocks-CCchbV8w.js";import{a as r}from"./chunk-W22LQPXL-4bVy5MKV.js";import{i,r as a}from"./react-Bg8UoiFE.js";function o(e){let n={h1:`h1`,p:`p`,...i(),...e.components};return(0,c.jsxs)(c.Fragment,{children:[(0,c.jsx)(t,{title:`Overview`}),`
+`,(0,c.jsx)(n.h1,{id:`just-webcss`,children:`@just-web/css`}),`
+`,(0,c.jsx)(n.p,{children:`@just-web/css is a collection of CSS classes that are used to style the web.`})]})}function s(e={}){let{wrapper:t}={...i(),...e.components};return t?(0,c.jsx)(t,{...e,children:(0,c.jsx)(o,{...e})}):o(e)}var c;function l(){return(l=e((()=>{c=r(),a(),n()})))()}l();export{s as default};
