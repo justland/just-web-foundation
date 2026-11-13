@@ -22,6 +22,14 @@
 			"!skills-lock.json"
 		]
 	},
+	"yaml": {
+		"formatter": {
+			// Biome 2.6 formats YAML with double quotes by default. pnpm writes
+			// pnpm-workspace.yaml with single quotes, so keep single quotes to
+			// avoid churn on every dependency update.
+			"quoteStyle": "single"
+		}
+	},
 	"javascript": {
 		"formatter": {
 			"lineWidth": 100,
