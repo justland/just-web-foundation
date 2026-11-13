@@ -1,5 +1,11 @@
 # @just-web/types
 
+## 0.2.3
+
+### Patch Changes
+
+- 47b76fc: Include `CHANGELOG.md` in the published package.
+
 ## 0.2.2
 
 ### Patch Changes
