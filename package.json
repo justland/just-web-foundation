@@ -53,5 +53,5 @@
 	"browserslist": [
 		"baseline widely available"
 	],
-	"packageManager": "pnpm@12.18.0"
+	"packageManager": "pnpm@12.20.0"
 }
